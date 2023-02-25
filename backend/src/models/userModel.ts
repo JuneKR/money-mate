@@ -27,18 +27,19 @@ interface UserInstance
         User_ID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            defaultValue: DataTypes.UUIDV4,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            // defaultValue: DataTypes.UUIDV4,
+            autoIncrement: true,
+            // allowNull: false,
+            // validate: {
+            //     notEmpty: true
+            // }
         },
         FirstName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true,
-                len: [10, 50]
+                len: [1, 50]
             }
         },
         LastName: {
@@ -46,7 +47,7 @@ interface UserInstance
             allowNull: false,
             validate: {
                 notEmpty: true,
-                len: [10, 50]
+                len: [1, 50]
             }
         },
         DateOfBirth: {
@@ -61,7 +62,7 @@ interface UserInstance
             allowNull: false,
             validate: {
                 notEmpty: true,
-                len: [4, 6]
+                len: [1, 6]
             }
         },
         RiskLevel: {

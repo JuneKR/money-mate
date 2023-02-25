@@ -5,6 +5,9 @@ import session from "express-session";
 import SequelizeStore from 'connect-session-sequelize';
 import db from './config/database';
 
+/* Routes */
+import userAuthRoute from './routes/userAuthRoute';
+
 config();
 
 const app: Application = express();
@@ -44,6 +47,10 @@ app.use(cors({
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('Hello, World!')
 })
+
+/* destructure property of req.body */
+app.use(express.json());
+app.use(userAuthRoute);
 
 const PORT = process.env.PORT || 8080;
 

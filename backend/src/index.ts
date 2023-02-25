@@ -6,7 +6,7 @@ import SequelizeStore from 'connect-session-sequelize';
 import db from './config/database';
 
 /* Routes */
-import userAuthRoute from './routes/userAuthRoute';
+import userRoute from './routes/userRoute';
 
 config();
 
@@ -50,7 +50,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 /* destructure property of req.body */
 app.use(express.json());
-app.use(userAuthRoute);
+app.use(userRoute);
 
 const PORT = process.env.PORT || 8080;
 

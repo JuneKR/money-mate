@@ -9,8 +9,7 @@ interface UserAttributes {
     Gender: string,
     RiskLevel: number,
     Email: string,
-    Password: string,
-    UserRegisteredDate: Date
+    Password: string
 }
 
 interface UserCreationAttributes
@@ -39,14 +38,15 @@ interface UserInstance
             allowNull: false,
             validate: {
                 notEmpty: true,
-                len: [3, 50]
+                len: [10, 50]
             }
         },
         LastName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notEmpty: true
+                notEmpty: true,
+                len: [10, 50]
             }
         },
         DateOfBirth: {
@@ -61,6 +61,7 @@ interface UserInstance
             allowNull: false,
             validate: {
                 notEmpty: true,
+                len: [4, 6]
             }
         },
         RiskLevel: {
@@ -85,13 +86,6 @@ interface UserInstance
                 notEmpty: true
             }
         },
-        UserRegisteredDate: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        }
     }, {
         freezeTableName: true
     })

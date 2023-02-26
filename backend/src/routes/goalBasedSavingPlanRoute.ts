@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get('/saving/emergency/:id', getGoalBasedPlanById);
-router.post('/saving/emergency', createGoalBasedPlan);
-router.patch('/saving/emergency/:id', editGoalBasedPlan);
-router.delete('/saving/emergency/:id', deleteGoalBasedPlan);
+router.get('/saving/goal/:id', getGoalBasedPlanById);
+router.post('/saving/goal', createGoalBasedPlan);
+router.patch('/saving/goal/:id', editGoalBasedPlan);
+router.delete('/saving/goal/:id', deleteGoalBasedPlan);
 
 export default router;

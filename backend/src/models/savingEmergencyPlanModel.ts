@@ -1,0 +1,132 @@
+import { Model, DataTypes, Optional } from 'sequelize';
+import db from '../config/database';
+// import Users from './UserModel';
+
+interface EmergencyAttributes {
+    Emergency_ID: number;
+    PlanName: string;
+    TargetAmount: number;
+    TimePeriod: number;
+    InitialSaving: number;
+    MonthlySaving: number;
+    StartDate: Date;
+    LastUpdate: Date;
+    TotalBalance: number;
+    TimeRemaining: number;
+    InterestRate: number;
+    MonthlyExpense: number;
+    Progression: number;
+}
+
+interface EmergencyCreationAttributes
+    extends Optional<EmergencyAttributes, 'Emergency_ID'> {}
+
+interface EmergencyInstance
+    extends Model<EmergencyAttributes, EmergencyCreationAttributes>,
+    EmergencyAttributes {
+      id: string;
+      createdAt?: Date;
+      updatedAt?: Date;
+    }
+
+const SavingEmergency = db.define<EmergencyInstance>('saving_emergency_plan', {
+    Emergency_ID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    PlanName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [3, 50]
+        }
+    },
+    TargetAmount: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    TimePeriod: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    InitialSaving: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    MonthlySaving: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    StartDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    LastUpdate: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    TotalBalance: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    TimeRemaining: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    InterestRate: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    MonthlyExpense: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+    Progression: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
+    },
+}, {
+    freezeTableName: true
+})
+
+// SavingEmergency.belongsTo(User, {
+//     foreignKey: 'User_ID'
+// })
+
+export default SavingEmergency;

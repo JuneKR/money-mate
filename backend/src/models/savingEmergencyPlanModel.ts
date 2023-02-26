@@ -29,7 +29,7 @@ interface EmergencyInstance
       updatedAt?: Date;
     }
 
-const SavingEmergency = db.define<EmergencyInstance>('saving_emergency_plan', {
+const SavingEmergencyPlan = db.define<EmergencyInstance>('SavingEmergencyPlan', {
     Emergency_ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -105,7 +105,8 @@ const SavingEmergency = db.define<EmergencyInstance>('saving_emergency_plan', {
         allowNull: false,
         validate: {
             notEmpty: true
-        }
+        },
+        defaultValue: 0
     },
     MonthlyExpense: {
         type: DataTypes.FLOAT,
@@ -119,7 +120,8 @@ const SavingEmergency = db.define<EmergencyInstance>('saving_emergency_plan', {
         allowNull: false,
         validate: {
             notEmpty: true
-        }
+        },
+        defaultValue: 0
     },
 }, {
     freezeTableName: true
@@ -129,4 +131,4 @@ const SavingEmergency = db.define<EmergencyInstance>('saving_emergency_plan', {
 //     foreignKey: 'User_ID'
 // })
 
-export default SavingEmergency;
+export default SavingEmergencyPlan;

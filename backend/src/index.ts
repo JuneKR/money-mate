@@ -7,7 +7,8 @@ import db from './config/database';
 
 /* Routes */
 import userRoute from './routes/userRoute';
-import savingemergencyPlanRoute from './routes/savingEmergencyPlanRoute';
+import savingEmergencyPlanRoute from './routes/savingEmergencyPlanRoute';
+import goalBasedSavingPlanRoute from './routes/goalBasedSavingPlanRoute';
 
 config();
 
@@ -52,7 +53,8 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 /* destructure property of req.body */
 app.use(express.json());
 app.use(userRoute);
-app.use(savingemergencyPlanRoute);
+app.use(savingEmergencyPlanRoute);
+app.use(goalBasedSavingPlanRoute);
 
 const PORT = process.env.PORT || 8080;
 

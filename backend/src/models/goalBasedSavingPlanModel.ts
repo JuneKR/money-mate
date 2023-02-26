@@ -119,7 +119,7 @@ const GoalBasedSavingPlan = db.define<GoalBasedInstance>('GoalBasedSavingPlan', 
     freezeTableName: true
 })
 
-// SavingEmergency.belongsTo(User, {
+// GoalBasedSavingPlan.belongsTo(User, {
 //     foreignKey: 'User_ID'
 // })
 

@@ -41,14 +41,14 @@ export const getGoalBasedPlan = async(req: Request, res: Response) => {
 }
 
 export const getGoalBasedPlanById = async(req: Request, res: Response) => {
-    const emergencyPlan = await GoalBasedSavingPlan.findOne({
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
         where: {
             Goal_ID: req.params.id
         }
     });
 
     /* Check Plan */
-    if(!emergencyPlan) {
+    if(!goalBasedPlan) {
         return res.status(404).json({msg: "Goal-Based plan not found"});
     }
     
@@ -85,14 +85,14 @@ export const getGoalBasedTransactionById = async(req: Request, res: Response) =>
 }
 
 export const editGoalBasedPlan = async(req: Request, res: Response) => {
-    const emergencyPlan = await GoalBasedSavingPlan.findOne({
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
         where: {
             Goal_ID: req.params.id
         }
     });
 
     /* Check Plan */
-    if(!emergencyPlan) {
+    if(!goalBasedPlan) {
         return res.status(404).json({msg: "Goal-Based plan not found"});
     }
 
@@ -129,7 +129,7 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
                 Goal_ID: req.params.id
             }
         });
-        res.status(200).json({msg: "Emergency Plan Updated Successfully"})
+        res.status(200).json({msg: "Goal-Based Plan Updated Successfully"})
     } catch (error: any) {
         return res.status(400).json({msg: error.message});
     }

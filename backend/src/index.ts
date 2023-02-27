@@ -9,6 +9,7 @@ import db from './config/database';
 import userRoute from './routes/userRoute';
 import savingEmergencyPlanRoute from './routes/savingEmergencyPlanRoute';
 import goalBasedSavingPlanRoute from './routes/goalBasedSavingPlanRoute';
+import savingRetirementPlanRoute from './routes/savingRetirementPlanRoute';
 
 config();
 
@@ -55,6 +56,7 @@ app.use(express.json());
 app.use(userRoute);
 app.use(savingEmergencyPlanRoute);
 app.use(goalBasedSavingPlanRoute);
+app.use(savingRetirementPlanRoute);
 
 const PORT = process.env.PORT || 8080;
 

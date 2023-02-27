@@ -191,10 +191,10 @@ export const createRecordTransaction = async(req: Request, res: Response) => {
     }
 }
 
-export const getEmergencyPlanTransaction = async(req: Request, res: Response) => {
+export const getEmergencyTransaction = async(req: Request, res: Response) => {
 }
 
-export const getEmergencyPlanTransactionById = async(req: Request, res: Response) => {
+export const getEmergencyTransactionById = async(req: Request, res: Response) => {
     // record transaction must have the emergency plan first
     const emergencyPlan = await SavingEmergencyPlan.findOne({
         where: {

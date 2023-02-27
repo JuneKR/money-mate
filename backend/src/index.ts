@@ -11,6 +11,11 @@ import savingEmergencyPlanRoute from './routes/savingEmergencyPlanRoute';
 import goalBasedSavingPlanRoute from './routes/goalBasedSavingPlanRoute';
 import savingRetirementPlanRoute from './routes/savingRetirementPlanRoute';
 
+/* Models */
+import SavingEmergencyPlan from './models/savingEmergencyPlanModel';
+import EmergencyTransaction from './models/emergencyTransactionModel';
+import User from './models/userModel';
+
 config();
 
 const app: Application = express();
@@ -50,6 +55,28 @@ app.use(cors({
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('Hello, World!')
 })
+
+/* Model Association */
+/*
+User.hasOne(SavingEmergencyPlan, {
+    foreignKey: {
+        name: 'User_ID'
+    }
+})
+SavingEmergencyPlan.belongsTo(User, {
+    foreignKey: 'User_ID'
+})
+*/
+
+/* Emergency Plan has many transaction */
+SavingEmergencyPlan.hasMany(EmergencyTransaction, {
+    foreignKey: { 
+        name: 'Emergency_ID'
+    }
+})
+EmergencyTransaction.belongsTo(SavingEmergencyPlan, {
+    foreignKey: 'Emergency_ID'
+});
 
 /* destructure property of req.body */
 app.use(express.json());

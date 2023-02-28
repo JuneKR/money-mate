@@ -1,6 +1,5 @@
 import { Model, DataTypes, Optional } from 'sequelize';
 import db from '../config/database';
-// import Users from './UserModel';
 
 interface EmergencyAttributes {
     Emergency_ID: number;
@@ -127,8 +126,5 @@ const SavingEmergencyPlan = db.define<EmergencyInstance>('SavingEmergencyPlan', 
     freezeTableName: true
 })
 
-// SavingEmergency.belongsTo(User, {
-//     foreignKey: 'User_ID'
-// })
 
 export default SavingEmergencyPlan;

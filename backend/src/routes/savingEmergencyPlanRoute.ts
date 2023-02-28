@@ -4,7 +4,7 @@ import {
     getEmergencyPlanById,
     editEmergencyPlan,
     deleteEmergencyPlan,
-    createRecordTransaction,
+    addTransactionToEmergencyPlan,
     getEmergencyTransactionById
 } from "../controllers/savingEmergencyPlanController";
 
@@ -16,7 +16,7 @@ router.patch('/saving/emergency/:id', editEmergencyPlan);
 router.delete('/saving/emergency/:id', deleteEmergencyPlan);
 
 /* Transaction */
-router.post('/saving/emergency/transaction', createRecordTransaction);
+router.post('/saving/emergency/:id/transaction', addTransactionToEmergencyPlan);
 router.get('/saving/emergency/transaction/:id', getEmergencyTransactionById)
 
 export default router;

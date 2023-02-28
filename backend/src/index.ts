@@ -57,16 +57,16 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 })
 
 /* Model Association */
-/*
-User.hasOne(SavingEmergencyPlan, {
-    foreignKey: {
-        name: 'User_ID'
-    }
-})
-SavingEmergencyPlan.belongsTo(User, {
-    foreignKey: 'User_ID'
-})
-*/
+/* User has one emergency plan */ 
+// User.hasOne(SavingEmergencyPlan, {
+//     foreignKey: {
+//         name: 'User_ID'
+//     }
+// })
+
+// SavingEmergencyPlan.belongsTo(User, {
+//     foreignKey: 'User_ID'
+// })
 
 /* Emergency Plan has many transaction */
 SavingEmergencyPlan.hasMany(EmergencyTransaction, {
@@ -74,6 +74,7 @@ SavingEmergencyPlan.hasMany(EmergencyTransaction, {
         name: 'Emergency_ID'
     }
 })
+
 EmergencyTransaction.belongsTo(SavingEmergencyPlan, {
     foreignKey: 'Emergency_ID'
 });

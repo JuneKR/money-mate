@@ -134,18 +134,18 @@ export const editEmergencyPlan = async(req: Request, res: Response) => {
 }
 
 export const deleteEmergencyPlan = async(req: Request, res: Response) => {
-    const user = await SavingEmergencyPlan.findOne({
-        where: {
-            Emergency_ID: req.params.id
-        }
-    });
-
-    /* Check User */
-    if(!user) {
-        return res.status(404).json({msg: "Emergency Plan not found"});
-    }
 
     try {
+        /* Check Plan */
+        const emergencyPlan = await SavingEmergencyPlan.findOne({
+            where: {
+                Emergency_ID: req.params.id
+            }
+        });
+        if(!emergencyPlan) {
+            return res.status(404).json({msg: "Emergency Plan not found"});
+        }
+
         await SavingEmergencyPlan.destroy({
             where: {
                 Emergency_ID: req.params.id
@@ -162,36 +162,38 @@ export const calculateEmergencyFund = async(req: Request, res: Response) => {
 }
 
 /* Transaction */
-export const createRecordTransaction = async(req: Request, res: Response) => {
-    /* Check Plan 
-    const emergencyPlan = await SavingEmergencyPlan.findOne({
-        where: {
-            Emergency_ID: req.params.id
-        }
-    });
-    
-    if(!emergencyPlan) {
-        return res.status(404).json({msg: "Emergency plan not found"});
-    }
-    */
-
-    const 
-    { transaction_date, amount, type
-    } = req.body;
+export const addTransactionToEmergencyPlan = async(req: Request, res: Response) => {
 
     try {
+        const { transaction_date, amount, type } = req.body;
+
+        /* Check Plan */
+        const emergencyPlan = await SavingEmergencyPlan.findOne({
+            where: {
+                Emergency_ID: req.params.id
+            }
+        })
+        if(!emergencyPlan) {
+            return res.status(404).json({msg: "Emergency Plan not found"});
+        }
+
         await EmergencyTransaction.create({
             TransactionDate: transaction_date,
             Amount: amount,
-            Type: type
+            Type: type,
+            Emergency_ID: emergencyPlan.Emergency_ID
         });
+
+        /* Update the emergency plan's total balance and progression */
+
         res.status(201).json({msg: "Emergency transaction history is recorded"});
     } catch (error: any) {
         res.status(400).json({msg: error.message});
     }
 }
 
-export const getEmergencyTransaction = async(req: Request, res: Response) => {
+/* get all emergency transactions history */
+export const getEmergencyTransactions = async(req: Request, res: Response) => {
 }
 
 export const getEmergencyTransactionById = async(req: Request, res: Response) => {

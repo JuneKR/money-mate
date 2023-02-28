@@ -123,7 +123,6 @@ export const editEmergencyPlan = async(req: Request, res: Response) => {
             Progression: progression,
         }, {
             where:{
-                // id: user.id
                 Emergency_ID: req.params.id
             }
         });
@@ -177,14 +176,45 @@ export const addTransactionToEmergencyPlan = async(req: Request, res: Response) 
             return res.status(404).json({msg: "Emergency Plan not found"});
         }
 
+        /* Update the emergency plan's total balance and progression */
+        let totalBalance: number = 0, progression: number = 0;
+        if (type === 'deposit') {
+            totalBalance = emergencyPlan.TotalBalance + parseFloat(amount);
+            progression = (totalBalance/emergencyPlan.TargetAmount) * 100;
+            await SavingEmergencyPlan.update({
+                TotalBalance: totalBalance,
+                Progression: progression
+            }, {
+                where: {
+                    Emergency_ID: req.params.id
+                } 
+            })    
+        }
+        else if (type === 'withdrawal') {
+            totalBalance = emergencyPlan.TotalBalance - parseFloat(amount);
+            progression = (totalBalance/emergencyPlan.TargetAmount) * 100;
+            await SavingEmergencyPlan.update({
+                TotalBalance: totalBalance,
+                Progression: progression
+            }, {
+                where: {
+                    Emergency_ID: req.params.id
+                } 
+            })    
+        }
+        else {
+            return res.status(404).json({msg: `Transaction type error with ${type}`});
+        }
+        // console.log(` Emer: ${emergencyPlan.TotalBalance}, Balance: ${totalBalance}, Progression: ${progression}`);
+        
+        /* Create Emergency Transaction */ 
         await EmergencyTransaction.create({
             TransactionDate: transaction_date,
             Amount: amount,
             Type: type,
             Emergency_ID: emergencyPlan.Emergency_ID
         });
-
-        /* Update the emergency plan's total balance and progression */
+        /* !! Must update LastUpdate and TimeRemaining */
 
         res.status(201).json({msg: "Emergency transaction history is recorded"});
     } catch (error: any) {

@@ -7,6 +7,7 @@ interface TransactionAttributes {
     TransactionDate: Date;
     Amount: number;
     Type: string;
+    Emergency_ID: number;
 }
 
 interface TransactionCreationAttributes
@@ -15,7 +16,7 @@ interface TransactionCreationAttributes
 interface TransactionInstance
     extends Model<TransactionAttributes, TransactionCreationAttributes>,
     TransactionAttributes {
-      id: string;
+      id: number;
       createdAt?: Date;
       updatedAt?: Date;
     }
@@ -48,12 +49,12 @@ const EmergencyTransaction = db.define<TransactionInstance>('EmergencyTransactio
             len: [3, 10]
         }
     },
+    Emergency_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }
 }, {
     freezeTableName: true
 })
-
-// SavingEmergency.belongsTo(User, {
-//     foreignKey: 'User_ID'
-// })
 
 export default EmergencyTransaction;

@@ -269,16 +269,6 @@ export const getEmergencyTransactionById = async(req: Request, res: Response) =>
 
     try {
 
-        /* Check Plan: User must create the plan first */
-        const emergencyPlan = await SavingEmergencyPlan.findOne({
-            where: {
-                Emergency_ID: req.params.id
-            }
-        });
-        if(!emergencyPlan) {
-            return res.status(404).json({msg: "Emergency plan not found! Pls create the plan first"});
-        }
-
         /* Check Emergency Transaction */
         const emergencyTransaction = await EmergencyTransaction.findOne({
             where: {

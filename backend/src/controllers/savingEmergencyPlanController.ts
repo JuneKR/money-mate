@@ -223,34 +223,72 @@ export const addTransactionToEmergencyPlan = async(req: Request, res: Response) 
 }
 
 /* get all emergency transactions history */
-export const getEmergencyTransactions = async(req: Request, res: Response) => {
+export const getAllEmergencyTransactionsByEmergencyId = async(req: Request, res: Response) => {
+
+    try {
+
+        /* Check Plan: User must create the plan first */
+        const emergencyPlan = await SavingEmergencyPlan.findOne({
+            where: {
+                Emergency_ID: req.params.id
+            }
+        });
+        if(!emergencyPlan) {
+            return res.status(404).json({msg: "Emergency plan not found! Pls create the plan first"});
+        }
+
+        /* Check Emergency Transaction: */
+        const emergencyTransaction = await EmergencyTransaction.findAll({
+            where: {
+                Emergency_ID: req.params.id
+            }
+        });
+        if(!emergencyTransaction) {
+            return res.status(404).json({msg: "Emergency transaction not found"});
+        }
+
+        /* Find Emergency Transaction by EmergencyID */
+        const response = await EmergencyTransaction.findAll({
+            attributes:[
+                'TransactionDate',
+                'Amount',
+                'Type'
+            ],
+            where: {
+                Emergency_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }
 
+
 export const getEmergencyTransactionById = async(req: Request, res: Response) => {
-    // record transaction must have the emergency plan first
-    const emergencyPlan = await SavingEmergencyPlan.findOne({
-        where: {
-            Emergency_ID: req.params.id
-        }
-    });
 
-    /* Check Plan: User must create the plan first */
-    if(!emergencyPlan) {
-        return res.status(404).json({msg: "Emergency plan not found! Pls create the plan first"});
-    }
-
-    const emergencyTransaction = await EmergencyTransaction.findOne({
-        where: {
-            Transaction_ID: req.params.id
-        }
-    });
-
-    /* Check Transaction */
-    if(!emergencyTransaction) {
-        return res.status(404).json({msg: "Emergency transaction not found"});
-    }
-    
     try {
+
+        /* Check Plan: User must create the plan first */
+        const emergencyPlan = await SavingEmergencyPlan.findOne({
+            where: {
+                Emergency_ID: req.params.id
+            }
+        });
+        if(!emergencyPlan) {
+            return res.status(404).json({msg: "Emergency plan not found! Pls create the plan first"});
+        }
+
+        /* Check Emergency Transaction */
+        const emergencyTransaction = await EmergencyTransaction.findOne({
+            where: {
+                Transaction_ID: req.params.id
+            }
+        });
+        if(!emergencyTransaction) {
+            return res.status(404).json({msg: "Emergency transaction not found"});
+        }
+    
         const response = await EmergencyTransaction.findOne({
             attributes:[
                 'TransactionDate',

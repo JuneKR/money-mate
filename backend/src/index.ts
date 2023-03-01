@@ -16,6 +16,8 @@ import SavingEmergencyPlan from './models/savingEmergencyPlanModel';
 import EmergencyTransaction from './models/emergencyTransactionModel';
 import GoalBasedSavingPlan from './models/goalBasedSavingPlanModel';
 import GoalBasedTransaction from './models/goalBasedTransactionModel';
+import SavingRetirementPlan from './models/savingRetirementPlanModel';
+import RetirementTransaction from './models/retirementTransactionModel';
 import User from './models/userModel';
 
 config();
@@ -90,6 +92,17 @@ GoalBasedSavingPlan.hasMany(GoalBasedTransaction, {
 
 GoalBasedTransaction.belongsTo(GoalBasedSavingPlan, {
     foreignKey: 'Goal_ID'
+});
+
+/* Retirement Plan has many transaction */
+SavingRetirementPlan.hasMany(RetirementTransaction, {
+    foreignKey: { 
+        name: 'Retirement_ID'
+    }
+})
+
+RetirementTransaction.belongsTo(SavingRetirementPlan, {
+    foreignKey: 'Retirement_ID'
 });
 
 /* destructure property of req.body */

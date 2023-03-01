@@ -12,17 +12,8 @@ const EmergencyGoalForm: React.FC<EmergencyGoalFormProps> = ({ title }) => {
       router.push('/chooseEmergencyPlanForm')
     }
   return (
-    <div style={{ width: "90%", height: "100%" }} className="sm:ml-64">
-        <div className="mb-2">
-            <div style={{display: "flex", alignItems: "center"}} className="bg-blue-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
-               <p style={{ padding: "0 1rem"  }}className="text-2xl text-black dark:text-gray-500">
-                  ออมเงินเผื่อฉุกเฉิน
-               </p>
-            </div>
-            <div style={{ width: "100%", height: "100%" }} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-               <MultiStepProgressBar title='bar' step2Validator={true} step3Validator={false} step4Validator={false} pageNum={0}/>
-            </div>
-            <div style={{ width: "100%", height: "800px",padding: "0 4rem"  }} className="rounded bg-gray-50 dark:bg-gray-800">
+   <div className="py-6">
+      <div style={{ width: "100%", height: "100%",padding: "0 4rem"  }} className="rounded bg-gray-50 dark:bg-gray-800">
                <form action="">
                   <label htmlFor="monthlyExpense" className="block">
                      <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">รายจ่ายรายเดือน</span>
@@ -76,7 +67,7 @@ const EmergencyGoalForm: React.FC<EmergencyGoalFormProps> = ({ title }) => {
                      ข้อมูลไม่ถูกต้อง
                      </p>
                   </label>
-                  <div className="flex justify-end">
+                  {/* <div className="flex justify-end">
                      <button style={{ width: "209px",marginRight: "10px"}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
                               ย้อนกลับ
                      </button>
@@ -84,11 +75,10 @@ const EmergencyGoalForm: React.FC<EmergencyGoalFormProps> = ({ title }) => {
                      <button onClick={handleChooseEmergencyPlanForm} style={{ width: "209px", marginLeft: "10px"}}className="px-4 py-2 font-bold text-black bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" type="button">
                               ถัดไป
                      </button>
-                  </div>
+                  </div> */}
                </form>
             </div>
-        </div>
-    </div>
+   </div>
   );
 };
 

@@ -15,18 +15,8 @@ const SEmergencyPlanForm: React.FC<SEmergencyPlanFormProps> = ({ title }) => {
         router.push('/confirmEmergencyGoal')
       }
   return (
-    <div style={{ width: "90%", height: "100%" }} className="sm:ml-64">
-        <div className="mb-2">
-            <div style={{display: "flex", alignItems: "center"}} className="bg-blue-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
-               <p style={{ padding: "0 1rem"  }}className="text-2xl text-black dark:text-gray-500">
-                  ออมเงินเผื่อฉุกเฉิน หน้า3
-               </p>
-            </div>
-            <div style={{ width: "100%", height: "100%" }} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-              <MultiStepProgressBar title='bar' step2Validator={true} step3Validator={false} step4Validator={false} pageNum={2}/>
-            </div>
-            
-            <div style={{ width: "100%", height: "100%",padding: "0 4rem"  }} className="rounded bg-gray-50 dark:bg-gray-800">
+    <div className="py-6">
+      <div style={{ width: "100%", height: "100%",padding: "0 4rem"  }} className="rounded bg-gray-50 dark:bg-gray-800">
                 <div style={{width: "100%", height: "50%",backgroundColor: '#E5F8FF'}} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                     <div className="grid grid-cols-2 text-black font-bold">
                         <div className="text-blue-800 hover:text-blue-900 p-4">เป้าหมาย</div>
@@ -65,7 +55,7 @@ const SEmergencyPlanForm: React.FC<SEmergencyPlanFormProps> = ({ title }) => {
                         </p>
                     </div>
                   </div>
-                  <div className="flex justify-end py-5">
+                  {/* <div className="flex justify-end py-5">
                      <button onClick={handleChooseEmergencyPlanForm} style={{ width: "209px",marginRight: "10px"}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
                               ย้อนกลับ
                      </button>
@@ -73,10 +63,10 @@ const SEmergencyPlanForm: React.FC<SEmergencyPlanFormProps> = ({ title }) => {
                      <button onClick={handleConFirmEmergencyGoal} style={{ width: "209px", marginLeft: "10px"}}className="px-4 py-2 font-bold text-black bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" type="button">
                               ถัดไป
                      </button>
-                  </div>
+                  </div> */}
                </form>
             </div>
-        </div>
+
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from '@/styles/Home.module.css'
 import { useRouter } from 'next/router'
-import MultiStepProgressBar from '@/components/EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar';
+// import MultiStepProgressBar from '@/components/EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar';
 interface EmergencyResultFormProps {
   title: string;
 }
@@ -22,17 +22,7 @@ const EmergencyResultForm: React.FC<EmergencyResultFormProps> = ({ title }) => {
         setCurrentStep(currentStep + 1);
     };
   return (
-    <div style={{ width: "90%", height: "100%" }} className="sm:ml-64">
-        <div className="mb-2">
-            <div style={{display: "flex", alignItems: "center"}} className="bg-blue-200 h-24 rounded bg-gray-50 dark:bg-gray-800">
-               <p style={{ padding: "0 1rem"  }}className="text-2xl text-black dark:text-gray-500">
-                  ออมเงินเผื่อฉุกเฉิน หน้า4
-               </p>
-            </div>
-            <div style={{ width: "100%", height: "100%" }} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-            <MultiStepProgressBar title='bar' step2Validator={true} step3Validator={false} step4Validator={false} pageNum={3}/>
-            </div>
-            
+        <div className="py-6">
             <div style={{ width: "100%", height: "100%",padding: "0 4rem"  }} className="rounded bg-gray-50 dark:bg-gray-800">
                 <form action="">
                     <div style={{width: "100%", height: "50%",backgroundColor: '#E5F8FF'}} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
@@ -53,7 +43,7 @@ const EmergencyResultForm: React.FC<EmergencyResultFormProps> = ({ title }) => {
                             <div className="p-4">4%</div>
                         </div>    
                     </div>
-                    <div className="flex justify-end py-5">
+                    {/* <div className="flex justify-end py-5">
                         <button onClick={handleConfirmEmergencyGoal} style={{ width: "209px",marginRight: "10px"}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
                                 ย้อนกลับ
                         </button>
@@ -61,11 +51,10 @@ const EmergencyResultForm: React.FC<EmergencyResultFormProps> = ({ title }) => {
                         <button style={{ width: "209px", marginLeft: "10px"}}className="px-4 py-2 font-bold text-black bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" type="button">
                                 ถัดไป
                         </button>
-                    </div>
+                    </div> */}
                </form>
             </div>
         </div>
-    </div>
   );
 };
 

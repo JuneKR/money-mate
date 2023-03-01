@@ -1,3 +1,4 @@
+
 .main {
   display: flex;
   flex-direction: column;
@@ -5,8 +6,8 @@
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  background-color: #E5F8FF;
 }
-
 .description {
   display: inherit;
   justify-content: inherit;

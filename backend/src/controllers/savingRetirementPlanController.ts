@@ -1,4 +1,5 @@
 import SavingRetirementPlan from "../models/savingRetirementPlanModel";
+import RetirementTransaction from "../models/retirementTransactionModel";
 import { Request, Response } from "express";
 
 export const createRetirementPlan = async(req: Request, res: Response) => {
@@ -98,9 +99,6 @@ export const getRetirementPlanById = async(req: Request, res: Response) => {
 export const getRetirementPlanTransaction = async(req: Request, res: Response) => {
 }
 
-export const getRetirementPlanTransactionById = async(req: Request, res: Response) => {
-}
-
 export const editRetirementPlan = async(req: Request, res: Response) => {
     const emergencyPlan = await SavingRetirementPlan.findOne({
         where: {
@@ -188,4 +186,138 @@ export const deleteRetirementPlan = async(req: Request, res: Response) => {
 
 /* Calculation */
 export const calculateRetirementFund = async(req: Request, res: Response) => {
+}
+
+/* Transaction */
+export const addTransactionToRetirementPlan = async(req: Request, res: Response) => {
+
+    try {
+        const { transaction_date, amount, type } = req.body;
+
+        /* Check Plan */
+        const retirementPlan = await SavingRetirementPlan.findOne({
+            where: {
+                Retirement_ID: req.params.id
+            }
+        })
+        if(!retirementPlan) {
+            return res.status(404).json({msg: "Retirement Plan not found"});
+        }
+
+        /* Update the retirement plan's total balance and progression */
+        let totalBalance: number = 0, progression: number = 0;
+        if (type === 'deposit') {
+            totalBalance = retirementPlan.TotalBalance + parseFloat(amount);
+            progression = (totalBalance/retirementPlan.TargetAmount) * 100;
+            await SavingRetirementPlan.update({
+                TotalBalance: totalBalance,
+                Progression: progression
+            }, {
+                where: {
+                    Retirement_ID: req.params.id
+                } 
+            })    
+        }
+        else if (type === 'withdrawal') {
+            totalBalance = retirementPlan.TotalBalance - parseFloat(amount);
+            progression = (totalBalance/retirementPlan.TargetAmount) * 100;
+            await SavingRetirementPlan.update({
+                TotalBalance: totalBalance,
+                Progression: progression
+            }, {
+                where: {
+                    Retirement_ID: req.params.id
+                } 
+            })    
+        }
+        else {
+            return res.status(404).json({msg: `Transaction type error with ${type}`});
+        }
+        
+        /* Create Retirement Transaction */ 
+        await RetirementTransaction.create({
+            TransactionDate: transaction_date,
+            Amount: amount,
+            Type: type,
+            Retirement_ID: retirementPlan.Retirement_ID
+        });
+        /* !! Must update LastUpdate and TimeRemaining */
+
+        res.status(201).json({msg: "Retirement transaction history is recorded"});
+    } catch (error: any) {
+        res.status(400).json({msg: error.message});
+    }
+}
+
+/* get all retirement transactions history */
+export const getAllRetirementTransactionsByRetirementId = async(req: Request, res: Response) => {
+
+    try {
+
+        /* Check Plan: User must create the plan first */
+        const retirementPlan = await SavingRetirementPlan.findOne({
+            where: {
+                Retirement_ID: req.params.id
+            }
+        });
+        if(!retirementPlan) {
+            return res.status(404).json({msg: "Retirement plan not found! Pls create the plan first"});
+        }
+
+        /* Check Retirement Transaction: */
+        const retirementTransaction = await RetirementTransaction.findAll({
+            where: {
+                Retirement_ID: req.params.id
+            }
+        });
+        if(!retirementTransaction) {
+            return res.status(404).json({msg: "Retirement transaction not found"});
+        }
+
+        /* Find Retirement Transaction by EmergencyID */
+        const response = await RetirementTransaction.findAll({
+            attributes:[
+                'TransactionDate',
+                'Amount',
+                'Type'
+            ],
+            where: {
+                Retirement_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+
+export const getRetirementTransactionById = async(req: Request, res: Response) => {
+
+    try {
+
+        /* Check Retirement Transaction */
+        const retirementTransaction = await RetirementTransaction.findOne({
+            where: {
+                Transaction_ID: req.params.id
+            }
+        });
+        if(!retirementTransaction) {
+            return res.status(404).json({msg: "Retirement transaction not found"});
+        }
+    
+        const response = await RetirementTransaction.findOne({
+            attributes:[
+                'TransactionDate',
+                'Amount',
+                'Type'
+            ],
+            where: {
+                Transaction_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }

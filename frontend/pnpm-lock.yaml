@@ -10,6 +10,7 @@ specifiers:
   next: 13.1.6
   react: 18.2.0
   react-dom: 18.2.0
+  react-slider: ^2.0.4
   react-step-progress: ^1.0.3
   react-step-progress-bar: ^1.0.3
   typescript: 4.9.5
@@ -24,6 +25,7 @@ dependencies:
   next: 13.1.6_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-slider: 2.0.4_react@18.2.0
   react-step-progress: 1.0.3_react@18.2.0
   react-step-progress-bar: 1.0.3_biqbaboplfbrettd7655fr4n2y
   typescript: 4.9.5
@@ -1817,6 +1819,15 @@ packages:
 
   /react-lifecycles-compat/3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
+    dev: false
+
+  /react-slider/2.0.4_react@18.2.0:
+    resolution: {integrity: sha512-sWwQD01n6v+MbeLCYthJGZPc0kzOyhQHyd0bSo0edg+IAxTVQmj3Oy4SBK65eX6gNwS9meUn6Z5sIBUVmwAd9g==}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-step-progress-bar/1.0.3_biqbaboplfbrettd7655fr4n2y:

@@ -51,7 +51,7 @@ export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) =>
 
         /* Check Plan */
         if(!goalBasedPlan) {
-            return res.status(404).json({msg: "Goal-Based plan not found"});
+            return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});
         }
 
         const response = await GoalBasedSavingPlan.findAll({

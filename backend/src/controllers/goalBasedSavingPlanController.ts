@@ -15,7 +15,8 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
         total_balance,
         time_remaining,
         interest_rate,
-        progression
+        progression,
+        user_id,
     } = req.body;
     try {
 
@@ -31,6 +32,7 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
             TimeRemaining: time_remaining,
             InterestRate: interest_rate,
             Progression: progression,
+            User_ID: user_id,
         });
         res.status(201).json({msg: "Successful Create new goal-based plan "});
     } catch (error: any) {
@@ -38,7 +40,43 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
     }
 }
 
-export const getGoalBasedPlan = async(req: Request, res: Response) => {
+export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) => {
+    
+    try {
+        const goalBasedPlan = await GoalBasedSavingPlan.findAll({
+            where: {
+                User_ID: req.params.id
+            }
+        });
+
+        /* Check Plan */
+        if(!goalBasedPlan) {
+            return res.status(404).json({msg: "Goal-Based plan not found"});
+        }
+
+        const response = await GoalBasedSavingPlan.findAll({
+            attributes:[
+                'PlanName',
+                'TargetAmount',
+                'TimePeriod',
+                'InitialSaving',
+                'MonthlySaving',
+                'StartDate',
+                'LastUpdate',
+                'TotalBalance',
+                'TimeRemaining',
+                'InterestRate',
+                'MonthlyExpense',
+                'Progression'
+            ],
+            where: {
+                User_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }
 
 export const getGoalBasedPlanById = async(req: Request, res: Response) => {

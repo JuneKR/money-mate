@@ -16,7 +16,8 @@ export const createEmergencyPlan = async(req: Request, res: Response) => {
         time_remaining,
         interest_rate,
         monthly_expense,
-        progression
+        progression,
+        user_id,
     } = req.body;
     try {
 
@@ -33,6 +34,7 @@ export const createEmergencyPlan = async(req: Request, res: Response) => {
             InterestRate: interest_rate,
             MonthlyExpense: monthly_expense,
             Progression: progression,
+            User_ID: user_id,
         });
         res.status(201).json({msg: "Successful Create new emergency plan "});
     } catch (error: any) {
@@ -41,6 +43,45 @@ export const createEmergencyPlan = async(req: Request, res: Response) => {
 }
 
 export const getEmergencyPlan = async(req: Request, res: Response) => {
+}
+
+export const getEmergencyPlanByUserId = async(req: Request, res: Response) => {
+    const emergencyPlan = await SavingEmergencyPlan.findOne({
+        where: {
+            User_ID: req.params.id
+        }
+    });
+
+    /* Check Plan */
+    if(!emergencyPlan) {
+        return res.status(404).json({msg: `Emergency plan not found by user id: ${req.params.id}`});
+    }
+    
+    try {
+        const response = await SavingEmergencyPlan.findOne({
+            attributes:[
+                'Emergency_ID',
+                'PlanName',
+                'TargetAmount',
+                'TimePeriod',
+                'InitialSaving',
+                'MonthlySaving',
+                'StartDate',
+                'LastUpdate',
+                'TotalBalance',
+                'TimeRemaining',
+                'InterestRate',
+                'MonthlyExpense',
+                'Progression'
+            ],
+            where: {
+                User_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }
 
 export const getEmergencyPlanById = async(req: Request, res: Response) => {

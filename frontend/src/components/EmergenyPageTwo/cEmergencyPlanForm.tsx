@@ -1,7 +1,8 @@
 import React from "react";
-import styles from '@/styles/Home.module.css'
-import { useRouter } from 'next/router'
-import MultiStepProgressBar from '@/components/EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar';
+import { useRouter } from 'next/router';
+import Slider1 from '@/components/EmergencyPlanSlider/emergencyPlanSliderOption1'
+import Slider2 from '@/components/EmergencyPlanSlider/emergencyPlanSliderOption1'
+import Slider3 from '@/components/EmergencyPlanSlider/emergencyPlanSliderOption1'
 interface CEmergencyPlanFormProps {
   title: string;
 }
@@ -35,9 +36,7 @@ const CEmergencyPlanForm: React.FC<CEmergencyPlanFormProps> = ({ title }) => {
                <form action="">
                   <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                     <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <p className="text-2xl text-gray-400 dark:text-gray-500">
-                            จำนวน เดือน _____6_____9_____12_____
-                        </p>
+                        <Slider1 title="my slidebar1"/>
                     </div>
                     <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-4 text-black">
                         <div></div>
@@ -73,9 +72,7 @@ const CEmergencyPlanForm: React.FC<CEmergencyPlanFormProps> = ({ title }) => {
                   </div>
                   <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                   <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <p className="text-2xl text-gray-400 dark:text-gray-500">
-                            จำนวน เดือน _____6_____9_____12_____
-                        </p>
+                        <Slider2 title="my slidebar2"/>
                     </div>
                     <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-4 text-black">
                         <div></div>
@@ -110,9 +107,7 @@ const CEmergencyPlanForm: React.FC<CEmergencyPlanFormProps> = ({ title }) => {
                   </div>
                   <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                     <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <p className="text-2xl text-gray-400 dark:text-gray-500">
-                            จำนวน เดือน _____6_____9_____12_____
-                        </p>
+                        <Slider3 title="my slidebar3"/>
                     </div>
                     <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-4 text-black">
                         <div></div>

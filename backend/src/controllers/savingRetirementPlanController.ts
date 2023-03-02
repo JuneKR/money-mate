@@ -21,7 +21,8 @@ export const createRetirementPlan = async(req: Request, res: Response) => {
         age_to_live,
         inflation_rate,
         additional_investment,
-        progression
+        progression,
+        user_id
     } = req.body;
     try {
 
@@ -43,6 +44,7 @@ export const createRetirementPlan = async(req: Request, res: Response) => {
             InflationRate: inflation_rate,
             AdditionalInvestment: additional_investment,
             Progression: progression,
+            User_ID: user_id
         });
         res.status(201).json({msg: "Successful Create new retirement plan "});
     } catch (error: any) {
@@ -51,6 +53,49 @@ export const createRetirementPlan = async(req: Request, res: Response) => {
 }
 
 export const getRetirementyPlan = async(req: Request, res: Response) => {
+}
+
+export const getRetirementPlanByUserId = async(req: Request, res: Response) => {
+    const retirementPlan = await SavingRetirementPlan.findOne({
+        where: {
+            User_ID: req.params.id
+        }
+    });
+
+    /* Check Plan */
+    if(!retirementPlan) {
+        return res.status(404).json({msg: `Retirement plan not found with user id: ${req.params.id}`});
+    }
+    
+    try {
+        const response = await SavingRetirementPlan.findOne({
+            attributes:[
+                'PlanName',
+                'TargetAmount',
+                'TimePeriod',
+                'InitialSaving',
+                'MonthlySaving',
+                'StartDate',
+                'LastUpdate',
+                'TotalBalance',
+                'TimeRemaining',
+                'DateOfBirth',
+                'InterestRate',
+                'MonthlyExpense',
+                'AgeToRetire',
+                'AgeToLive',
+                'InflationRate',
+                'AdditionalInvestment',
+                'Progression'
+            ],
+            where: {
+                User_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }
 
 export const getRetirementPlanById = async(req: Request, res: Response) => {

@@ -2,6 +2,7 @@ import express from "express";
 import {
     createGoalBasedPlan,
     getGoalBasedPlanById,
+    getAllGoalBasedPlanByUserId,
     editGoalBasedPlan,
     deleteGoalBasedPlan,
     addTransactionToGoalBasedPlan,
@@ -11,6 +12,7 @@ import {
 
 const router = express.Router();
 
+router.get('/user/:id/saving/goals',getAllGoalBasedPlanByUserId);
 router.get('/saving/goal/:id', getGoalBasedPlanById);
 router.post('/saving/goal', createGoalBasedPlan);
 router.patch('/saving/goal/:id', editGoalBasedPlan);

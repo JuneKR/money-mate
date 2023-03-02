@@ -15,6 +15,7 @@ interface GoalBasedAttributes {
     TimeRemaining: number;
     InterestRate: number;
     Progression: number;
+    User_ID: number;
 }
 
 interface GoalBasedCreationAttributes
@@ -115,12 +116,12 @@ const GoalBasedSavingPlan = db.define<GoalBasedInstance>('GoalBasedSavingPlan', 
         },
         defaultValue: 0
     },
+    User_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
 }, {
     freezeTableName: true
 })
-
-// GoalBasedSavingPlan.belongsTo(User, {
-//     foreignKey: 'User_ID'
-// })
 
 export default GoalBasedSavingPlan;

@@ -1,6 +1,7 @@
 import express from "express";
 import {
     createEmergencyPlan,
+    getEmergencyPlanByUserId,
     getEmergencyPlanById,
     editEmergencyPlan,
     deleteEmergencyPlan,
@@ -11,6 +12,7 @@ import {
 
 const router = express.Router();
 
+router.get('/user/:id/saving/emergency/', getEmergencyPlanByUserId);
 router.get('/saving/emergency/:id', getEmergencyPlanById);
 router.post('/saving/emergency', createEmergencyPlan);
 router.patch('/saving/emergency/:id', editEmergencyPlan);

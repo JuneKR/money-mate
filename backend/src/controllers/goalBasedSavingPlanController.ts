@@ -66,7 +66,6 @@ export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) =>
                 'TotalBalance',
                 'TimeRemaining',
                 'InterestRate',
-                'MonthlyExpense',
                 'Progression'
             ],
             where: {
@@ -104,7 +103,6 @@ export const getGoalBasedPlanById = async(req: Request, res: Response) => {
                 'TotalBalance',
                 'TimeRemaining',
                 'InterestRate',
-                'MonthlyExpense',
                 'Progression'
             ],
             where: {
@@ -259,23 +257,23 @@ export const getAllGoalBasedTransactionsByGoalId = async(req: Request, res: Resp
     try {
 
         /* Check Plan: User must create the plan first */
-        const emergencyPlan = await GoalBasedSavingPlan.findOne({
+        const goalBasedPlan = await GoalBasedSavingPlan.findOne({
             where: {
                 Goal_ID: req.params.id
             }
         });
-        if(!emergencyPlan) {
+        if(!goalBasedPlan) {
             return res.status(404).json({msg: "Goal-Based plan not found! Pls create the plan first"});
         }
 
         /* Check Goal-Based Transaction: */
-        const goalBasedTransaction = await GoalBasedTransaction.findAll({
+        const goalBasedTransaction = await GoalBasedTransaction.findOne({
             where: {
                 Goal_ID: req.params.id
             }
         });
         if(!goalBasedTransaction) {
-            return res.status(404).json({msg: "Goal-Based transaction not found"});
+            return res.status(404).json({msg: `Goal-Based transaction not found with goal id: ${req.params.id}`});
         }
 
         /* Find Goal-Based Transaction by Goal ID */

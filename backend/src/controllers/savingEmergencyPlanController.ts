@@ -279,13 +279,13 @@ export const getAllEmergencyTransactionsByEmergencyId = async(req: Request, res:
         }
 
         /* Check Emergency Transaction: */
-        const emergencyTransaction = await EmergencyTransaction.findAll({
+        const emergencyTransaction = await EmergencyTransaction.findOne({
             where: {
                 Emergency_ID: req.params.id
             }
         });
         if(!emergencyTransaction) {
-            return res.status(404).json({msg: "Emergency transaction not found"});
+            return res.status(404).json({msg: `Emergency transaction not found with emergency id: ${req.params.id}`});
         }
 
         /* Find Emergency Transaction by EmergencyID */

@@ -310,13 +310,13 @@ export const getAllRetirementTransactionsByRetirementId = async(req: Request, re
         }
 
         /* Check Retirement Transaction: */
-        const retirementTransaction = await RetirementTransaction.findAll({
+        const retirementTransaction = await RetirementTransaction.findOne({
             where: {
                 Retirement_ID: req.params.id
             }
         });
         if(!retirementTransaction) {
-            return res.status(404).json({msg: "Retirement transaction not found"});
+            return res.status(404).json({msg: `Retirement transaction not found with retirement id: ${req.params.id}`});
         }
 
         /* Find Retirement Transaction by EmergencyID */

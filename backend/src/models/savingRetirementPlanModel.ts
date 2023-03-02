@@ -21,6 +21,7 @@ interface RetirementAttributes {
     InflationRate: number;
     AdditionalInvestment: number;
     Progression: number;
+    User_ID: number;
 }
 
 interface RetirementCreationAttributes
@@ -162,6 +163,10 @@ const SavingRetirementPlan = db.define<RetirementInstance>('SavingRetirementPlan
             notEmpty: true
         },
         defaultValue: 0
+    },
+    User_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
 }, {
     freezeTableName: true

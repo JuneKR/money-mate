@@ -15,6 +15,7 @@ interface EmergencyAttributes {
     InterestRate: number;
     MonthlyExpense: number;
     Progression: number;
+    User_ID: number;
 }
 
 interface EmergencyCreationAttributes
@@ -121,6 +122,10 @@ const SavingEmergencyPlan = db.define<EmergencyInstance>('SavingEmergencyPlan', 
             notEmpty: true
         },
         defaultValue: 0
+    },
+    User_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
 }, {
     freezeTableName: true

@@ -118,7 +118,7 @@ const GoalBasedSavingPlan = db.define<GoalBasedInstance>('GoalBasedSavingPlan', 
     },
     User_ID: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
     },
 }, {
     freezeTableName: true

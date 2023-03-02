@@ -166,7 +166,7 @@ const SavingRetirementPlan = db.define<RetirementInstance>('SavingRetirementPlan
     },
     User_ID: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
     },
 }, {
     freezeTableName: true

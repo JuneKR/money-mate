@@ -125,7 +125,7 @@ const SavingEmergencyPlan = db.define<EmergencyInstance>('SavingEmergencyPlan', 
     },
     User_ID: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
     },
 }, {
     freezeTableName: true

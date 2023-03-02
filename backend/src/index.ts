@@ -62,15 +62,35 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 /* Model Association */
 /* User has one emergency plan */ 
-// User.hasOne(SavingEmergencyPlan, {
-//     foreignKey: {
-//         name: 'User_ID'
-//     }
-// })
+User.hasOne(SavingEmergencyPlan, {
+    foreignKey: {
+        name: 'User_ID'
+    }
+})
 
-// SavingEmergencyPlan.belongsTo(User, {
-//     foreignKey: 'User_ID'
-// })
+SavingEmergencyPlan.belongsTo(User, {
+    foreignKey: 'User_ID'
+})
+
+User.hasMany(GoalBasedSavingPlan, {
+    foreignKey: {
+        name: 'User_ID'
+    }
+})
+
+GoalBasedSavingPlan.belongsTo(User, {
+    foreignKey: 'User_ID'
+})
+
+User.hasOne(SavingRetirementPlan, {
+    foreignKey: {
+        name: 'User_ID'
+    }
+})
+
+SavingRetirementPlan.belongsTo(User, {
+    foreignKey: 'User_ID'
+})
 
 /* Emergency Plan has many transaction */
 SavingEmergencyPlan.hasMany(EmergencyTransaction, {

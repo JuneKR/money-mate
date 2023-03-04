@@ -20,6 +20,11 @@ import SavingRetirementPlan from './models/savingRetirementPlanModel';
 import RetirementTransaction from './models/retirementTransactionModel';
 import User from './models/userModel';
 
+/* Junction Table */
+import PortfolioPackage from './models/Portfolio Management/portfolioPackageModel';
+import PackageItem from './models/Portfolio Management/PackageItem';
+import MutualFund from './models/Portfolio Management/mutualFundModel';
+
 config();
 
 const app: Application = express();
@@ -124,6 +129,29 @@ SavingRetirementPlan.hasMany(RetirementTransaction, {
 RetirementTransaction.belongsTo(SavingRetirementPlan, {
     foreignKey: 'Retirement_ID'
 });
+
+/* Portfolio Package Item */
+// Package Item
+PackageItem.belongsTo(PortfolioPackage, {
+    foreignKey: 'Package_ID', targetKey: 'Package_ID'
+})
+PackageItem.belongsTo(MutualFund, {
+    foreignKey: 'Fund_ID', targetKey: 'Fund_ID'
+})
+
+PortfolioPackage.belongsToMany(MutualFund, {
+    foreignKey: 'Package_ID',
+    through: PackageItem
+})
+
+MutualFund.belongsToMany(PortfolioPackage, {
+    foreignKey: { 
+        name: 'Package_ID'
+    }, through: PackageItem
+})
+
+/* ------ */
+
 
 /* destructure property of req.body */
 app.use(express.json());

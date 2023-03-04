@@ -18,7 +18,7 @@ interface PackageItemInstance
       updatedAt?: Date;
     }
 
-const MutualFund = db.define<PackageItemInstance>('MutualFund', {
+const PackageItem = db.define<PackageItemInstance>('PackageItem', {
     Package_ID: {
         type: DataTypes.INTEGER,
         primaryKey: false,
@@ -46,4 +46,4 @@ const MutualFund = db.define<PackageItemInstance>('MutualFund', {
     freezeTableName: true
 })
 
-export default MutualFund;
+export default PackageItem;

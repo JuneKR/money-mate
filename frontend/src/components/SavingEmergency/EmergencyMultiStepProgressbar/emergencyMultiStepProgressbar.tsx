@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRouter } from 'next/router'
 import { useState } from "react";
 import StepProgressBar from 'react-step-progress';
 import "react-step-progress/dist/index.css";
@@ -35,6 +35,7 @@ export interface FormDataprops extends Formprops{
 
 
 const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps> = ({ title,step2Validator,step3Validator,step4Validator}) => {
+  const router = useRouter()
   const [formData, setFormData] = useState<CompleteFormstate>({
     mExpense: ""|| "10000",
     months: ""|| "6",
@@ -45,7 +46,7 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
     const step3Validator2= () => step3Validator;
     const step4Validator2 = () => step4Validator;
     const onFormSubmit = () => {
-        
+        router.push('/emergencyDashboard')
       }
     const onNext = () => {
         

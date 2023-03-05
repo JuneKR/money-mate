@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { FormDataprops } from "../EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar";
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+
 interface SEmergencyPlanFormProps {
   title: string;
 }
@@ -49,7 +51,29 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
     function valueLabelFormat(value: number) {
       return marks.findIndex((mark) => mark.value === value) + 1;
     }
-
+    const columns: GridColDef[] = [
+      { field: 'plan', headerName: 'เป้าหมาย', width: 70 },
+      { field: 'amount', headerName: 'จำนวนเงิน', width: 130 },
+      { field: 'monthlyDeposit', headerName: 'เงินออมต่อเดือน', width: 130 },
+      { field: 'returnRate', headerName: 'ผลตอบแทน', width: 70 },
+      { field: 'period', headerName: 'ระยะเวลา', width: 70 },
+      // {
+      //   field: 'fullName',
+      //   headerName: 'Full name',
+      //   description: 'This column has a value getter and is not sortable.',
+      //   sortable: false,
+      //   width: 160,
+      //   valueGetter: (params: GridValueGetterParams) =>
+      //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+      // },
+    ];
+    const rows = [
+      { id: 1, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '1%', period: '2y' },
+      { id: 2, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '4.9y' },
+      { id: 3, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '5y' },
+      { id: 4, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '4.5y' },
+      { id: 5, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '5y' }
+    ];
   return (
     <div className="py-20">
       <div style={{ width: "100%", height: "100%",padding: "0 4rem"  }} className="rounded bg-gray-50 dark:bg-gray-800">
@@ -112,25 +136,31 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                       </label>
                     </div>
                     <div style={{backgroundColor: '#E5F8FF'}} className="grid grid-cols-3 border border-gray-300 rounded-md flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <div className="flex items-center justify-center h-24">
-                          ระดับความเสี่ยงของคุณ
+                        <div className="flex items-center justify-center h-24 grid grid-rows-2">
+                          <div className="flex items-center justify-center h-24">ระดับความเสี่ยงของคุณ</div>
+                          <div className="flex items-center justify-center h-24">4%</div>
                         </div>
                         <div className="flex items-center justify-center h-24">
                           เส้นกั้น
                         </div>
-                        <div className="flex items-center justify-center h-24">
-                          ผลตอบแทนที่คาดหวัง
+                        <div className="grid grid-rows-2 flex items-center justify-center h-24">
+                          <div className="flex items-center justify-center h-24">ผลตอบแทนที่คาดหวัง</div>
+                          <div className="flex items-center justify-center h-24">5%</div>
                         </div>
                     </div>
                   </div>
                   <div className="text-black rounded bg-gray-50 dark:bg-gray-800 py-6 font-bold">
                     <h1>เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้</h1>
                   </div>
-                  <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
-                    <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <p className="text-2xl text-gray-400 dark:text-gray-500">
-                            Table from Backend
-                        </p>
+                  <div style={{ height: '100%', width: '100%' }} className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                    <div style={{ height: 400, width: '100%' }} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                    <DataGrid
+                      rows={rows}
+                      columns={columns}
+                      // pageSize={5}
+                      // rowsPerPageOptions={[5]}
+                      checkboxSelection
+                    />
                     </div>
                   </div>
                </form>

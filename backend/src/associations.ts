@@ -12,10 +12,10 @@ import PortfolioPackage from './models/Portfolio Management/portfolioPackageMode
 import PackageItem from './models/Portfolio Management/PackageItem';
 import MutualFund from './models/Portfolio Management/mutualFundModel';
 
-/* Model Association */
-/* User has one emergency plan */ 
 const setAssociations = function () {
 
+    /* Model Association */
+    /* User has one emergency plan */ 
     User.hasOne(SavingEmergencyPlan, {
         foreignKey: {
             name: 'User_ID'

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import Navbar from '@/components/Navbar'
-import MultiStepProgressBar from '@/components/EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar';
+import MultiStepProgressBar from '@/components/SavingEmergency/EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar';
 
 
-const Homepage = () => {
+const EmergencyHomepage = () => {
 
     return(
         <>
@@ -30,4 +30,4 @@ const Homepage = () => {
     </>
     );
 };
-export default Homepage;
+export default EmergencyHomepage;

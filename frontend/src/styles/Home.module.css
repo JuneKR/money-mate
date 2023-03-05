@@ -269,6 +269,12 @@
   }
 }
 
+@media (max-width: 640px) {
+  .block {
+    width: 100%;
+  }
+}
+
 @keyframes rotate {
   from {
     transform: rotate(360deg);

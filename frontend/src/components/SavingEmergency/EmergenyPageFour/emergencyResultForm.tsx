@@ -8,6 +8,12 @@ interface EmergencyResultFormProps {
 }
 
 const EmergencyResultForm: React.FC<FormDataprops> = ({formData}) => {
+    const {mExpense, months} = formData;
+    function multiply(x: string, y: string): string {
+        const result = Number(x) * Number(y);
+        return result.toString();
+      }
+      const emergencyFund = multiply(mExpense, months);
     const router = useRouter()
     const handleConfirmEmergencyGoal = () => {
        router.push('/selectEmergencyPlanForm')
@@ -31,11 +37,11 @@ const EmergencyResultForm: React.FC<FormDataprops> = ({formData}) => {
                             <div className="text-blue-800 hover:text-blue-900 p-4">เป้าหมาย</div>
                             <div className="text-blue-800 hover:text-blue-900 p-4">ออมเงินเผื่อฉุกเฉิน</div>
                             <div className="p-4">คุณต้องมีเงินฉุกเฉิน</div>
-                            <div className="p-4">100,000</div>
+                            <div className="p-4">{emergencyFund}</div>
                             <div className="p-4"> จำนวนเดือนที่ต้องการเก็บ</div>
                             <div className="p-4">6</div>
                             <div className="p-4">ระยะเวลาในการออม</div>
-                            <div className="p-4">5 ปี</div>
+                            <div className="p-4">{months}</div>
                             <div className="p-4">เงินออมต่อเดือน</div>
                             <div className="p-4">5000</div>
                             <div className="p-4">ระดับความเสี่ยง</div>

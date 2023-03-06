@@ -2,6 +2,7 @@ import { Model, DataTypes, Optional } from 'sequelize';
 import db from '../../config/database';
 
 interface PackageItemAttributes {
+    PackageItem_ID: number;
     Package_ID: number;
     Fund_ID: number;   
     AllocationRatio: number;
@@ -19,6 +20,11 @@ interface PackageItemInstance
     }
 
 const PackageItem = db.define<PackageItemInstance>('PackageItem', {
+    PackageItem_ID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     Package_ID: {
         type: DataTypes.INTEGER,
         primaryKey: false,

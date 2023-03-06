@@ -1,7 +1,7 @@
 import React from "react";
 import Slider1 from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1'
-import Slider2 from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1'
-import Slider3 from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1'
+import Slider2 from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption2'
+import Slider3 from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption3'
 import { FormDataprops } from "../EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar";
 interface CEmergencyPlanFormProps {
   title: string;

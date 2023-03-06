@@ -2,20 +2,36 @@ import React, { useState } from 'react';
 import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import Navbar from '@/components/Navbar'
-import Progress1 from '@/components/GraphComponent/Progress1'
-import SavingGraph from '@/components/GraphComponent/savingGraph'
+import Progress1 from '@/components/SavingEmergency/EmergencyGraphComponent/Progress1'
+import SavingGraph from '@/components/SavingEmergency/EmergencyGraphComponent/savingGraph'
+import ModleButtonAdd from '@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd'
+import ModleButtonWithDraw from '@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw'
+
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 const EmergencyDashboard = () => {
-
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     return(
         <>
     <main className={styles.main}>
         <Sidebar title="My Sidebar" />
         <Navbar title="My Navbar" />
-        <div style={{ width: "100%", height: "100%",padding: "0 4rem"}} className="sm:ml-64 ">
+        <div style={{ width: "100%", height: "100%",padding: "0 4rem"}} className="md:ml-64  ">
         
-            <div style={{display: "flex", alignItems: "center"}} className="bg-blue-200 py-2 rounded bg-gray-50 dark:bg-gray-800">
-               <p style={{ padding: "0 1rem"  }}className="text-2xl text-black dark:text-gray-500">
+            <div style={{display: "flex", alignItems: "center"}} className=" bg-blue-200 py-2 rounded bg-gray-50 dark:bg-gray-800">
+               <p style={{ padding: "0 1rem"  }}className="text-2xl text-black dark:text-gray-500 ">
                   ออมเงินเผื่อฉุกเฉิน
                </p>
             </div>
@@ -72,7 +88,7 @@ const EmergencyDashboard = () => {
                             หยอดกระปุก
                         </p>
                 </div>
-                <div className='grid grid-cols-2 py-10'>
+                <div className='grid grid-cols-2 py-10' style={{ width: "100%", height: "100%"}}>
                     <div>
                         รูป
                     </div>
@@ -124,18 +140,11 @@ const EmergencyDashboard = () => {
                     </div>
                 </div>
                 <div>
-                    <form action="">
-                        <div className="flex justify-end py-5">
-                        <button  style={{ width: "209px",marginRight: "10px", backgroundColor: '#FEF5AC'}}className="px-4 py-2 font-bold text-black rounded shadow focus:shadow-outline focus:outline-none" type="button">
-                                ออมเงิน
-                        </button>
-                        
-                        <button style={{ width: "209px", marginLeft: "10px", backgroundColor: '#FF8C73'}}className="px-4 py-2 font-bold text-black rounded shadow focus:shadow-outline focus:outline-none" type="button">
-                                ถอนเงินออม
-                        </button>
-                        </div>
-                    </form>
-                </div>
+                    <div className="flex justify-end py-5">
+                            <ModleButtonAdd title={'my modle1'}/>
+                            <ModleButtonWithDraw title={'my modle2'}/>
+                            </div>
+                    </div>
                 <div style={{display: "flex", alignItems: "center"}} className="bg-blue-200 py-2 rounded bg-gray-50 dark:bg-gray-800">
                         <p style={{ padding: "0 1rem"  }}className="text-2xl text-black dark:text-gray-500">
                             Saving Graph

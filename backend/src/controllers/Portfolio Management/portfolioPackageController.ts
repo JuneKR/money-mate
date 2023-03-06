@@ -105,10 +105,63 @@ export const editPortfolioPackageInfo = async(req: Request, res: Response) => {
 }
 
 /* Portfolio Package Item */
-export const getPortfolioPackageAllocation = async(req: Request, res: Response) => {
+export const getAllPortfolioPackageAllocationByPackageId = async(req: Request, res: Response) => {
+    try {
+        const packageItem = await PackageItem.findOne({
+            where: {
+                Package_ID: req.params.id
+            }
+        });
+
+        /* Check Plan */
+        if(!packageItem) {
+            return res.status(404).json({msg: `Portfolio package with id ${req.params.id} not found`});
+        }
+
+        const response = await PackageItem.findAll({
+            attributes:[
+                'Package_ID',
+                'Fund_ID',
+                'AllocationRatio'
+            ],
+            where: {
+                Package_ID: req.params.id
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }
 
-export const updatePortfolioPackageAllocation = async(req: Request, res: Response) => {
+export const editPortfolioPackageAllocationByPackageId = async(req: Request, res: Response) => {
+    try {
+        const packageItem = await PackageItem.findOne({
+            where: {
+                Package_ID: req.params.id
+            }
+        });
+
+        /* Check Plan */
+        if(!packageItem) {
+            return res.status(404).json({msg: `Portfolio package with id ${req.params.id} not found`});
+        }
+
+        const {   
+            allocation_ratio
+        } = req.body;
+
+        await PackageItem.update({
+            AllocationRatio: allocation_ratio
+        }, {
+            where:{
+                Package_ID: req.params.id
+            }
+        });
+        res.status(200).json({msg: `Package Item Updated Successfully with Portfolio Package id: ${req.params.id}, `})
+    } catch (error: any) {
+        return res.status(400).json({msg: error.message});
+    }
 }
 
 /* Mutual Fund */
@@ -150,6 +203,38 @@ export const getMutualFundByFundId = async(req: Request, res: Response) => {
 }
 
 export const getAllMutualFundByPackageId = async(req: Request, res: Response) => {
+    try {
+        const mutualFund = await MutualFund.findOne({
+            where: {
+                Fund_ID: req.params.id
+            }
+        });
+
+        /* Check Plan */
+        if(!mutualFund) {
+            return res.status(404).json({msg: `Mutual Fund id: ${req.params.id} not found!`});
+        }
+
+        const response = await PackageItem.findAll({
+            attributes:[
+                'FundName',
+                'FundSymbol',
+                'FundType',
+                'LastUpdate',
+                'CostBasis',
+                'Nav',
+                'ReturnRate',
+                'ExpenseRatio',
+                'Description',
+            ],
+            where: {
+                Package_ID: req.params.id
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }
 
 export const editMutualFundInfo = async(req: Request, res: Response) => {

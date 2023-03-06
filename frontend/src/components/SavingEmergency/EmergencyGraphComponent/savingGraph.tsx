@@ -18,22 +18,31 @@ const SavingGraph: React.FC<SavingGraphProps> = (props) => {
       }
     });
     const data = {
-      labels: ['Red', 'Green', 'Yellow', 'blue', 'dark', 'test', 'test2'],
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: [
         {
-          label: "My Line chart 1",
-          data: [1,2,3,4,3,2,7],
+          label: "Emergency",
+          data: [0,5,10,15,20,25,30,35,40,45,50,55],
           fill: true,
-          borderColor: "#742774",
-          backgroundColor: "rgba(75,192,192,0.2)",
+          borderColor: "#FF6384",
+          backgroundColor: "#FF6384",
           tension: 0.1,
         },
         {
-          label: "My Line chart 2",
-          data: [1,10,3,4,5,6,7],
+          label: "เที่ยวญี่ปุ่น",
+          data: [0,5,15,25,35,45,55,65,75,85,95,105],
           fill: true,
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
+          backgroundColor: "#F47458",
+          borderColor: "#F47458",
+          tension: 0.1,
+          // tension: 0.1,
+        },
+        {
+          label: "Retirement",
+          data: [0,5,15,25,45,65,85,105,125,145,165,185],
+          fill: true,
+          backgroundColor: "#36A2EB",
+          borderColor: "#36A2EB",
           tension: 0.1,
           // tension: 0.1,
         }

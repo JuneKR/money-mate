@@ -9,12 +9,8 @@ const Progress1: React.FC<Progress1Props> = (props) => {
     
     return (
       <div>
-        <div className="">
-          <div>
             <progress value={progress} max="100" />
             <span>{progress}%</span>
-          </div>
-        </div>
       </div>
     );
 };

@@ -78,6 +78,7 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
               label: "เลือกเป้าหมาย",
               name: "step 1",
               content: step1Content
+              
             },
             {
               label: "สร้างเป้าหมาย",

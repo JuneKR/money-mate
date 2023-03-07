@@ -10,8 +10,8 @@ const EmergencyGoalForm: React.FC<FormDataprops> = ({formData, setFormData}) => 
    return (
       <div className="py-20"> 
          <div style={{ width: "100%", height: "100%", padding: "0 4rem" }} className="rounded bg-gray-50 dark:bg-gray-800">
-            <form action="">
-               <label htmlFor="monthlyExpense" className="block">
+            <form action="" className="">
+               <label htmlFor="monthlyExpense" className="block text-sm">
                   <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">รายจ่ายรายเดือน</span>
                   <input
                      type="string"
@@ -26,7 +26,7 @@ const EmergencyGoalForm: React.FC<FormDataprops> = ({formData, setFormData}) => 
                      ข้อมูลไม่ถูกต้อง
                   </p>
                </label>
-               <label htmlFor="months" className="block">
+               <label htmlFor="months" className="block text-sm">
                   <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">จำนวนเดือนที่ต้องการเก็บ</span>
                   <input
                      type="string"
@@ -40,7 +40,7 @@ const EmergencyGoalForm: React.FC<FormDataprops> = ({formData, setFormData}) => 
                      ข้อมูลไม่ถูกต้อง
                   </p>
                </label>
-               <label htmlFor="monthlyDeposit" className="block">
+               <label htmlFor="monthlyDeposit" className="block text-sm">
                   <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">เงินเก็บ/เดือน</span>
                   <input
                      type="string"
@@ -54,7 +54,7 @@ const EmergencyGoalForm: React.FC<FormDataprops> = ({formData, setFormData}) => 
                      ข้อมูลไม่ถูกต้อง
                   </p>
                </label>
-               <label htmlFor="currentBalance" className="block">
+               <label htmlFor="currentBalance" className="block text-sm">
                   <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">เงินปัจจุบัน</span>
                   <input
                      type="string"

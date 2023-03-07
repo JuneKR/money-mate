@@ -18,8 +18,8 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
       
   return (
     <div className="py-20">
-                <div style={{width: "100%", height: "50%",backgroundColor: '#E5F8FF'}} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                    <div className="grid grid-cols-2 text-black font-bold">
+                <div style={{ height: "50%",backgroundColor: '#E5F8FF'}} className="w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                    <div className="grid grid-cols-1 md:grid-cols-2 text-black font-bold">
                         <div className="text-blue-800 hover:text-blue-900 p-4">เป้าหมาย</div>
                         <div className="text-blue-800 hover:text-blue-900 p-4">ออมเงินเผื่อฉุกเฉิน</div>
                         <div className="p-4">คุณต้องมีเงินฉุกเฉิน: </div>
@@ -35,13 +35,12 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                     <h1>คุณสามารถปรับเปลี่ยนและเลือกเป้าหมายที่ดูเป็นได้ไปที่สุดสำหรับคุณ</h1>
                 </div>
                <form action="">
-                  <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                     <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                         <Slider1 title="my slidebar1"/>
                     </div>
-                    <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-4 text-black">
-                        <div></div>
-                        <div style={{width: "100%", backgroundColor: '#E5F8FF', marginRight: '30px'}} className="py-5 px-2">
+                    <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
+                        <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col justify-center">
                                     <div className="mb-4">รายจ่าย/เดือน</div>
@@ -56,7 +55,8 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                             </div>
                         </div>
 
-                        <div style={{ width: "100%", backgroundColor: '#E5F8FF', marginLeft: '30px' }} className="flex items-center justify-center">
+                        <div style={{ width: "100%", backgroundColor: '#E5F8FF' }} className="mb-4 sm:ml-2 md:ml-0 md:mb-0">
+                            <div className="flex items-center justify-center">
                             <label htmlFor="#" className="block">
                                 <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">ระยะเวลาออม</span>
                                     <input
@@ -67,17 +67,16 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     className="block w-full text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                     />
                             </label>
+                            </div>
                         </div>
-                        <div></div>
                     </div>
-                  </div>
-                  <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
-                  <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                </div>
+                <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                    <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                         <Slider2 title="my slidebar2"/>
                     </div>
-                    <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-4 text-black">
-                        <div></div>
-                        <div style={{width: "100%", backgroundColor: '#E5F8FF', marginRight: '30px'}} className="py-5 px-2">
+                    <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
+                        <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col justify-center">
                                     <div className="mb-4">รายจ่าย/เดือน</div>
@@ -91,7 +90,9 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                 </div>
                             </div>
                         </div>
-                        <div style={{ width: "100%", backgroundColor: '#E5F8FF', marginLeft: '30px' }} className="flex items-center justify-center">
+
+                        <div style={{ width: "100%", backgroundColor: '#E5F8FF' }} className="mb-4 sm:ml-2 md:ml-0 md:mb-0">
+                            <div className="flex items-center justify-center">
                             <label htmlFor="#" className="block">
                                 <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">ระยะเวลาออม</span>
                                     <input
@@ -102,17 +103,16 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     className="block w-full text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                     />
                             </label>
+                            </div>
                         </div>
-                        <div></div>
                     </div>
-                  </div>
-                  <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                </div>
+                <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                     <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                         <Slider3 title="my slidebar3"/>
                     </div>
-                    <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-4 text-black">
-                        <div></div>
-                        <div style={{width: "100%", backgroundColor: '#E5F8FF', marginRight: '30px'}} className="py-5 px-2">
+                    <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
+                        <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col justify-center">
                                     <div className="mb-4">รายจ่าย/เดือน</div>
@@ -127,7 +127,8 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                             </div>
                         </div>
 
-                        <div style={{ width: "100%", backgroundColor: '#E5F8FF', marginLeft: '30px' }} className="flex items-center justify-center">
+                        <div style={{ width: "100%", backgroundColor: '#E5F8FF' }} className="mb-4 sm:ml-2 md:ml-0 md:mb-0">
+                            <div className="flex items-center justify-center">
                             <label htmlFor="#" className="block">
                                 <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">ระยะเวลาออม</span>
                                     <input
@@ -138,10 +139,10 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     className="block w-full text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                     />
                             </label>
+                            </div>
                         </div>
-                        <div></div>
                     </div>
-                  </div>
+                </div>
                   {/* <div className="flex justify-end py-5">
                      <button onClick={handleSetEmergencyGoalForm} style={{ width: "209px",marginRight: "10px"}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
                               ย้อนกลับ

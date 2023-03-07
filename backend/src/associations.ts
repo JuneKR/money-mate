@@ -8,9 +8,9 @@ import RetirementTransaction from './models/retirementTransactionModel';
 import User from './models/userModel';
 
 /* Junction Table */
-import PortfolioPackage from './models/Portfolio Management/portfolioPackageModel';
-import PackageItem from './models/Portfolio Management/PackageItem';
-import MutualFund from './models/Portfolio Management/mutualFundModel';
+import PortfolioPackage from './models/portfolio management/portfolioPackageModel';
+import PackageItem from './models/portfolio management/PackageItem';
+import MutualFund from './models/portfolio management/mutualFundModel';
 
 const setAssociations = function () {
 

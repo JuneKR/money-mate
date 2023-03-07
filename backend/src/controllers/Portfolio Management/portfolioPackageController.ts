@@ -1,11 +1,13 @@
-import PortfolioPackage from "../../models/Portfolio Management/portfolioPackageModel";
-import PackageItem from "../../models/Portfolio Management/PackageItem";
-import MutualFund from "../../models/Portfolio Management/mutualFundModel";
+import PortfolioPackage from "../../models/portfolio management/portfolioPackageModel";
+import PackageItem from "../../models/portfolio management/PackageItem";
+import MutualFund from "../../models/portfolio management/mutualFundModel";
+
+import InvestmentPortfolio from "../../models/portfolio management/investment portfolio/investmentPortfolioModel";
 import { Request, Response } from "express";
 
 
 /* Portfolio Package */
-export const getAllPortfolioPackages = async(req: Request, res: Response) => {
+export const getAllPortfolios = async(req: Request, res: Response) => {
     
     try {
         const portfolioPackage = await PortfolioPackage.findOne();

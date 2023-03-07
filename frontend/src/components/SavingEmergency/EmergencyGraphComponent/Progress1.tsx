@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { Progress } from "@material-tailwind/react";
 interface Progress1Props {
     title: string;
 }
@@ -8,9 +9,14 @@ const Progress1: React.FC<Progress1Props> = (props) => {
 
     
     return (
-      <div>
-            <progress value={progress} max="100" />
-            <span>{progress}%</span>
+      <div className='w-full h-full'>
+            <Progress 
+            value={progress} 
+            color="yellow" 
+            label="Completed" 
+            style={{width: "100%", height: 50}}
+            className="bg-gray-200"
+            />
       </div>
     );
 };

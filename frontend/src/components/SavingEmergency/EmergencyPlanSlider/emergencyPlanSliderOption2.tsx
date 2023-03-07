@@ -70,7 +70,7 @@ const EmergencyPlanSliderOption2: React.FC<EmergencyPlanSliderOption2Props> = ({
             <Box sx={{ width: "100%" }}>
               <Slider
                 aria-label="Temperature"
-                defaultValue={3}
+                defaultValue={9}
                 getAriaValueText={valuetext}
                 valueLabelFormat={valueLabelFormat}
                 valueLabelDisplay="auto"

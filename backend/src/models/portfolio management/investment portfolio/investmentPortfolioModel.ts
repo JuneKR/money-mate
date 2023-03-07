@@ -10,6 +10,7 @@ interface PortfolioAttributes {
     RiskLevel: number;
     EstimatedReturnRate: number;
     ROI: number;
+    User_ID: number;
     Package_ID:number;
 }
 
@@ -80,6 +81,10 @@ const InvestmentPortfolio = db.define<PortfolioInstance>('InvestmentPortfolio', 
         validate: {
             notEmpty: true
         }
+    },
+    User_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
     Package_ID: {
         type: DataTypes.INTEGER,

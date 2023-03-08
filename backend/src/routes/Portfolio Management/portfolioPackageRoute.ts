@@ -8,7 +8,7 @@ import {
     getMutualFundByFundId,
     getAllMutualFundByPackageId,
     editMutualFundInfo
-} from '../../controllers/Portfolio Management/portfolioPackageController';
+} from '../../controllers/portfolio management/portfolioPackageController';
 
 const router = express.Router();
 

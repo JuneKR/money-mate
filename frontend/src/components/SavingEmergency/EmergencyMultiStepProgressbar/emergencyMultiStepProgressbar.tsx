@@ -46,17 +46,12 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
     const step3Validator2= () => step3Validator;
     const step4Validator2 = () => step4Validator;
     const onFormSubmit = () => {
-        router.push('/emergencyDashboard')
+        router.push('/EmergencyPages/emergencyDashboard')
       }
     const onNext = () => {
         
       }
     const step1Content = <h1></h1>
-    // const step2Content = <PageTwo title={'Saving Emergency Page1'}/>;
-    // const step2Content = <PageTwo formData={formData} setFormData={setFormData}/>;
-    // const step3Content = <PageThree formData={formData} setFormData={setFormData}/>;
-    // const step4Content = <PageFour formData={formData} setFormData={setFormData}/>;
-    // const step5Content = <PageFive formData={formData} setFormData={setFormData}/>;
     const step2Content = <PageTwo {...{formData, setFormData}} />;
     const step3Content = <PageThree {...{formData, setFormData}} />;
     const step4Content = <PageFour {...{formData, setFormData}} />;

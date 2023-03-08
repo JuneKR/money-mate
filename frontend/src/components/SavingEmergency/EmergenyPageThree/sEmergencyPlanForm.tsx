@@ -10,7 +10,11 @@ interface SEmergencyPlanFormProps {
 }
 
 const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) => {
-    const router = useRouter()
+  const router = useRouter()
+  const handleEmergencyInvestmanet = () => {
+    router.push('/EmergencyPages/emergencyInvestmentPortfolioPackage')
+  }
+  
     const marks = [
       {
         value: 1,
@@ -55,7 +59,7 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
     <div className="py-20">
       <div style={{ width: "100%", height: "100%",padding: "0 4rem"  }} className="rounded bg-gray-50 dark:bg-gray-800">
                 <div style={{width: "100%", height: "50%",backgroundColor: '#E5F8FF'}} className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                    <div className="grid grid-cols-2 text-black font-bold">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 text-black font-bold">
                         <div className="text-blue-800 hover:text-blue-900 p-4">เป้าหมาย</div>
                         <div className="text-blue-800 hover:text-blue-900 p-4">ออมเงินเผื่อฉุกเฉิน</div>
                         <div className="p-4">คุณต้องมีเงินฉุกเฉิน</div>
@@ -74,8 +78,8 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                 
                <form action="">
                   <div style={{width: "100%", height: "100%"}} className="gap-20 mb-3 grid grid-cols-2 block w-full px-3 py-7 text-sm placeholder-gray-500">
-                    <div style={{backgroundColor: '#E5F8FF', height: "100%" ,padding: "0 4rem"}} className="grid grids-rows-4 border border-gray-300 rounded-md h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <div className="text-black rounded py-2 font-bold ">
+                    <div style={{backgroundColor: '#E5F8FF',padding: "0 4rem"}} className="w-full h-full grid grid-cols-1 border border-gray-300 rounded bg-gray-50 dark:bg-gray-800">
+                        <div className="text-black rounded py-2 font-bold ">                                    
                           <h1>ความเสี่ยงที่คุณสามารถรับได้</h1>
                         </div>
                       <div style={{width: "100%", height: "100%"}}>
@@ -105,7 +109,7 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                             onChange={(e:React.ChangeEvent<HTMLInputElement>) => setFormData((prevState) => ({...prevState,mExpense: e.target.value,}))}
                             placeholder="15,000"
                             style={{ width: "100%", height: "50px" }}
-                            className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
+                            className="block w-full px-3 py-2 text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
                           />
                           <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
                             ข้อมูลไม่ถูกต้อง
@@ -135,8 +139,12 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                     </div>
                   </div>
                </form>
+               <div className="flex justify-end py-5">
+                        <button onClick={handleEmergencyInvestmanet} style={{ width: "209px"}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
+                                สร้างแผนการลงทุน
+                        </button>
+                </div>
             </div>
-
     </div>
   );
 };

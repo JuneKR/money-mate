@@ -1,6 +1,7 @@
 import InvestmentPortfolio from "../../models/portfolio management/investment portfolio/investmentPortfolioModel";
 import PortfolioItem from "../../models/portfolio management/investment portfolio/portfolioItemModel";
 import MutualFund from "../../models/portfolio management/mutualFundModel";
+import InvestmentTransaction from "../../models/portfolio management/investmentTransactionModel";
 import { Request, Response } from "express";
 
 
@@ -237,4 +238,135 @@ export const editInvestmentPortfolioAllocationByPortfolioId = async(req: Request
 
 /* Calculator Funciton */
 export const calculateInvestmentROI = async(req: Request, res: Response) => {
+}
+
+/* Investment Transaction */
+export const addInvestmentTransaction = async(req: Request, res: Response) => {
+
+    try {
+        const { transaction_date, amount, type } = req.body;
+
+        /* Check Investment Portfolio */
+        const investmentPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Portfolio_ID: req.params.id
+            }
+        })
+        if(!investmentPortfolio) {
+            return res.status(404).json({msg: "Investment Portfolio not found"});
+        }
+
+        /* recalculated of investment portfolio total value */
+        let totalValue: number = 0;
+        if (type === 'deposit') {
+            /*
+                ...
+            */
+            await InvestmentPortfolio.update({
+                TotalValue: totalValue
+            }, {
+                where: {
+                    Portfolio_ID: req.params.id
+                } 
+            })    
+        }
+        else if (type === 'withdrawal') {
+            /*
+                ...
+            */
+            await InvestmentPortfolio.update({
+                TotalValue: totalValue
+            }, {
+                where: {
+                    Portfolio_ID: req.params.id
+                } 
+            })  
+        }
+        else {
+            return res.status(404).json({msg: `Transaction type error with ${type}`});
+        }
+        
+        /* Create Investment Transaction */ 
+        await InvestmentTransaction.create({
+            TransactionDate: transaction_date,
+            Amount: amount,
+            Type: type,
+            Portfolio_ID: investmentPortfolio.Package_ID
+        });
+
+        res.status(201).json({msg: "Investment transaction history is recorded"});
+    } catch (error: any) {
+        res.status(400).json({msg: error.message});
+    }
+}
+
+/* get all investment transactions history */
+export const getAllInvestmentTransactionsByPortfolioId = async(req: Request, res: Response) => {
+
+    try {
+
+        const investmentPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Portfolio_ID: req.params.id
+            }
+        });
+        if(!investmentPortfolio) {
+            return res.status(404).json({msg: "Investment Portfolio not found! Pls create the investment portfolio first"});
+        }
+
+        /* Check Investment Transaction: */
+        const investmentTransaction = await InvestmentTransaction.findOne({
+            where: {
+                Portfolio_ID: req.params.id
+            }
+        });
+        if(!investmentTransaction) {
+            return res.status(404).json({msg: `Investment transaction not found with portfolio id: ${req.params.id}`});
+        }
+
+        /* Find Investment Transaction by Portfolio ID */
+        const response = await InvestmentTransaction.findAll({
+            attributes:[
+                'TransactionDate',
+                'Amount',
+                'Type'
+            ],
+            where: {
+                Portfolio_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+export const getInvestmentTransactionById = async(req: Request, res: Response) => {
+
+    try {
+
+        /* Check Investment Transaction */
+        const investmentTransaction = await InvestmentTransaction.findOne({
+            where: {
+                Transaction_ID: req.params.id
+            }
+        });
+        if(!investmentTransaction) {
+            return res.status(404).json({msg: "Investment transaction not found"});
+        }
+    
+        const response = await InvestmentTransaction.findOne({
+            attributes:[
+                'TransactionDate',
+                'Amount',
+                'Type'
+            ],
+            where: {
+                Transaction_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
 }

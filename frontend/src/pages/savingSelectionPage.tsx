@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
-import Navbar from '@/components/Navbar'
 import Body from '@/components/savingSelectionPageButtons'
 
 const SavingSelectionPage = () => {

@@ -30,7 +30,7 @@ const EmergencyDashBoardModalForm: React.FC<EmergencyDashBoardModalForm1Props> =
       <div >
         <Button onClick={handleOpen} className='w-full h-full'>
             
-            <div className='grid grid-cols-1 md:grid-cols-2 w-full h-full' style={{width: "100%"}}>
+            <div className='grid grid-cols-1 md:grid-cols-2 w-full h-full'>
                 <div className='text-left  text-black font-bold'>
                     <h1 className='px-2'>เป้าหมายการออมเงิน</h1>
                 </div>
@@ -66,7 +66,7 @@ const EmergencyDashBoardModalForm: React.FC<EmergencyDashBoardModalForm1Props> =
                             // onChange={(e:React.ChangeEvent<HTMLInputElement>) => setFormData((prevState) => ({...prevState,mExpense: e.target.value,}))}
                             placeholder="15,000"
                             style={{ width: "100%", height: "50px" }}
-                            className="block text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
+                            className="block text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
                           />
                         </div>
                         <div className='flex items-center justify-center text-black font-bold'>
@@ -78,7 +78,7 @@ const EmergencyDashBoardModalForm: React.FC<EmergencyDashBoardModalForm1Props> =
                             // onChange={(e:React.ChangeEvent<HTMLInputElement>) => setFormData((prevState) => ({...prevState,mExpense: e.target.value,}))}
                             placeholder="15,000"
                             style={{ width: "100%", height: "50px" }}
-                            className="block text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
+                            className="block text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
                           />
                         </div>
                     </div>    

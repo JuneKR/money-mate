@@ -48,9 +48,9 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     <div>เงินปัจจุบัน</div>
                                 </div>
                                 <div>
-                                    <input placeholder="15,000" type="text" className="w-full mb-4 px-4 rounded" />
-                                    <input placeholder="1,000" type="text" className="w-full mb-4 px-4 rounded" />
-                                    <input placeholder="0" type="text" className="w-full px-4 rounded" />
+                                    <input placeholder="15,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                                    <input placeholder="1,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                                    <input placeholder="0" type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     id="#"
                                     placeholder="8 ปี 9 เดือน"
                                     style={{ width: "100%", height: "50px"}}
-                                    className="block w-full text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                                    className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                     />
                             </label>
                             </div>
@@ -84,9 +84,9 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     <div>เงินปัจจุบัน</div>
                                 </div>
                                 <div>
-                                    <input placeholder="15,000" type="text" className="w-full mb-4 px-4 rounded" />
-                                    <input placeholder="1,000" type="text" className="w-full mb-4 px-4 rounded" />
-                                    <input placeholder="0" type="text" className="w-full px-4 rounded" />
+                                    <input placeholder="15,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                                    <input placeholder="1,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                                    <input placeholder="0" type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     id="#"
                                     placeholder="8 ปี 9 เดือน"
                                     style={{ width: "100%", height: "50px"}}
-                                    className="block w-full text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                                    className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                     />
                             </label>
                             </div>
@@ -120,9 +120,9 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     <div>เงินปัจจุบัน</div>
                                 </div>
                                 <div>
-                                    <input placeholder="15,000" type="text" className="w-full mb-4 px-4 rounded" />
-                                    <input placeholder="1,000" type="text" className="w-full mb-4 px-4 rounded" />
-                                    <input placeholder="0" type="text" className="w-full px-4 rounded" />
+                                    <input placeholder="15,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                                    <input placeholder="1,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                                    <input placeholder="0" type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     id="#"
                                     placeholder="8 ปี 9 เดือน"
                                     style={{ width: "100%", height: "50px"}}
-                                    className="block w-full text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                                    className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                     />
                             </label>
                             </div>

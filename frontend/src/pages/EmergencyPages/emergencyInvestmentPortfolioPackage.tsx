@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState,useMemo } from 'react';
 import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
 import { useRouter } from 'next/router'
 
 const EmergencyInvestmentPortfolioPackage = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    function toggleColumn() {
+        setIsOpen(!isOpen);
+      }
     const router = useRouter()
     const handleCheckboxChange = (isChecked: boolean) => {
         // Do something with the new checkbox state
@@ -15,6 +19,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
       const handlesEmergencyPlanForm = () => {
         router.push('/EmergencyPages/emergencyHomepage')
       }
+      
 
     return(
         <>

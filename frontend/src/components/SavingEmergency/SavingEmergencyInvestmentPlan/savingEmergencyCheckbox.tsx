@@ -2,6 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 import Pie1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolio1'
 import DropDown1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownMenu'
+import Hiding1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn1'
+import Hiding2 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn2'
+import Hiding3 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn3'
+
 interface SavingEmergencyCheckboxProps  {
   title: string;
   label: string;
@@ -17,6 +21,8 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({ title
         setIsChecked(newChecked);
         onChange(newChecked);
       };
+    const [isExpanded, setIsExpanded] = useState(false);
+    const toggleExpansion = () => setIsExpanded(!isExpanded);
     return (
         <div style={{ width: "100%", height: "100%", backgroundColor: '#E5F8FF'}} className="text-black relative px-4 py-4 flex items-center h-24 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
             <div className=' w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
@@ -25,7 +31,12 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({ title
                     <Pie1 title={'my pie1'}/>
                 </div>
                 <div className='flex justify-center item-center boder border-blue-500'>
-                    <DropDown1 title={''} data={[]}/>
+                    <div>
+                    <Hiding1 title={''}/>
+                    <Hiding2 title={''}/>
+                    <Hiding3 title={''}/>
+                    </div>
+                    
                 </div>
                 <div>
                     <input

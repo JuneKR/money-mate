@@ -27,6 +27,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PersonIcon from '@mui/icons-material/Person';
 
+import { useRouter } from 'next/router'
 const drawerWidth = 240;
 
 
@@ -111,12 +112,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
   const Sidebar: React.FC<SidebarProps> = ({ title }) => {
-   const theme = useTheme();
-   const [open, setOpen] = React.useState(false);
-   const handleDrawerOpen = () => {
-      setOpen(true);
+    const router = useRouter();
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+    const handleDrawerOpen = () => {
+        setOpen(true);
     };
-  
+    const handleEmergencyHomePage = () => {
+      router.push('/EmergencyPages/emergencyDashboard')
+    }
     const handleDrawerClose = () => {
       setOpen(false);
     };
@@ -160,7 +164,38 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
-              >
+                onClick={() => {
+                  switch (index) {
+                    case 0:
+                      router.push('/');
+                      break;
+                    case 1:
+                      router.push('/');
+                      break;
+                    case 2:
+                      router.push('/EmergencyPages/emergencyHomepage');
+                      break;
+                    case 3:
+                      router.push('/EmergencyPages/emergencyHomepage');
+                      break;
+                    case 4:
+                      router.push('/EmergencyPages/emergencyHomepage');
+                      break;
+                    case 5:
+                      router.push('/EmergencyPages/emergencyHomepage');
+                      break;
+                    case 6:
+                      router.push('/EmergencyPages/emergencyHomepage');
+                      break;
+                    case 7:
+                      router.push('/EmergencyPages/emergencyHomepage');
+                      break;
+                    // Add more cases for each button
+                    default:
+                      break;
+                  }
+                }}
+                >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,

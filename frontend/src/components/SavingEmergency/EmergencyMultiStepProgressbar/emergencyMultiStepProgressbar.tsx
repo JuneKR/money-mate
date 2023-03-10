@@ -2,10 +2,9 @@ import { useRouter } from 'next/router'
 import { useState } from "react";
 import StepProgressBar from 'react-step-progress';
 import "react-step-progress/dist/index.css";
-import PageTwo from '@/components/SavingEmergency/EmergenyPageOne/emergencyGoalForm'
-import PageThree from '@/components/SavingEmergency/EmergenyPageTwo/cEmergencyPlanForm'
-import PageFour from '@/components/SavingEmergency/EmergenyPageThree/sEmergencyPlanForm'
-import PageFive from '@/components/SavingEmergency/EmergenyPageFour/emergencyResultForm'
+import PageOne from '@/components/SavingEmergency/EmergenyPageOne/emergencyGoalForm'
+import PageTwo from '@/components/SavingEmergency/EmergenyPageTwo/cEmergencyPlanForm'
+import PageThree from '@/components/SavingEmergency/EmergenyPageThree/sEmergencyPlanForm'
 
 interface EmergencyMultiStepProgressbarProps  {
   title: string;
@@ -37,7 +36,7 @@ export interface FormDataprops extends Formprops{
 const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps> = ({ title,step2Validator,step3Validator,step4Validator}) => {
   const router = useRouter()
   const [formData, setFormData] = useState<CompleteFormstate>({
-    mExpense: ""|| "10000",
+    mExpense: ""|| "12345",
     months: ""|| "6",
     mDeposit: "" || "5000",
     cBalance: ""|| "0",
@@ -52,12 +51,11 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
         
       }
     const step1Content = <h1></h1>
-    const step2Content = <PageTwo {...{formData, setFormData}} />;
-    const step3Content = <PageThree {...{formData, setFormData}} />;
-    const step4Content = <PageFour {...{formData, setFormData}} />;
-    const step5Content = <PageFive {...{formData, setFormData}} />;
+    const step2Content = <PageOne {...{formData, setFormData}} />;
+    const step3Content = <PageTwo {...{formData, setFormData}} />;
+    const step4Content = <PageThree {...{formData, setFormData}} />;
 
-    
+
       
     return (
         <div style={{ width: "100%", height: "100%"}} className='text-black'>
@@ -69,10 +67,12 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
           
           // finishBtnName="เสร็จสิ้น"
           steps={[
+            
             {
               label: "เลือกเป้าหมาย",
               name: "step 1",
-              content: step1Content
+              content: step1Content,
+              
               
             },
             {
@@ -92,11 +92,6 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
               name: "Step 4",
               content: step4Content,
               validator: step4Validator2
-            },
-            {
-              label: "ตรวจสอบแผน",
-              name: "Step 5",
-              content: step5Content
             }
           ]}
           

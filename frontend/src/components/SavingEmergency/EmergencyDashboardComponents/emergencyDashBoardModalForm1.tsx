@@ -25,7 +25,9 @@ const EmergencyDashBoardModalForm: React.FC<EmergencyDashBoardModalForm1Props> =
     const handleOpen = useCallback(() => {
         setOpen(true);
       }, []);
-    
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    };
     return (
       <div >
         <Button onClick={handleOpen} className='w-full h-full'>
@@ -52,51 +54,37 @@ const EmergencyDashBoardModalForm: React.FC<EmergencyDashBoardModalForm1Props> =
           >   
               <Box sx={style}>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                <div className='grid grid-rows-2' style={{width: "100%"}}>
-                    <div className='text-left py-2 text-black font-bold'>
-                        <h1 className='px-2'>เป้าหมายการออมเงิน</h1>
-                    </div>
-                    <div className='grid grid-cols-1 md:grid-cols-2 '>
-                        <div className='flex items-center justify-center text-black font-bold'>
-                            100,000
-                            <input
-                            type="string"
-                            id=""
-                            // value={formData.mExpense}
-                            // onChange={(e:React.ChangeEvent<HTMLInputElement>) => setFormData((prevState) => ({...prevState,mExpense: e.target.value,}))}
-                            placeholder="15,000"
-                            style={{ width: "100%", height: "50px" }}
-                            className="block text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
-                          />
-                        </div>
-                        <div className='flex items-center justify-center text-black font-bold'>
-                            5 ปี
-                            <input
-                            type="string"
-                            id=""
-                            // value={formData.mExpense}
-                            // onChange={(e:React.ChangeEvent<HTMLInputElement>) => setFormData((prevState) => ({...prevState,mExpense: e.target.value,}))}
-                            placeholder="15,000"
-                            style={{ width: "100%", height: "50px" }}
-                            className="block text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer" 
-                          />
-                        </div>
-                    </div>    
-                </div>
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  <div className='text-black'>
-                    <form action="">
-                      <div className="flex justify-end grid grid-cols-1 md:grid-cols-2">
-                        
-                        <div>
-                          <button  style={{ width: "209px", backgroundColor: '#FEF5AC'}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
-                                    ยืนยัน
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+                <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                          <div className="mb-4">
+                              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first-name-input">
+                                เป้าหมายการออมเงิน
+                              </label>
+                              <input
+                              className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                              id="first-name-input"
+                              type="text"
+                              // value={months}
+                              // onChange={handleMonthsChange}
+                              />
+                          </div>
+                          <div className="mb-4">
+                              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first-name-input">
+                                จำนวนปี
+                              </label>
+                              <input
+                              className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                              id="first-name-input"
+                              type="text"
+                              // value={months}
+                              // onChange={handleMonthsChange}
+                              />
+                          </div>
+                          <div className="flex items-center justify-end">
+                              <button style={{ width: "209px"}} onClick={handleClose} className="bg-yellow-100 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                              ยืนยัน
+                              </button>
+                          </div>
+                  </form>
               </Typography>
               </Box>
           </Modal>

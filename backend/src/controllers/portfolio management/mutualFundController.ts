@@ -60,7 +60,7 @@ export const getMutualFundByFundId = async(req: Request, res: Response) => {
             return res.status(404).json({msg: `Mutual Fund id: ${req.params.id} not found!`});
         }
 
-        const response = await MutualFund.findAll({
+        const response = await MutualFund.findOne({
             attributes:[
                 'LastUpdate',
                 'FundName',

@@ -11,6 +11,7 @@ import savingEmergencyPlanRoute from './routes/savingEmergencyPlanRoute';
 import goalBasedSavingPlanRoute from './routes/goalBasedSavingPlanRoute';
 import savingRetirementPlanRoute from './routes/savingRetirementPlanRoute';
 import portfolioPackageRoute from './routes/portfolio management/portfolioPackageRoute';
+import mutualFundRoute from "./routes/portfolio management/mutualFundRoute";
 
 /* Associations */
 import setAssociations from './associations';
@@ -67,6 +68,7 @@ app.use(savingEmergencyPlanRoute);
 app.use(goalBasedSavingPlanRoute);
 app.use(savingRetirementPlanRoute);
 app.use(portfolioPackageRoute);
+app.use(mutualFundRoute);
 
 const PORT = process.env.PORT || 8080;
 

@@ -14,5 +14,6 @@ router.patch('/mutual/fund/:id', editMutualFundInfo);
 
 /* Package */
 router.get('/portfolio/package/:id/funds', getAllMutualFundByPackageId);
+// get all mutual fund by portfolio id
 
 export default router;

@@ -10,7 +10,7 @@ import userRoute from './routes/userRoute';
 import savingEmergencyPlanRoute from './routes/savingEmergencyPlanRoute';
 import goalBasedSavingPlanRoute from './routes/goalBasedSavingPlanRoute';
 import savingRetirementPlanRoute from './routes/savingRetirementPlanRoute';
-import portfolioPackageRoute from './routes/Portfolio Management/portfolioPackageRoute';
+import portfolioPackageRoute from './routes/portfolio management/portfolioPackageRoute';
 
 /* Associations */
 import setAssociations from './associations';

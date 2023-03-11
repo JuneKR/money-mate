@@ -10,7 +10,7 @@ import User from './models/userModel';
 /* Junction Table */
 /* Portfolio Package */
 import PortfolioPackage from './models/portfolio management/portfolioPackageModel';
-import PackageItem from './models/portfolio management/PackageItem';
+import PackageItem from './models/portfolio management/packageItem';
 import MutualFund from './models/portfolio management/mutualFundModel';
 
 /* Portfolio Package */

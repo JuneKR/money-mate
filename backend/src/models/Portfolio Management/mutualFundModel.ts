@@ -4,7 +4,7 @@ import db from '../../config/database';
 interface FundAttributes {
     Fund_ID: number;   
     FundName: string;
-    FundSymbol: string;
+    FundSymbol: string; 
     FundType: string;
     LastUpdate: Date;
     CostBasis: number;
@@ -12,6 +12,7 @@ interface FundAttributes {
     ReturnRate: number;
     ExpenseRatio: number;
     Description: string;
+    // Risk Spectrum
 }
 
 interface FundCreationAttributes

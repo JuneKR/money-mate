@@ -22,7 +22,7 @@ interface PackageInstance
       updatedAt?: Date;
     }
 
-const PortfolioPackage = db.define<PackageInstance>('PackagePortfolio', {
+const PortfolioPackage = db.define<PackageInstance>('PortfolioPackage', {
     Package_ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,

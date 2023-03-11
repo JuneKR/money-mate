@@ -1,5 +1,5 @@
 import PortfolioPackage from "../../models/portfolio management/portfolioPackageModel";
-import PackageItem from "../../models/portfolio management/PackageItem";
+import PackageItem from "../../models/portfolio management/packageItem";
 import { Request, Response } from "express";
 
 /* Portfolio Package */

@@ -80,7 +80,7 @@ const MutualFund = db.define<FundInstance>('MutualFund', {
         allowNull: true,
         validate: {
             notEmpty: false,
-            len: [3, 10]
+            len: [1, 10]
         }
     },
     SpecDesc: {
@@ -88,7 +88,7 @@ const MutualFund = db.define<FundInstance>('MutualFund', {
         allowNull: true,
         validate: {
             notEmpty: false,
-            len: [3, 20]
+            len: [1, 20]
         }
     },
     NAV: {

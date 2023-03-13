@@ -9,7 +9,7 @@ interface PackageItemAttributes {
 }
 
 interface PackageItemCreationAttributes
-    extends Optional<PackageItemAttributes, 'Package_ID'>{}
+    extends Optional<PackageItemAttributes, 'PackageItem_ID'>{}
 
 interface PackageItemInstance
     extends Model<PackageItemAttributes, PackageItemCreationAttributes>,

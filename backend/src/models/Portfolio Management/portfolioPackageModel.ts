@@ -6,9 +6,9 @@ interface PackageAttributes {
     PackageName: string;
     LastUpdate: Date;
     // StartDate: Date;
-    RiskLevel: number;
+    RiskSpectrum: number;
     InvestmentType: string;
-    EstimatedReturnRate: number;
+    ReturnRate: number;   
 }
 
 interface PackageCreationAttributes
@@ -44,7 +44,7 @@ const PortfolioPackage = db.define<PackageInstance>('PortfolioPackage', {
             notEmpty: true
         }
     },
-    RiskLevel: {
+    RiskSpectrum: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
@@ -59,15 +59,13 @@ const PortfolioPackage = db.define<PackageInstance>('PortfolioPackage', {
             len: [3, 50]
         }
     },
-    EstimatedReturnRate: {
+    ReturnRate: {
         type: DataTypes.FLOAT,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        allowNull: true,
     },
 }, {
     freezeTableName: true
 })
+
 
 export default PortfolioPackage;

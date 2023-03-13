@@ -10,18 +10,18 @@ export const createPortfolioPackage = async(req: Request, res: Response) => {
         {   
             package_name,
             last_update,
-            risk_level,
+            risk_spectrum,
             investment_type,
-            estimated_return_rate,
+            return_rate,
         } = req.body;
 
         await PortfolioPackage.create({ 
             Package_ID: package_name,
             PackageName: last_update,
             LastUpdate: last_update,
-            RiskLevel: risk_level,
+            RiskSpectrum: risk_spectrum,
             InvestmentType: investment_type,
-            EstimatedReturnRate: estimated_return_rate
+            ReturnRate: return_rate
         });
         res.status(201).json({msg: "Successful Create new portfolio package"});
     } catch (error: any) {
@@ -45,9 +45,9 @@ export const getAllPortfolioPackages = async(req: Request, res: Response) => {
                 'Package_ID',
                 'PackageName',
                 'LastUpdate',
-                'RiskLevel',
+                'RiskSpectrum',
                 'InvestmentType',
-                'EstimatedReturnRate'
+                'ReturnRate'
             ]
         });
         res.status(200).json(response);
@@ -74,9 +74,9 @@ export const getPortfolioPackageById = async(req: Request, res: Response) => {
             attributes:[
                 'PackageName',
                 'LastUpdate',
-                'RiskLevel',
+                'RiskSpectrum',
                 'InvestmentType',
-                'EstimatedReturnRate'
+                'ReturnRate'
             ],
             where: {
                 Package_ID: req.params.id,
@@ -106,18 +106,18 @@ export const editPortfolioPackageInfo = async(req: Request, res: Response) => {
         const {   
             package_name,
             last_update,
-            risk_level,
+            risk_spectrum,
             investment_type,
-            estimated_return_rate,
+            return_rate,
         } = req.body;
 
         await PortfolioPackage.update({
             Package_ID: package_name,
             PackageName: last_update,
             LastUpdate: last_update,
-            RiskLevel: risk_level,
+            RiskSpectrum: risk_spectrum,
             InvestmentType: investment_type,
-            EstimatedReturnRate: estimated_return_rate
+            ReturnRate: return_rate
         }, {
             where:{
                 Package_ID: req.params.id

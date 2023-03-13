@@ -1,3 +1,5 @@
+import { Sequelize } from 'sequelize'
+
 /* Models */
 import SavingEmergencyPlan from './models/savingEmergencyPlanModel';
 import EmergencyTransaction from './models/emergencyTransactionModel';
@@ -17,9 +19,10 @@ import MutualFund from './models/portfolio management/mutualFundModel';
 import InvestmentPortfolio from './models/portfolio management/investment portfolio/investmentPortfolioModel';
 import PortfolioItem from './models/portfolio management/investment portfolio/portfolioItemModel';
 
-const setAssociations = function () {
+/* Model Association */
 
-    /* Model Association */
+export const setupAssociations = (sequelize: Sequelize) => {
+
     /* User has one emergency plan */ 
     User.hasOne(SavingEmergencyPlan, {
         foreignKey: {
@@ -86,44 +89,40 @@ const setAssociations = function () {
 
     /* Portfolio Package Item */
     /* Package Item */
-    PackageItem.belongsTo(PortfolioPackage, {
-        foreignKey: 'Package_ID', targetKey: 'Package_ID'
-    })
-    PackageItem.belongsTo(MutualFund, {
-        foreignKey: 'Fund_ID', targetKey: 'Fund_ID'
-    })
+    // PackageItem.belongsTo(PortfolioPackage, {
+    //     foreignKey: 'Package_ID', targetKey: 'Package_ID'
+    // })
+    // PackageItem.belongsTo(MutualFund, {
+    //     foreignKey: 'Fund_ID', targetKey: 'Fund_ID'
+    // })
 
     PortfolioPackage.belongsToMany(MutualFund, {
+        through: 'PackageItem',
         foreignKey: 'Package_ID',
-        through: PackageItem
     })
 
     MutualFund.belongsToMany(PortfolioPackage, {
-        foreignKey: { 
-            name: 'Fund_ID'
-        }, through: PackageItem
+        through: 'PackageItem',
+        foreignKey: 'Fund_ID',
     })
 
     /* Portfolio Item */
-    PortfolioItem.belongsTo(InvestmentPortfolio, {
-        foreignKey: 'Portfolio_ID', targetKey: 'Portfolio_ID'
-    })
-    PortfolioItem.belongsTo(MutualFund, {
-        foreignKey: 'Fund_ID', targetKey: 'Fund_ID'
-    })
+    // PortfolioItem.belongsTo(InvestmentPortfolio, {
+    //     foreignKey: 'Portfolio_ID', targetKey: 'Portfolio_ID'
+    // })
+    // PortfolioItem.belongsTo(MutualFund, {
+    //     foreignKey: 'Fund_ID', targetKey: 'Fund_ID'
+    // })
 
-    InvestmentPortfolio.belongsToMany(MutualFund, {
-        foreignKey: 'Portfolio_ID',
-        through: PortfolioItem
-    })
+    // InvestmentPortfolio.belongsToMany(MutualFund, {
+    //     foreignKey: 'Portfolio_ID',
+    //     through: PortfolioItem
+    // })
 
-    MutualFund.belongsToMany(InvestmentPortfolio, {
-        foreignKey: { 
-            name: 'Fund_ID'
-        }, through: PortfolioItem
-    })
-
+    // MutualFund.belongsToMany(InvestmentPortfolio, {
+    //     foreignKey: { 
+    //         name: 'Fund_ID'
+    //     }, through: PortfolioItem
+    // })
 }
-
-export default setAssociations;
 /* ------ */

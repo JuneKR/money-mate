@@ -14,7 +14,7 @@ import portfolioPackageRoute from './routes/portfolio management/portfolioPackag
 import mutualFundRoute from "./routes/portfolio management/mutualFundRoute";
 
 /* Associations */
-import setAssociations from './associations';
+import { setupAssociations } from './associations';
 
 config();
 
@@ -29,6 +29,8 @@ const store = new sessionStore({
 /* Run MySQL Code! */ 
 (async ()=> {
     await db.sync();
+    // Pass the Sequlize object to setup the association
+    setupAssociations(db);
 })();
 
 const SECRET = process.env.SESS_SECRET
@@ -55,9 +57,6 @@ app.use(cors({
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('Hello, World!')
 })
-
-/* Set Model Associations */
-setAssociations();
 
 /* Destructure property of req.body */
 app.use(express.json());

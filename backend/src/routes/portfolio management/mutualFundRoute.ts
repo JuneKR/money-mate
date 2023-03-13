@@ -1,6 +1,7 @@
 import express from "express";
 import {
     createMutualFund,
+    getAllMutualFunds,
     getMutualFundByFundId,
     editMutualFundInfo,
     getAllMutualFundByPackageId
@@ -10,6 +11,7 @@ const router = express.Router();
 
 router.post('/mutual/fund', createMutualFund);
 router.get('/mutual/fund/:id', getMutualFundByFundId);
+router.get('/mutual/funds', getAllMutualFunds);
 router.patch('/mutual/fund/:id', editMutualFundInfo);
 
 /* Package */

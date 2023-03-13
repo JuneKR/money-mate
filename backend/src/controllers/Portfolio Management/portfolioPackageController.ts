@@ -16,8 +16,7 @@ export const createPortfolioPackage = async(req: Request, res: Response) => {
         } = req.body;
 
         await PortfolioPackage.create({ 
-            Package_ID: package_name,
-            PackageName: last_update,
+            PackageName: package_name,
             LastUpdate: last_update,
             RiskSpectrum: risk_spectrum,
             InvestmentType: investment_type,
@@ -35,7 +34,7 @@ export const getAllPortfolioPackages = async(req: Request, res: Response) => {
     try {
         const portfolioPackage = await PortfolioPackage.findOne();
 
-        /* Check Plan */
+        /* Check Portfolio Package */
         if(!portfolioPackage) {
             return res.status(404).json({msg: 'Portfolio package not found'});
         }

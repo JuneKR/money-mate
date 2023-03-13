@@ -29,7 +29,7 @@ const PackageItem = db.define<PackageItemInstance>('PackageItem', {
         type: DataTypes.INTEGER,
         primaryKey: false,
         references: {
-            model: 'PackagePortfolio',
+            model: 'PortfolioPackage',
             key: 'Package_ID'
         }
     },

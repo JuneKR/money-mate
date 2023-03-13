@@ -1,8 +1,35 @@
+import { Request, Response } from "express";
 import PortfolioPackage from "../../models/portfolio management/portfolioPackageModel";
 import PackageItem from "../../models/portfolio management/packageItem";
-import { Request, Response } from "express";
+import MutualFund from "../../models/portfolio management/mutualFundModel";
 
 /* Portfolio Package */
+export const createPortfolioPackage = async(req: Request, res: Response) => {
+    try {
+        const 
+        {   
+            package_name,
+            last_update,
+            risk_level,
+            investment_type,
+            estimated_return_rate,
+        } = req.body;
+
+        await PortfolioPackage.create({ 
+            Package_ID: package_name,
+            PackageName: last_update,
+            LastUpdate: last_update,
+            RiskLevel: risk_level,
+            InvestmentType: investment_type,
+            EstimatedReturnRate: estimated_return_rate
+        });
+        res.status(201).json({msg: "Successful Create new portfolio package"});
+    } catch (error: any) {
+        res.status(400).json({msg: error.message});
+    }
+}
+
+
 export const getAllPortfolioPackages = async(req: Request, res: Response) => {
     
     try {
@@ -161,3 +188,35 @@ export const editPortfolioPackageAllocationByPackageId = async(req: Request, res
         return res.status(400).json({msg: error.message});
     }
 }
+
+/* Add Mutual Fund */
+export const addMutualFundToPackage = async(req: Request, res: Response) => {
+    try {
+        const 
+        {   
+            package_id,
+            fund_id,
+            allocation_ratio,
+        } = req.body;
+
+        const portfolioPackage = await PortfolioPackage.findByPk(package_id);
+        if (!portfolioPackage) {
+            return res.status(404).json({msg: `Portfolio Package with id ${package_id} not found`});
+        }
+
+        const mutualFund = await MutualFund.findByPk(fund_id);
+        if (!mutualFund) {
+            return res.status(404).json({msg: `Mutual Fund with id ${fund_id} not found`});
+        }
+        
+        await PackageItem.create({
+            Package_ID: package_id,
+            Fund_ID: fund_id,
+            AllocationRatio: allocation_ratio
+        });
+        res.status(201).json({msg: "Successful Create new portfolio package"});
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+}
+/* Calculate Return Rate from Mutual Fund Allocation Ratio */

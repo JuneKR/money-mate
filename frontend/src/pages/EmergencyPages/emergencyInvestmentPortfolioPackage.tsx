@@ -32,13 +32,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
                </p>
             </div>
             <div className='bg-gray-50'>
-                <div className='py-5 px-4' >
-                <InvestmentCheckBox label="My checkbox label" checked={false} onChange={handleCheckboxChange} title={'InvestmentCheckBox'}/>
-                </div>
-                <div className='py-5 px-4'>
-                <InvestmentCheckBox label="My checkbox label" checked={false} onChange={handleCheckboxChange} title={'InvestmentCheckBox'}/>
-                </div>
-                <div className='py-5 px-4'>
+                <div className='px-4' >
                 <InvestmentCheckBox label="My checkbox label" checked={false} onChange={handleCheckboxChange} title={'InvestmentCheckBox'}/>
                 </div>
             </div>

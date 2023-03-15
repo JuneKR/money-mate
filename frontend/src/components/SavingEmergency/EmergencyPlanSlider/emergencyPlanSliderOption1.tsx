@@ -5,10 +5,11 @@ import Box from '@mui/material/Box';
 import "react-step-progress/dist/index.css";
 interface EmergencyPlanSliderOption1Props  {
   title: string;
+  months: string;
 }
 
 
-const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({ title}) => {
+const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({ title, months}) => {
   const marks = [
     {
       value: 3,
@@ -57,6 +58,7 @@ const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({
   function valueLabelFormat(value: number) {
     return marks.findIndex((mark) => mark.value === value) + 1;
   }
+  const currentval = Number(months);
     return (
         <div style={{ width: "100%"}} className='text-black'>
             {/* <ReactSlider
@@ -70,7 +72,7 @@ const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({
             <Box sx={{ width: "100%" }}>
               <Slider
                 aria-label="Temperature"
-                defaultValue={3}
+                defaultValue={currentval}
                 getAriaValueText={valuetext}
                 valueLabelFormat={valueLabelFormat}
                 valueLabelDisplay="auto"

@@ -17,6 +17,9 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
     const handleClick = () => {
         setIsHidden(!isHidden);
     };
+    const handleCheckboxChange = () => {
+      setIsHidden(!isHidden);
+    };
   const router = useRouter()
   const handleEmergencyInvestmanet = () => {
     router.push('/EmergencyPages/emergencyInvestmentPortfolioPackage')
@@ -71,14 +74,12 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                         <div className="text-blue-800 hover:text-blue-900 p-4">ออมเงินเผื่อฉุกเฉิน</div>
                         <div className="p-4">คุณต้องมีเงินฉุกเฉิน</div>
                         <div className="p-4">100,000</div>
-                        <div className="p-4"> จำนวนเดือนที่ต้องการเก็บ</div>
-                        <div className="p-4">6</div>
                         <div className="p-4">ระยะเวลาในการออม</div>
                         <div className="p-4">5 ปี</div>
-                        <div className="p-4">ระดับความเสี่ยง</div>
-                        <div className="p-4">2 ปี</div>
-                        <div className="p-4">ผลตอบแทนที่คาดหวัง</div>
-                        <div className="p-4">4%</div>
+                        <div className="p-4">จำนวนเดือนที่ต้องการเก็บ</div>
+                        <div className="p-4">6 เดือน</div>
+                        <div className="p-4">เงินเก็บต่อเดือน</div>
+                        <div className="p-4">5000 บาท</div>
                     </div>    
                 </div>
                     
@@ -89,13 +90,35 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                     onClick={handleClick}
                     >
                     <span  style={{backgroundColor: '#B2E8FF'}} className="text-black rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold">คุณต้องการเพิ่มผลตอบแทนด้วยการลงทุนไหม?</span>
-                    {isHidden ? <ExpandMoreIcon className="text-lg font-bold" /> : <KeyboardArrowUpIcon className="text-lg font-bold" />}
+                    {/* {isHidden ? <ExpandMoreIcon className="text-lg font-bold" /> : <KeyboardArrowUpIcon className="text-lg font-bold" />} */}
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={!isHidden}
+                        onChange={handleCheckboxChange}
+                        className="form-checkbox h-5 w-5 text-gray-600 ml-2"
+                      />
+                    </label>
                     </div>
                     {!isHidden && (
-                    <div>
+                    <div className="py-5">
+                        <div style={{backgroundColor: '#E5F8FF'}} className=" w-full h-full grid grid-cols-2 px-3 py-3">
+                          <div className="font-bold">
+                            <p>ระดับความเสี่ยง</p>
+                          </div>
+                          <div className="flex item-center justify-center">
+                            <input placeholder="6" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                          </div>
+                          <div className="font-bold">
+                            <p>ผลตอบแทนที่คาดหวัง</p>
+                          </div>
+                          <div className="flex item-center justify-center">
+                            <input placeholder="7 %" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
+                          </div>
+                        </div>
                         <form action="">
-                          <div className="flex flex-col items-center justify-center  w-full h-full gap-20 mb-3 grid grid-cols-2 block px-3 py-7 text-sm placeholder-gray-500">
-                            <div style={{backgroundColor: '#E5F8FF'}} className="min-w-64 w-full max-w-md mx-auto px-4 py-6 border border-gray-300 rounded bg-gray-50 dark:bg-gray-800 md:p-8">
+                          <div className="flex flex-col items-center justify-center  w-full h-full gap-20 mb-3 block px-3 py-7 text-sm placeholder-gray-500">
+                            <div style={{backgroundColor: '#E5F8FF'}} className="min-w-64 w-full h-full  px-4 py-6 border border-gray-300 rounded bg-gray-50 dark:bg-gray-800 md:p-8">
                               <div className="text-black rounded py-2 font-bold">
                                 <h1 className="text-center md:text-left">ความเสี่ยงที่คุณสามารถรับได้</h1>
                               </div>
@@ -131,20 +154,6 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                 />
                                 <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">ข้อมูลไม่ถูกต้อง</p>
                               </label>
-                            </div>
-
-                            <div className="border border-gray-300 sm:flex sm:flex-row sm:flex-wrap sm:justify-center w-full h-full" style={{backgroundColor: '#E5F8FF'}}>
-                              <div className="sm:w-auto w-full sm:mr-2 flex items-center justify-center h-24 grid grid-rows-2">
-                                <div className="flex items-center justify-center h-24">ระดับความเสี่ยงของคุณ</div>
-                                <div className="flex items-center justify-center h-24">4%</div>
-                              </div>
-                              <div className="sm:w-auto w-full sm:mx-2 flex items-center justify-center h-24">
-                                เส้นกั้น
-                              </div>
-                              <div className="sm:w-auto w-full sm:ml-2 flex items-center justify-center h-24 grid grid-rows-2">
-                                <div className="flex items-center justify-center h-24">ผลตอบแทนที่คาดหวัง</div>
-                                <div className="flex items-center justify-center h-24">5%</div>
-                              </div>
                             </div>
                           </div>
                           <div className="text-black rounded bg-gray-50 dark:bg-gray-800 py-6 font-bold">

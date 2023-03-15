@@ -50,17 +50,16 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
     const onNext = () => {
         
       }
-    const step1Content = <h1></h1>
-    const step2Content = <PageOne {...{formData, setFormData}} />;
-    const step3Content = <PageTwo {...{formData, setFormData}} />;
-    const step4Content = <PageThree {...{formData, setFormData}} />;
+    const step1Content = <PageOne {...{formData, setFormData}} />;
+    const step2Content = <PageTwo {...{formData, setFormData}} />;
+    const step3Content = <PageThree {...{formData, setFormData}} />;
 
 
       
     return (
         <div style={{ width: "100%", height: "100%"}} className='text-black'>
           <StepProgressBar
-          startingStep={1}
+          startingStep={0}
           onSubmit={onFormSubmit}
           previousBtnName="ย้อนกลับ"
           nextBtnName="ถัดไป"
@@ -82,16 +81,10 @@ const EmergencyMultiStepProgressbar: React.FC<EmergencyMultiStepProgressbarProps
               validator: step2Validator2
             },
             {
-              label: "ปรับเป้าหมาย",
+              label: "ตรวจสอบและเลือกแผนของคุณ",
               name: "step 3",
               content: step3Content,
               validator: step3Validator2
-            },
-            {
-              label: "เลือกแผน",
-              name: "Step 4",
-              content: step4Content,
-              validator: step4Validator2
             }
           ]}
           

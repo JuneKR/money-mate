@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Progress } from "@material-tailwind/react";
+import { Progress, ProgressProps } from '@material-tailwind/react';
 interface Progress1Props {
     title: string;
 }

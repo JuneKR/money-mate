@@ -137,7 +137,6 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
         total_balance,
         time_remaining,
         interest_rate,
-        monthly_expense,
         progression
     } = req.body;
 
@@ -156,7 +155,6 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
             Progression: progression,
         }, {
             where:{
-                // id: user.id
                 Goal_ID: req.params.id
             }
         });

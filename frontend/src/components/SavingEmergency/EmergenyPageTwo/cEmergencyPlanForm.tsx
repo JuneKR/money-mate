@@ -196,7 +196,7 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     />
                                </div>
                                 <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    <Slider3 title="my slidebar3"/>
+                                    <Slider1 title="my slidebar1" months={"3"}/>
                                 </div>
                                 <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
                                     <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
@@ -242,7 +242,7 @@ const CEmergencyPlanForm: React.FC<FormDataprops> = ({formData, setFormData}) =>
                                     />
                                 </div>
                                 <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    <Slider3 title="my slidebar3"/>
+                                    <Slider1 title="my slidebar1" months={"9"}/>
                                 </div>
                                 <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
                                     <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">

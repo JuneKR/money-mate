@@ -10,6 +10,10 @@ const LandingPage = () => {
     const handleSavingSelectionPage = () => {
         router.push('/savingSelectionPage')
     }
+    const handleLandingPageDetails = () => {
+        router.push('/landingPageDetails')
+    }
+    
     return(
         <>
     <main className={styles.main}>
@@ -28,7 +32,7 @@ const LandingPage = () => {
                             <p>Progression ความคืบหน้าของการออมเงินทั้งหมดของคุณ</p>
                         </div>
                         <div className='flex item-center justify-end border-b-2 border-gray-500 py-3'>
-                            <a className='text-black hover:text-gray-800'>ดูข้อมูลเพิ่มเติม &gt;</a>
+                            <a  onClick={handleLandingPageDetails} className='cursor-pointer text-black hover:text-blue-800'>ดูข้อมูลเพิ่มเติม &gt;</a>
                         </div>
                     </div>
                     <div className='grid grid-cols-3 text-black py-3'>
@@ -75,7 +79,7 @@ const LandingPage = () => {
                             <p>พอร์ตการลงทุนเผื่อฉุกเฉิน</p>
                         </div>
                         <div className='flex item-center justify-end border-b-2 border-gray-500 py-3'>
-                            <a className='text-black hover:text-gray-800'>ดูข้อมูลเพิ่มเติม &gt;</a>
+                            <a  onClick={handleLandingPageDetails} className='cursor-pointer text-black hover:text-blue-800'>ดูข้อมูลเพิ่มเติม &gt;</a>
                         </div>
                     </div>
                 </div>

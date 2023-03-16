@@ -40,9 +40,44 @@ export const createMutualFund = async(req: Request, res: Response) => {
             fiveYearReturns: five_year_returns,
             YTDReturns: ytd_returns,
         });
+
         res.status(201).json({msg: "Successful Create new mutual fund"});
     } catch (error: any) {
         res.status(400).json({msg: error.message});
+    }
+}
+
+export const getAllMutualFunds = async(req: Request, res: Response) => {
+    
+    try {
+        const mutualFund = await MutualFund.findOne();
+
+        /* Check Mutual Fund */
+        if(!mutualFund) {
+            return res.status(404).json({msg: 'Mutual fund not found'});
+        }
+
+        const response = await MutualFund.findAll({
+            attributes:[
+                'LastUpdate',
+                'FundName',
+                'FundAbbrName',
+                'RiskSpectrum',
+                'PolicyDesc',
+                'SpecCode',
+                'SpecDesc',
+                'NAV',
+                'MinimumInvestmentAmount',
+                'MinimumAdditionalAmount',
+                'oneYearReturns',
+                'threeYearReturns',
+                'fiveYearReturns',
+                'YTDReturns',
+            ]
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
     }
 }
 
@@ -160,8 +195,6 @@ export const getAllMutualFundByPackageId = async(req: Request, res: Response) =>
         if(!packageItem) {
             return res.status(404).json({msg: `Mutual Fund with Portfolio ID: ${req.params.id} not found!`});
         }
-        //get package item by package id -> list of mutual fund id
-        //get mutual fund info by fund id -> loop through get all fund
 
         const response = await PackageItem.findAll({
             attributes:[

@@ -6,7 +6,8 @@ import {
     editPortfolioPackageInfo,
     getAllPortfolioPackageAllocationByPackageId,
     editPortfolioPackageAllocationByPackageId,
-    addMutualFundToPackage
+    addMutualFundToPackage,
+    calculatePortfolioPackageReturns
 } from '../../controllers/portfolio management/portfolioPackageController';
 
 const router = express.Router();
@@ -21,5 +22,6 @@ router.patch('/portfolio/package/:id/allocations', editPortfolioPackageAllocatio
 
 /* Add New Mutual Fund to Package */
 router.post('/portfolio/package/fund', addMutualFundToPackage);
+router.patch('/portfolio/package/:id/calculate-returns', calculatePortfolioPackageReturns);
 
 export default router;

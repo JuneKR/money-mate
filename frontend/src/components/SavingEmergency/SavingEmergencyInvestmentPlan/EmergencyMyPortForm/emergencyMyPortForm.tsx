@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import DropDown from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownMenu"
 interface FormValues {
   name: string;
   email: string;
@@ -35,7 +35,7 @@ const EmergencyMyPortForm = () => {
         <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
           ประเภทกองทุนรวม
         </label>
-        <input 
+        {/* <input 
           className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="name"
           type="text"
@@ -43,13 +43,14 @@ const EmergencyMyPortForm = () => {
           name="name"
           value={formValues.name}
           onChange={handleChange}
-        />
+        /> */}
+        <DropDown title={""} data={[]}/>
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
           สินทรัพย์ที่ลงทุน
         </label>
-        <input
+        {/* <input
           className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="email"
           type="email"
@@ -57,30 +58,32 @@ const EmergencyMyPortForm = () => {
           name="email"
           value={formValues.email}
           onChange={handleChange}
-        />
+        /> */}
+        <DropDown title={""} data={[]}/>
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2" htmlFor="message">
           จำนวนเงิน
         </label>
-        <textarea
+        {/* <textarea
           className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="message"
           placeholder="1000"
           name="message"
           value={formValues.message}
           onChange={handleChange}
-        ></textarea>
+        ></textarea> */}
+        <DropDown title={""} data={[]}/>
       </div>
       <div className="flex items-center justify-end">
         <div className="flex justify-end py-2">
                 <div className="py-5">
                      <button style={{ width: "209px",marginRight: "10px", backgroundColor: '#B2E8FF'}}className="px-4 py-2 font-bold text-black rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
-                              เพิ่ม
+                              ซื้อหน่วยลงทุน
                      </button>
                      
                      <button style={{ width: "209px", marginLeft: "10px", backgroundColor: '#FF8C73'}}className="px-4 py-2 font-bold text-black rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" type="button">
-                              ลบ
+                              ขายหน่วยลงทุน
                      </button>
                   </div>
             </div>

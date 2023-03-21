@@ -1,3 +1,4 @@
+
 .main {
   display: flex;
   flex-direction: column;
@@ -5,8 +6,10 @@
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  resize: both;
+  min-width: 800px;
+  background-color: #E5F8FF;
 }
-
 .description {
   display: inherit;
   justify-content: inherit;
@@ -265,6 +268,12 @@
   .logo,
   .thirteen img {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
+  }
+}
+
+@media (max-width: 640px) {
+  .block {
+    width: 100%;
   }
 }
 

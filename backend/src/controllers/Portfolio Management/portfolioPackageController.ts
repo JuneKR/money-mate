@@ -158,32 +158,36 @@ export const getAllPortfolioPackageAllocationByPackageId = async(req: Request, r
 }
 
 // Change mutual fund allocation in portfolio package
+// Unfished 
 export const editPortfolioPackageAllocationByPackageId = async(req: Request, res: Response) => {
     try {
-        // Find PackageItem with Portfolio Package ID
-        const packageItem = await PackageItem.findOne({
-            where: {
-                Package_ID: req.params.id
-            }
-        });
+        const mutualFunds = req.body;
+        
+        for (const mutualFund of mutualFunds) {
+            
+            // Find PackageItem with Portfolio Package ID
+            const packageItem = await PackageItem.findOne({
+                where: {
+                    Package_ID: req.params.id,
+                    Fund_ID: mutualFund.fund_id
+                }
+            });
 
-        /* Check Plan */
-        if(!packageItem) {
-            return res.status(404).json({msg: `Package item with Portfolio id ${req.params.id} not found`});
+            /* Check Plan */
+            if(!packageItem) {
+                return res.status(404).json({msg: `Package item with Portfolio id ${req.params.id}, and Fund id ${mutualFund.fund_id} not found`});
+            }
+
+            await PackageItem.update({
+                AllocationRatio: mutualFund.allocation_ratio
+            }, {
+                where:{
+                    Package_ID: req.params.id,
+                    Fund_ID: mutualFund.fund_id
+                }
+            });
         }
-
-        const {   
-            allocation_ratio
-        } = req.body;
-
-        await PackageItem.update({
-            AllocationRatio: allocation_ratio
-        }, {
-            where:{
-                Package_ID: req.params.id
-            }
-        });
-        res.status(200).json({msg: `Package Item Updated Successfully with Portfolio Package id: ${req.params.id}, `})
+        res.status(200).json({msg: `Package Item Updated Successfully`})
     } catch (error: any) {
         return res.status(400).json({msg: error.message});
     }
@@ -266,7 +270,7 @@ export const calculatePortfolioPackageReturns = async(req: Request, res: Respons
                 totalMutualFundReturn += (mutualFundReturns / 100) * mutualFundAllocation;
             }
         }
-
+        totalMutualFundReturn = Math.round( totalMutualFundReturn * 100 + Number.EPSILON ) / 100
         // update portfolio package return rate
         await PortfolioPackage.update({
             ReturnRate: totalMutualFundReturn
@@ -275,7 +279,41 @@ export const calculatePortfolioPackageReturns = async(req: Request, res: Respons
                 Package_ID: req.params.id
             }
         });
-        res.status(201).json({msg: "Successful calculate portfolio package returns"});
+        res.status(201).json({msg: `Successful calculate portfolio package with returns: ${totalMutualFundReturn}`});
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+/* Find Package By Return Rate */
+export const findAllPackagesIdByReturnRate = async(req: Request, res: Response) => {
+    try {
+        const portfolioPackage = await PortfolioPackage.findOne();
+        const 
+        {   
+            return_rate,
+        } = req.body;
+
+
+        /* Check Portfolio Package */
+        if(!portfolioPackage) {
+            return res.status(404).json({msg: 'Portfolio package not found'});
+        }
+        // Find All Portfolio Package
+        const portfolioPacakges = await PortfolioPackage.findAll({
+            attributes:[
+                'Package_ID',
+                'PackageName',
+                'LastUpdate',
+                'RiskSpectrum',
+                'InvestmentType',
+                'ReturnRate'
+            ]
+        });
+        // Filter Portfolio Package by Return Rate
+        const packages = portfolioPacakges.filter(portPackage => portPackage.ReturnRate >= return_rate && portPackage.ReturnRate < return_rate+1);
+
+        res.status(200).json(packages);
     } catch (error: any) {
         res.status(500).json({msg: error.message});
     }

@@ -7,11 +7,13 @@ interface PortfolioAttributes {
     TotalValue: number;
     LastUpdate: Date;
     StartDate: Date;
-    RiskLevel: number;
-    EstimatedReturnRate: number;
-    ROI: number;
+    RiskSpectrum: number;
+    ReturnRate: number;
     User_ID: number;
     Package_ID:number;
+    Emergency_ID: number;
+    Goal_ID: number;
+    Retirement_ID: number;
 }
 
 interface PortfolioCreationAttributes
@@ -61,21 +63,14 @@ const InvestmentPortfolio = db.define<PortfolioInstance>('InvestmentPortfolio', 
             notEmpty: true
         }
     },
-    RiskLevel: {
+    RiskSpectrum: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
             notEmpty: true
         }
     },
-    EstimatedReturnRate: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    ROI: {
+    ReturnRate: {
         type: DataTypes.FLOAT,
         allowNull: false,
         validate: {
@@ -87,6 +82,18 @@ const InvestmentPortfolio = db.define<PortfolioInstance>('InvestmentPortfolio', 
         allowNull: false,
     },
     Package_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    Emergency_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    Goal_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    Retirement_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },

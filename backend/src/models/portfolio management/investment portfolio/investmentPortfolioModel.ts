@@ -9,7 +9,7 @@ interface PortfolioAttributes {
     StartDate: Date;
     RiskSpectrum: number;
     ReturnRate: number;
-    // User_ID: number;
+    User_ID: number;
     Package_ID:number;
     Emergency_ID: number;
     Goal_ID: number;
@@ -77,10 +77,10 @@ const InvestmentPortfolio = db.define<PortfolioInstance>('InvestmentPortfolio', 
             notEmpty: true
         }
     },
-    // User_ID: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    // },
+    User_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     Package_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,

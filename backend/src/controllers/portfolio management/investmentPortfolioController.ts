@@ -3,6 +3,9 @@ import PortfolioItem from "../../models/portfolio management/investment portfoli
 import MutualFund from "../../models/portfolio management/mutualFundModel";
 import InvestmentTransaction from "../../models/portfolio management/investmentTransactionModel";
 import { Request, Response } from "express";
+import SavingRetirementPlan from "../../models/savingRetirementPlanModel";
+import SavingEmergencyPlan from "../../models/savingEmergencyPlanModel";
+import GoalBasedSavingPlan from "../../models/goalBasedSavingPlanModel";
 
 
 /* Investment Portfolio */
@@ -13,11 +16,13 @@ export const createInvestmentPortfolio = async(req: Request, res: Response) => {
         total_value,
         last_update,
         start_date,
-        risk_level,
-        estimated_return_rate,
-        roi,
-        user_id,
-        package_id
+        risk_spectrum,
+        return_rate,
+        // user_id,
+        package_id,
+        emergency_id,
+        goal_id,
+        retirement_id,
     } = req.body;
     try {
 
@@ -26,11 +31,13 @@ export const createInvestmentPortfolio = async(req: Request, res: Response) => {
             TotalValue:total_value,
             LastUpdate: last_update,
             StartDate: start_date,
-            RiskLevel: risk_level,
-            EstimatedReturnRate: estimated_return_rate,
-            ROI: roi,
-            User_ID: user_id,
+            RiskSpectrum: risk_spectrum,
+            ReturnRate: return_rate,
+            // User_ID: user_id,
             Package_ID: package_id,
+            Emergency_ID: emergency_id,
+            Goal_ID: goal_id,
+            Retirement_ID: retirement_id
         });
         res.status(201).json({msg: "Successful Create new investment portfolio"});
     } catch (error: any) {
@@ -41,28 +48,56 @@ export const createInvestmentPortfolio = async(req: Request, res: Response) => {
 export const getAllInvestmentPortfolioByUserId = async(req: Request, res: Response) => {
     
     try {
-        const investmentPortfolio = await InvestmentPortfolio.findOne();
-
-        /* Check Plan */
-        if(!investmentPortfolio) {
-            return res.status(404).json({msg: 'Invesment portfolio not found'});
-        }
-
-        const response = await InvestmentPortfolio.findAll({
-            attributes:[
-                'PortfolioName',
-                'TotalValue:total_value',
-                'LastUpdate',
-                'StartDate',
-                'RiskLevel',
-                'EstimatedReturnRate',
-                'ROI',
-                'Package_ID',
-            ],
+        const savingRetirement = await SavingRetirementPlan.findOne({
             where: {
                 User_ID: req.params.id,
             }
-        });
+        })
+
+        const savingEmergency = await SavingEmergencyPlan.findOne({
+            where: {
+                User_ID: req.params.id,
+            }
+        })
+
+        const goalBasedSaving = await GoalBasedSavingPlan.findOne({
+            where: {
+                User_ID: req.params.id,
+            }
+        })
+
+        /* Check Saving Plan */
+        if(!savingRetirement && !savingEmergency && !goalBasedSaving) {
+            return res.status(404).json({msg: 'User must create the saving plan first!'});
+        }
+
+        const retirementPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Retirement_ID: savingRetirement?.Retirement_ID,
+            }
+        })
+
+        const emergencyPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Emergency_ID: savingEmergency?.Emergency_ID,
+            }
+        })
+
+        const goalBasedPortfolio = await InvestmentPortfolio.findAll({
+            where: {
+                Goal_ID: goalBasedSaving?.Goal_ID,
+            }
+        })
+
+        if(!retirementPortfolio && !emergencyPortfolio && !goalBasedPortfolio) {
+            return res.status(404).json({msg: 'Investment portfolio not found'});
+        }
+
+        const response = [
+            retirementPortfolio,
+            emergencyPortfolio,
+            goalBasedPortfolio
+        ]
         res.status(200).json(response);
     } catch (error: any) {
         res.status(500).json({msg: error.message});
@@ -89,9 +124,8 @@ export const getInvestmentPortfolioById = async(req: Request, res: Response) => 
                 'TotalValue',
                 'LastUpdate',
                 'StartDate',
-                'RiskLevel',
-                'EstimatedReturnRate',
-                'ROI',
+                'RiskSpectrum',
+                'ReturnRate',
                 'Package_ID'
             ],
             where: {
@@ -124,10 +158,13 @@ export const editInvestmentPortfolio = async(req: Request, res: Response) => {
             total_value,
             last_update,
             start_date,
-            risk_level,
-            estimated_return_rate,
-            roi,
-            package_id
+            risk_spectrum,
+            return_rate,
+            // user_id,
+            package_id,
+            emergency_id,
+            goal_id,
+            retirement_id,
         } = req.body;
 
         await InvestmentPortfolio.update({
@@ -135,10 +172,13 @@ export const editInvestmentPortfolio = async(req: Request, res: Response) => {
             TotalValue:total_value,
             LastUpdate: last_update,
             StartDate: start_date,
-            RiskLevel: risk_level,
-            EstimatedReturnRate: estimated_return_rate,
-            ROI: roi,
+            RiskSpectrum: risk_spectrum,
+            ReturnRate: return_rate,
+            // User_ID: user_id,
             Package_ID: package_id,
+            Emergency_ID: emergency_id,
+            Goal_ID: goal_id,
+            Retirement_ID: retirement_id
         }, {
             where:{
                 Portfolio_ID: req.params.id

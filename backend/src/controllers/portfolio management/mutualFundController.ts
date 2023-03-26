@@ -182,43 +182,5 @@ export const editMutualFundInfo = async(req: Request, res: Response) => {
 }
 
 /* Portfolio Package */
-//Unifinished
 export const getAllMutualFundByPackageId = async(req: Request, res: Response) => {
-    try {
-        const packageItem = await PackageItem.findOne({
-            where: {
-                Package_ID: req.params.id
-            }
-        });
-
-        /* Check Mutual Fund in Package Item with Portfolio ID */
-        if(!packageItem) {
-            return res.status(404).json({msg: `Mutual Fund with Portfolio ID: ${req.params.id} not found!`});
-        }
-
-        const response = await PackageItem.findAll({
-            attributes:[
-                'LastUpdate',
-                'FundName',
-                'FundAbbrName',
-                'RiskSpectrum',
-                'PolicyDesc',
-                'SpecCode',
-                'SpecDesc',
-                'NAV',
-                'MinimumInvestmentAmount',
-                'MinimumAdditionalAmount',
-                'oneYearReturns',
-                'threeYearReturns',
-                'fiveYearReturns',
-                'YTDReturns',
-            ],
-            where: {
-                Package_ID: req.params.id
-            }
-        });
-        res.status(200).json(response);
-    } catch (error: any) {
-        res.status(500).json({msg: error.message});
-    }
 }

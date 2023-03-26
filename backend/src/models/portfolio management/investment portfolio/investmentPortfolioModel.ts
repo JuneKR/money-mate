@@ -87,15 +87,21 @@ const InvestmentPortfolio = db.define<PortfolioInstance>('InvestmentPortfolio', 
     },
     Emergency_ID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     Goal_ID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     Retirement_ID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
 }, {
     freezeTableName: true

@@ -4,6 +4,8 @@ import db from '../../config/database';
 interface TransactionAttributes {
     Transaction_ID: number;
     TransactionDate: Date;
+    PolicyDesc: string;
+    FundAbbrName: string;
     Amount: number;
     Type: string;
     Portfolio_ID: number;
@@ -32,6 +34,14 @@ const InvestmentTransaction = db.define<TransactionInstance>('InvestmentTransact
         validate: {
             notEmpty: true
         }
+    },
+    PolicyDesc: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    FundAbbrName: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     Amount: {
         type: DataTypes.FLOAT,

@@ -10,15 +10,12 @@ import userRoute from './routes/userRoute';
 import savingEmergencyPlanRoute from './routes/savingEmergencyPlanRoute';
 import goalBasedSavingPlanRoute from './routes/goalBasedSavingPlanRoute';
 import savingRetirementPlanRoute from './routes/savingRetirementPlanRoute';
+import portfolioPackageRoute from './routes/portfolio management/portfolioPackageRoute';
+import mutualFundRoute from "./routes/portfolio management/mutualFundRoute";
+import investmentPortfolioRoute from "./routes/portfolio management/investmentPortfolioRoute";
 
-/* Models */
-import SavingEmergencyPlan from './models/savingEmergencyPlanModel';
-import EmergencyTransaction from './models/emergencyTransactionModel';
-import GoalBasedSavingPlan from './models/goalBasedSavingPlanModel';
-import GoalBasedTransaction from './models/goalBasedTransactionModel';
-import SavingRetirementPlan from './models/savingRetirementPlanModel';
-import RetirementTransaction from './models/retirementTransactionModel';
-import User from './models/userModel';
+/* Associations */
+import { setupAssociations } from './associations';
 
 config();
 
@@ -33,6 +30,8 @@ const store = new sessionStore({
 /* Run MySQL Code! */ 
 (async ()=> {
     await db.sync();
+    // Pass the Sequlize object to setup the association
+    setupAssociations(db);
 })();
 
 const SECRET = process.env.SESS_SECRET
@@ -60,77 +59,17 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('Hello, World!')
 })
 
-/* Model Association */
-/* User has one emergency plan */ 
-User.hasOne(SavingEmergencyPlan, {
-    foreignKey: {
-        name: 'User_ID'
-    }
-})
-
-SavingEmergencyPlan.belongsTo(User, {
-    foreignKey: 'User_ID'
-})
-
-User.hasMany(GoalBasedSavingPlan, {
-    foreignKey: {
-        name: 'User_ID'
-    }
-})
-
-GoalBasedSavingPlan.belongsTo(User, {
-    foreignKey: 'User_ID'
-})
-
-User.hasOne(SavingRetirementPlan, {
-    foreignKey: {
-        name: 'User_ID'
-    }
-})
-
-SavingRetirementPlan.belongsTo(User, {
-    foreignKey: 'User_ID'
-})
-
-/* Emergency Plan has many transaction */
-SavingEmergencyPlan.hasMany(EmergencyTransaction, {
-    foreignKey: { 
-        name: 'Emergency_ID'
-    }
-})
-
-EmergencyTransaction.belongsTo(SavingEmergencyPlan, {
-    foreignKey: 'Emergency_ID'
-});
-
-/* Goal-Based Plan has many transaction */
-GoalBasedSavingPlan.hasMany(GoalBasedTransaction, {
-    foreignKey: { 
-        name: 'Goal_ID'
-    }
-})
-
-GoalBasedTransaction.belongsTo(GoalBasedSavingPlan, {
-    foreignKey: 'Goal_ID'
-});
-
-/* Retirement Plan has many transaction */
-SavingRetirementPlan.hasMany(RetirementTransaction, {
-    foreignKey: { 
-        name: 'Retirement_ID'
-    }
-})
-
-RetirementTransaction.belongsTo(SavingRetirementPlan, {
-    foreignKey: 'Retirement_ID'
-});
-
-/* destructure property of req.body */
+/* Destructure property of req.body */
 app.use(express.json());
+
+/* Use Route */
 app.use(userRoute);
 app.use(savingEmergencyPlanRoute);
 app.use(goalBasedSavingPlanRoute);
 app.use(savingRetirementPlanRoute);
+app.use(portfolioPackageRoute);
+app.use(mutualFundRoute);
+app.use(investmentPortfolioRoute);
 
 const PORT = process.env.PORT || 8080;
 

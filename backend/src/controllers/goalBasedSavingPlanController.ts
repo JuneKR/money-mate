@@ -137,7 +137,6 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
         total_balance,
         time_remaining,
         interest_rate,
-        monthly_expense,
         progression
     } = req.body;
 
@@ -156,7 +155,6 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
             Progression: progression,
         }, {
             where:{
-                // id: user.id
                 Goal_ID: req.params.id
             }
         });
@@ -167,14 +165,14 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
 }
 
 export const deleteGoalBasedPlan = async(req: Request, res: Response) => {
-    const user = await GoalBasedSavingPlan.findOne({
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
         where: {
             Goal_ID: req.params.id
         }
     });
 
     /* Check User */
-    if(!user) {
+    if(!goalBasedPlan) {
         return res.status(404).json({msg: "Goal-Based Plan not found"});
     }
 

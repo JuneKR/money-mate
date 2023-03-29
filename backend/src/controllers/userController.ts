@@ -9,8 +9,8 @@ declare module "express-session" {
 }
 
 export const register = async(req: Request, res: Response) => {
-    const {first_name, last_name, date_of_birth, gender, risk_level, email, password, confPassword } = req.body;
-    if (password !== confPassword) {
+    const {first_name, last_name, date_of_birth, gender, risk_level, email, password, conf_password } = req.body;
+    if (password !== conf_password) {
         return res.status(400).json({msg: "Password and Confirm Password do not match"});
     }
     const hashPassword = await argon2.hash(password);

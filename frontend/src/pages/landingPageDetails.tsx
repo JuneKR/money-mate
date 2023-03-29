@@ -79,7 +79,7 @@ const LandingPageDetails = () => {
                                                 1
                                             </div>
                                             <div className='text-black flex item-center justify-center  py-3'>
-                                                <Progress title={''} progress={90} />
+                                                <Progress title={''} progress={"90"} />
                                             </div>
                                             <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                                 <div>
@@ -106,7 +106,7 @@ const LandingPageDetails = () => {
                                                 1
                                             </div>
                                             <div className='text-black flex item-center justify-center  py-3'>
-                                                <Progress title={''} progress={30} />
+                                                <Progress title={''} progress={"50"} />
                                             </div>
                                             <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                                 <div>
@@ -133,7 +133,7 @@ const LandingPageDetails = () => {
                                                 1
                                             </div>
                                             <div className='text-black flex item-center justify-center  py-3'>
-                                                <Progress title={''} progress={80} />
+                                                <Progress title={''} progress={"80"} />
                                             </div>
                                             <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                                 <div>
@@ -160,7 +160,7 @@ const LandingPageDetails = () => {
                                                 1
                                             </div>
                                             <div className='text-black flex item-center justify-center  py-3'>
-                                                <Progress title={''} progress={40} />
+                                                <Progress title={''} progress={"40"} />
                                             </div>
                                             <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                                 <div>
@@ -191,7 +191,7 @@ const LandingPageDetails = () => {
                                         1
                                     </div>
                                     <div className='text-black flex item-center justify-center  py-3'>
-                                        <Progress title={''} progress={100} />
+                                        <Progress title={''} progress={"100"} />
                                     </div>
                                     <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                         <div>
@@ -218,7 +218,7 @@ const LandingPageDetails = () => {
                                         1
                                     </div>
                                     <div className='text-black flex item-center justify-center  py-3'>
-                                        <Progress title={''} progress={100} />
+                                        <Progress title={''} progress={"100"} />
                                     </div>
                                     <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                         <div>
@@ -245,7 +245,7 @@ const LandingPageDetails = () => {
                                         1
                                     </div>
                                     <div className='text-black flex item-center justify-center  py-3'>
-                                        <Progress title={''} progress={100} />
+                                        <Progress title={''} progress={"100"} />
                                     </div>
                                     <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                         <div>
@@ -272,7 +272,7 @@ const LandingPageDetails = () => {
                                         1
                                     </div>
                                     <div className='text-black flex item-center justify-center  py-3'>
-                                        <Progress title={''} progress={100} />
+                                        <Progress title={''} progress={"100"} />
                                     </div>
                                     <div className=' text-black flex item-center justify-end py-3 font-bold' >
                                         <div>

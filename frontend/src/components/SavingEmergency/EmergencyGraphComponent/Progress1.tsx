@@ -10,13 +10,9 @@ const Progress1: React.FC<Progress1Props> = (props) => {
     
     return (
       <div className='w-full h-full'>
-            <Progress 
-            value={progress} 
-            color="yellow" 
-            label="Completed" 
-            style={{width: "100%", height: 50}}
-            className="bg-gray-200"
-            />
+            <div className="w-full bg-gray-200 rounded h-10 mb-4 dark:bg-gray-700">
+                <div className="h-10 rounded dark:bg-gray-300" style={{width: progress, backgroundColor: "#FEF5AC"}}></div>
+            </div>
       </div>
     );
 };

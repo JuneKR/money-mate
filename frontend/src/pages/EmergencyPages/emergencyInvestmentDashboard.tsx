@@ -32,7 +32,7 @@ const EmergencyInvestmentDashboard = () => {
                </p>
             </div>
             <div style={{ padding: "0 1rem" }} className="w-full h-full text-black py-4 rounded  dark:bg-gray-800">
-               <div className='py-3'>
+            <div className='py-3'>
                     <div className='w-full h-full py-2 border border-gray-500 bg-gray-50 rounded'>
                         <ModleButtonForm1 title={''}/>
                     </div>

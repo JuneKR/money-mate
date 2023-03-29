@@ -29,8 +29,7 @@ const EmergencyInvestmentPortfilio = () => {
                 </p>
             </div>
             <div className='bg-white'>
-                <MyPortForm/>
-                <div className='grid grid-cols-2'>
+                <div className='grid grid-cols-2 pt-5'>
                     <div>
                         <Pie1 title={'my pie1'}/>
                     </div>
@@ -38,6 +37,8 @@ const EmergencyInvestmentPortfilio = () => {
                         ข้อมูลกองทุน
                     </div>
                 </div>
+                <MyPortForm/>
+                
             </div>
             
         

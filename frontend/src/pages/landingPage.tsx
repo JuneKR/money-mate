@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/router";
@@ -22,6 +22,33 @@ interface RowData {
   };
 }
 const LandingPage: React.FC<LandingPageProps> = ({}) => {
+  const [profile, setProfile] = useState({
+    User_ID: 0,
+    FirstName: '',
+    LastName: '',
+    DateOfBirth: '',
+    Gender: '',
+    RiskLevel: '',
+    Email: '',
+  })
+  const url = 'http://localhost:8080/'
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const response = await fetch(url+'user/profile', {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        setProfile(data);
+      } catch(error) {
+        console.log('Fetching Profile Error: ', error)
+      }
+    }
+    
+    fetchProfile();
+  }, [])
+
   const [displayData, setdisplayData] = useState<RowData[]>([]);
 
   function handleNewData(data: RowData) {
@@ -45,7 +72,10 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
     <>
       <main className={styles.main}>
         <div style={{ padding: "0 4rem" }} className="w-full h-full">
-          <Sidebar title="My Sidebar" />
+          <Sidebar 
+            title="My Sidebar" 
+            profile = { profile }
+          />
           <div
             style={{
               display: "flex",

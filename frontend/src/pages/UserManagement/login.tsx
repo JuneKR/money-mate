@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from '@/styles/Home.module.css'
 import Head from 'next/head';
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const router = useRouter();
+    
   const loginUser = async () => {
     try {
+        console.log('Called')
         const response = await fetch('http://localhost:8080/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password }),
+            credentials: 'include'
         })
         if (response.ok) {
             const data = await response.json();
-            // redirect to dashboard page
-            window.location.href = '/'
+            const { user_id, first_name, last_name, email } = data
+            console.log(data)
+            localStorage.setItem('user', JSON.stringify({ user_id, first_name, last_name, email }));
+            router.push('/');
         }
         else {
             const errorData = await response.json();
@@ -26,9 +32,9 @@ const LoginPage: React.FC = () => {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginUser();
+    await loginUser();
   }
 
   return (

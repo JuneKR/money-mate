@@ -9,6 +9,8 @@ import icon1 from "@/images/Icon/กระปุก2.png";
 import icon2 from "@/images/Icon/กระปุก3.png";
 import icon3 from "@/images/Icon/กระปุก5.png";
 
+
+
 interface LandingPageProps {
   index: number;
 }
@@ -44,7 +46,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   return (
     <>
       <main className={styles.main}>
-        <div style={{ padding: "0 4rem" }} className="w-full h-full">
+        <div style={{ padding: "0 4rem", }} className="w-full xl:w-8/12">
           <Sidebar title="My Sidebar" />
           <div
             style={{

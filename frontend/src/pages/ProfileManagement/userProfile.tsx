@@ -5,6 +5,7 @@ import InvestmentCheckBox from "@/components/SavingEmergency/SavingEmergencyInve
 import { useRouter } from "next/router";
 
 import Setting from '@/components/UserProfileComponents/setting'
+import Password from '@/components/UserProfileComponents/password'
 const UserProfile = () => {
   const [currentPage, setCurrentPage] = useState<"settings" | "password">(
     "settings"
@@ -19,13 +20,10 @@ const UserProfile = () => {
     setActiveButton(buttonNumber);
     setCurrentPage("password");
   };
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [isButtonClicked2, setIsButtonClicked2] = useState(false);
-
   return (
     <>
       <main className={styles.main}>
-        <div style={{ padding: "0 4rem" }} className="w-full h-full">
+        <div style={{ padding: "0 4rem" }} className=" xl:w-8/12">
           <Sidebar title="My Sidebar" />
           <div className="bg-gray-50">
             <div
@@ -43,15 +41,15 @@ const UserProfile = () => {
                 ตั้งค่า
               </p>
             </div>
-            <div className="pt-5">
+            <div className="pt-5 ">
               <div className="text-black px-5 ">
                 <button onClick={() => handleSettingsButtonClick(1)} className={`transition-all p-4 ${activeButton === 1 ? 'border-b-4 border-blue-800' : ''}`}>แก้ไขข้อมูลส่วนตัว</button>
                 <button onClick={() => handlePasswordChangeButtonClick(2)} className={`transition-all p-4 ${activeButton === 2 ? 'border-b-4  border-blue-800' : ''}`}>เปลี่ยนรหัสผ่าน</button>
               </div>
             </div>
-            <div>
+            <div className="flex item-center justify-center ">
               {currentPage === "settings" ? (
-                <div className="text-black ">
+                <div className="text-black">
                   <Setting user={{
                     fullName: "",
                     birthDate: "",
@@ -66,8 +64,7 @@ const UserProfile = () => {
                 </div>
               ) : (
                 <div className="text-black">
-                  <h2>Password Change Page</h2>
-                  {/* ... */}
+                  <Password title={""}/>
                 </div>
               )}
             </div>

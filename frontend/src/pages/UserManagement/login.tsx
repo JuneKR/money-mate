@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '@/styles/Home.module.css'
 import Head from 'next/head';
 const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginUser = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        })
+        if (response.ok) {
+            const data = await response.json();
+            // redirect to dashboard page
+            window.location.href = '/'
+        }
+        else {
+            const errorData = await response.json();
+            console.log(errorData);
+        }
+    } catch(error) {
+        console.error(error)
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    loginUser();
+  }
+
   return (
     
     <>
@@ -16,15 +45,25 @@ const LoginPage: React.FC = () => {
         <h1 className='text-black'>Login Page</h1>
             <div className="p-4 mx-12 bg-blue-100 border-2 rounded-lg hover:bg-blue-200 dark:border-gray-700">
                 <div className='flex items-center justify-center'>
-                    <form className="w-full max-w-sm">
+                    <form 
+                        className="w-full max-w-sm" 
+                        onSubmit={handleSubmit}
+                    >
                     <div className="mb-6 md:flex md:items-center">
                         <div className="md:w-1/3">
                         <label className="block pr-4 mb-1 font-bold text-gray-500 md:text-right md:mb-0" htmlFor="inline-full-name">
-                            Full Name
+                            Email
                         </label>
                         </div>
                         <div className="md:w-2/3">
-                        <input className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none hover:bg-gray-50 focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value="Jane Doe"/>
+                        <input 
+                            className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none hover:bg-gray-50 focus:outline-none focus:bg-white focus:border-purple-500" 
+                            id="inline-full-name" 
+                            type="text" 
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email"
+                        />
                         </div>
                     </div>
                     <div className="mb-6 md:flex md:items-center">
@@ -34,22 +73,23 @@ const LoginPage: React.FC = () => {
                         </label>
                         </div>
                         <div className="md:w-2/3">
-                        <input className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none hover:bg-gray-50 focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="password" placeholder="******************"/>
+                        <input 
+                            className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none hover:bg-gray-50 focus:outline-none focus:bg-white focus:border-purple-500"
+                            id="inline-password" 
+                            type="password" 
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="*****"
+                        />
                         </div>
-                    </div>
-                    <div className="mb-6 md:flex md:items-center">
-                        <div className="md:w-1/3"></div>
-                        <label className="block font-bold text-gray-500 md:w-2/3">
-                        <input className="mr-2 leading-tight" type="checkbox"/>
-                        <span className="text-sm">
-                            Send me your newsletter!
-                        </span>
-                        </label>
                     </div>
                     <div className="md:flex md:items-center">
                         <div className="md:w-1/3"></div>
                         <div className="md:w-2/3">
-                        <button className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" type="button">
+                        <button 
+                            className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" 
+                            type="submit"
+                        >
                             Sign In
                         </button>
                         </div>

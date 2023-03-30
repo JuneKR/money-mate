@@ -91,10 +91,22 @@ const openedMixin = (theme: Theme): CSSObject => ({
      }),
    }),
  }));
+
+ interface Profile {
+  User_ID: number;
+  FirstName: string;
+  LastName: string;
+  DateOfBirth: string;
+  Gender: string;
+  RiskLevel: string;
+  Email: string;
+}
+
 interface SidebarProps {
     title: string;
-    
+    profile: Profile
   }
+  
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
    ({ theme, open }) => ({
@@ -114,8 +126,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
    }),
 );
 
+  const Sidebar: React.FC<SidebarProps> = ({ title, profile }) => {
+    const { FirstName } = profile;
 
-  const Sidebar: React.FC<SidebarProps> = ({ title }) => {
     const router = useRouter();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -138,6 +151,37 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
       setAnchorEl(null);
       router.push('/ProfileManagement/userProfile');
     };
+
+
+    const urlClient = 'http://localhost:3000/'
+    const urlServer = 'http://localhost:8080/'
+    const logoutUser = async () => {
+      try {
+          console.log('Logout Called')
+          const response = await fetch(urlServer+'logout', {
+              method: 'DELETE',
+              credentials: 'include'
+          })
+          if (response.ok) {
+              // const data = await response.json();
+              // const { token } = data;
+              console.log('Logout successfully')
+              router.push(urlClient+'UserManagement/login');
+          }
+          else {
+              const errorData = await response.json();
+              console.log(errorData);
+          }
+      } catch(error) {
+          console.error(error)
+      }
+    }
+  
+    const handleLogout = async (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+      e.preventDefault();
+      await logoutUser();
+    }
+
     const handleMenuClose2 = () => {
       setAnchorEl(null);
       router.push('/EmergencyPages/emergencyHomepage');
@@ -161,7 +205,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Welcome Babu!
+              {`สวัสดี ${FirstName}`}
             </Typography>
             <IconButton
               size="large"
@@ -180,7 +224,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                   width={50}
                   height={50}
                 />
-              </Avatar>
+              </Avatar> 
             </IconButton>
             <Menu
               anchorEl={anchorEl}
@@ -197,7 +241,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               }}
             >
               <MenuItem onClick={handleMenuClose1}>Profile</MenuItem>
-              <MenuItem onClick={handleMenuClose2}>Log out</MenuItem>
+              <MenuItem onClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>) => handleLogout(e)}>Log out</MenuItem>
+              {/* <MenuItem onClick={handleLogout}>Log out</MenuItem> */}
             </Menu>
           </Toolbar>
       </AppBar>

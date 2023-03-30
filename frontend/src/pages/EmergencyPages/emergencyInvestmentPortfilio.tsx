@@ -21,7 +21,7 @@ const EmergencyInvestmentPortfilio = () => {
     return(
         <>
     <main className={styles.main}>
-        <div style={{ width: "100%", height: "100%",padding: "0 4rem"}} className=" ">
+        <div style={{padding: "0 4rem"}} className="w-full h-full">
             <Sidebar title="My Sidebar" />
             <div style={{backgroundColor: '#B2E8FF'}}className="flex justify-center py-2 rounded bg-gray-50 dark:bg-gray-800">
                 <p style={{ padding: "0 1rem"  }}className="font-bold text-2xl text-black dark:text-gray-500">

@@ -1,6 +1,10 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import Image from 'next/image';
+import icon1 from '@/images/Profile/img_pf_yk2.jpg'
+import {Menu, MenuItem, Avatar } from '@mui/material';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
@@ -118,34 +122,84 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     const handleDrawerOpen = () => {
         setOpen(true);
     };
-    const handleEmergencyHomePage = () => {
-      router.push('/EmergencyPages/emergencyDashboard')
-    }
     const handleDrawerClose = () => {
       setOpen(false);
+    };
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open2 = Boolean(anchorEl);
+
+    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+      setAnchorEl(null);
+    };
+    const handleMenuClose1 = () => {
+      setAnchorEl(null);
+      router.push('/ProfileManagement/userProfile');
+    };
+    const handleMenuClose2 = () => {
+      setAnchorEl(null);
+      router.push('/EmergencyPages/emergencyHomepage');
     };
     return (
       <div>
       <Box sx={{ display: 'flex'}}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} >
-        <Toolbar style={{backgroundColor: '#1C272D',}}>
-        <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-          <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Welcome Babu!
-          </Typography>
-        </Toolbar>
+        <AppBar position="fixed" open={open}>
+          <Toolbar style={{ backgroundColor: '#1C272D' }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Welcome Babu!
+            </Typography>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              onClick={handleMenuOpen}
+              color="inherit"
+              sx={{ marginLeft: 'auto' }}
+            >
+              {/* <Avatar alt="Profile Image" src='@.'/> */}
+              <Avatar>
+                <Image
+                  src={icon1}
+                  alt="Profile Image"
+                  width={50}
+                  height={50}
+                />
+              </Avatar>
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              keepMounted
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              open={open2}
+              onClose={handleMenuClose}
+              PaperProps={{
+                style: {
+                  width: '20ch',
+                  maxHeight: '40vh'
+                }
+              }}
+            >
+              <MenuItem onClick={handleMenuClose1}>Profile</MenuItem>
+              <MenuItem onClick={handleMenuClose2}>Log out</MenuItem>
+            </Menu>
+          </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open} >
         <DrawerHeader>
@@ -173,22 +227,22 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                       router.push('/');
                       break;
                     case 2:
-                      router.push('/EmergencyPages/emergencyHomepage');
+                      router.push('/EmergencyPages/emergencyDashboard');
                       break;
                     case 3:
-                      router.push('/EmergencyPages/emergencyHomepage');
+                      router.push('/');
                       break;
                     case 4:
-                      router.push('/EmergencyPages/emergencyHomepage');
+                      router.push('/');
                       break;
                     case 5:
-                      router.push('/EmergencyPages/emergencyHomepage');
+                      router.push('/EmergencyPages/emergencyInvestmentDashboard');
                       break;
                     case 6:
-                      router.push('/EmergencyPages/emergencyHomepage');
+                      router.push('/');
                       break;
                     case 7:
-                      router.push('/EmergencyPages/emergencyHomepage');
+                      router.push('/ProfileManagement/userProfile');
                       break;
                     // Add more cases for each button
                     default:

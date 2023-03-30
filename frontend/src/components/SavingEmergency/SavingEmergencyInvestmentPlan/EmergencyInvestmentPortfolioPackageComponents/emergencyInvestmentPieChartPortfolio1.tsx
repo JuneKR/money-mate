@@ -31,12 +31,11 @@ const EmergencyInvestmentPieChartPortfolio1: React.FC<EmergencyInvestmentPieChar
     };
     const options = {
       responsive: true,
-      maintainAspectRatio: false	// Don't maintain w/h ratio
+      maintainAspectRatio: true,	// Don't maintain w/h ratio
+      
     }
     return (
-      <div className=''>
       <div><Pie ref={chartRef} data={data} options={options}/></div>
-      </div>
     );
 };
 

@@ -31,9 +31,9 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
     };
     return (
       <div >
-        <Button onClick={handleOpen} className='w-full h-full'>
+        <Button onClick={handleOpen} className='w-full h-full shadow-2xl'>
             
-            <div className='w-full h-full '>
+            <div>
                 <div className='flex justify-end'>
                     <EditIcon/>
                 </div>

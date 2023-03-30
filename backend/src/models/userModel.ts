@@ -52,25 +52,18 @@ interface UserInstance
         },
         DateOfBirth: {
             type: DataTypes.DATEONLY,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            allowNull: true,
         },
         Gender: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             validate: {
-                notEmpty: true,
                 len: [1, 6]
             }
         },
         RiskLevel: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            allowNull: true,
         },
         Email: {
             type: DataTypes.STRING,

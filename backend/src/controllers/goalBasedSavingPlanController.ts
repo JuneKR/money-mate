@@ -40,20 +40,58 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
     }
 }
 
-export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) => {
+export const getFirstGoalBasedPlanByUserId = async(req: Request, res: Response) => {
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
+        where: {
+            User_ID: req.params.id
+        }
+    });
+
+    /* Check Plan */
+    if(!goalBasedPlan) {
+        return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});
+    }
 
     try {
-        const goalBasedPlan = await GoalBasedSavingPlan.findOne({
+        const response = await GoalBasedSavingPlan.findOne({
+            attributes:[
+                'Goal_ID',
+                'PlanName',
+                'TargetAmount',
+                'TimePeriod',
+                'InitialSaving',
+                'MonthlySaving',
+                'StartDate',
+                'LastUpdate',
+                'TotalBalance',
+                'TimeRemaining',
+                'InterestRate',
+                'Progression'
+            ],
             where: {
-                User_ID: req.params.id
+                User_ID: req.params.id,
             }
         });
-    
-        /* Check Plan */
-        if(!goalBasedPlan) {
-            return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});
-        }
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+}
 
+export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) => {
+
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
+        where: {
+            User_ID: req.params.id
+        }
+    });
+
+    /* Check Plan */
+    if(!goalBasedPlan) {
+        return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});
+    }
+
+    try {
         const response = await GoalBasedSavingPlan.findAll({
             attributes:[
                 'PlanName',

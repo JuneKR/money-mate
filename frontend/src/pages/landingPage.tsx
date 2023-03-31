@@ -91,9 +91,10 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         })
         const savingEmergency = await savingEmergencyResponse.json();
         // setEmergencyPlan(savingEmergency);
+        console.log(savingEmergency);
 
         //Fetch Goal-Based Saving Plan
-        const savingGoalResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goals`, {
+        const savingGoalResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goal`, {
           credentials: 'include'
         })
         const savingGoal = await savingGoalResponse.json();

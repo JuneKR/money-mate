@@ -41,14 +41,14 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
 }
 
 export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) => {
-    
+
     try {
-        const goalBasedPlan = await GoalBasedSavingPlan.findAll({
+        const goalBasedPlan = await GoalBasedSavingPlan.findOne({
             where: {
                 User_ID: req.params.id
             }
         });
-
+    
         /* Check Plan */
         if(!goalBasedPlan) {
             return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});

@@ -206,17 +206,32 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                   </div>
                 </div>
               </div>
-              <div className="pb-5 px-5">
+              {!savingPlans.length ? (
+                <div>
+                  <p className="text-black text-center">คุณยังไม่มีแผน</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 gap-10">
+                  {savingPlans.map((savingPlan) => (
+                    <LandingSavingPlanCard saving={savingPlan} />
+                  ))}
+                </div>
+              )}
+
+              {/* <div className="pb-5 px-5"> */}
                 {/* {displayData.slice(0, 3).map((rowData) => (
                   <LandingSavingPlanCard key={rowData.data.goalID} saving = {{rowData}} />
                 ))} */}
                 {/* <LandingSavingPlanCard saving = {emergencyPlan} />
                 <LandingSavingPlanCard saving = {goalBasedPlan} />
                 <LandingSavingPlanCard saving = {retirementPlan} /> */}
-                {savingPlans.map((savingPlan) => (
+
+                {/* {savingPlans.map((savingPlan) => (
                   <LandingSavingPlanCard saving={savingPlan} />
-                ))}
-              </div>
+                ))} */}
+
+
+              {/* </div> */}
               <div className="pb-5 px-5">
                 {displayData.map((row, index) => (
                   <div

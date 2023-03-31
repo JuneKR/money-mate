@@ -19,7 +19,7 @@ interface LandingSavingPlanCardProps {
 
 const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
     const { saving } = props;
-    console.log('Props', saving.PlanName)
+
     return (
         <div className="pb-5 px-5">
           <div

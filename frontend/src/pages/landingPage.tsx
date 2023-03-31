@@ -211,7 +211,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                   <p className="text-black text-center">คุณยังไม่มีแผน</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-3 gap-10">
+                <div className="pb-5 px-5">
                   {savingPlans.map((savingPlan) => (
                     <LandingSavingPlanCard saving={savingPlan} />
                   ))}

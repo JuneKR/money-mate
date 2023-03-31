@@ -53,7 +53,8 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
                     alt="Your Image"
                     className="pb-3"
                   />
-                  <Progress title={""} progress={"90%"} />
+                  <Progress title={""} progress={`${saving.Progression}%`} />
+                  {/* <Progress title={""} progress={"90%"} /> */}
                 </div>
               </div>
               <div className="font-bold py-3 flex justify-center item-center grid grid-rows-3">

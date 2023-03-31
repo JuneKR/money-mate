@@ -3,6 +3,7 @@ import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/router";
 import Progress from "@/components/LandingPageComponents/landingPageProgress";
+import LandingSavingPlanCard from "@/components/LandingPageComponents/landingSavingPlanCard";
 
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
@@ -12,6 +13,16 @@ import icon3 from "@/images/Icon/กระปุก5.png";
 interface LandingPageProps {
   index: number;
 }
+
+interface SavingPlan {
+  PlanName: string;
+  TargetAmount: number;
+  TimePeriod: string;
+  TotalBalance: number;
+  Progression: number;
+  User_ID: number;
+}
+
 interface RowData {
   data: {
     goalID: string;
@@ -22,6 +33,9 @@ interface RowData {
   };
 }
 const LandingPage: React.FC<LandingPageProps> = ({}) => {
+
+  const urlServer = 'http://localhost:8080/'
+  const [displayData, setdisplayData] = useState<RowData[]>([]);
   const [profile, setProfile] = useState({
     User_ID: 0,
     FirstName: '',
@@ -31,25 +45,91 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
     RiskLevel: '',
     Email: '',
   })
-  const url = 'http://localhost:8080/'
 
+  const [emergencyPlan, setEmergencyPlan] = useState({
+    PlanName: '',
+    TargetAmount: 0,
+    TimePeriod: '',
+    TotalBalance: 0,
+    Progression: 0,
+    User_ID: 0
+  })
+
+  const [goalBasedPlan, setGoalBasedPlan] = useState({
+    PlanName: '',
+    TargetAmount: 0,
+    TimePeriod: '',
+    TotalBalance: 0,
+    Progression: 0,
+    User_ID: 0
+  })
+
+  const [retirementPlan, setRetirementPlan] = useState({
+    PlanName: '',
+    TargetAmount: 0,
+    TimePeriod: '',
+    TotalBalance: 0,
+    Progression: 0,
+    User_ID: 0
+  })
+
+  const [savingPlans, setSavingPlans] = useState<SavingPlan[]>([]);
+
+  // Fetch APIs
   useEffect(() => {
-    async function fetchProfile() {
+    async function fetchSavingPlan() {
       try {
-        const response = await fetch(url+'user/profile', {
+        // Fetch User Profile
+        const profileResponse = await fetch(urlServer+'user/profile', {
           credentials: 'include'
         });
-        const data = await response.json();
-        setProfile(data);
-      } catch(error) {
-        console.log('Fetching Profile Error: ', error)
-      }
-    }
-    
-    fetchProfile();
-  }, [])
+        const userProfile = await profileResponse.json();
 
-  const [displayData, setdisplayData] = useState<RowData[]>([]);
+        //Fetch Saving Emergency Plan
+        const savingEmergencyResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/emergency`, {
+          credentials: 'include'
+        })
+        const savingEmergency = await savingEmergencyResponse.json();
+        // setEmergencyPlan(savingEmergency);
+
+        //Fetch Goal-Based Saving Plan
+        const savingGoalResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goals`, {
+          credentials: 'include'
+        })
+        const savingGoal = await savingGoalResponse.json();
+        // setGoalBasedPlan(savingGoal);
+
+        //Fetch Saving Retirement Plan
+        const savingRetirementResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/retirement`, {
+          credentials: 'include'
+        })
+        const savingRetirement = await savingRetirementResponse.json();
+        // setRetirementPlan(savingRetirement);
+
+        const allSavingPlans: SavingPlan[] = [];
+        if (savingEmergency.PlanName) {
+          allSavingPlans.push(savingEmergency);
+        }
+
+        if (savingGoal.PlanName) {
+          allSavingPlans.push(savingGoal);
+        }
+
+        if (savingRetirement.PlanName) {
+          allSavingPlans.push(savingRetirement);
+        }
+
+        setSavingPlans(allSavingPlans);
+        console.log('All Saving Plan', allSavingPlans);
+
+
+      } catch(error) {
+        console.log('Fetching Saving Plan Error: ', error)
+      }
+
+    }
+    fetchSavingPlan();
+  }, [])
 
   function handleNewData(data: RowData) {
     setdisplayData([...displayData, data]);
@@ -127,6 +207,17 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                 </div>
               </div>
               <div className="pb-5 px-5">
+                {/* {displayData.slice(0, 3).map((rowData) => (
+                  <LandingSavingPlanCard key={rowData.data.goalID} saving = {{rowData}} />
+                ))} */}
+                {/* <LandingSavingPlanCard saving = {emergencyPlan} />
+                <LandingSavingPlanCard saving = {goalBasedPlan} />
+                <LandingSavingPlanCard saving = {retirementPlan} /> */}
+                {savingPlans.map((savingPlan) => (
+                  <LandingSavingPlanCard saving={savingPlan} />
+                ))}
+              </div>
+              <div className="pb-5 px-5">
                 {displayData.map((row, index) => (
                   <div
                     key={index}
@@ -180,11 +271,12 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                 ))}
                 {/* <div className='text-black'>
                             <button onClick={() => handleNewData({ title: 'New Row', subtitle: 'Subtitle' })}>Add Row</button>
-                        </div> */}
+                    </div> */}
               </div>
             </div>
           </div>
-          <div className="py-5">
+          {/* Investment Progression */}
+          {/* <div className="py-5">
             <div className="w-full h-full py-2 h-24 rounded bg-gray-50 dark:bg-gray-800 shadow-2xl">
               <div className="px-5 pb-5">
                 <div className=" grid grid-cols-2">
@@ -240,7 +332,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
     </>

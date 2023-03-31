@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Image from 'next/image';
@@ -104,7 +104,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
 
 interface SidebarProps {
     title: string;
-    profile: Profile
+    // profile: Profile
   }
   
 
@@ -126,8 +126,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
    }),
 );
 
-  const Sidebar: React.FC<SidebarProps> = ({ title, profile }) => {
-    const { FirstName } = profile;
+  const Sidebar: React.FC<SidebarProps> = () => {
+  // const Sidebar: React.FC<SidebarProps> = ({ title, profile }) => {
+    // const { FirstName } = profile;
 
     const router = useRouter();
     const theme = useTheme();
@@ -155,6 +156,35 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
     const urlClient = 'http://localhost:3000/'
     const urlServer = 'http://localhost:8080/'
+
+    const [profile, setProfile] = useState({
+      User_ID: 0,
+      FirstName: '',
+      LastName: '',
+      DateOfBirth: '',
+      Gender: '',
+      RiskLevel: '',
+      Email: '',
+    })
+    // const url = 'http://localhost:8080/'
+    
+    // Fetch User Profile
+    useEffect(() => {
+      async function fetchProfile() {
+        try {
+          const response = await fetch(urlServer+'user/profile', {
+            credentials: 'include'
+          });
+          const data = await response.json();
+          setProfile(data);
+        } catch(error) {
+          console.log('Fetching Profile Error: ', error)
+        }
+      }
+      
+      fetchProfile();
+    }, [])
+
     const logoutUser = async () => {
       try {
           console.log('Logout Called')
@@ -205,7 +235,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              {`สวัสดี ${FirstName}`}
+              {`สวัสดี ${profile.FirstName}`}
             </Typography>
             <IconButton
               size="large"

@@ -74,7 +74,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         <div style={{ padding: "0 4rem" }} className="w-full h-full">
           <Sidebar 
             title="My Sidebar" 
-            profile = { profile }
+            // profile = { profile }
           />
           <div
             style={{

@@ -8,7 +8,7 @@ const SavingSelectionPage = () => {
         <>
     <main className={styles.main}>
         
-        <div style={{ width: "100%", height: "100%",padding: "0 4rem"}} >
+        <div style={{padding: "0 4rem"}} className="w-full xl:w-8/12">
             <Sidebar title="My Sidebar" />
             <div style={{display: "flex", alignItems: "center",backgroundColor: '#B2E8FF'}} className=" py-2 rounded bg-gray-50 dark:bg-gray-800">
                <p style={{ padding: "0 1rem"  }}className="font-bold text-black dark:text-gray-500 ">

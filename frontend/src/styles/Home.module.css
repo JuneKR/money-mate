@@ -8,6 +8,7 @@
   min-height: 100vh;
   resize: both;
   min-width: 800px;
+  /* max-width: 2160px; */
   background-color: #E5F8FF;
   overflow-x: auto;
   

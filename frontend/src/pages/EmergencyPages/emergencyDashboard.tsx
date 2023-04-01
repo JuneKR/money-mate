@@ -19,7 +19,7 @@ const EmergencyDashboard = () => {
   return (
     <>
       <main className={styles.main} style={{ overflowX: 'auto' }}>
-        <div className="w-full h-full">
+        <div className="w-full xl:w-8/12">
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <Sidebar title="My Sidebar" />
             <div>

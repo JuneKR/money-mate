@@ -92,22 +92,17 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
           credentials: 'include'
         })
         const savingEmergency = await savingEmergencyResponse.json();
-        // setEmergencyPlan(savingEmergency);
-        console.log(savingEmergency);
 
         //Fetch Goal-Based Saving Plan
         const savingGoalResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goal`, {
           credentials: 'include'
         })
         const savingGoal = await savingGoalResponse.json();
-        // setGoalBasedPlan(savingGoal);
 
-        //Fetch Saving Retirement Plan
         const savingRetirementResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/retirement`, {
           credentials: 'include'
         })
         const savingRetirement = await savingRetirementResponse.json();
-        // setRetirementPlan(savingRetirement);
 
         const allSavingPlans: SavingPlan[] = [];
         if (savingEmergency.PlanName) {
@@ -139,7 +134,6 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   }
   function handleDeleteRow(index: LandingPageProps) {
     const newRows = [...displayData];
-    // newRows.splice(index, 1);
     setdisplayData(newRows);
   }
 
@@ -154,11 +148,6 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   return (
     <>
       <main className={styles.main}>
-        <div style={{ padding: "0 4rem" }} className="w-full h-full">
-          <Sidebar 
-            title="My Sidebar" 
-            // profile = { profile }
-          />
         <div style={{ padding: "0 4rem", }} className="w-full xl:w-8/12">
           <Sidebar title="My Sidebar" />
           <div
@@ -222,21 +211,6 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                   ))}
                 </div>
               )}
-
-              {/* <div className="pb-5 px-5"> */}
-                {/* {displayData.slice(0, 3).map((rowData) => (
-                  <LandingSavingPlanCard key={rowData.data.goalID} saving = {{rowData}} />
-                ))} */}
-                {/* <LandingSavingPlanCard saving = {emergencyPlan} />
-                <LandingSavingPlanCard saving = {goalBasedPlan} />
-                <LandingSavingPlanCard saving = {retirementPlan} /> */}
-
-                {/* {savingPlans.map((savingPlan) => (
-                  <LandingSavingPlanCard saving={savingPlan} />
-                ))} */}
-
-
-              {/* </div> */}
               <div className="pb-5 px-5">
                 {displayData.map((row, index) => (
                   <div
@@ -289,69 +263,8 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                     </div>
                   </div>
                 ))}
-                {/* <div className='text-black'>
-                            <button onClick={() => handleNewData({ title: 'New Row', subtitle: 'Subtitle' })}>Add Row</button>
-                    </div> */}
               </div>
             </div>
-          </div>
-          {/* Investment Progression */}
-          {/* <div className="py-5">
-            <div className="w-full h-full py-2 h-24 rounded bg-gray-50 dark:bg-gray-800 shadow-2xl">
-              <div className="px-5 pb-5">
-                <div className=" grid grid-cols-2">
-                  <div
-                    style={{ color: "#085385" }}
-                    className="border-b-2 border-gray-500 font-bold py-3"
-                  >
-                    <p>ความก้าวหน้าการลงทุนของคุณ</p>
-                  </div>
-                  <div className="flex item-center justify-end border-b-2 border-gray-500 py-3">
-                    <p className="text-black">จัดเรียง</p>
-                  </div>
-                </div>
-              </div>
-              <div className="pb-5 px-5">
-                <div
-                  style={{ alignItems: "center" }}
-                  className="relative grid grid-cols-4 text-black border border-black  "
-                >
-                  <div className="font-bold py-3 ">
-                    <div className="px-3 ">
-                      <p
-                        style={{ color: "#085385" }}
-                        className="flex justify-center item-center"
-                      >
-                        เงินลงทุนเป้ามายที่1
-                      </p>
-                      <p className="font-bold flex justify-center item-center">
-                        เงินลงทุนเพื่อเกษียณ
-                      </p>
-                    </div>
-                  </div>
-                  <div className="font-bold py-3">
-                    <div>
-                      <Image src={icon1} alt="Your Image" className="pb-3" />
-                      <Progress title={""} progress={"20%"} />
-                    </div>
-                  </div>
-                  <div className="font-bold py-3 flex justify-center item-center grid grid-rows-2">
-                    <p style={{ color: "#085385" }}>จำนวนเงินออมเป้าหมาย</p>
-                    <p style={{ color: "#085385" }}>ยอดเงิน</p>
-                  </div>
-                  <div className="font-bold py-3 grid grid-rows-2 ">
-                    <p className="font-bold ">100,000 บาท</p>
-                    <p className="font-bold ">20,000 บาท</p>
-                  </div>
-                  <a
-                    onClick={handleLandingPageDetails}
-                    className="absolute top-3 right-3 cursor-pointer text-black hover:text-blue-800"
-                  >
-                    ดูข้อมูลเพิ่มเติม &gt;
-                  </a>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </main>

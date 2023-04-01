@@ -8,7 +8,7 @@ interface PasswordProps {
 
 const Password: React.FC<PasswordProps> = ({ title }) => {
   return (
-    <div className="w-full xl:w-8/12 p-10">
+    <div className="w-full xl:w-8/12 p-10 ">
       <FormControl>
         <Box
           component="form"
@@ -18,7 +18,7 @@ const Password: React.FC<PasswordProps> = ({ title }) => {
           noValidate
           autoComplete="off"
         >
-          <div className="grid grid-rows-3 gap-4">
+          <div className="grid grid-rows-3 gap-4 ">
             <div>
               <TextField
                 id="outlined-password-input"

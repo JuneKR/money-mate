@@ -25,7 +25,7 @@ const UserProfile = () => {
       <main className={styles.main}>
         <div style={{ padding: "0 4rem" }} className=" xl:w-8/12">
           <Sidebar title="My Sidebar" />
-          <div className="bg-gray-50">
+          <div className="bg-gray-50 shadow-2xl">
             <div
               style={{
                 display: "flex",

@@ -40,20 +40,58 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
     }
 }
 
-export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) => {
-    
+export const getFirstGoalBasedPlanByUserId = async(req: Request, res: Response) => {
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
+        where: {
+            User_ID: req.params.id
+        }
+    });
+
+    /* Check Plan */
+    if(!goalBasedPlan) {
+        return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});
+    }
+
     try {
-        const goalBasedPlan = await GoalBasedSavingPlan.findAll({
+        const response = await GoalBasedSavingPlan.findOne({
+            attributes:[
+                'Goal_ID',
+                'PlanName',
+                'TargetAmount',
+                'TimePeriod',
+                'InitialSaving',
+                'MonthlySaving',
+                'StartDate',
+                'LastUpdate',
+                'TotalBalance',
+                'TimeRemaining',
+                'InterestRate',
+                'Progression'
+            ],
             where: {
-                User_ID: req.params.id
+                User_ID: req.params.id,
             }
         });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+}
 
-        /* Check Plan */
-        if(!goalBasedPlan) {
-            return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});
+export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) => {
+
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
+        where: {
+            User_ID: req.params.id
         }
+    });
 
+    /* Check Plan */
+    if(!goalBasedPlan) {
+        return res.status(404).json({msg: `Goal-Based plan not found by user id: ${req.params.id}`});
+    }
+
+    try {
         const response = await GoalBasedSavingPlan.findAll({
             attributes:[
                 'PlanName',
@@ -137,7 +175,6 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
         total_balance,
         time_remaining,
         interest_rate,
-        monthly_expense,
         progression
     } = req.body;
 
@@ -156,7 +193,6 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
             Progression: progression,
         }, {
             where:{
-                // id: user.id
                 Goal_ID: req.params.id
             }
         });
@@ -167,14 +203,14 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
 }
 
 export const deleteGoalBasedPlan = async(req: Request, res: Response) => {
-    const user = await GoalBasedSavingPlan.findOne({
+    const goalBasedPlan = await GoalBasedSavingPlan.findOne({
         where: {
             Goal_ID: req.params.id
         }
     });
 
     /* Check User */
-    if(!user) {
+    if(!goalBasedPlan) {
         return res.status(404).json({msg: "Goal-Based Plan not found"});
     }
 

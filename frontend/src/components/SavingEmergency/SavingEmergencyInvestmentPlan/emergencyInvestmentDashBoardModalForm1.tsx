@@ -10,7 +10,7 @@ import { SavingEmergencyPlan } from "@/pages/EmergencyPages/emergencyDashboard";
 
 interface EmergencyInvestmentDashBoardModalForm1Props {
   title: string;
-  savingEmergency: any;
+  // savingEmergency: any;
 }
 
 const style = {
@@ -27,7 +27,7 @@ const style = {
 
 const EmergencyInvestmentDashBoardModalForm1: React.FC<
   EmergencyInvestmentDashBoardModalForm1Props
-> = ({title, savingEmergency}) => {
+> = ({title}) => {
 
 //   const { savingEmergency } = props;
   const [open, setOpen] = React.useState(false);
@@ -60,7 +60,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 จำนวนเงิน
               </div>
               <div className="flex items-center justify-center text-black">
-                {savingEmergency.TargetAmount}
+                {/* {savingEmergency.TargetAmount} */}
               </div>
             </div>
             <div>
@@ -68,7 +68,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 ระยะเวลา
               </div>
               <div className="flex items-center justify-center text-black">
-                {savingEmergency.TimeRemaining} เดือน
+                {/* {savingEmergency.TimeRemaining} เดือน */}
               </div>
             </div>
             <div>
@@ -76,7 +76,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 จำนวนเดือน
               </div>
               <div className="flex items-center justify-center text-black">
-                {savingEmergency.TimePeriod} เดือน
+                {/* {savingEmergency.TimePeriod} เดือน */}
               </div>
             </div>
             <div>
@@ -84,7 +84,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 เงินลงทุน/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-black">
-                {savingEmergency.TimePeriod}
+                {/* {savingEmergency.TimePeriod} */}
               </div>
             </div>
             <div>
@@ -129,7 +129,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                   className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.TargetAmount + " บาท"}
+                  // placeholder={savingEmergency.TargetAmount + " บาท"}
                   // value={months}
                   // onChange={handleMonthsChange}
                 />
@@ -145,7 +145,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                   className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.TimeRemaining + " เดือน"}
+                  // placeholder={savingEmergency.TimeRemaining + " เดือน"}
                   // value={months}
                   // onChange={handleMonthsChange}
                 />
@@ -161,7 +161,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                   className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.TimePeriod + " เดือน"}
+                  // placeholder={savingEmergency.TimePeriod + " เดือน"}
                   // value={months}
                   // onChange={handleMonthsChange}
                 />

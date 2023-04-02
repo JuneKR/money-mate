@@ -38,43 +38,6 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
 
   const urlServer = 'http://localhost:8080/'
   const [displayData, setdisplayData] = useState<RowData[]>([]);
-  const [profile, setProfile] = useState({
-    User_ID: 0,
-    FirstName: '',
-    LastName: '',
-    DateOfBirth: '',
-    Gender: '',
-    RiskLevel: '',
-    Email: '',
-  })
-
-  const [emergencyPlan, setEmergencyPlan] = useState({
-    PlanName: '',
-    TargetAmount: 0,
-    TimePeriod: '',
-    TotalBalance: 0,
-    Progression: 0,
-    User_ID: 0
-  })
-
-  const [goalBasedPlan, setGoalBasedPlan] = useState({
-    PlanName: '',
-    TargetAmount: 0,
-    TimePeriod: '',
-    TotalBalance: 0,
-    Progression: 0,
-    User_ID: 0
-  })
-
-  const [retirementPlan, setRetirementPlan] = useState({
-    PlanName: '',
-    TargetAmount: 0,
-    TimePeriod: '',
-    TotalBalance: 0,
-    Progression: 0,
-    User_ID: 0
-  })
-
   const [savingPlans, setSavingPlans] = useState<SavingPlan[]>([]);
 
   // Fetch APIs
@@ -129,13 +92,13 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
     fetchSavingPlan();
   }, [])
 
-  function handleNewData(data: RowData) {
-    setdisplayData([...displayData, data]);
-  }
-  function handleDeleteRow(index: LandingPageProps) {
-    const newRows = [...displayData];
-    setdisplayData(newRows);
-  }
+  // function handleNewData(data: RowData) {
+  //   setdisplayData([...displayData, data]);
+  // }
+  // function handleDeleteRow(index: LandingPageProps) {
+  //   const newRows = [...displayData];
+  //   setdisplayData(newRows);
+  // }
 
   const router = useRouter();
   const handleSavingSelectionPage = () => {
@@ -211,7 +174,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                   ))}
                 </div>
               )}
-              <div className="pb-5 px-5">
+              {/* <div className="pb-5 px-5">
                 {displayData.map((row, index) => (
                   <div
                     key={index}
@@ -263,7 +226,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

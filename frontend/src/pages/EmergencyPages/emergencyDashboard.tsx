@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
@@ -6,138 +6,226 @@ import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardCompo
 import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
-import ModleButtonForm1 from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/emergencyInvestmentDashBoardModalForm1";
+import ModleButtonForm1 from "@/components/SavingEmergency/EmergencyDashboardComponents/emergencyDashBoardModalForm1";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
+import TransactionTable from "@/components/TransactionComponents/transactionTable";
+
+export interface SavingEmergencyPlan {
+  Emergency_ID: number | any;
+  InitialSaving: number | any;
+  InterestRate: number | any;
+  LastUpdate: string | any;
+  MonthlyExpense: number | any;
+  MonthlySaving: number | any;
+  PlanName: string | any;
+  Progression: number | any;
+  StartDate: string | any;
+  TargetAmount: number | any;
+  TimePeriod: number | any;
+  TimeRemaining: number | any;
+  TotalBalance: number | any;
+  User_ID: number | any;
+}
+
+export interface SavingEmergencyTransaction {
+  TransactionDate: string;
+  Amount: number;
+  Type: string;
+}
 
 const EmergencyDashboard = () => {
   const router = useRouter();
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
+  const urlServer = "http://localhost:8080/";
+
+  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<
+    SavingEmergencyPlan[]
+  >([]);
+
+  const [savingEmergencyTransactions, setSavingEmergencyTransactions] =
+    useState<SavingEmergencyTransaction[]>([]);
+
+  // Fetch APIs
+  useEffect(() => {
+    async function fetchSavingPlan() {
+      try {
+        // Fetch User Profile
+        const profileResponse = await fetch(urlServer + "user/profile", {
+          credentials: "include",
+        });
+        const userProfile = await profileResponse.json();
+
+        //Fetch Saving Emergency Plan
+        const savingEmergencyResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/emergency`,
+          {
+            credentials: "include",
+          }
+        );
+        const savingEmergency = await savingEmergencyResponse.json();
+        setSavingEmergencyPlan(savingEmergency);
+
+        //Fetch Saving Emergency Transaction
+        const savingEmergencyTransactionResponse = await fetch(
+          `${urlServer}saving/emergency/${savingEmergency.Emergency_ID}/transactions`,
+          {
+            credentials: "include",
+          }
+        );
+
+        const savingEmergencyTransaction =
+          await savingEmergencyTransactionResponse.json();
+        setSavingEmergencyTransactions(savingEmergencyTransaction);
+      } catch (error) {
+        console.log("Fetching Saving Plan Error: ", error);
+      }
+    }
+    fetchSavingPlan();
+  }, []);
+
   return (
     <>
-      <main className={styles.main} style={{ overflowX: 'auto' }}>
+      <main className={styles.main} style={{ overflowX: "auto" }}>
         <div className="w-full xl:w-8/12">
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <Sidebar title="My Sidebar" />
             <div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  // backgroundColor: "#FEF5AC",
+                }}
+                className="py-2 rounded bg-gradient-to-r from-red-500 via-yellow-400 to-yellow-200 "
+              >
                 <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    backgroundColor: "#FEF5AC",
-                  }}
-                  className="py-2 rounded bg-gray-50 dark:bg-gray-800"
+                  style={{ padding: "0 1rem" }}
+                  className="font-bold text-black dark:text-gray-500 "
                 >
-                  <p
-                    style={{ padding: "0 1rem" }}
-                    className="font-bold text-black dark:text-gray-500 "
-                  >
-                    การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
-                  </p>
-                </div>
-                <div >
-                  <div className="border border-gray-200 bg-gray-50 rounded">
-                    <ModleButtonForm1 title={""} />
-                  </div>
+                  การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
                 </div>
               </div>
+              <div>
+                <div className="border border-gray-200 bg-gray-50 rounded">
+                  <ModleButtonForm1
+                    title={""}
+                    savingEmergency={savingEmergencyPlan}
+                  />
+                </div>
+              </div>
+            </div>
             <div className="py-5 ">
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#FEF5AC",
+                  // backgroundColor: "#FEF5AC",
                 }}
-                className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+                className=" py-2 rounded bg-gradient-to-r from-red-500 via-yellow-400 to-yellow-200"
               >
-                <p
+                <div
                   style={{ padding: "0 1rem" }}
                   className="font-bold text-black dark:text-gray-500 "
                 >
                   หยอดกระปุก
-                </p>
+                </div>
               </div>
               <div className="bg-gray-50 shadow-2xl">
-                  <div className="pt-5 grid grid-cols-4">
-                    <div className="col-span-1 ">
-                      <Image src={icon1} alt="Your Image" className="pb-3" />
+                <div className="pt-5 grid grid-cols-4">
+                  <div className="col-span-1 ">
+                    <Image src={icon1} alt="Your Image" className="pb-3" />
+                  </div>
+                  <div className="px-5 w-full h-full col-span-3 py-5">
+                    <h1 className="flex justify-center item-center text-black">
+                      นักออมฉุกเฉินมือใหม่
+                    </h1>
+                    <Progress1
+                      title={"my bar"}
+                      progress={`${savingEmergencyPlan.Progression}%`}
+                    />
+                  </div>
+                </div>
+                <div className=" px-5 text-black">
+                  <div className=" text-black dark:text-gray-500 pb-3 ">
+                    {" "}
+                    แผนการออมเงินของคุณ
+                  </div>
+                  <div
+                    style={{ backgroundColor: "#E5F8FF" }}
+                    className="border border-black py-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5"
+                  >
+                    <div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>จำนวนเงินเป้าหมาย</h1>
+                      </div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>{savingEmergencyPlan.TargetAmount} บาท</h1>
+                      </div>
                     </div>
-                    <div className="px-5 w-full h-full col-span-3 py-5">
-                      <h1 className="flex justify-center item-center text-black">
-                        นักออมฉุกเฉินมือใหม่
-                      </h1>
-                      <Progress1 title={"my bar"} />
+                    <div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>ระยะเวลาในการออม</h1>
+                      </div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>{savingEmergencyPlan.TimePeriod} เดือน</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-center py-3">
+                        จำนวนเงินทั้งหมด
+                      </div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>{savingEmergencyPlan.TotalBalance} บาท</h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>จำนวนเงินคงเหลือ</h1>
+                      </div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>
+                          {savingEmergencyPlan.TargetAmount -
+                            savingEmergencyPlan.TotalBalance}{" "}
+                          บาท
+                        </h1>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>เหลือเวลาอีก</h1>
+                      </div>
+                      <div className="flex items-center justify-center py-3">
+                        <h1>{savingEmergencyPlan.TimeRemaining} เดือน</h1>
+                      </div>
                     </div>
                   </div>
-                  <div className=" px-5 text-black">
-                    <p className=" text-black dark:text-gray-500 pb-3 ">
-                      แผนการออมเงินของคุณ
-                    </p>
-                    <div
-                      style={{ backgroundColor: "#E5F8FF" }}
-                      className="border border-black py-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5"
-                    >
-                      <div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>จำนวนเงินเป้าหมาย</h1>
-                        </div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>100000</h1>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>ระยะเวลาในการออม</h1>
-                        </div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>6</h1>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex items-center justify-center py-3">
-                          จำนวนเงินทั้งหมด
-                        </div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>20,000</h1>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>จำนวนเงินคงเหลือ</h1>
-                        </div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>80000</h1>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>เหลือเวลาอีก</h1>
-                        </div>
-                        <div className="flex items-center justify-center py-3">
-                          <h1>4ปี5เดือน</h1>
-                        </div>
-                      </div>
-                    </div>
+                </div>
+                <div className="pb-5 pt-5 px-5">
+                  <div className="flex justify-end">
+                    <ModleButtonAdd
+                      title={"my modle1"}
+                      savingEmergency={savingEmergencyPlan.Emergency_ID}
+                    />
+                    <ModleButtonWithDraw
+                      title={"my modle2"}
+                      savingEmergency={savingEmergencyPlan.Emergency_ID}
+                    />
                   </div>
-                  <div className="pb-5 pt-5 px-5">
-                    <div className="flex justify-end">
-                      <ModleButtonAdd title={"my modle1"} />
-                      <ModleButtonWithDraw title={"my modle2"} />
-                    </div>
-                  </div>
+                </div>
               </div>
             </div>
-            <div className="pb-5 text-black ">
-              <div className=" grid grid-cols-2 rounded-3xl bg-gray-50 shadow-2xl">
+            <div className="pb-5 ">
+              <div className=" grid grid-cols-2 rounded-3xl bg-gradient-to-r from-red-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:to-yellow-500 shadow-2xl">
                 <div className="flex justify-center item-center py-20 grid grid-rows-2">
                   <div>
-                    <p className="font-bold">เราจะแนะนำการลงทุนให้คุณ</p>
+                    <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
                   </div>
                   <div>
-                    <p>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</p>
+                    <div>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</div>
                   </div>
                 </div>
                 <div className="flex justify-center item-center py-20">
@@ -155,22 +243,41 @@ const EmergencyDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#FEF5AC",
+                  // backgroundColor: "#FEF5AC",
                 }}
-                className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+                className=" py-2 rounded bg-gradient-to-r from-red-500 via-yellow-400 to-yellow-200"
               >
-                <p
+                <div
                   style={{ padding: "0 1rem" }}
                   className="font-bold text-black dark:text-gray-500 "
                 >
                   ประวัติรายการ
-                </p>
+                </div>
               </div>
               <div>
-                <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
-                  <div>
-                    <EmergencyPlanDataTable title={"my table1"} />
-                  </div>
+                <div style={{ maxHeight: "600px", overflow: "auto" }} className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                  {!savingEmergencyTransactions.length ? (
+                    <div>
+                      <h1 className="text-black text-center">
+                        คุณยังไม่มีประวัติ
+                      </h1>
+                    </div>
+                  ) : (
+                    <div className="pb-5 px-5">
+                      {savingEmergencyTransactions.map(
+                        (savingEmergencyTransaction, index) => (
+                          <div key={index}>
+                            <TransactionTable
+                              title={"my table1"}
+                              transaction={savingEmergencyTransaction}
+                              savingEmergency={savingEmergencyPlan}
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                  <div></div>
                 </div>
               </div>
             </div>

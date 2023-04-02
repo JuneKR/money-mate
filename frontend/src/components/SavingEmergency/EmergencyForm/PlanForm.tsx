@@ -59,8 +59,10 @@ export function PlanForm({
         console.log(result);
         return result.toString();
     }
+
     const timeToAchive = yearsToYearsMonthsDays(years);
     const [selectedOption, setSelectedOption] = useState('');
+    
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
     };
@@ -72,9 +74,9 @@ export function PlanForm({
                 <div className="text-blue-800 hover:text-blue-900 p-4">เป้าหมาย</div>
                 <div className="text-blue-800 hover:text-blue-900 p-4">ออมเงินเผื่อฉุกเฉิน</div>
                 <div className="p-4">คุณต้องมีเงินฉุกเฉิน: </div>
-                <div className="p-4">{targetAmount} บาท</div>
+                <div className="p-4">{emergencyFund} บาท</div>
                 <div className="p-4">ระยะเวลาในการออม</div>
-                <div className="p-4">{timeRemaining}</div>
+                <div className="p-4">{timeToAchive}</div>
                 <div className="p-4"> จำนวนเดือนที่ต้องการเก็บ</div>
                 <div className="p-4">{period} เดือน</div>
                 <div className="p-4">เงินเก็บต่อเดือน</div>
@@ -87,8 +89,12 @@ export function PlanForm({
                 className="px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black"
                 onClick={handleClick}
             >
-                <span  style={{backgroundColor: '#B2E8FF'}} className="text-black rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold">คุณสามารถปรับเปลี่ยนและเลือกเป้าหมายที่ดูเป็นได้ไปที่สุดสำหรับคุณ</span>
-                {/* {isHidden ? <ExpandMoreIcon className="text-lg font-bold" /> : <KeyboardArrowUpIcon className="text-lg font-bold" />} */}
+                <span  
+                    style={{backgroundColor: '#B2E8FF'}} 
+                    className="text-black rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold"
+                >
+                    คุณสามารถปรับเปลี่ยนและเลือกเป้าหมายที่ดูเป็นได้ไปที่สุดสำหรับคุณ
+                </span>
                 <label className="flex items-center">
                     <input
                         type="checkbox"
@@ -98,13 +104,12 @@ export function PlanForm({
                     />
                 </label>
             </div>
-                    {!isHidden && (
+                {!isHidden && (
                     <div>
                         <div className="py-5">
                             <p>ลองปรับเปลี่ยนตัวแปร เพื่อหาระยะเวลาออมที่เหมาะสมสำหรับคุณ</p>
                         </div>
                         <form action="">
-                            
                             <div className="block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                                 <div className="flex justify-end">
                                     <input
@@ -115,13 +120,15 @@ export function PlanForm({
                                         onChange={handleOptionChange}
                                     />
                                 </div>
+
                                 <div style={{ width: "10%", backgroundColor: '#FEF5AC'}} className="rounded border border-gray-500 flex item-center justify-center py-2">
                                         <p>แผนปัจจุบันของคุณ</p>
                                 </div>
+
                                 <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    {/* <Slider1 title="my slidebar1" months={months}/> */}
                                     <Slider1 title="my slidebar1" months={period.toString()}/>
                                 </div>
+
                                 <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
                                     <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
                                         <div className="grid grid-cols-2 gap-4">
@@ -130,11 +137,6 @@ export function PlanForm({
                                                 <div className="mb-4">เงินเก็บ/เดือน</div>
                                                 <div>เงินปัจจุบัน</div>
                                             </div>
-                                            {/* <div>
-                                                <input placeholder="15,000" value={mExpense} type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="1,000" value={mDeposit} type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="0" value={cBalance} type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
-                                            </div> */}
                                             <div>
                                                 <input placeholder="15,000" value={expense} type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
                                                 <input placeholder="1,000" value={monthlySaving} type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
@@ -158,6 +160,7 @@ export function PlanForm({
                                         </label>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                             <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
@@ -171,7 +174,6 @@ export function PlanForm({
                                     />
                                </div>
                                 <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    {/* <Slider2 title="my slidebar2"/> */}
                                     <Slider1 title="my slidebar1" months={"12"}/>
                                 </div>
                                 <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
@@ -286,11 +288,11 @@ export function PlanForm({
                                         <label htmlFor="#" className="block">
                                             <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">ระยะเวลาออม</span>
                                                 <input
-                                                type="string"
-                                                id="#"
-                                                placeholder="8 ปี 9 เดือน"
-                                                style={{ width: "100%", height: "50px"}}
-                                                className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                                                    type="string"
+                                                    id="#"
+                                                    placeholder="8 ปี 9 เดือน"
+                                                    style={{ width: "100%", height: "50px"}}
+                                                    className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                                 />
                                         </label>
                                         </div>
@@ -300,8 +302,8 @@ export function PlanForm({
                             </div>
                         </form>
                     </div>
-                    )}
-                </div>
+                )}
+            </div>
         </>
-    )
+    );
 }

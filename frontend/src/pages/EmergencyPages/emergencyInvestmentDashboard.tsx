@@ -206,7 +206,7 @@ const EmergencyInvestmentDashboard = () => {
                     <h1 className="flex justify-center item-center text-black">
                       นักออมฉุกเฉินมือใหม่
                     </h1>
-                    <Progress title={"my bar"} />
+                    <Progress title={"my bar"} progress={""} />
                   </div>
                 </div>
                 <div

@@ -3,6 +3,8 @@ import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 
+
+
 interface SavingPlan {
     PlanName: string,
     TargetAmount: number,
@@ -19,7 +21,7 @@ interface LandingSavingPlanCardProps {
 
 const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
     const { saving } = props;
-
+    
     return (
         <div className="pb-5 px-5">
           <div

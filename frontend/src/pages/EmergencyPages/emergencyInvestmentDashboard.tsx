@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
@@ -15,11 +15,114 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
+
+export interface SavingEmergencyPlan {
+  Emergency_ID: number | any;
+  InitialSaving: number | any;
+  InterestRate: number | any;
+  LastUpdate: string | any;
+  MonthlyExpense: number | any;
+  MonthlySaving: number | any;
+  PlanName: string | any;
+  Progression: number | any;
+  StartDate: string | any;
+  TargetAmount: number | any;
+  TimePeriod: number | any;
+  TimeRemaining: number | any;
+  TotalBalance: number | any;
+  User_ID: number | any;
+}
+export interface SavingEmergencyInvestmentPortData {
+  Portfolio_ID: number | any;
+  PortfolioName: string | any;
+  TotalValue: number | any;
+  LastUpdate: string | any;
+  StartDate: string | any;
+  RiskSpectrum: number | any;
+  ReturnRate: number | any;
+  User_ID: number | any;
+  Package_ID: number | any;
+  Emergency_ID: number | any;
+  Goal_ID: number | any;
+  Retirement_ID: number | any;
+  createdAt: string | any;
+  updatedAt: string | any;
+}
+export interface PortPackageAllocationData {
+  Package_ID: number | any;
+  Fund_ID: number | any;
+  AllocationRatio: number | any;
+}
 const EmergencyInvestmentDashboard = () => {
   const router = useRouter();
   const handleEmergencyInvestmentPortfilio = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfilio");
   };
+  const handleEmergencyInvestmentTransaction = () => {
+    router.push("/EmergencyPages/emergencyInvestmentTransaction");
+  };
+
+  const urlServer = "http://localhost:8080/";
+  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<
+    SavingEmergencyPlan[]
+  >([]);
+
+  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] =
+    useState<SavingEmergencyInvestmentPortData[]>([]);
+
+  const [portPackageAllocate, setPortPackageAllocate] = useState<
+    PortPackageAllocationData[]
+  >([]);
+
+  // Fetch APIs
+  useEffect(() => {
+    async function fetchSavingPlan() {
+      try {
+        // Fetch User Profile
+        const profileResponse = await fetch(urlServer + "user/profile", {
+          credentials: "include",
+        });
+        const userProfile = await profileResponse.json();
+
+        //Fetch Saving Emergency Plan
+        const savingEmergencyResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/emergency`,
+          {
+            credentials: "include",
+          }
+        );
+        const savingEmergency = await savingEmergencyResponse.json();
+        setSavingEmergencyPlan(savingEmergency);
+
+        //Fetch Saving Emergency Investment Portfolio
+        const savingEmergencyInvestmentPortResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/investment/portfolios`,
+          {
+            credentials: "include",
+          }
+        );
+        const savingEmergencyInvestmentPorts =
+          await savingEmergencyInvestmentPortResponse.json();
+        setSavingEmergencyInvestmentPort(savingEmergencyInvestmentPorts);
+
+        //Fetch Port Package Allocation
+        const portPackageAllocationResponse = await fetch(
+          `${urlServer}portfolio/package/${savingEmergencyInvestmentPorts[0]?.Package_ID}/allocations`,
+          {
+            credentials: "include",
+          }
+        );
+        const portPackageAllocation =
+          await portPackageAllocationResponse.json();
+        setPortPackageAllocate(portPackageAllocation);
+        console.log(portPackageAllocation);
+      } catch (error) {
+        console.log("Fetching Saving Plan Error: ", error);
+      }
+    }
+    fetchSavingPlan();
+  }, []);
+
   return (
     <>
       <main className={styles.main}>
@@ -48,7 +151,11 @@ const EmergencyInvestmentDashboard = () => {
                 </div>
                 <div className="pb-5">
                   <div className="border border-gray-200 bg-gray-50 rounded">
-                    <ModleButtonForm1 title={""} />
+                    <ModleButtonForm1
+                      title={""}
+                      savingEmergency={savingEmergencyPlan}
+                      savingInvestmentPort={savingEmergencyInvestmentPort}
+                    />
                   </div>
                 </div>
               </div>
@@ -92,10 +199,17 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-1 flex justify-center item-center"
                   >
-                    <Pie1 title={"my pie1"} />
+                    <Pie1
+                      title={"my pie1"}
+                      packageallocation={portPackageAllocate}
+                    />
                   </div>
                   <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
-                    <EmergencyFundsDetailsTable title={""} />
+                    <EmergencyFundsDetailsTable
+                      title={""}
+                      savingInvestmentPort={savingEmergencyInvestmentPort}
+                      packageallocation={portPackageAllocate}
+                    />
                   </div>
                 </div>
                 <div className="py-5 px-5 bg-gray-50  shadow-2xl">
@@ -122,26 +236,33 @@ const EmergencyInvestmentDashboard = () => {
                     <div>
                       <div className="grid grid-cols-2 py-5 ">
                         <div className="flex items-center justify-center grid grid-rows-2">
-                          <div className="flex items-center justify-center">
-                            <AddIcon />
-                          </div>
+                          <button onClick={handleEmergencyInvestmentPortfilio}>
+                            <div className="flex items-center justify-center">
+                              <AddIcon />
+                            </div>
+                          </button>
+
                           <div>
                             <p>ซื้อกองทุน</p>
                           </div>
                         </div>
                         <div className="flex items-center justify-center grid grid-rows-2">
-                          <div className="flex items-center justify-center">
-                            <RemoveIcon />
-                          </div>
+                          <button onClick={handleEmergencyInvestmentPortfilio}>
+                            <div className="flex items-center justify-center">
+                              <RemoveIcon />
+                            </div>
+                          </button>
                           <div>
                             <p>ขายกองทุน</p>
                           </div>
                         </div>
                       </div>
-                      <h1 className="flex items-center justify-center pb-5">
-                        <CachedIcon />
-                        ดูประวัติการทำรายการ
-                      </h1>
+                      <button onClick={handleEmergencyInvestmentTransaction}>
+                        <h1 className="flex items-center justify-center pb-5">
+                          <CachedIcon />
+                          ดูประวัติการทำรายการ
+                        </h1>
+                      </button>
                     </div>
                   </div>
                   <div className="py-3">
@@ -206,7 +327,12 @@ const EmergencyInvestmentDashboard = () => {
                     <h1 className="flex justify-center item-center text-black">
                       นักออมฉุกเฉินมือใหม่
                     </h1>
-                    <Progress title={"my bar"} />
+                    <div>
+                      <Progress
+                        title={"my bar"}
+                        progress={`${savingEmergencyPlan.Progression}%`}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div
@@ -219,7 +345,7 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 style={{ color: "#085385" }} className="font-bold">
-                        100000
+                        {savingEmergencyPlan?.TargetAmount}
                       </h1>
                     </div>
                   </div>
@@ -229,7 +355,7 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 style={{ color: "#085385" }} className="font-bold">
-                        6
+                        {savingEmergencyPlan.TimePeriod} เดือน
                       </h1>
                     </div>
                   </div>
@@ -239,7 +365,7 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 style={{ color: "#085385" }} className="font-bold">
-                        20,000
+                        {savingEmergencyPlan.TotalBalance} บาท
                       </h1>
                     </div>
                   </div>
@@ -249,7 +375,9 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 style={{ color: "#085385" }} className="font-bold">
-                        80000
+                        {savingEmergencyPlan.TargetAmount -
+                          savingEmergencyPlan.TotalBalance}{" "}
+                        บาท
                       </h1>
                     </div>
                   </div>
@@ -259,7 +387,7 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 style={{ color: "#085385" }} className="font-bold">
-                        4ปี5เดือน
+                        {savingEmergencyPlan.TimeRemaining} เดือน
                       </h1>
                     </div>
                   </div>

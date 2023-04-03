@@ -3,13 +3,13 @@ import { Avatar, FormHelperText } from "@mui/material";
 import Image from "next/image";
 import icon1 from "@/images/Profile/img_pf_jm2.jpg";
 
-interface TransactionTableProps {
+interface InvestTransactionTableProps {
   title: string;
   transaction: any;
   savingEmergency: any;
 }
 
-const TransactionTable: React.FC<TransactionTableProps> = ({
+const InvestTransactionTable: React.FC<InvestTransactionTableProps> = ({
   title,
   transaction,
   savingEmergency,
@@ -25,11 +25,11 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   }
 
   function defineText(str: string): string {
-    if (str == "deposit") {
-      str = "เพิ่มเงินเข้า";
+    if (str == "buy") {
+      str = "ซื้อกองทุน";
       return str;
     } else {
-      str = "ถอนเงินออก";
+      str = "ขายกองทุน";
       return str;
     }
   }
@@ -50,7 +50,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           </Avatar>
         </div>
         <div className="h-20 flex items-center justify-center text-lg grid grid-rows-2">
-          <h1>{savingEmergency.PlanName}</h1>
+          <h1>{transaction.PolicyDesc}</h1>
           <FormHelperText
             id="my-helper-text"
             className="text-gray-400 text-sm flex items-center justify-center"
@@ -69,4 +69,4 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   );
 };
 
-export default TransactionTable;
+export default InvestTransactionTable;

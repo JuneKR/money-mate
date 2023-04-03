@@ -10,7 +10,7 @@ import ModleButtonForm1 from "@/components/SavingEmergency/EmergencyDashboardCom
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
-import TransactionTable from "@/components/TransactionComponents/transactionTable";
+import TransactionTable from "@/components/TransactionComponents/savingTransactionTable";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
@@ -163,7 +163,7 @@ const EmergencyDashboard = () => {
                         <h1>จำนวนเงินเป้าหมาย</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{savingEmergencyPlan.TargetAmount} บาท</h1>
+                        <h1>{savingEmergencyPlan?.TargetAmount} บาท</h1>
                       </div>
                     </div>
                     <div>

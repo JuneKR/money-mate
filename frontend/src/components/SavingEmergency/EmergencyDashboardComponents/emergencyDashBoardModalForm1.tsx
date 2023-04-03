@@ -94,6 +94,7 @@ const EmergencyDashBoardModalForm1: React.FC<
       console.error(error);
     }
   };
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await updateEmergencyPlan();

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, LinearScale, CategoryScale, ChartData, ChartOptions, PointElement, LineElement} from 'chart.js';
+
 Chart.register(LinearScale,CategoryScale, PointElement, LineElement);
 
 interface SavingGraphProps {
@@ -49,11 +50,16 @@ const SavingGraph: React.FC<SavingGraphProps> = (props) => {
       ]
     };
     const options = {
+      plugins: {
+        filler: {
+          propagate: true
+        }
+      },
       scales: {
         y:{
             beginAtZero: true,
           },
-        },  
+        },
       responsive: true,
       maintainAspectRatio: false	// Don't maintain w/h ratio
     };

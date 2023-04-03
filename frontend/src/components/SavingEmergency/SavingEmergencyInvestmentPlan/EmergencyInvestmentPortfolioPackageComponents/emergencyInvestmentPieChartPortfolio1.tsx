@@ -5,6 +5,7 @@ Chart.register(ArcElement);
 
 interface EmergencyInvestmentPieChartPortfolio1Props {
     title: string;
+    packageallocation: any;
 }
 
 const EmergencyInvestmentPieChartPortfolio1: React.FC<EmergencyInvestmentPieChartPortfolio1Props> = ({ title}) => {
@@ -23,7 +24,7 @@ const EmergencyInvestmentPieChartPortfolio1: React.FC<EmergencyInvestmentPieChar
       labels: ['Red', 'Green', 'Yellow'],
       datasets: [
         {
-          data: [300, 50, 100],
+          data: [60, 30, 10],
           backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
           hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
         }

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 interface EmergencyFundsDetailsTableProps {
     title: string;
+    savingInvestmentPort: any;
+    packageallocation: any
 }
 const EmergencyFundsDetailsTable: React.FC<EmergencyFundsDetailsTableProps> = (props) => {
   return (

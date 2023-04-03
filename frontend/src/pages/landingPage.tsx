@@ -10,8 +10,6 @@ import icon1 from "@/images/Icon/กระปุก2.png";
 import icon2 from "@/images/Icon/กระปุก3.png";
 import icon3 from "@/images/Icon/กระปุก5.png";
 
-
-
 interface LandingPageProps {
   index: number;
 }
@@ -35,8 +33,7 @@ interface RowData {
   };
 }
 const LandingPage: React.FC<LandingPageProps> = ({}) => {
-
-  const urlServer = 'http://localhost:8080/'
+  const urlServer = "http://localhost:8080/";
   const [displayData, setdisplayData] = useState<RowData[]>([]);
   const [savingPlans, setSavingPlans] = useState<SavingPlan[]>([]);
 
@@ -45,26 +42,35 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
     async function fetchSavingPlan() {
       try {
         // Fetch User Profile
-        const profileResponse = await fetch(urlServer+'user/profile', {
-          credentials: 'include'
+        const profileResponse = await fetch(urlServer + "user/profile", {
+          credentials: "include",
         });
         const userProfile = await profileResponse.json();
 
         //Fetch Saving Emergency Plan
-        const savingEmergencyResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/emergency`, {
-          credentials: 'include'
-        })
+        const savingEmergencyResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/emergency`,
+          {
+            credentials: "include",
+          }
+        );
         const savingEmergency = await savingEmergencyResponse.json();
 
         //Fetch Goal-Based Saving Plan
-        const savingGoalResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goal`, {
-          credentials: 'include'
-        })
+        const savingGoalResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/goal`,
+          {
+            credentials: "include",
+          }
+        );
         const savingGoal = await savingGoalResponse.json();
 
-        const savingRetirementResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/retirement`, {
-          credentials: 'include'
-        })
+        const savingRetirementResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/retirement`,
+          {
+            credentials: "include",
+          }
+        );
         const savingRetirement = await savingRetirementResponse.json();
 
         const allSavingPlans: SavingPlan[] = [];
@@ -81,16 +87,13 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         }
 
         setSavingPlans(allSavingPlans);
-        console.log('All Saving Plan', allSavingPlans);
-
-
-      } catch(error) {
-        console.log('Fetching Saving Plan Error: ', error)
+        console.log("All Saving Plan", allSavingPlans);
+      } catch (error) {
+        console.log("Fetching Saving Plan Error: ", error);
       }
-
     }
     fetchSavingPlan();
-  }, [])
+  }, []);
 
   // function handleNewData(data: RowData) {
   //   setdisplayData([...displayData, data]);
@@ -111,7 +114,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   return (
     <>
       <main className={styles.main}>
-        <div style={{ padding: "0 4rem", }} className="w-full xl:w-8/12">
+        <div style={{ padding: "0 4rem" }} className="w-full xl:w-8/12">
           <Sidebar title="My Sidebar" />
           <div
             style={{
@@ -169,8 +172,10 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                 </div>
               ) : (
                 <div className="pb-5 px-5">
-                  {savingPlans.map((savingPlan) => (
-                    <LandingSavingPlanCard saving={savingPlan} />
+                  {savingPlans.map((savingPlan, index) => (
+                    <div key={index}>
+                      <LandingSavingPlanCard saving={savingPlan} />
+                    </div>
                   ))}
                 </div>
               )}

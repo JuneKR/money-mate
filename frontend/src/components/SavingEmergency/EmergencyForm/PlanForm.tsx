@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Slider1 from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1'
+import Slider1 from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1";
+import Slider from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption'
 
 type PlanData = {
     expense: number;
@@ -12,6 +13,22 @@ type PlanData = {
 
 type PlanFormProps = PlanData & {
     updateFields: (fields: Partial<PlanData>) => void
+}
+
+type OptionData = {
+    expense: number;
+    period: number;
+    monthlySaving: number;
+    totalBalance: number;
+    timeRemaining: number;
+}
+
+const initialOptionData: OptionData = {
+    expense: 0, 
+    period: 0,
+    monthlySaving: 0,
+    totalBalance: 0,
+    timeRemaining: 0,
 }
 
 export function PlanForm({
@@ -28,39 +45,68 @@ export function PlanForm({
     };
 
     const [isHidden, setIsHidden] = useState(true);
-    const handleClick = () => {
-        setIsHidden(!isHidden);
-    };
 
     function multiply(x: string, y: string): string {
-        const result = Number(x) * Number(y);
+        const numX = Number(x);
+        const numY = Number(y);
+        if (Number.isNaN(numX) || Number.isNaN(numY)) {
+            return "Invalid input";
+        }
+        const result = numX * numY;
         return result.toString();
     }
 
     function divided(x: string, y: string): string {
-        const result = Number(x) / Number(y);
-        console.log("teahhhhhhhhhhhhhhhhhhhhhhhhhhh: " + result)
-        const result2 = result / 12;
-        console.log("result 2: " + result2)
-        return result2.toString();
+        const numX = Number(x);
+        const numY = Number(y);
+        if (Number.isNaN(numX) || Number.isNaN(numY)) {
+            return "Invalid input";
+        }
+        const result = numX / numY / 12;
+        return result.toString();
+    }
 
+    const [optionState, setOptionState] = useState(initialOptionData);
+    const optionForm = {
+        expense,
+        period,
+        monthlySaving,
+        totalBalance,
+        timeRemaining
+    }
+    console.log('State',optionState)
+    // Once user click on checkbox
+    const handleClick = () => {
+        setIsHidden(!isHidden);
+        setOptionState(optionForm);
+    };
+
+    function updateOptionFields(fields: Partial<OptionData>) {
+        setOptionState(prev => {
+          return { ...prev, ...fields }
+        })
     }
 
     const emergencyFund = multiply(expense.toString(), period.toString());
-    const years = divided(emergencyFund, monthlySaving.toString());
+    const targetEmergencyFund = Number(emergencyFund) - totalBalance;
+    const years = divided(targetEmergencyFund.toString(), monthlySaving.toString());
+
+    const optionEmergencyFund = multiply(optionState.expense.toString(), optionState.period.toString());
+    const optionTargetEmergencyFund = Number(optionEmergencyFund) - optionState.totalBalance;
+    const optionYears = divided(optionTargetEmergencyFund.toString(), optionState.monthlySaving.toString());
 
     function yearsToYearsMonthsDays(value: string){
-        console.log(value)
-        var totalDays = Number(value) * 365;
-        var years = Math.floor(totalDays/365);
-        var months = Math.floor((totalDays-(years *365))/30);
-        var days = Math.floor(totalDays - (years*365) - (months * 30));
-        var result = years + " ปี, " + months + " เดือน, " + days + " วัน";
-        console.log(result);
+        const totalDays = Number(value) * 365;
+        const years = Math.floor(totalDays/365);
+        const months = Math.floor((totalDays-(years *365))/30);
+        const days = Math.floor(totalDays - (years*365) - (months * 30));
+        const result = years + " ปี " + months + " เดือน " + days + " วัน";
         return result.toString();
     }
 
     const timeToAchive = yearsToYearsMonthsDays(years);
+    const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
+    console.log(optionTimeToAchive);
     const [selectedOption, setSelectedOption] = useState('');
     
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +153,7 @@ export function PlanForm({
                 {!isHidden && (
                     <div>
                         <div className="py-5">
-                            <p>ลองปรับเปลี่ยนตัวแปร เพื่อหาระยะเวลาออมที่เหมาะสมสำหรับคุณ</p>
+                            <p className="text-black">Tips: ลองปรับเปลี่ยนตัวแปร เพื่อหาระยะเวลาออมที่เหมาะสมสำหรับคุณ</p>
                         </div>
                         <form action="">
                             <div className="block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
@@ -121,12 +167,16 @@ export function PlanForm({
                                     />
                                 </div>
 
-                                <div style={{ width: "10%", backgroundColor: '#FEF5AC'}} className="rounded border border-gray-500 flex item-center justify-center py-2">
-                                        <p>แผนปัจจุบันของคุณ</p>
-                                </div>
+                                {/* <div style={{ width: "10%", backgroundColor: '#FEF5AC'}} className="rounded border border-gray-500 flex item-center justify-center py-2"> */}
+                                <p className="text-black">แผนปัจจุบันของคุณ</p>
+                                {/* </div> */}
 
                                 <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    <Slider1 title="my slidebar1" months={period.toString()}/>
+                                    <Slider1
+                                        title="my slidebar1" 
+                                        months={period.toString()}
+                                        // onChange={e => updateFields({ period: Number(e.target.value) })}
+                                    />
                                 </div>
 
                                 <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
@@ -138,9 +188,26 @@ export function PlanForm({
                                                 <div>เงินปัจจุบัน</div>
                                             </div>
                                             <div>
-                                                <input placeholder="15,000" value={expense} type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="1,000" value={monthlySaving} type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="0" value={totalBalance} type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
+                                                <input 
+                                                    placeholder="15,000" 
+                                                    value={expense} type="text" 
+                                                    // onChange={e => updateFields({ expense: Number(e.target.value) })}
+                                                    className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" 
+                                                />
+                                                <input 
+                                                    placeholder="1,000" 
+                                                    value={monthlySaving} 
+                                                    // onChange={e => updateFields({ monthlySaving: Number(e.target.value) })}
+                                                    type="text" 
+                                                    className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" 
+                                                />
+                                                <input 
+                                                    placeholder="0" 
+                                                    value={totalBalance} 
+                                                    // onChange={e => updateFields({ totalBalance: Number(e.target.value) })}
+                                                    type="text" 
+                                                    className="bg-white border border-gray-500 w-full px-4 rounded"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -160,10 +227,10 @@ export function PlanForm({
                                         </label>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-                            <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+
+                            <div className="block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                                 <div className="flex justify-end">
                                     <input
                                         type="radio"
@@ -172,10 +239,18 @@ export function PlanForm({
                                         checked={selectedOption === 'option2'}
                                         onChange={handleOptionChange}
                                     />
-                               </div>
-                                <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    <Slider1 title="my slidebar1" months={"12"}/>
                                 </div>
+
+                                <p className="text-black">แผนทางเลือก</p>
+
+                                <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                                    <Slider 
+                                        title="my slidebar1" 
+                                        months={optionState.period.toString()}
+                                        onChange={e => updateOptionFields({ period: Number(e.target.value) })}
+                                    />
+                                </div>
+
                                 <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
                                     <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
                                         <div className="grid grid-cols-2 gap-4">
@@ -185,9 +260,27 @@ export function PlanForm({
                                                 <div>เงินปัจจุบัน</div>
                                             </div>
                                             <div>
-                                                <input placeholder="15,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="1,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="0" type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
+                                                <input 
+                                                    placeholder="15,000" 
+                                                    value={optionState.expense} 
+                                                    onChange={e => updateOptionFields({ expense: Number(e.target.value) })}
+                                                    type="text" 
+                                                    className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" 
+                                                />
+                                                <input 
+                                                    placeholder="1,000" 
+                                                    value={optionState.monthlySaving} 
+                                                    onChange={e => updateOptionFields({ monthlySaving: Number(e.target.value) })}
+                                                    type="text" 
+                                                    className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" 
+                                                />
+                                                <input 
+                                                    placeholder="0" 
+                                                    value={optionState.totalBalance} 
+                                                    onChange={e => updateOptionFields({ totalBalance: Number(e.target.value) })}
+                                                    type="text" 
+                                                    className="bg-white border border-gray-500 w-full px-4 rounded"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -199,6 +292,7 @@ export function PlanForm({
                                                 <input
                                                 type="string"
                                                 id="#"
+                                                value={optionTimeToAchive}
                                                 placeholder="8 ปี 9 เดือน"
                                                 style={{ width: "100%", height: "50px"}}
                                                 className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
@@ -206,99 +300,8 @@ export function PlanForm({
                                         </label>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
-                               <div className="flex justify-end">
-                                    <input
-                                        type="radio"
-                                        name="option"
-                                        value="option3"
-                                        checked={selectedOption === 'option3'}
-                                        onChange={handleOptionChange}
-                                    />
-                               </div>
-                                <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    <Slider1 title="my slidebar1" months={"3"}/>
-                                </div>
-                                <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
-                                    <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div className="flex flex-col justify-center">
-                                                <div className="mb-4">รายจ่าย/เดือน</div>
-                                                <div className="mb-4">เงินเก็บ/เดือน</div>
-                                                <div>เงินปัจจุบัน</div>
-                                            </div>
-                                            <div>
-                                                <input placeholder="15,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="1,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="0" type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div style={{ width: "100%", backgroundColor: '#E5F8FF' }} className="mb-4 sm:ml-2 md:ml-0 md:mb-0">
-                                        <div className="flex items-center justify-center">
-                                        <label htmlFor="#" className="block">
-                                            <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">ระยะเวลาออม</span>
-                                                <input
-                                                type="string"
-                                                id="#"
-                                                placeholder="8 ปี 9 เดือน"
-                                                style={{ width: "100%", height: "50px"}}
-                                                className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                                                />
-                                        </label>
-                                        </div>
-                                    </div>
                                 </div>
-                                
-                            </div>
-                            <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
-                                <div className="flex justify-end">
-                                    <input
-                                        type="radio"
-                                        name="option"
-                                        value="option4"
-                                        checked={selectedOption === 'option4'}
-                                        onChange={handleOptionChange}
-                                    />
-                                </div>
-                                <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    <Slider1 title="my slidebar1" months={"9"}/>
-                                </div>
-                                <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
-                                    <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div className="flex flex-col justify-center">
-                                                <div className="mb-4">รายจ่าย/เดือน</div>
-                                                <div className="mb-4">เงินเก็บ/เดือน</div>
-                                                <div>เงินปัจจุบัน</div>
-                                            </div>
-                                            <div>
-                                                <input placeholder="15,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="1,000" type="text" className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" />
-                                                <input placeholder="0" type="text" className="bg-white border border-gray-500 w-full px-4 rounded" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style={{ width: "100%", backgroundColor: '#E5F8FF' }} className="mb-4 sm:ml-2 md:ml-0 md:mb-0">
-                                        <div className="flex items-center justify-center">
-                                        <label htmlFor="#" className="block">
-                                            <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">ระยะเวลาออม</span>
-                                                <input
-                                                    type="string"
-                                                    id="#"
-                                                    placeholder="8 ปี 9 เดือน"
-                                                    style={{ width: "100%", height: "50px"}}
-                                                    className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                                                />
-                                        </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
                             </div>
                         </form>
                     </div>

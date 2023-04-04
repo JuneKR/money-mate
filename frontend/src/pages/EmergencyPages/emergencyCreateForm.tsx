@@ -45,7 +45,7 @@ const emergencyCreateForm = () => {
     function onSubmit(e: FormEvent) {
         e.preventDefault()
         if (!isLastStep) return next()
-        alert("Successful Account Creation")
+        alert("Successful Plan Creation")
     }
 
     return (

@@ -5,6 +5,7 @@ import { Stepper, StepLabel, Step, Box } from '@mui/material';
 import { useMultistepForm } from '@/components/SavingEmergency/EmergencyForm/useMultistepForm';
 import { GoalForm } from '@/components/SavingEmergency/EmergencyForm/GoalForm';
 import { PlanForm } from '@/components/SavingEmergency/EmergencyForm/PlanForm';
+import InvestmentForm from '@/components/SavingEmergency/EmergencyForm/InvestmentForm';
 
 type FormData = {
     expense: number;
@@ -38,7 +39,7 @@ const emergencyCreateForm = () => {
     useMultistepForm([
       <GoalForm {...data} updateFields={updateFields} />,
       <PlanForm {...data} updateFields={updateFields} />,
-    //   <PageThree {...data} updateFields={updateFields} />,
+      <InvestmentForm {...data} updateFields={updateFields} />,
     ])
 
     function onSubmit(e: FormEvent) {
@@ -63,13 +64,13 @@ const emergencyCreateForm = () => {
                     <Box sx={{ width: '100%' }}>
                         <Stepper activeStep={currentStepIndex}>
                             <Step>
-                                <StepLabel></StepLabel>
+                                <StepLabel>เลือกเป้าหมาย</StepLabel>
                             </Step>
                             <Step>
-                                <StepLabel></StepLabel>
+                                <StepLabel>สร้างเป้าหมาย</StepLabel>
                             </Step>
                             <Step>
-                                <StepLabel></StepLabel>
+                                <StepLabel>ตรวจสอบและเลือกแผน</StepLabel>
                             </Step>
                         </Stepper>
                     </Box>     

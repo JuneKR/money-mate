@@ -74,7 +74,7 @@ export function PlanForm({
         totalBalance,
         timeRemaining
     }
-    console.log('State',optionState)
+ 
     // Once user click on checkbox
     const handleClick = () => {
         setIsHidden(!isHidden);
@@ -156,7 +156,10 @@ export function PlanForm({
                             <p className="text-black">Tips: ลองปรับเปลี่ยนตัวแปร เพื่อหาระยะเวลาออมที่เหมาะสมสำหรับคุณ</p>
                         </div>
                         <form action="">
-                            <div className="block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                            <div 
+                                style={{ opacity: 0.6 }} 
+                                className="block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                            >
                                 <div className="flex justify-end">
                                     <input
                                         type="radio"
@@ -175,6 +178,7 @@ export function PlanForm({
                                     <Slider1
                                         title="my slidebar1" 
                                         months={period.toString()}
+                                        disabled={true}
                                         // onChange={e => updateFields({ period: Number(e.target.value) })}
                                     />
                                 </div>
@@ -190,7 +194,9 @@ export function PlanForm({
                                             <div>
                                                 <input 
                                                     placeholder="15,000" 
-                                                    value={expense} type="text" 
+                                                    value={expense} 
+                                                    type="text" 
+                                                    readOnly
                                                     // onChange={e => updateFields({ expense: Number(e.target.value) })}
                                                     className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" 
                                                 />
@@ -198,12 +204,14 @@ export function PlanForm({
                                                     placeholder="1,000" 
                                                     value={monthlySaving} 
                                                     // onChange={e => updateFields({ monthlySaving: Number(e.target.value) })}
+                                                    readOnly
                                                     type="text" 
                                                     className="bg-white border border-gray-500 w-full mb-4 px-4 rounded" 
                                                 />
                                                 <input 
                                                     placeholder="0" 
                                                     value={totalBalance} 
+                                                    readOnly
                                                     // onChange={e => updateFields({ totalBalance: Number(e.target.value) })}
                                                     type="text" 
                                                     className="bg-white border border-gray-500 w-full px-4 rounded"
@@ -220,6 +228,7 @@ export function PlanForm({
                                                 type="string"
                                                 id="#"
                                                 value={timeToAchive}
+                                                readOnly
                                                 placeholder="8 ปี 9 เดือน"
                                                 style={{ width: "100%", height: "50px"}}
                                                 className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
@@ -230,7 +239,7 @@ export function PlanForm({
                                 </div>
                             </div>
 
-                            <div className="block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                            <div style={{ marginTop: 25 }} className="block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
                                 <div className="flex justify-end">
                                     <input
                                         type="radio"
@@ -245,13 +254,13 @@ export function PlanForm({
 
                                 <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                                     <Slider 
-                                        title="my slidebar1" 
+                                        title="my slidebar" 
                                         months={optionState.period.toString()}
                                         onChange={e => updateOptionFields({ period: Number(e.target.value) })}
                                     />
                                 </div>
 
-                                <div style={{ width: "100%", height: "100%"}}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
+                                <div style={{ width: "100%", height: "100%" }}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">
                                     <div style={{backgroundColor: '#E5F8FF'}} className="py-5 px-2 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="flex flex-col justify-center">
@@ -293,6 +302,7 @@ export function PlanForm({
                                                 type="string"
                                                 id="#"
                                                 value={optionTimeToAchive}
+                                                readOnly
                                                 placeholder="8 ปี 9 เดือน"
                                                 style={{ width: "100%", height: "50px"}}
                                                 className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"

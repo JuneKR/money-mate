@@ -84,7 +84,7 @@ const EmergencyDashBoardModalForm1: React.FC<
       if (response.ok) {
         const data = await response.json();
         console.log("done........................");
-        console.log(updateEmergencyPlanData);
+        console.log(data);
         setShowCongratulatoryMessage(true);
       } else {
         const errorData = await response.json();

@@ -76,7 +76,6 @@ const EmergencyDashboard = () => {
             credentials: "include",
           }
         );
-
         const savingEmergencyTransaction =
           await savingEmergencyTransactionResponse.json();
         setSavingEmergencyTransactions(savingEmergencyTransaction);

@@ -22,15 +22,13 @@ const EmargencyPlanGridTable: React.FC<EmargencyPlanGridTableProps> = (props) =>
   };
 
   const columns: GridColDef[] = [
-    { field: 'plan', headerName: 'เป้าหมาย', width: 70 },
-    { field: 'amount', headerName: 'จำนวนเงิน', width: 130 },
-    { field: 'monthlyDeposit', headerName: 'เงินออมต่อเดือน', width: 130 },
-    { field: 'returnRate', headerName: 'ผลตอบแทน', width: 70 },
-    { field: 'period', headerName: 'ระยะเวลา', width: 70 },
+    { field: 'monthlyDeposit', headerName: 'เงินออมต่อเดือน', width: 150 },
+    { field: 'returnRate', headerName: 'ผลตอบแทน', width: 150 },
+    { field: 'period', headerName: 'ระยะเวลา', width: 150 },
     {
       field: 'radio',
       headerName: '',
-      width: 50,
+      width: 100,
       renderCell: (params) => {
         return (
           <div>
@@ -46,12 +44,16 @@ const EmargencyPlanGridTable: React.FC<EmargencyPlanGridTableProps> = (props) =>
     },
   ];
 
+  function calculateTimeToAchiveGoalByReturnRate(rate: number): number {
+    return 0;
+  }
+
   const rows: RowData[] = [
-    { id: 1, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '1%', period: '2y' },
-    { id: 2, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '4.9y' },
+    { id: 1, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '2%', period: '2y' },
+    { id: 2, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '3%', period: '4.9y' },
     { id: 3, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '5y' },
-    { id: 4, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '4.5y' },
-    { id: 5, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '4%', period: '5y' },
+    { id: 4, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '5%', period: '4.5y' },
+    { id: 5, plan: 'A', amount: 100000, monthlyDeposit: 1500, returnRate: '6%', period: '5y' },
   ];
   return (
     <div style={{ height: 400, width: '100%' }} className="bg-gray-50 dark:bg-gray-800">

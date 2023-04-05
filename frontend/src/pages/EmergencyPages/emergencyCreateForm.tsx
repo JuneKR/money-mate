@@ -14,6 +14,8 @@ type FormData = {
     totalBalance: number;
     timeRemaining: number;
     targetAmount: number;
+    riskLevel: number;
+    returnRate: number;
 }
 
 const initialData: FormData = {
@@ -22,7 +24,9 @@ const initialData: FormData = {
     monthlySaving: 0,
     totalBalance: 0,
     timeRemaining: 0,
-    targetAmount: 0
+    targetAmount: 0,
+    riskLevel: 0,
+    returnRate: 0
 }
 
 const emergencyCreateForm = () => {

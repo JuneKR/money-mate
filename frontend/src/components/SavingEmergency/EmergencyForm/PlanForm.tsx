@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Slider1 from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1";
-// import Slider from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption'
+import Slider from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption'
 
 type PlanData = {
     expense: number;
@@ -268,7 +268,7 @@ export function PlanForm({
                                     <Slider1
                                         title="my slidebar1" 
                                         months={currentState.period.toString()}
-                                        // disabled={true}
+                                        disabled={true}
                                         // onChange={e => updateFields({ period: Number(e.target.value) })}
                                     />
                                 </div>
@@ -346,13 +346,13 @@ export function PlanForm({
                                 <p className="text-black">แผนทางเลือก</p>
 
                                 <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                                    {/* <Slider 
+                                    <Slider 
                                         title="my slidebar" 
                                         months={optionState.period.toString()}
                                         onChange={e => {
                                             updateOptionFields({ period: Number(e.target.value) })
                                         }}
-                                    /> */}
+                                    />
                                 </div>
 
                                 <div style={{ width: "100%", height: "100%" }}className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black">

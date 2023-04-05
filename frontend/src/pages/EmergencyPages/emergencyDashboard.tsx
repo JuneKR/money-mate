@@ -36,6 +36,7 @@ export interface SavingEmergencyTransaction {
 }
 
 const EmergencyDashboard = () => {
+
   const router = useRouter();
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
@@ -48,7 +49,8 @@ const EmergencyDashboard = () => {
 
   const [savingEmergencyTransactions, setSavingEmergencyTransactions] =
     useState<SavingEmergencyTransaction[]>([]);
-
+  
+  
   // Fetch APIs
   useEffect(() => {
     async function fetchSavingPlan() {

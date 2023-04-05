@@ -138,6 +138,7 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit}
+        className="flex justify-center item-center"
       >
         <FormControl>
           <div>
@@ -253,7 +254,7 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
             />
           </div>
           <div className="py-5">
-            <div className="flex justify-end">
+            <div className="flex justify-center">
               <button
                 style={{ width: "209px" }}
                 className="bg-blue-300 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded delay-150"
@@ -264,7 +265,7 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
           </div>
         </FormControl>
       </Box>
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <button
           onClick={clearForm}
           style={{ width: "209px" }}
@@ -273,20 +274,20 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
           ล้างข้อมูล
         </button>
       </div>
-      <div className="bg-gray-50 shadow-2xl">
+      <div className="bg-gray-50 shadow-2xl py-10">
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            // backgroundColor: "#FEF5AC",
+            backgroundColor: "#B2E8FF",
           }}
-          className=" py-2 rounded bg-gradient-to-r from-red-500 via-yellow-400 to-yellow-200"
+          className=" py-2 rounded "
         >
           <div
             style={{ padding: "0 1rem" }}
             className="font-bold text-black dark:text-gray-500 "
           >
-            ประวัติรายการ
+            กองทุนรวมทั้งหมด
           </div>
         </div>
         <div>

@@ -162,29 +162,39 @@ export function PlanForm({
 
         // Check the selected option to fetch the apis and update the parent state
         if (selectedOption === 'option1') {
-            // Fetch with Current State
-            // Default is option 1; Set state of time remaning and target amount of parent
             // Update the Current Plan State
             updateCurrentFields({ timeRemaining: Number(currentYears) })
             updateCurrentFields({ targetAmount: Number(currentEmergencyFund) })
 
-            // Mockup new state (temp) before passing to next form
-            // By using option1 to set the state of data to pass to next form
+            updateFields({
+                expense: currentState.expense,
+                period: currentState.period,
+                monthlySaving: currentState.monthlySaving,
+                totalBalance: currentState.totalBalance,
+                targetAmount: currentState.targetAmount,
+                timeRemaining: currentState.timeRemaining
+            })
         }   
         else if (selectedOption === 'option2'){
-            // Fetch with Option State
-            updateOptionFields({ timeRemaining: Number(optionYears) })
-            updateOptionFields({ targetAmount: Number(optionEmergencyFund) })
-        }
-        else {
-            // Fetch with Parent State
-            // Update the Current Plan State
-            // setOptionState(optionForm); 
+            // Update the Option Plan State
             updateOptionFields({ timeRemaining: Number(optionYears) })
             updateOptionFields({ targetAmount: Number(optionEmergencyFund) })
 
-            // setCurrentState(currentForm);
-             // Update the Current Plan State
+            updateFields({
+                expense: optionState.expense,
+                period: optionState.period,
+                monthlySaving: optionState.monthlySaving,
+                totalBalance: optionState.totalBalance,
+                targetAmount: optionState.targetAmount,
+                timeRemaining: optionState.timeRemaining
+            })
+        }
+        else {
+            // Update the Option Plan State
+            updateOptionFields({ timeRemaining: Number(optionYears) })
+            updateOptionFields({ targetAmount: Number(optionEmergencyFund) })
+
+            // Update the Current Plan State
             updateCurrentFields({ timeRemaining: Number(currentYears) })
             updateCurrentFields({ targetAmount: Number(currentEmergencyFund) })
         }
@@ -192,14 +202,9 @@ export function PlanForm({
         // Check the Checkbox is hidden or not to set parent state
         if (isHidden) {
             // Update the Parent Plan State
-            // updateFields({ timeRemaining: Number(years) })
-            // updateFields({ targetAmount: Number(emergencyFund) })
+            updateFields({ timeRemaining: Number(years) })
+            updateFields({ targetAmount: Number(emergencyFund) })
         }
-        // else {
-        //     // Set State from Parent State
-        //     setOptionState(optionForm); 
-        //     setCurrentState(currentForm);
-        // }
     }, [isHidden, selectedOption, currentYears, currentEmergencyFund, optionYears, optionEmergencyFund, selectedOption]);
     console.log('Select', selectedOption)
 

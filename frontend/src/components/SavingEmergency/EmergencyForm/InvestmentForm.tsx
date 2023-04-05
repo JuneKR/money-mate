@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Box, Slider } from "@mui/material";
+import InvestmentSlider from '@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider';
 import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 
 type InvestmentData = {
@@ -9,6 +10,9 @@ type InvestmentData = {
     monthlySaving: number;
     totalBalance: number;
     timeRemaining: number;
+    targetAmount: number;
+    riskLevel: number;
+    returnRate: number;
 }
 
 type InvestmentFormProps = InvestmentData & {
@@ -21,6 +25,9 @@ export function InvestmentForm({
     monthlySaving,
     totalBalance,
     timeRemaining,
+    targetAmount,
+    riskLevel,
+    returnRate,
     updateFields
 }: InvestmentFormProps) {
     const [isHidden, setIsHidden] = useState(true);
@@ -39,42 +46,7 @@ export function InvestmentForm({
         router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
     };
 
-    const marks = [
-    {
-        value: 1,
-        label: "1",
-    },
-    {
-        value: 2,
-        label: "2",
-    },
-    {
-        value: 3,
-        label: "3",
-    },
-    {
-        value: 4,
-        label: "4",
-    },
-    {
-        value: 5,
-        label: "5",
-    },
-    {
-        value: 6,
-        label: "6",
-    },
-    {
-        value: 7,
-        label: "7",
-    },
-    {
-        value: 8,
-        label: "8",
-    },
-    ];
-
-    function yearsToYearsMonthsDays(value: string){
+    function yearsToYearsMonthsDays(value: string) {
         const totalDays = Number(value) * 365;
         const years = Math.floor(totalDays/365);
         const months = Math.floor((totalDays-(years *365))/30);
@@ -85,15 +57,10 @@ export function InvestmentForm({
         }
         return result.toString();
     }
+
     const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
-    function valuetext(value: number) {
-    return `${value}°C`;
-    }
-
-    function valueLabelFormat(value: number) {
-    return marks.findIndex((mark) => mark.value === value) + 1;
-    }
+    console.log('Risk Level', riskLevel);
 
     return (
         <div className="py-20">
@@ -113,7 +80,7 @@ export function InvestmentForm({
               ออมเงินเผื่อฉุกเฉิน
             </div>
             <div className="p-4">คุณต้องมีเงินฉุกเฉิน</div>
-            <div className="p-4">{expense}</div>
+            <div className="p-4">{targetAmount}</div>
             <div className="p-4">ระยะเวลาในการออม</div>
             <div className="p-4">{timeToAchive}</div>
             <div className="p-4">จำนวนเดือนที่ต้องการเก็บ</div>
@@ -156,7 +123,8 @@ export function InvestmentForm({
                   <input
                     placeholder="6"
                     type="text"
-                    className="bg-white border border-gray-500 w-full mb-4 px-4 rounded"
+                    value={riskLevel}
+                    className="text-black bg-white border border-gray-500 w-full mb-4 px-4 rounded"
                   />
                 </div>
                 <div className="font-bold text-black">
@@ -166,8 +134,10 @@ export function InvestmentForm({
                   <input
                     placeholder="7 %"
                     type="text"
-                    className="bg-white border border-gray-500 w-full mb-4 px-4 rounded"
+                    value={returnRate}
+                    className="text-black bg-white border border-gray-500 w-full mb-4 px-4 rounded"
                   />
+                  <span>%</span>
                 </div>
               </div>
               <form action="">
@@ -182,48 +152,27 @@ export function InvestmentForm({
                       </h1>
                     </div>
                     <div className="w-full h-24 md:h-32">
-                      <Box sx={{ width: "100%" }}>
-                        <Slider
-                          aria-label="Temperature"
-                          defaultValue={3}
-                          getAriaValueText={valuetext}
-                          valueLabelFormat={valueLabelFormat}
-                          valueLabelDisplay="auto"
-                          step={1}
-                          marks={marks}
-                          min={1}
-                          max={8}
-                        />
-                      </Box>
+                      <InvestmentSlider
+                        title="my slidebar" 
+                        riskLevel={riskLevel.toString()}
+                        onChange={e => {
+                            updateFields({ 
+                                riskLevel: Number(e.target.value), 
+                                returnRate: Number(e.target.value)+1 
+                            })
+                        }}  
+                      />
                     </div>
                     <div className="text-black rounded ">
                       <h1 className="font-bold text-center md:text-left">
                         ความเสี่ยงที่คุณสามารถรับได้
                       </h1>
-                      <a href="/" className="block text-center md:text-left">
+                      <a href="/" target="_blank" rel="noopener noreferrer" className="block text-center md:text-left">
                         <p className="text-blue-800 hover:text-blue-500">
                           หมายเหตุ: คลิกที่นี่เพื่อประเมินความเสี่ยงของคุณ
                         </p>
                       </a>
                     </div>
-                    <label htmlFor="monthlyExpense" className="block">
-                      <input
-                        type="string"
-                        id="mExpense"
-                        value={expense}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setFormData((prevState) => ({
-                        //     ...prevState,
-                        //     mExpense: e.target.value,
-                        //   }))
-                        // }
-                        placeholder="15,000"
-                        className="block w-full px-3 py-2 text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                      />
-                      <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-                        ข้อมูลไม่ถูกต้อง
-                      </p>
-                    </label>
                   </div>
                 </div>
                 <div className="text-black rounded bg-gray-50 dark:bg-gray-800 py-6 font-bold">

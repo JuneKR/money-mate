@@ -156,8 +156,6 @@ export function PlanForm({
         setSelectedOption(event.target.value);
     };
 
-    // setCurrentState({...currentState, timeRemaining: Number(currentYears)})
-
     useEffect(() => {
 
         // Check the selected option to fetch the apis and update the parent state
@@ -274,7 +272,6 @@ export function PlanForm({
                                         title="my slidebar1" 
                                         months={currentState.period.toString()}
                                         disabled={true}
-                                        // onChange={e => updateFields({ period: Number(e.target.value) })}
                                     />
                                 </div>
 
@@ -320,13 +317,13 @@ export function PlanForm({
                                         <label htmlFor="#" className="block">
                                             <span className="block m-1 font-medium text-gray-700 hover:border-b hover:border-gray-800">ระยะเวลาออม</span>
                                                 <input
-                                                type="string"
-                                                id="#"
-                                                value={currentTimeToAchive}
-                                                readOnly
-                                                placeholder="8 ปี 9 เดือน"
-                                                style={{ width: "100%", height: "50px"}}
-                                                className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                                                    type="string"
+                                                    id="#"
+                                                    value={currentTimeToAchive}
+                                                    readOnly
+                                                    placeholder="8 ปี 9 เดือน"
+                                                    style={{ width: "100%", height: "50px"}}
+                                                    className="px-3 block w-full text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                                                 />
                                         </label>
                                         </div>

@@ -8,7 +8,7 @@ interface SavingSelectionPageProps  {
 const SavingSelectionPage: React.FC<SavingSelectionPageProps> = ({ title}) => {
   const router = useRouter()
   const handleEmergencyHomepage = () => {
-     router.push('/EmergencyPages/emergencyHomepage')
+    router.push('/EmergencyPages/emergencyCreateForm')
    }
     return (
         <div className='w-full h-full'>

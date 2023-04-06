@@ -7,7 +7,7 @@ interface PackageItemAttributes {
     Fund_ID: number;   
     PolicyDesc: string;
     FundAbbrName: string;
-    ReturnRate: number;
+    OneYearReturns: number;
     AllocationRatio: number;
 }
 
@@ -52,7 +52,7 @@ const PackageItem = db.define<PackageItemInstance>('PackageItem', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    ReturnRate: {
+    OneYearReturns: {
         type: DataTypes.FLOAT,
         allowNull: false,
     },

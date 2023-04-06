@@ -43,7 +43,7 @@ const emergencyCreateForm = () => {
     useMultistepForm([
       <GoalForm {...data} updateFields={updateFields} />,
       <PlanForm {...data} updateFields={updateFields} />,
-      <InvestmentForm {...data} updateFields={updateFields} />,
+      <InvestmentForm selected={false} {...data} updateFields={updateFields} />,
     ])
 
     function onSubmit(e: FormEvent) {

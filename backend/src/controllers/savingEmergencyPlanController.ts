@@ -18,7 +18,6 @@ export const createEmergencyPlan = async(req: Request, res: Response) => {
         user_id,
     } = req.body;
     try {
-
         await SavingEmergencyPlan.create({
             PlanName: plan_name,
             TargetAmount: target_amount,

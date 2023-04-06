@@ -198,6 +198,9 @@ export const getInvestmentPortfolioAllocationByPortfolioId = async(req: Request,
             attributes:[
                 'Portfolio_ID',
                 'Fund_ID',
+                'PolicyDesc',
+                'FundAbbrName',
+                'OneYearReturns',
                 'AllocationRatio'
             ],
             where: {
@@ -238,10 +241,6 @@ export const editInvestmentPortfolioAllocationByPortfolioId = async(req: Request
     } catch (error: any) {
         return res.status(400).json({msg: error.message});
     }
-}
-
-/* Calculator Funciton */
-export const calculateInvestmentROI = async(req: Request, res: Response) => {
 }
 
 /* Investment Transaction */

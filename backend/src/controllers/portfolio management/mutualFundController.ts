@@ -1,5 +1,5 @@
 import MutualFund from "../../models/portfolio management/mutualFundModel";
-import PackageItem from "../../models/portfolio management/packageItem";
+import PackageItem from "../../models/portfolio management/packageItemModel";
 import { Request, Response } from "express";
 
 /* Mutual Fund */

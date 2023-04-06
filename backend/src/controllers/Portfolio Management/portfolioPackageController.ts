@@ -147,7 +147,7 @@ export const getAllPortfolioPackageAllocationByPackageId = async(req: Request, r
                 'Fund_ID',
                 'PolicyDesc',
                 'FundAbbrName',
-                'ReturnRate',
+                'OneYearReturns',
                 'AllocationRatio'
             ],
             where: {
@@ -205,7 +205,7 @@ export const addMutualFundToPackage = async(req: Request, res: Response) => {
             fund_id,
             policy_desc,
             fund_abbr_name,
-            return_rate,
+            one_year_returns,
             allocation_ratio,
         } = req.body;
 
@@ -224,7 +224,7 @@ export const addMutualFundToPackage = async(req: Request, res: Response) => {
             Fund_ID: fund_id,
             PolicyDesc: policy_desc,
             FundAbbrName: fund_abbr_name,
-            ReturnRate: return_rate,
+            OneYearReturns: one_year_returns,
             AllocationRatio: allocation_ratio
         });
         res.status(201).json({msg: "Successful add mutual fund and allocation to portfolio package"});

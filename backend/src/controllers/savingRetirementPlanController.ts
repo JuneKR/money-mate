@@ -8,14 +8,12 @@ export const createRetirementPlan = async(req: Request, res: Response) => {
         plan_name,
         target_amount,
         time_period,
-        initial_saving,
         monthly_saving,
         start_date,
         last_update,
         total_balance,
         time_remaining,
         date_of_birth,
-        interest_rate,
         monthly_expense,
         age_to_retire,
         age_to_live,
@@ -30,14 +28,12 @@ export const createRetirementPlan = async(req: Request, res: Response) => {
             PlanName: plan_name,
             TargetAmount: target_amount,
             TimePeriod: time_period,
-            InitialSaving: initial_saving,
             MonthlySaving: monthly_saving,
             StartDate: start_date,
             LastUpdate: last_update,
             TotalBalance: total_balance,
             TimeRemaining: time_remaining,
             DateOfBirth: date_of_birth,
-            InterestRate: interest_rate,
             MonthlyExpense: monthly_expense,
             AgeToRetire: age_to_retire,
             AgeToLive: age_to_live,
@@ -46,7 +42,7 @@ export const createRetirementPlan = async(req: Request, res: Response) => {
             Progression: progression,
             User_ID: user_id
         });
-        res.status(201).json({msg: "Successful Create new retirement plan "});
+        res.status(201).json({msg: "Successful Create new retirement plan"});
     } catch (error: any) {
         res.status(400).json({msg: error.message});
     }
@@ -73,14 +69,12 @@ export const getRetirementPlanByUserId = async(req: Request, res: Response) => {
                 'PlanName',
                 'TargetAmount',
                 'TimePeriod',
-                'InitialSaving',
                 'MonthlySaving',
                 'StartDate',
                 'LastUpdate',
                 'TotalBalance',
                 'TimeRemaining',
                 'DateOfBirth',
-                'InterestRate',
                 'MonthlyExpense',
                 'AgeToRetire',
                 'AgeToLive',
@@ -116,14 +110,12 @@ export const getRetirementPlanById = async(req: Request, res: Response) => {
                 'PlanName',
                 'TargetAmount',
                 'TimePeriod',
-                'InitialSaving',
                 'MonthlySaving',
                 'StartDate',
                 'LastUpdate',
                 'TotalBalance',
                 'TimeRemaining',
                 'DateOfBirth',
-                'InterestRate',
                 'MonthlyExpense',
                 'AgeToRetire',
                 'AgeToLive',
@@ -160,13 +152,11 @@ export const editRetirementPlan = async(req: Request, res: Response) => {
         plan_name,
         target_amount,
         time_period,
-        initial_saving,
         monthly_saving,
         last_update,
         total_balance,
         time_remaining,
         date_of_birth,
-        interest_rate,
         monthly_expense,
         age_to_retire,
         age_to_live,
@@ -180,14 +170,11 @@ export const editRetirementPlan = async(req: Request, res: Response) => {
             PlanName: plan_name,
             TargetAmount: target_amount,
             TimePeriod: time_period,
-            InitialSaving: initial_saving,
             MonthlySaving: monthly_saving,
-            // LastUpdate: new Date().toISOString().slice(0, 19).replace('T', ' '),
             LastUpdate: last_update,
             TotalBalance: total_balance,
             TimeRemaining: time_remaining,
             DateOfBirth: date_of_birth,
-            InterestRate: interest_rate,
             MonthlyExpense: monthly_expense,
             AgeToRetire: age_to_retire,
             AgeToLive: age_to_live,
@@ -227,10 +214,6 @@ export const deleteRetirementPlan = async(req: Request, res: Response) => {
     } catch (error: any) {
         return res.status(400).json({msg: error.message});
     }
-}
-
-/* Calculation */
-export const calculateRetirementFund = async(req: Request, res: Response) => {
 }
 
 /* Transaction */
@@ -286,7 +269,6 @@ export const addTransactionToRetirementPlan = async(req: Request, res: Response)
             Type: type,
             Retirement_ID: retirementPlan.Retirement_ID
         });
-        /* !! Must update LastUpdate and TimeRemaining */
 
         res.status(201).json({msg: "Retirement transaction history is recorded"});
     } catch (error: any) {

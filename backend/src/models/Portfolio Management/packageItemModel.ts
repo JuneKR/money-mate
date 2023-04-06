@@ -5,6 +5,9 @@ interface PackageItemAttributes {
     PackageItem_ID: number;
     Package_ID: number;
     Fund_ID: number;   
+    PolicyDesc: string;
+    FundAbbrName: string;
+    ReturnRate: number;
     AllocationRatio: number;
 }
 
@@ -41,12 +44,21 @@ const PackageItem = db.define<PackageItemInstance>('PackageItem', {
             key: 'Fund_ID'
         }
     },
+    PolicyDesc: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    FundAbbrName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    ReturnRate: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
     AllocationRatio: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        validate: {
-            notEmpty: true
-        }
     },
 }, {
     freezeTableName: true

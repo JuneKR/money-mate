@@ -6,7 +6,6 @@ interface GoalBasedAttributes {
     PlanName: string;
     TargetAmount: number;
     TimePeriod: number;
-    InitialSaving: number;
     MonthlySaving: number;
     StartDate: Date;
     LastUpdate: Date;
@@ -46,10 +45,6 @@ const GoalBasedSavingPlan = db.define<GoalBasedInstance>('GoalBasedSavingPlan', 
     },
     TimePeriod: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    InitialSaving: {
-        type: DataTypes.FLOAT,
         allowNull: false,
     },
     MonthlySaving: {

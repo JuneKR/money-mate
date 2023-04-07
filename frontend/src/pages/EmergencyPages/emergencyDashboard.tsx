@@ -121,7 +121,7 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
               <div>
-                <div className="border border-gray-200 bg-gray-50 rounded">
+                <div className="border border-gray-200 bg-gray-50 rounded-lg  shadow-2xl">
                   <ModleButtonForm1
                     title={""}
                     savingEmergency={savingEmergencyPlan}
@@ -241,6 +241,7 @@ const EmergencyDashboard = () => {
                 </div>
                 <div className="flex justify-center item-center py-20">
                   <button
+                    disabled
                     onClick={handleEmergencyInvestmentPortfolioPackage}
                     className="transition ease-in-out delay-150 bg-yellow-200 hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500 duration-300 text-black font-bold py-2 px-4 rounded"
                   >

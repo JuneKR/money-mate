@@ -114,7 +114,7 @@ const EmergencyDashBoardModalForm1: React.FC<
 
   return (
     <div>
-      <Button onClick={handleOpen} className="w-full h-full shadow-2xl">
+      <Button onClick={handleOpen} className="w-full h-full">
         <div>
           <div className="flex justify-end">
             <EditIcon />

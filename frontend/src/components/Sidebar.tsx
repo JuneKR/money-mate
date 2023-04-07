@@ -285,7 +285,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         </DrawerHeader>
         <Divider />
         <List style={{backgroundColor: '#9FC6D5'}}>
-          {['Home', 'Saving', 'Emergency', 'Goal-Based', 'Retirement', 'Investment', 'Overview', 'Profile'].map((text, index) => (
+          {['หน้าหลัก', 'สร้างเป้าหมายการออม', 'ออมเงินเผื่อฉุกเฉิน', 'ออมเงินเพื่อเป้าหมาย', 'ออมเงินเพื่อเกษียณ', 'แผนการลงทุน', 'Profile'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -314,11 +314,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                       router.push('/EmergencyPages/emergencyInvestmentDashboard');
                       break;
                     case 6:
-                      router.push('/');
-                      break;
-                    case 7:
                       router.push('/ProfileManagement/userProfile');
                       break;
+                    // case 7:
+                    //   router.push('/ProfileManagement/userProfile');
+                    //   break;
                     // Add more cases for each button
                     default:
                       break;
@@ -339,8 +339,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                   { index === 3 ? <GridViewIcon/> : null}
                   { index === 4 ? <ElderlyIcon/> : null}
                   { index === 5 ? <AttachMoneyIcon/> : null}
-                  { index === 6 ? <BarChartIcon/> : null}
-                  { index === 7 ? <PersonIcon/> : null}
+                  {/* { index === 6 ? <BarChartIcon/> : null} */}
+                  { index === 6 ? <PersonIcon/> : null}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>

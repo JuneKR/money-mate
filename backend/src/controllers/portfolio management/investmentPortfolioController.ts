@@ -105,6 +105,43 @@ export const getInvestmentPortfolioById = async(req: Request, res: Response) => 
 
 }
 
+export const getInvestmentPortfolioByEmergencyId = async(req: Request, res: Response) => {
+    
+    try {
+        const investmentPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Emergency_ID: req.params.id
+            }
+        });
+
+        /* Check Investment Portfolio */
+        if(!investmentPortfolio) {
+            return res.status(404).json({msg: `Investment portfolio with emergency id: ${req.params.id} not found!`});
+        }
+
+        const response = await InvestmentPortfolio.findOne({
+            attributes:[
+                'PortfolioName',
+                'TotalValue',
+                'LastUpdate',
+                'StartDate',
+                'RiskSpectrum',
+                'ReturnRate',
+                'Package_ID',
+                'Portfolio_ID'
+            ],
+            where: {
+                Emergency_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+
+}
+
+
 export const editInvestmentPortfolio = async(req: Request, res: Response) => {
     
     try {

@@ -152,7 +152,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                 ความเสี่ยงที่รับได้
               </div>
               <div className="flex items-center justify-center text-black text-gray-500">
-                {savingInvestmentPort?.RiskSpectrum}
+                {savingInvestmentPort?.RiskSpectrum === undefined ? "-" : savingInvestmentPort?.RiskSpectrum}
               </div>
             </div>
             <div>
@@ -160,7 +160,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                 ผลตอบแทนที่คาดหวัง
               </div>
               <div className="flex items-center justify-center text-black text-gray-500">
-                {savingInvestmentPort?.ReturnRate}
+                {savingInvestmentPort?.ReturnRate === undefined ? "-" : savingInvestmentPort?.ReturnRate}
               </div>
             </div>
           </div>

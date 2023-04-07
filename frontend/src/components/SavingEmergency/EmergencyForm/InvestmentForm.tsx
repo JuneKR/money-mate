@@ -358,8 +358,8 @@ export function InvestmentForm({
                       <tbody className="text-lg">
                         {initialTableData.map(
                           (data, index) =>
-                            data.riskLevel >= selectedRiskLevel - 1 &&
-                            data.riskLevel <= selectedRiskLevel + 1 && (
+                            data.riskLevel <= selectedRiskLevel &&
+                             (
                               <tr key={index}>
                                 <td className="px-4 py-2">
                                   {data.monthlySaving}

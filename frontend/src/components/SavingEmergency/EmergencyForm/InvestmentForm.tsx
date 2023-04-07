@@ -48,7 +48,7 @@ export function InvestmentForm({
     rateInput: number
   ) {
     const remainTimeTvmResult = tvmCalculator.calcNPer({
-      pv: pvInput,
+      pv: -pvInput,
       fv: fvInput,
       pmt: -pmInputt,
       rate: rateInput,

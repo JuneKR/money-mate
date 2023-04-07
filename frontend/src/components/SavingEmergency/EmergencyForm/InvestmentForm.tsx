@@ -40,13 +40,6 @@ export function InvestmentForm({
   };
   const selectedRiskLevel = riskLevel;
   const tvmCalculator = require("tvm-calculator");
-  // const numberPeriods = tvmCalculator.calcNPer({
-  //   pv: -totalBalance,
-  //   fv: targetAmount,
-  //   pmt: monthlySaving,
-  //   rate: returnRate,
-  // });
-  console.log(numberPeriods);
 
   function numberPeriods(
     pvInput: number,
@@ -198,8 +191,10 @@ export function InvestmentForm({
     useState<InvestmentData[]>(initialTableData);
 
   const handleRadioChange = (index: number) => {
+    console.log(index)
     const newData = tableData.map((data, i) => {
       if (i === index) {
+        console.log(data)
         return { ...data, selected: true };
       } else {
         return { ...data, selected: false };
@@ -228,14 +223,14 @@ export function InvestmentForm({
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
   return (
-    <div className="py-20">
+    <div>
       <div
         style={{ width: "100%", height: "100%", padding: "0 4rem" }}
         className="rounded bg-gray-50 dark:bg-gray-800"
       >
         <div
           style={{ width: "100%", height: "50%", backgroundColor: "#E5F8FF" }}
-          className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
+          className="shadow-2xl flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 text-black font-bold">
             <div className="text-blue-800 hover:text-blue-900 p-4">
@@ -245,7 +240,7 @@ export function InvestmentForm({
               ออมเงินเผื่อฉุกเฉิน
             </div>
             <div className="p-4">คุณต้องมีเงินฉุกเฉิน</div>
-            <div className="p-4">{targetAmount}</div>
+            <div className="p-4">{targetAmount} บาท</div>
             <div className="p-4">ระยะเวลาในการออม</div>
             <div className="p-4">{timeToAchive}</div>
             <div className="p-4">จำนวนเดือนที่ต้องการเก็บ</div>
@@ -276,10 +271,10 @@ export function InvestmentForm({
             </label>
           </div>
           {!isHidden && (
-            <div className="py-5">
+            <div className="py-5 ">
               <div
                 style={{ backgroundColor: "#E5F8FF" }}
-                className=" w-full h-full grid grid-cols-2 px-3 py-3"
+                className="shadow-2xl w-full h-full grid grid-cols-2 px-3 py-3"
               >
                 <div className="font-bold text-black">
                   <p>ระดับความเสี่ยง</p>
@@ -309,7 +304,7 @@ export function InvestmentForm({
                 <div className="flex flex-col items-center justify-center  w-full h-full gap-20 mb-3 block px-3 py-7 text-sm placeholder-gray-500">
                   <div
                     style={{ backgroundColor: "#E5F8FF" }}
-                    className="min-w-64 w-full h-full  px-4 py-6 border border-gray-300 rounded bg-gray-50 dark:bg-gray-800 md:p-8"
+                    className="shadow-2xl min-w-64 w-full h-full  px-4 py-6 border border-gray-300 rounded bg-gray-50 dark:bg-gray-800 md:p-8"
                   >
                     <div className="text-black rounded py-2 font-bold">
                       <h1 className="text-center md:text-left">
@@ -348,11 +343,11 @@ export function InvestmentForm({
                 <div className="text-black rounded bg-gray-50 dark:bg-gray-800 py-6 font-bold">
                   <h1>เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้</h1>
                 </div>
-                <div className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
-                  <div>
+                <div className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-2xl">
+                  <div className="flex justify-center item-center">
                     <table className="table-fixed text-black">
                       <thead>
-                        <tr>
+                        <tr  className=" text-lg">
                           <th className="px-4 py-2">ออมเงินต่อเดือน</th>
                           <th className="px-4 py-2">ความเสี่ยง</th>
                           <th className="px-4 py-2">ผลตอบแทน</th>
@@ -360,7 +355,7 @@ export function InvestmentForm({
                           <th className="px-4 py-2">เลือก</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className="text-lg">
                         {initialTableData.map(
                           (data, index) =>
                             data.riskLevel >= selectedRiskLevel - 1 &&
@@ -370,22 +365,23 @@ export function InvestmentForm({
                                   {data.monthlySaving}
                                   {/* {monthlySaving} */}
                                 </td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2">
                                   {data.riskLevel}
                                   {/* {riskLevel} */}
                                 </td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2">
                                   {data.returnRate}%{/* {returnRate} */}
                                 </td>
-                                <td className="border px-4 py-2">
-                                  {yearsToYearsMonthsDays(data.timeRemaining)}
+                                <td className="px-4 py-2">
+                                  {yearsToYearsMonthsDays(data.timeRemaining.toString())}
                                   {/* {period} */}
                                 </td>
-                                <td className="border px-4 py-2">
+                                <td className="px-4 py-2">
                                   <input
                                     type="radio"
                                     checked={data.selected}
                                     onChange={() => handleRadioChange(index)}
+                                    
                                   />
                                 </td>
                               </tr>

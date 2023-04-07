@@ -34,6 +34,17 @@ export interface SavingEmergencyTransaction {
   Amount: number;
   Type: string;
 }
+function yearsToYearsMonthsDays(value: string) {
+  const totalDays = Number(value) * 365;
+  const years = Math.floor(totalDays / 365);
+  const months = Math.floor((totalDays - years * 365) / 30);
+  const days = Math.floor(totalDays - years * 365 - months * 30);
+  const result = years + " ปี " + months + " เดือน " + days + " วัน";
+  if (isNaN(years) || isNaN(months) || isNaN(days)) {
+    return "0 ปี 0 เดือน 0 วัน";
+  }
+  return result.toString();
+}
 
 const EmergencyDashboard = () => {
   const router = useRouter();
@@ -199,7 +210,7 @@ const EmergencyDashboard = () => {
                         <h1>เหลือเวลาอีก</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{savingEmergencyPlan.TimeRemaining} เดือน</h1>
+                        <h1>{yearsToYearsMonthsDays(savingEmergencyPlan.TimeRemaining)} เดือน</h1>
                       </div>
                     </div>
                   </div>
@@ -255,7 +266,10 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
               <div>
-                <div style={{ maxHeight: "600px", overflow: "auto" }} className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm">
+                <div
+                  style={{ maxHeight: "600px", overflow: "auto" }}
+                  className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                >
                   {!savingEmergencyTransactions.length ? (
                     <div>
                       <h1 className="text-black text-center">

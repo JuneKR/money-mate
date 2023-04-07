@@ -24,6 +24,19 @@ const style = {
   p: 4,
 };
 
+function yearsToYearsMonthsDays(value: string) {
+  // const values = Number(value) / 12;
+  const totalDays = Number(value) * 365;
+  const years = Math.floor(totalDays / 365);
+  const months = Math.floor((totalDays - years * 365) / 30);
+  const days = Math.floor(totalDays - years * 365 - months * 30);
+  const result = years + " ปี " + months + " เดือน " + days + " วัน";
+  if (isNaN(years) || isNaN(months) || isNaN(days)) {
+    return "0 ปี 0 เดือน 0 วัน";
+  }
+  return result.toString();
+}
+
 const EmergencyDashBoardModalForm1: React.FC<
   EmergencyDashBoardModalForm1Props
 > = ({ title, savingEmergency }) => {
@@ -111,7 +124,7 @@ const EmergencyDashBoardModalForm1: React.FC<
               เป้าหมายการออมเงิน
             </h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
             <div>
               <div className="flex items-center justify-center text-black font-bold">
                 จำนวนเงิน
@@ -122,10 +135,10 @@ const EmergencyDashBoardModalForm1: React.FC<
             </div>
             <div>
               <div className="flex items-center justify-center text-black font-bold">
-                ระยะเวลา
+                ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-black">
-                {savingEmergency.TimeRemaining} เดือน
+                {yearsToYearsMonthsDays(savingEmergency.TimeRemaining)} 
               </div>
             </div>
             <div>
@@ -138,13 +151,13 @@ const EmergencyDashBoardModalForm1: React.FC<
             </div>
             <div>
               <div className="flex items-center justify-center text-black font-bold">
-                เงินลงทุน/ต่อเดือน
+                เงินออม/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-black">
-                {savingEmergency.TimePeriod}
+                {savingEmergency.MonthlySaving} บาท
               </div>
             </div>
-            <div>
+            {/* <div>
               <div className="flex items-center justify-center text-black font-bold">
                 ความเสี่ยงที่รับได้
               </div>
@@ -159,7 +172,7 @@ const EmergencyDashBoardModalForm1: React.FC<
               <div className="flex items-center justify-center text-black text-gray-500">
                 ยังไม่มีผลตอบแทน
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </Button>

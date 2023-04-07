@@ -27,6 +27,7 @@ specifiers:
   react-step-progress: ^1.0.3
   react-step-progress-bar: ^1.0.3
   styled-components: ^5.3.8
+  tvm-calculator: ^2.0.0
   typescript: 5.0.3
 
 dependencies:
@@ -56,6 +57,7 @@ dependencies:
   react-step-progress: 1.0.3_react@18.2.0
   react-step-progress-bar: 1.0.3_biqbaboplfbrettd7655fr4n2y
   styled-components: 5.3.8_biqbaboplfbrettd7655fr4n2y
+  tvm-calculator: 2.0.0
   typescript: 5.0.3
 
 packages:
@@ -3311,6 +3313,10 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 5.0.3
+    dev: false
+
+  /tvm-calculator/2.0.0:
+    resolution: {integrity: sha512-mghJHnmGuc2EvNnHRH4j+sQfQjEwC4MCFkWVQe/gci7nPZwbkq3i+TcdiipUL243VlsnQcvFJa4l+8BP9kEhfw==}
     dev: false
 
   /type-check/0.4.0:

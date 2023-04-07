@@ -70,7 +70,7 @@ const EmergencyPlanSliderOption: React.FC<EmergencyPlanSliderOptionProps> = ({ t
 
   function valueLabelFormat(value: number) {
     console.log(value)
-    // marks.findIndex((mark) => mark.value === value) + 1;
+    marks.findIndex((mark) => mark.value === value) + 1;
     return value
   }
 
@@ -83,7 +83,7 @@ const EmergencyPlanSliderOption: React.FC<EmergencyPlanSliderOptionProps> = ({ t
               getAriaValueText={valuetext}
               valueLabelFormat={valueLabelFormat}
               valueLabelDisplay="auto"
-              step={3}
+              step={1}
               marks={marks}
               min={3}
               max={12}

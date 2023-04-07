@@ -16,6 +16,8 @@ import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
 
+import { initialPackage } from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
+
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
   LastUpdate: string | any;
@@ -71,10 +73,12 @@ const EmergencyInvestmentDashboard = () => {
 
   const urlServer = "http://localhost:8080/";
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
-
   const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] = useState<SavingEmergencyInvestmentPortData>();
-
   const [portPackageAllocate, setPortPackageAllocate] = useState<PortPackageAllocationData[]>([]);
+  const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
+  const [packageAllocation, setPackageAllocation] = useState([]);
+
+  const packageId = 1;
 
   // Fetch APIs
   useEffect(() => {
@@ -121,11 +125,45 @@ const EmergencyInvestmentDashboard = () => {
         console.log("Fetching Saving Plan Error: ", error);
       }
     }
+
+    async function fetchPackage() {
+      try { 
+        // Fetch Portfolio Package
+        const packageResponse = await fetch(`${urlServer}portfolio/package/${packageId}`, {
+          credentials: "include",
+        });
+        const portfolioPackage = await packageResponse.json();
+        console.log(portfolioPackage)
+        setPortfolioPackage(portfolioPackage);
+      } catch (error) {
+        console.log("Fetch Portfolio Package Error: ", error);
+      }
+    }
+
+    async function fetchPortfolioPackageAllocation() {
+      try { 
+        // Fetch Portfolio Package Allocation
+        const packageResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
+          credentials: "include",
+        });
+        const portfolioPackageAllocation = await packageResponse.json();
+        console.log(portfolioPackageAllocation)
+        setPackageAllocation(portfolioPackageAllocation);
+      } catch (error) {
+        console.log("Fetch Portfolio Package Allocation Error: ", error);
+      }
+    }
+
     fetchSavingPlan();
+    fetchPackage();
+    fetchPortfolioPackageAllocation();
+    
   }, []);
 
   console.log('After Fetch', savingEmergencyPlan)
-  console.log('After Fetch', savingEmergencyInvestmentPort)
+  // console.log('After Fetch', savingEmergencyInvestmentPort)
+  console.log(portfolioPackage);
+  console.log(packageAllocation);
 
   const router = useRouter();
 
@@ -219,11 +257,18 @@ const EmergencyInvestmentDashboard = () => {
                       packageallocation={portPackageAllocate}
                     />
                   </div>
-                  <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
+                  {/* <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
                     <EmergencyFundsDetailsTable
                       title={""}
                       savingInvestmentPort={savingEmergencyInvestmentPort}
                       packageallocation={portPackageAllocate}
+                    />
+                  </div> */}
+                  <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
+                    <EmergencyFundsDetailsTable
+                      title={""}
+                      portfolioPackage={portfolioPackage}
+                      packageAllocation={packageAllocation}
                     />
                   </div>
                 </div>
@@ -246,7 +291,7 @@ const EmergencyInvestmentDashboard = () => {
                         <h1>มูลค่าสินทรัพย์ของคุณในปัจจุบัน</h1>
                       </div>
                       <div className="flex items-center justify-center">
-                        <h1 className="font-bold">{savingEmergencyInvestmentPort?.TotalValue} บาท</h1>
+                        <h1 className="font-bold">{savingEmergencyInvestmentPort?.TotalValue === undefined? "0" : savingEmergencyInvestmentPort?.TotalValue} บาท</h1>
                       </div>
                     </div>
                     <div>

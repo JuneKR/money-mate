@@ -18,6 +18,29 @@ type InvestmentFormProps = InvestmentData & {
   updateFields: (fields: Partial<InvestmentData>) => void;
 };
 
+export const initialPackage = {
+  Package_ID: 1,
+  PackageName: '',
+  LastUpdate: "",
+  RiskSpectrum: 1,
+  InvestmentType: "กองทุนรวม",
+  ReturnRate: 0
+}
+
+export const initialPlanData = {
+  Emergency_ID: 1,
+  PlanName: "",
+  TargetAmount: 0,
+  TimePeriod: 0,
+  MonthlySaving: 0,
+  StartDate: "",
+  LastUpdate: "",
+  TotalBalance: 0,
+  TimeRemaining: 0,
+  MonthlyExpense: 0,
+  Progression: 0
+}
+
 export function InvestmentForm({
   expense,
   period,
@@ -29,15 +52,10 @@ export function InvestmentForm({
   returnRate,
   updateFields,
 }: InvestmentFormProps) {
+
+  const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
 
-  const handleClick = () => {
-    setIsHidden(!isHidden);
-  };
-
-  const handleCheckboxChange = () => {
-    setIsHidden(!isHidden);
-  };
   const selectedRiskLevel = riskLevel;
   const tvmCalculator = require("tvm-calculator");
 
@@ -187,25 +205,7 @@ export function InvestmentForm({
     },
   ];
 
-  const [tableData, setTableData] =
-    useState<InvestmentData[]>(initialTableData);
-
-  const handleRadioChange = (index: number) => {
-    const newData = tableData.map((data, i) => {
-      if (i === index) {
-        console.log(data)
-        return { ...data, selected: true };
-      } else {
-        return { ...data, selected: false };
-      }
-    });
-
-    setTableData(newData);
-  };
-  const router = useRouter();
-  const handleEmergencyInvestmanet = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
-  };
+  const [tableData, setTableData] = useState<InvestmentData[]>(initialTableData);
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -220,6 +220,181 @@ export function InvestmentForm({
   }
 
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
+
+  const urlServer = "http://localhost:8080/";
+  const packageId = 1;
+  const [uID, setuID] = useState([]);
+  const [emergencyPlan, setEmergencyPlan] = useState(initialPlanData);
+  const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
+  const [packageAllocation, setPackageAllocation] = useState([]);
+
+  // fetch user profile
+  useEffect(() => {
+    async function fetchUserProfile() {
+      try {
+        // Fetch User Profile
+        const profileResponse = await fetch(urlServer + "user/profile", {
+          credentials: "include",
+        });
+        const userProfile = await profileResponse.json();
+        console.log(userProfile)
+        const uID = userProfile.User_ID;
+        setuID(uID);
+      } catch (error) {
+        console.log("fetch User Profile Error: ", error);
+      }
+    }
+
+    fetchUserProfile();
+    getPortfolioPackage();
+    getPortfolioPackageAllocation();
+  }, []);
+
+  const createEmergencyPlan = async () => {
+    const createEmergencyPlanData = {
+      plan_name: "แผนออมเงินสำรองฉุกเฉิน",
+      target_amount: targetAmount,
+      time_period: period,
+      initial_saving: totalBalance,
+      monthly_saving: monthlySaving,
+      start_date: "2023-02-26",
+      last_update: "2023-02-26 10:2:30",
+      total_balance: totalBalance,
+      time_remaining: timeRemaining,
+      monthly_expense: expense,
+      progression: 0,
+      user_id: uID,
+    };
+    console.log(createEmergencyPlanData);
+    try {
+      const response = await fetch(`${urlServer}saving/emergency`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(createEmergencyPlanData),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("done........................");
+        console.log(data);
+      } else {
+        const errorData = await response.json();
+        console.log(errorData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Using only for Evaluation Version
+  const getPortfolioPackage = async () => {
+    try { 
+      // Fetch Portfolio Package
+      const packageResponse = await fetch(`${urlServer}portfolio/package/${packageId}`, {
+        credentials: "include",
+      });
+      const portfolioPackage = await packageResponse.json();
+      console.log(portfolioPackage)
+      setPortfolioPackage(portfolioPackage);
+    } catch (error) {
+      console.log("Fetch Portfolio Package Error: ", error);
+    }
+  }
+
+  const getPortfolioPackageAllocation = async () => {
+    try { 
+      // Fetch Portfolio Package Allocation
+      const packageResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
+        credentials: "include",
+      });
+      const portfolioPackageAllocation = await packageResponse.json();
+      console.log(portfolioPackageAllocation)
+      setPackageAllocation(portfolioPackageAllocation);
+    } catch (error) {
+      console.log("Fetch Portfolio Package Allocation Error: ", error);
+    }
+  }
+
+  const getEmergencyPlan = async () => {
+    try { 
+      // Fetch Emergency Plan
+      const planResponse = await fetch(`${urlServer}user/${uID}/saving/emergency`, {
+        credentials: "include",
+      });
+      const emergencyPlan = await planResponse.json();
+      console.log(emergencyPlan)
+      setEmergencyPlan(emergencyPlan);
+    } catch (error) {
+      console.log("Fetch Emergency Plan Error: ", error);
+    }
+  }
+
+  const createInvestmentPortfolio = async () => {
+    const createInvestmentPortfolioData = {
+      portflio_name: portfolioPackage.PackageName,
+      total_value: 0,
+      start_date: "2023-02-26",
+      last_update: portfolioPackage.LastUpdate,
+      risk_spectrum: portfolioPackage.RiskSpectrum,
+      return_rate: portfolioPackage.ReturnRate,
+      user_id: uID,
+      package_id: portfolioPackage.Package_ID,
+      emergency_id: emergencyPlan.Emergency_ID,
+      goal_id: null,
+      retirement_id: null,
+    };
+    try {
+      
+      const response = await fetch(`${urlServer}saving/emergency`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(createInvestmentPortfolioData),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("done........................");
+        console.log(data);
+      } else {
+        const errorData = await response.json();
+        console.log(errorData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  
+  const handleClick = () => {
+    setIsHidden(!isHidden);
+  };
+
+  const handleCheckboxChange = () => {
+    setIsHidden(!isHidden);
+  };
+
+  const handleRadioChange = (index: number) => {
+    const newData = tableData.map((data, i) => {
+      if (i === index) {
+        console.log(data)
+        return { ...data, selected: true };
+      } else {
+        return { ...data, selected: false };
+      }
+    });
+
+    setTableData(newData);
+  };
+
+  const handleEmergencyInvestmanet = async () => {
+    console.log('สร้างแผนการลงทุนสำเร็จแล้ว')
+    await createEmergencyPlan();
+    await getEmergencyPlan();
+    // await createInvestmentPortfolio();
+    router.push("/EmergencyPages/emergencyInvestmentDashboard");
+  };
 
   return (
     <div>

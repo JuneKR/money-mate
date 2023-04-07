@@ -18,6 +18,7 @@ export const createEmergencyPlan = async(req: Request, res: Response) => {
         user_id,
     } = req.body;
     try {
+        const currentProgression = (total_balance/target_amount) * 100
         await SavingEmergencyPlan.create({
             PlanName: plan_name,
             TargetAmount: target_amount,
@@ -28,7 +29,7 @@ export const createEmergencyPlan = async(req: Request, res: Response) => {
             TotalBalance: total_balance,
             TimeRemaining: time_remaining,
             MonthlyExpense: monthly_expense,
-            Progression: progression,
+            Progression: currentProgression | progression,
             User_ID: user_id,
         });
         res.status(201).json({msg: "Successful Create new emergency plan"});

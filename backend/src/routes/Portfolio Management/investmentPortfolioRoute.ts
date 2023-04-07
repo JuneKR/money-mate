@@ -3,6 +3,7 @@ import {
     createInvestmentPortfolio,
     getAllInvestmentPortfolioByUserId,
     getInvestmentPortfolioById,
+    getInvestmentPortfolioByEmergencyId,
     editInvestmentPortfolio,
     deleteInvestmentPortfolio,
     getInvestmentPortfolioAllocationByPortfolioId,
@@ -20,6 +21,7 @@ router.get('/user/:id/investment/portfolios', getAllInvestmentPortfolioByUserId)
 router.get('/investment/portfolio/:id', getInvestmentPortfolioById);
 router.patch('/investment/portfolio/:id', editInvestmentPortfolio);
 router.delete('/investment/portfolio/:id', deleteInvestmentPortfolio)
+router.get('/emergency/:id/investment/portfolio', getInvestmentPortfolioByEmergencyId);
 
 router.get('/investment/portfolio/:id/allocation', getInvestmentPortfolioAllocationByPortfolioId);
 router.patch('/investment/portfolio/:id/allocation', editInvestmentPortfolioAllocationByPortfolioId);

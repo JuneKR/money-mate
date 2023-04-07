@@ -39,17 +39,17 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   const status = defineText(transaction.Type);
   return (
     <div
-      style={{ width: "100%" }}
-      className="bg-gray-50 dark:bg-gray-800 py-5 text-black"
+      style={{ width: "100%"}}
+      className="py-5 text-black"
     >
-      <h1 className="text-black">{splitArray[0]}</h1>
+      <h1 className="text-lg text-white font-bold">{splitArray[0]}</h1>
       <div className="grid grid-cols-4 py-5">
-        <div className="text-black h-20 flex items-center justify-center">
+        <div className="text-white h-20 flex items-center justify-center">
           <Avatar>
             <Image src={icon1} alt="Profile Image" priority={true}/>
           </Avatar>
         </div>
-        <div className="h-20 flex items-center justify-center text-lg grid grid-rows-2">
+        <div className="h-20 flex items-center justify-center text-lg text-white font-bold grid grid-rows-2">
           <h1>{savingEmergency.PlanName}</h1>
           <FormHelperText
             id="my-helper-text"
@@ -58,10 +58,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             {status}
           </FormHelperText>
         </div>
-        <div className="h-20 flex items-center justify-center text-gray-400">
+        <div className="h-20 flex items-center justify-center text-gray-400 ">
           <h1>{time} น.</h1>
         </div>
-        <div className="h-20 flex items-center justify-center">
+        <div className="h-20 flex items-center justify-center text-2xl text-white font-bold">
           <h1>{transaction.Amount} บาท</h1>
         </div>
       </div>

@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
+
 interface EmerGencyDashBoardModalWithDrawProps {
   title: string;
   savingEmergency: any;
@@ -14,15 +15,20 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "50%",
-  bgcolor: "#E5F8FF",
+  bgcolor: "#27264E",
   border: "2px solid #000",
+  borderRadius: "25px",
   boxShadow: 24,
   p: 4,
+  
 };
+
 
 const EmerGencyDashBoardModalWithDraw: React.FC<
   EmerGencyDashBoardModalWithDrawProps
 > = ({ savingEmergency }) => {
+  
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -105,9 +111,9 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
         style={{
           width: "209px",
           marginRight: "10px",
-          backgroundColor: "#FF8C73",
+          backgroundColor: ""
         }}
-        className="px-4 py-2 font-bold text-black rounded shadow focus:shadow-outline focus:outline-none"
+        className="px-4 py-2 shadow-xl font-bold text-lg text-white rounded-lg"
         onClick={handleOpen}
       >
         ถอนเงินออม
@@ -121,7 +127,7 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
         <form action="" onSubmit={handleSubmit}>
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component={"span"}>
-              <div className="text-black">ถอนเงิน</div>
+              <div className="text-white text-2xl font-bold">ถอนเงิน</div>
               <div className="py-5">
                 <input
                   type="number"
@@ -130,7 +136,7 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
                   onChange={(e) => setwithdrawal(e.target.value)}
                   placeholder="0"
                   style={{ width: "100%", height: "50px" }}
-                  className="text-black block text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                  className="text-black block text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-xl shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                 />
               </div>
             </Typography>
@@ -143,15 +149,15 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
                 <div className="flex justify-end grid grid-rows-2">
                   <div>
                     <button
-                      style={{ width: "209px", backgroundColor: "#FEF5AC" }}
-                      className="text-sm px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none"
+                      style={{ width: "209px", backgroundColor: "#6259E8" }}
+                      className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                       type="submit"
                     >
                       ยืนยัน
                     </button>
                     <button
-                      style={{ width: "209px", backgroundColor: "#FEF5AC" }}
-                      className="text-sm px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none"
+                      style={{ width: "209px", backgroundColor: "#27264E" }}
+                      className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                       type="button"
                       onClick={handleClose}
                     >
@@ -175,6 +181,7 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
             id="modal-congratulations-title"
             variant="h6"
             component={"span"}
+            
           >
             <div className="text-black">
               ว้าา.. ครั้งหน้าอย่าลืมมาออมเงินกันนะ

@@ -18,7 +18,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "50%",
-  bgcolor: "#E5F8FF",
+  bgcolor: "#1D1D41",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
@@ -111,68 +111,52 @@ const EmergencyDashBoardModalForm1: React.FC<
     e.preventDefault();
     await updateEmergencyPlan();
   };
-
+  // style={{backgroundColor: "#1D1D41"}}
   return (
     <div>
-      <Button onClick={handleOpen} className="w-full h-full shadow-2xl">
+      <Button onClick={handleOpen} style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
         <div>
           <div className="flex justify-end">
             <EditIcon />
           </div>
-          <div className="text-left  text-black font-bold py-1">
-            <h1 style={{ color: "#085385" }} className="px-2">
+          <div className="text-left text-white font-bold">
+            <h1  className="px-2 text-xl pb-5">
               เป้าหมายการออมเงิน
             </h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            <div>
-              <div className="flex items-center justify-center text-black font-bold">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 p-5">
+            <div style={{backgroundColor: "#27264E"}} className="shadow-2xl rounded-lg p-5">
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
                 จำนวนเงิน
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white text-2xl">
                 {savingEmergency.TargetAmount}
               </div>
             </div>
-            <div>
-              <div className="flex items-center justify-center text-black font-bold">
+            <div style={{backgroundColor: "#27264E"}}className="shadow-2xl rounded-lg p-5">
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
                 ระยะเวลาคงเหลือ
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white text-2xl">
                 {yearsToYearsMonthsDays(savingEmergency.TimeRemaining)} 
               </div>
             </div>
-            <div>
-              <div className="flex items-center justify-center text-black font-bold">
+            <div style={{backgroundColor: "#27264E"}} className="shadow-2xl rounded-lg p-5">
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
                 จำนวนเดือน
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white text-2xl">
                 {savingEmergency.TimePeriod} เดือน
               </div>
             </div>
-            <div>
-              <div className="flex items-center justify-center text-black font-bold">
+            <div style={{backgroundColor: "#27264E"}}className="shadow-2xl rounded-lg p-5">
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
                 เงินออม/ต่อเดือน
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white text-2xl">
                 {savingEmergency.MonthlySaving} บาท
               </div>
             </div>
-            {/* <div>
-              <div className="flex items-center justify-center text-black font-bold">
-                ความเสี่ยงที่รับได้
-              </div>
-              <div className="flex items-center justify-center text-black text-gray-500">
-                คุณยังไม่ได้ทำแบบประเมินความเสี่ยง
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center justify-center text-black font-bold">
-                ผลตอบแทนที่คาดหวัง
-              </div>
-              <div className="flex items-center justify-center text-black text-gray-500">
-                ยังไม่มีผลตอบแทน
-              </div>
-            </div> */}
           </div>
         </div>
       </Button>
@@ -185,11 +169,12 @@ const EmergencyDashBoardModalForm1: React.FC<
           <Typography id="modal-modal-title" variant="h6" component="h2">
             <form
               onSubmit={handleSubmit}
+              style={{backgroundColor: "#27264E"}}
               className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
             >
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
                   จำนวนเงิน
@@ -205,7 +190,7 @@ const EmergencyDashBoardModalForm1: React.FC<
               </div>
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
                   ระยะเวลา
@@ -221,7 +206,7 @@ const EmergencyDashBoardModalForm1: React.FC<
               </div>
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
                   จำนวนเดือน
@@ -237,7 +222,7 @@ const EmergencyDashBoardModalForm1: React.FC<
               </div>
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
                   เงินออมต่อเดือน
@@ -253,16 +238,16 @@ const EmergencyDashBoardModalForm1: React.FC<
               </div>
               <div className="flex items-center justify-end gap-5">
                 <button
-                  style={{ width: "209px" }}
-                  className="text-sm bg-yellow-100 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  style={{ width: "209px", backgroundColor: "#6259E8" }}
+                  className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                   type="submit"
                 >
                   ยืนยัน อัพเดทแผนของคุณ
                 </button>
                 <button
-                  style={{ width: "209px" }}
+                  style={{ width: "209px", backgroundColor: "#27264E"}}
                   onClick={handleClose}
-                  className="text-sm bg-gray-300 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                   type="submit"
                 >
                   ยกเลิก

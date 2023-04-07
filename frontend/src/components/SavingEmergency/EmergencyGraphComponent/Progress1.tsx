@@ -8,13 +8,20 @@ interface Progress1Props {
 const Progress1: React.FC<Progress1Props> = ({ progress, title }) => {
   return (
     <div className="w-full h-full">
-      <div className="w-full bg-gray-200 rounded h-10 mb-4 dark:bg-gray-700">
+      <div
+        style={{ backgroundColor: "#3A3B5A" }}
+        className="w-full rounded-full h-11 mb-4"
+      >
+        
         <div
-          className="h-10 rounded dark:bg-gray-300 text-black flex item-center justify-center"
-          style={{ width: progress, backgroundColor: "#FEF5AC", alignItems: "center"}}
+          className="h-10 rounded-full flex justify-center item-center font-bold"
+          style={{
+            width: progress,
+            backgroundColor: "#64D0F7",
+            alignItems: "center",
+          }}
         >
-          {" "}
-          {progress}
+          <h1 className="ml-10">{progress}</h1>
         </div>
       </div>
     </div>

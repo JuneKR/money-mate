@@ -14,8 +14,9 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "50%",
-  bgcolor: "#E5F8FF",
+  bgcolor: "#27264E",
   border: "2px solid #000",
+  borderRadius: "25px",
   boxShadow: 24,
   p: 4,
 };
@@ -103,9 +104,9 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
         style={{
           width: "209px",
           marginRight: "10px",
-          backgroundColor: "#FEF5AC",
+          backgroundColor: "#6259E8",
         }}
-        className="px-4 py-2 font-bold text-black rounded shadow focus:shadow-outline focus:outline-none"
+        className="px-4 py-2 shadow-xl font-bold text-lg text-white rounded-lg"
         onClick={handleOpen}
       >
         ออมเงิน
@@ -118,7 +119,7 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
         <form action="" onSubmit={handleSubmit}>
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component={"span"}>
-              <div className="text-black">เพิ่มเงินออม</div>
+              <div className="text-white text-2xl font-bold">เพิ่มเงินออม</div>
               <div className="py-5">
                 <input
                   type="number"
@@ -140,15 +141,15 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
                 <div className="flex justify-end grid grid-rows-2">
                   <div>
                     <button
-                      style={{ width: "209px", backgroundColor: "#FEF5AC" }}
-                      className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none"
+                      style={{ width: "209px", backgroundColor: "#6259E8" }}
+                      className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                       type="submit"
                     >
                       ยืนยัน
                     </button>
                     <button
-                      style={{ width: "209px", backgroundColor: "#FEF5AC" }}
-                      className="text-sm px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none"
+                      style={{ width: "209px", backgroundColor: "#27264E" }}
+                      className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                       type="button"
                       onClick={handleClose}
                     >

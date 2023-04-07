@@ -2,14 +2,15 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
   resize: both;
   min-width: 800px;
   /* max-width: 2160px; */
-  background-color: #E5F8FF;
+  background-color: #141332;
+  /* background-color: #1d1e31; */
   overflow-x: auto;
   
 }
@@ -289,4 +290,8 @@
   to {
     transform: rotate(0deg);
   }
+}
+
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  background-color: red; /* Change red to the color you want */
 }

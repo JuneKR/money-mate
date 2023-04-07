@@ -69,7 +69,7 @@ export const getPortfolioPackageById = async(req: Request, res: Response) => {
             return res.status(404).json({msg: `Portfolio Package id: ${req.params.id} not found!`});
         }
 
-        const response = await PortfolioPackage.findAll({
+        const response = await PortfolioPackage.findOne({
             attributes:[
                 'PackageName',
                 'LastUpdate',

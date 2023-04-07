@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -6,11 +5,12 @@ import Modal from "@mui/material/Modal";
 import { useCallback } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { SavingEmergencyPlan } from "@/pages/EmergencyPages/emergencyDashboard";
-
+import React, { useState, useEffect } from "react";
 
 interface EmergencyInvestmentDashBoardModalForm1Props {
   title: string;
-  // savingEmergency: any;
+  savingEmergency: any;
+  savingInvestmentPort: any;
 }
 
 const style = {
@@ -25,22 +25,82 @@ const style = {
   p: 4,
 };
 
-const EmergencyInvestmentDashBoardModalForm1: React.FC<
-  EmergencyInvestmentDashBoardModalForm1Props
-> = ({title}) => {
-
-//   const { savingEmergency } = props;
+const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBoardModalForm1Props> = 
+({ title, savingEmergency, savingInvestmentPort }) => {
+  const [showCongratulatoryMessage, setShowCongratulatoryMessage] = useState(false);
+  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
   const [open, setOpen] = React.useState(false);
   
-  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleOpen = useCallback(() => {
     setOpen(true);
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const [investTargetAmount, setInvestTargetAmount]: any = useState("");
+  const [investTimePeriod, setInvestTimePeriod]: any = useState("");
+  const [investTimeRemaining, setInvestTimeRemaining]: any = useState("");
+  const [investMonthlySaving, setInvestMonthlySaving]: any = useState("");
+
+  useEffect(() => {
+    if (shouldRefreshPage) {
+      window.location.reload();
+    }
+  }, [shouldRefreshPage]);
+
+  useEffect(() => {
+    if (showCongratulatoryMessage) {
+      const timer = setTimeout(() => {
+        setShowCongratulatoryMessage(false);
+        setShouldRefreshPage(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCongratulatoryMessage]);
+
+  const urlServer = "http://localhost:8080/";
+  const updateEmergencyPlan = async () => {
+    const updateEmergencyPlanData = {
+      target_amount: investTargetAmount,
+      time_period: investTimePeriod,
+      time_remaining: investTimeRemaining,
+      monthly_saving: investMonthlySaving,
+    };
+
+    try {
+      console.log("APIs Called");
+      console.log(
+        `${urlServer}saving/emergency/${savingEmergency.Emergency_ID}`
+      );
+      const response = await fetch(
+        `${urlServer}saving/emergency/${savingEmergency.Emergency_ID}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updateEmergencyPlanData),
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log("done........................");
+        console.log(updateEmergencyPlanData);
+        setShowCongratulatoryMessage(true);
+      } else {
+        const errorData = await response.json();
+        console.log(errorData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await updateEmergencyPlan();
+  };
+
+  console.log('Value', investTargetAmount)
+  console.log('Value', savingEmergency?.TargetAmount)
 
   return (
     <div>
@@ -60,7 +120,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 จำนวนเงิน
               </div>
               <div className="flex items-center justify-center text-black">
-                {/* {savingEmergency.TargetAmount} */}
+                {savingEmergency.TargetAmount}
               </div>
             </div>
             <div>
@@ -68,7 +128,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 ระยะเวลา
               </div>
               <div className="flex items-center justify-center text-black">
-                {/* {savingEmergency.TimeRemaining} เดือน */}
+                {savingEmergency.TimeRemaining} เดือน
               </div>
             </div>
             <div>
@@ -76,7 +136,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 จำนวนเดือน
               </div>
               <div className="flex items-center justify-center text-black">
-                {/* {savingEmergency.TimePeriod} เดือน */}
+                {savingEmergency.TimePeriod} เดือน
               </div>
             </div>
             <div>
@@ -84,7 +144,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 เงินลงทุน/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-black">
-                {/* {savingEmergency.TimePeriod} */}
+                {savingEmergency.MonthlySaving}
               </div>
             </div>
             <div>
@@ -92,7 +152,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 ความเสี่ยงที่รับได้
               </div>
               <div className="flex items-center justify-center text-black text-gray-500">
-                คุณยังไม่ได้ทำแบบประเมินความเสี่ยง
+                {savingInvestmentPort?.RiskSpectrum}
               </div>
             </div>
             <div>
@@ -100,7 +160,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                 ผลตอบแทนที่คาดหวัง
               </div>
               <div className="flex items-center justify-center text-black text-gray-500">
-                ยังไม่มีผลตอบแทน
+                {savingInvestmentPort?.ReturnRate}
               </div>
             </div>
           </div>
@@ -108,7 +168,6 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
       </Button>
       <Modal
         open={open}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -126,12 +185,13 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                   จำนวนเงิน
                 </label>
                 <input
-                  className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  // placeholder={savingEmergency.TargetAmount + " บาท"}
-                  // value={months}
-                  // onChange={handleMonthsChange}
+                  placeholder={`${savingEmergency.TargetAmount} บาท`}
+                  value={investTargetAmount}
+                  onChange={(e) => setInvestTargetAmount(e.target.value)}
+
                 />
               </div>
               <div className="mb-4">
@@ -142,12 +202,12 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                   ระยะเวลา
                 </label>
                 <input
-                  className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  // placeholder={savingEmergency.TimeRemaining + " เดือน"}
-                  // value={months}
-                  // onChange={handleMonthsChange}
+                  placeholder={savingEmergency.TimeRemaining + " เดือน"}
+                  value={investTimePeriod}
+                  onChange={(e) => setInvestTimePeriod(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -158,12 +218,12 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                   จำนวนเดือน
                 </label>
                 <input
-                  className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  // placeholder={savingEmergency.TimePeriod + " เดือน"}
-                  // value={months}
-                  // onChange={handleMonthsChange}
+                  placeholder={savingEmergency.TimePeriod + " เดือน"}
+                  value={investTimeRemaining}
+                  onChange={(e) => setInvestTimeRemaining(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -174,55 +234,51 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<
                   เงินลงทุนต่อเดือน
                 </label>
                 <input
-                  className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  // value={months}
-                  // onChange={handleMonthsChange}
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="first-name-input"
-                >
-                  ความเสี่ยงที่รับได้
-                </label>
-                <input
-                  className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="first-name-input"
-                  type="text"
-                  // value={months}
-                  // onChange={handleMonthsChange}
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="first-name-input"
-                >
-                  ผลตอบแทนที่คาดหวัง
-                </label>
-                <input
-                  className="bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="first-name-input"
-                  type="text"
-                  // value={months}
-                  // onChange={handleMonthsChange}
+                  placeholder={savingEmergency.MonthlySaving + " บาท/เดือน"}
+                  value={investMonthlySaving}
+                  onChange={(e) => setInvestMonthlySaving(e.target.value)}
                 />
               </div>
               <div className="flex items-center justify-end">
                 <button
                   style={{ width: "209px" }}
-                  onClick={handleClose}
-                  className="bg-yellow-100 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="text-sm bg-yellow-100 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
                   ยืนยัน
                 </button>
-                
+                <button
+                  style={{ width: "209px" }}
+                  onClick={handleClose}
+                  className="text-sm bg-yellow-100 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit"
+                >
+                  ยกเลิก
+                </button>
               </div>
             </form>
+          </Typography>
+        </Box>
+      </Modal>
+      <Modal
+        open={showCongratulatoryMessage}
+        onClose={() => setShowCongratulatoryMessage(false)}
+        aria-labelledby="modal-congratulations-title"
+        aria-describedby="modal-congratulations-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-congratulations-title"
+            variant="h6"
+            component={"span"}
+          >
+            <div className="text-black">
+              ยินดีด้วย! คุณได้อัพเดทแผนการลงทุนสำหรับการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
+            </div>
+            <div className="py-5 text-black">อัพเดทแผนการลงทุนสำเร็จ!!!</div>
           </Typography>
         </Box>
       </Modal>

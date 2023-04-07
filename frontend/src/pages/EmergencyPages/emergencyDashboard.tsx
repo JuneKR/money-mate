@@ -100,28 +100,31 @@ const EmergencyDashboard = () => {
 
   return (
     <>
+      <Sidebar title="My Sidebar" />
       <main className={styles.main} style={{ overflowX: "auto" }}>
+      
         <div className="w-full xl:w-8/12">
+        
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
-            <Sidebar title="My Sidebar" />
+            
             <div>
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  // backgroundColor: "#FEF5AC",
+                  backgroundColor: "#6259E8",
                 }}
-                className="py-2 rounded bg-gradient-to-r from-red-500 via-yellow-400 to-yellow-200 "
+                className="py-2 rounded-lg"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-black dark:text-gray-500 "
+                  className="font-bold text-white dark:text-gray-500 text-2xl"
                 >
-                  การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
+                  การออมเงินเผื่อฉุกเฉิน
                 </div>
               </div>
               <div>
-                <div className="border border-gray-200 bg-gray-50 rounded">
+                <div>
                   <ModleButtonForm1
                     title={""}
                     savingEmergency={savingEmergencyPlan}
@@ -129,45 +132,46 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="py-5 ">
+            <div className="py-10 ">
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  // backgroundColor: "#FEF5AC",
+                  backgroundColor: "#6259E8",
                 }}
-                className=" py-2 rounded bg-gradient-to-r from-red-500 via-yellow-400 to-yellow-200"
+                className=" py-2 rounded-lg"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-black dark:text-gray-500 "
+                  className="font-bold text-white text-2xl dark:text-gray-500 "
                 >
                   หยอดกระปุก
                 </div>
               </div>
-              <div className="bg-gray-50 shadow-2xl">
+              <div style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl pb-5 shadow-2xl ">
                 <div className="pt-5 grid grid-cols-4">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
                   <div className="px-5 w-full h-full col-span-3 py-5">
-                    <h1 className="flex justify-center item-center text-black">
+                    <h1 className="flex justify-center item-center text-lg font-bold pb-7">
                       นักออมฉุกเฉินมือใหม่
                     </h1>
                     <Progress1
                       title={"my bar"}
                       progress={`${savingEmergencyPlan.Progression}%`}
                     />
+                    
                   </div>
                 </div>
                 <div className=" px-5 text-black">
-                  <div className=" text-black dark:text-gray-500 pb-3 ">
+                  <div className="text-2xl text-white text-black dark:text-gray-500 pb-3 ">
                     {" "}
                     แผนการออมเงินของคุณ
                   </div>
                   <div
-                    style={{ backgroundColor: "#E5F8FF" }}
-                    className="border border-black py-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5"
+                    style={{backgroundColor: "#27264E"}}
+                    className="py-5 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-5 shadow-2xl rounded-lg text-white text-lg font-bold"
                   >
                     <div>
                       <div className="flex items-center justify-center py-3">
@@ -215,7 +219,7 @@ const EmergencyDashboard = () => {
                     </div>
                   </div>
                 </div>
-                <div className="pb-5 pt-5 px-5">
+                <div className="p-5 pt-10">
                   <div className="flex justify-end">
                     <ModleButtonAdd
                       title={"my modle1"}
@@ -230,7 +234,7 @@ const EmergencyDashboard = () => {
               </div>
             </div>
             <div className="pb-5 ">
-              <div className=" grid grid-cols-2 rounded-3xl bg-gradient-to-r from-red-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:to-yellow-500 shadow-2xl">
+              <div className=" grid grid-cols-2 rounded-3xl bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:from-purple-500 hover:to-blue-500 shadow-2xl">
                 <div className="flex justify-center item-center py-20 grid grid-rows-2">
                   <div>
                     <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
@@ -249,26 +253,26 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-gray-50 shadow-2xl">
+            <div className="pt-5 shadow-2xl">
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  // backgroundColor: "#FEF5AC",
+                  backgroundColor: "#6259E8",
                 }}
-                className=" py-2 rounded bg-gradient-to-r from-red-500 via-yellow-400 to-yellow-200"
+                className="py-2 rounded-lg"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-black dark:text-gray-500 "
+                  className="font-bold text-white dark:text-gray-500 text-2xl "
                 >
                   ประวัติรายการ
                 </div>
               </div>
               <div>
                 <div
-                  style={{ maxHeight: "600px", overflow: "auto" }}
-                  className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                  style={{ maxHeight: "600px", overflow: "auto", backgroundColor: "#1D1D41"}}
+                  className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-2xl"
                 >
                   {!savingEmergencyTransactions.length ? (
                     <div>

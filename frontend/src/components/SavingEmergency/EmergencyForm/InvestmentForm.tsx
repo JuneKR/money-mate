@@ -191,7 +191,6 @@ export function InvestmentForm({
     useState<InvestmentData[]>(initialTableData);
 
   const handleRadioChange = (index: number) => {
-    console.log(index)
     const newData = tableData.map((data, i) => {
       if (i === index) {
         console.log(data)
@@ -379,9 +378,11 @@ export function InvestmentForm({
                                 <td className="px-4 py-2">
                                   <input
                                     type="radio"
-                                    checked={data.selected}
-                                    onChange={() => handleRadioChange(index)}
-                                    
+                                    name="option"
+                                    value={index+1}
+                                    // checked={data.selected}
+                                    onChange={() => {handleRadioChange(index)}}
+                          
                                   />
                                 </td>
                               </tr>

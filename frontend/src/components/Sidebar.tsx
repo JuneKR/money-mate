@@ -296,7 +296,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                 onClick={() => {
                   switch (index) {
                     case 0:
-                      router.push('/');
+                      router.push('/landingPage');
                       break;
                     case 1:
                       router.push('/');

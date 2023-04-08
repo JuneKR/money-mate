@@ -183,10 +183,10 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
             component={"span"}
             
           >
-            <div className="text-black">
+            <div className="text-white font-bold text-2xl">
               ว้าา.. ครั้งหน้าอย่าลืมมาออมเงินกันนะ
             </div>
-            <div className="py-5 text-black">ถอนเงินสำเร็จ!</div>
+            <div className="py-5 text-white font-bold text-md">ถอนเงินสำเร็จ!</div>
           </Typography>
         </Box>
       </Modal>

@@ -269,10 +269,10 @@ const EmergencyDashBoardModalForm1: React.FC<
             variant="h6"
             component={"span"}
           >
-            <div className="text-black">
+            <div className="text-white font-bold text-2xl">
               ยินดีด้วย! คุณได้อัพเดทแผนการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
             </div>
-            <div className="py-5 text-black">อัพเดทแผนการออมสำเร็จ!!!</div>
+            <div className="py-5 text-white font-bold text-md">อัพเดทแผนการออมสำเร็จ!!!</div>
           </Typography>
         </Box>
       </Modal>

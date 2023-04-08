@@ -140,71 +140,88 @@ const emergencyCreateForm = () => {
   };
   return (
     <main className={styles.main}>
-      <div className=" shadow-2xl w-full h-full rounded bg-gray-50 dark:bg-gray-800">
-        <Sidebar title="My Sidebar" />
+      <Sidebar title="My Sidebar" />
+      <div className="w-full xl:w-8/12">
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#B2E8FF",
-            padding: "0 4rem",
+            backgroundColor: "#6259E8",
           }}
-          className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+          className="py-2 rounded-lg"
         >
           <p
             style={{ padding: "0 1rem" }}
-            className="font-bold text-black dark:text-gray-500 "
+            className="font-bold text-white text-2xl"
           >
             ออมเงินเผื่อฉุกเฉิน
           </p>
         </div>
+
         {/* <div style={{ width: "100%", height: "100%" }} className="py-4 flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 center-stepper"> */}
-        <div className="py-10">
-          <Box sx={{ width: "100%" }}>
-            <Stepper activeStep={currentStepIndex}>
-              <Step>
-                <StepLabel>เลือกเป้าหมาย</StepLabel>
-              </Step>
-              <Step>
-                <StepLabel>สร้างเป้าหมาย</StepLabel>
-              </Step>
-              <Step>
-                <StepLabel>ตรวจสอบและเลือกแผน</StepLabel>
-              </Step>
-            </Stepper>
-          </Box>{" "}
-        </div>
-        {/* </div> */}
-        <form onSubmit={onSubmit}>
-          {step}
-          <div
-            style={{
-              marginTop: "1rem",
-              display: "flex",
-              gap: ".5rem",
-              justifyContent: "flex-end",
-            }}
-          >
-            <div className="p-5">
-              {!isFirstStep && (
+        <div
+          className="rounded-b-2xl pb-5 shadow-2xl "
+          style={{ backgroundColor: "#1D1D41" }}
+        >
+          <div className="py-10">
+            <Box sx={{ width: "100%", padding: "0 4rem" }}>
+              <Stepper activeStep={currentStepIndex}>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-600 p-2 rounded-full shadow-2xl">
+                      เลือกเป้าหมาย
+                    </span>
+                  </StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-700 p-2 rounded-full shadow-2xl">
+                      สร้างเป้าหมาย
+                    </span>
+                  </StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                      ตรวจสอบและเลือกแผน
+                    </span>
+                  </StepLabel>
+                </Step>
+              </Stepper>
+            </Box>{" "}
+          </div>
+          {/* </div> */}
+          <form onSubmit={onSubmit}>
+            {step}
+            <div
+              style={{
+                marginTop: "1rem",
+                display: "flex",
+                gap: ".5rem",
+                justifyContent: "flex-end",
+              }}
+            >
+              <div className="p-5">
+                {!isFirstStep && (
+                  <button
+                    type="button"
+                    onClick={back}
+                    className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
+                  >
+                    ย้อนกลับ
+                  </button>
+                )}
+
                 <button
-                  type="button"
-                  onClick={back}
+                  type="submit"
                   className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                 >
-                  ย้อนกลับ
+                  {isLastStep ? "สร้างแผนการออมเงิน" : "ถัดไป"}
                 </button>
-              )}
-
-              <button
-                type="submit"
-                className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
-              >
-                {isLastStep ? "สร้างแผนการออมเงิน" : "ถัดไป"}
-              </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </main>
   );

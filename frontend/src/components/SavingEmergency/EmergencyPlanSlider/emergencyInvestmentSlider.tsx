@@ -69,6 +69,7 @@ const EmergencyInvestmentSlider: React.FC<EmergencyInvestmentSliderProps> = ({ t
           <Box sx={{ width: "100%" }}>
             <Slider
               // key={sliderValue}
+              className="text-white appearance-none h-3 w-full cursor-pointer slider-thumb-green focus:outline-none"
               aria-label="Temperature"
               defaultValue={sliderValue}
               getAriaValueText={valuetext}

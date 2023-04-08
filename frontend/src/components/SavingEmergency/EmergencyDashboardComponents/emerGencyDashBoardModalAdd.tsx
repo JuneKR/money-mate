@@ -174,10 +174,10 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
             variant="h6"
             component={"span"}
           >
-            <div className="text-black">
+            <div className="text-white font-bold text-2xl">
               ยินดีด้วย! คุณมีเงินออมเพิ่มขึ้นแล้ว
             </div>
-            <div className="py-5 text-black">ฝากเงินสำเร็จ!</div>
+            <div className="py-5 text-white font-bold text-md">ฝากเงินสำเร็จ!</div>
           </Typography>
         </Box>
       </Modal>

@@ -63,6 +63,7 @@ const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({
         <div style={{ width: "100%"}} className='text-black'>
             <Box sx={{ width: "100%" }}>
               <Slider
+                className="text-white appearance-none h-3 w-full cursor-pointer slider-thumb-green focus:outline-none"
                 aria-label="Temperature"
                 defaultValue={currentval}
                 getAriaValueText={valuetext}

@@ -20,12 +20,12 @@ type InvestmentFormProps = InvestmentData & {
 
 export const initialPackage = {
   Package_ID: 1,
-  PackageName: '',
+  PackageName: "",
   LastUpdate: "",
   RiskSpectrum: 1,
   InvestmentType: "กองทุนรวม",
-  ReturnRate: 0
-}
+  ReturnRate: 0,
+};
 
 export const initialPlanData = {
   Emergency_ID: 1,
@@ -38,8 +38,8 @@ export const initialPlanData = {
   TotalBalance: 0,
   TimeRemaining: 0,
   MonthlyExpense: 0,
-  Progression: 0
-}
+  Progression: 0,
+};
 
 export function InvestmentForm({
   expense,
@@ -52,7 +52,6 @@ export function InvestmentForm({
   returnRate,
   updateFields,
 }: InvestmentFormProps) {
-
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
 
@@ -80,12 +79,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        2
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          2
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 1,
       returnRate: 2,
@@ -96,12 +96,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        3
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          3
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 2,
       returnRate: 3,
@@ -112,12 +113,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        4
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          4
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 3,
       returnRate: 4,
@@ -128,12 +130,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        5
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          5
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 4,
       returnRate: 5,
@@ -144,12 +147,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        6
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          6
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 5,
       returnRate: 6,
@@ -160,12 +164,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        7
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          7
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 6,
       returnRate: 7,
@@ -176,12 +181,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        8
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          8
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 7,
       returnRate: 8,
@@ -192,12 +198,13 @@ export function InvestmentForm({
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
-      timeRemaining: numberPeriods(
-        Number(totalBalance),
-        Number(targetAmount),
-        Number(monthlySaving),
-        9
-      )/12,
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          9
+        ) / 12,
       targetAmount: Number(targetAmount),
       riskLevel: 8,
       returnRate: 9,
@@ -205,7 +212,8 @@ export function InvestmentForm({
     },
   ];
 
-  const [tableData, setTableData] = useState<InvestmentData[]>(initialTableData);
+  const [tableData, setTableData] =
+    useState<InvestmentData[]>(initialTableData);
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -237,7 +245,7 @@ export function InvestmentForm({
           credentials: "include",
         });
         const userProfile = await profileResponse.json();
-        console.log(userProfile)
+        console.log(userProfile);
         const uID = userProfile.User_ID;
         setuID(uID);
       } catch (error) {
@@ -289,46 +297,55 @@ export function InvestmentForm({
 
   // Using only for Evaluation Version
   const getPortfolioPackage = async () => {
-    try { 
+    try {
       // Fetch Portfolio Package
-      const packageResponse = await fetch(`${urlServer}portfolio/package/${packageId}`, {
-        credentials: "include",
-      });
+      const packageResponse = await fetch(
+        `${urlServer}portfolio/package/${packageId}`,
+        {
+          credentials: "include",
+        }
+      );
       const portfolioPackage = await packageResponse.json();
-      console.log(portfolioPackage)
+      console.log(portfolioPackage);
       setPortfolioPackage(portfolioPackage);
     } catch (error) {
       console.log("Fetch Portfolio Package Error: ", error);
     }
-  }
+  };
 
   const getPortfolioPackageAllocation = async () => {
-    try { 
+    try {
       // Fetch Portfolio Package Allocation
-      const packageResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
-        credentials: "include",
-      });
+      const packageResponse = await fetch(
+        `${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`,
+        {
+          credentials: "include",
+        }
+      );
       const portfolioPackageAllocation = await packageResponse.json();
-      console.log(portfolioPackageAllocation)
+      console.log(portfolioPackageAllocation);
       setPackageAllocation(portfolioPackageAllocation);
     } catch (error) {
       console.log("Fetch Portfolio Package Allocation Error: ", error);
     }
-  }
+  };
 
   const getEmergencyPlan = async () => {
-    try { 
+    try {
       // Fetch Emergency Plan
-      const planResponse = await fetch(`${urlServer}user/${uID}/saving/emergency`, {
-        credentials: "include",
-      });
+      const planResponse = await fetch(
+        `${urlServer}user/${uID}/saving/emergency`,
+        {
+          credentials: "include",
+        }
+      );
       const emergencyPlan = await planResponse.json();
-      console.log(emergencyPlan)
+      console.log(emergencyPlan);
       setEmergencyPlan(emergencyPlan);
     } catch (error) {
       console.log("Fetch Emergency Plan Error: ", error);
     }
-  }
+  };
 
   const createInvestmentPortfolio = async () => {
     const createInvestmentPortfolioData = {
@@ -345,7 +362,6 @@ export function InvestmentForm({
       retirement_id: null,
     };
     try {
-      
       const response = await fetch(`${urlServer}saving/emergency`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -366,7 +382,6 @@ export function InvestmentForm({
     }
   };
 
-  
   const handleClick = () => {
     setIsHidden(!isHidden);
   };
@@ -378,7 +393,7 @@ export function InvestmentForm({
   const handleRadioChange = (index: number) => {
     const newData = tableData.map((data, i) => {
       if (i === index) {
-        console.log(data)
+        console.log(data);
         return { ...data, selected: true };
       } else {
         return { ...data, selected: false };
@@ -389,7 +404,7 @@ export function InvestmentForm({
   };
 
   const handleEmergencyInvestmanet = async () => {
-    console.log('สร้างแผนการลงทุนสำเร็จแล้ว')
+    console.log("สร้างแผนการลงทุนสำเร็จแล้ว");
     await createEmergencyPlan();
     await getEmergencyPlan();
     // await createInvestmentPortfolio();
@@ -400,21 +415,17 @@ export function InvestmentForm({
     <div>
       <div
         style={{ width: "100%", height: "100%", padding: "0 4rem" }}
-        className="rounded bg-gray-50 dark:bg-gray-800"
+        className="rounded-lg"
       >
         <div
-          style={{ width: "100%", height: "50%", backgroundColor: "#E5F8FF" }}
-          className="shadow-2xl flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
+          style={{ width: "100%", height: "50%", backgroundColor: "#27264E" }}
+          className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 text-black font-bold">
-            <div className="text-blue-800 hover:text-blue-900 p-4">
-              เป้าหมาย
-            </div>
-            <div className="text-blue-800 hover:text-blue-900 p-4">
-              ออมเงินเผื่อฉุกเฉิน
-            </div>
-            <div className="p-4">คุณต้องมีเงินฉุกเฉิน</div>
-            <div className="p-4">{targetAmount} บาท</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 text-white font-bold">
+            <div className="text-white p-4">เป้าหมาย</div>
+            <div className="text-white p-4">ออมเงินเผื่อฉุกเฉิน</div>
+            <div className="text-lg p-4">คุณต้องมีเงินฉุกเฉิน</div>
+            <div className="text-lg p-4">{targetAmount} บาท</div>
             <div className="p-4">ระยะเวลาในการออม</div>
             <div className="p-4">{timeToAchive}</div>
             <div className="p-4">จำนวนเดือนที่ต้องการเก็บ</div>
@@ -425,13 +436,13 @@ export function InvestmentForm({
         </div>
         <div className="relative py-8 ">
           <div
-            style={{ backgroundColor: "#B2E8FF" }}
+            style={{ backgroundColor: "#6259E8" }}
             className="px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black"
             onClick={handleClick}
           >
             <span
-              style={{ backgroundColor: "#B2E8FF" }}
-              className="text-black rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold"
+              style={{ backgroundColor: "#6259E8" }}
+              className="text-white text-lg rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold"
             >
               คุณต้องการเพิ่มผลตอบแทนด้วยการลงทุนไหม?
             </span>
@@ -447,45 +458,52 @@ export function InvestmentForm({
           {!isHidden && (
             <div className="py-5 ">
               <div
-                style={{ backgroundColor: "#E5F8FF" }}
-                className="shadow-2xl w-full h-full grid grid-cols-2 px-3 py-3"
+                style={{ backgroundColor: "#27264E" }}
+                className="shadow-2xl w-full h-full grid grid-cols-2 p-5"
               >
-                <div className="font-bold text-black">
-                  <p>ระดับความเสี่ยง</p>
+                <div className="font-bold text-white text-lg pb-3">
+                  <p>ระดับความเสี่ยง (1-8)</p>
                 </div>
-                <div className="flex item-center justify-center">
+                <div className="flex item-center justify-center pb-3">
                   <input
                     placeholder="6"
                     type="text"
                     value={riskLevel}
-                    className="text-black bg-white border border-gray-500 w-full mb-4 px-4 rounded"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#3A3B5A",
+                    }}
+                    className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                   />
                 </div>
-                <div className="font-bold text-black">
-                  <p>ผลตอบแทนที่คาดหวัง</p>
+                <div className="font-bold text-white text-lg">
+                  <p>ผลตอบแทนที่คาดหวัง (%)</p>
                 </div>
                 <div className="flex item-center justify-center">
                   <input
                     placeholder="7 %"
                     type="text"
                     value={returnRate}
-                    className="text-black bg-white border border-gray-500 w-full mb-4 px-4 rounded"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#3A3B5A",
+                    }}
+                    className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                   />
-                  <span>%</span>
                 </div>
               </div>
               <form action="">
-                <div className="flex flex-col items-center justify-center  w-full h-full gap-20 mb-3 block px-3 py-7 text-sm placeholder-gray-500">
+                <div className="flex flex-col items-center justify-center  w-full h-full gap-20 mb-3 block px-3 py-7 text-lg text-white">
                   <div
-                    style={{ backgroundColor: "#E5F8FF" }}
-                    className="shadow-2xl min-w-64 w-full h-full  px-4 py-6 border border-gray-300 rounded bg-gray-50 dark:bg-gray-800 md:p-8"
+                    style={{ backgroundColor: "#27264E" }}
+                    className="shadow-2xl min-w-64 w-full h-full px-4 py-6 rounded-lg md:p-8"
                   >
                     <div className="text-black rounded py-2 font-bold">
-                      <h1 className="text-center md:text-left">
+                      <h1 className="text-center md:text-left text-white">
                         ความเสี่ยงที่คุณสามารถรับได้
                       </h1>
                     </div>
-                    <div className="w-full h-24 md:h-32">
+                    <div className="w-full h-24 md:h-32 pt-5">
                       <InvestmentSlider
                         title="my slidebar"
                         riskLevel={riskLevel.toString()}
@@ -498,8 +516,8 @@ export function InvestmentForm({
                       />
                     </div>
                     <div className="text-black rounded ">
-                      <h1 className="font-bold text-center md:text-left">
-                        ความเสี่ยงที่คุณสามารถรับได้
+                      <h1 className="font-bold text-center md:text-left text-white">
+                        หากไม่ทราบระดับความเสี่ยงของตนเองโปรดทำแบบประเมินความเสี่ยง
                       </h1>
                       <a
                         href="/"
@@ -507,57 +525,75 @@ export function InvestmentForm({
                         rel="noopener noreferrer"
                         className="block text-center md:text-left"
                       >
-                        <p className="text-blue-800 hover:text-blue-500">
+                        <p className="text-white hover:text-blue-300 ">
                           หมายเหตุ: คลิกที่นี่เพื่อประเมินความเสี่ยงของคุณ
                         </p>
                       </a>
                     </div>
                   </div>
                 </div>
-                <div className="text-black rounded bg-gray-50 dark:bg-gray-800 py-6 font-bold">
-                  <h1>เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้</h1>
+                <div
+                  style={{ backgroundColor: "#6259E8" }}
+                  className="text-black rounded-lg font-bold"
+                >
+                  <h1 className="text-white text-lg rounded py-2 font-bold">
+                    เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้
+                  </h1>
                 </div>
-                <div className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-2xl">
+                <div style={{ backgroundColor: "#27264E" }} className="block w-full px-3 py-2 rounded-md shadow-2xl">
                   <div className="flex justify-center item-center">
                     <table className="table-fixed text-black">
                       <thead>
-                        <tr  className=" text-lg">
-                          <th className="px-4 py-2">ออมเงินต่อเดือน</th>
-                          <th className="px-4 py-2">ความเสี่ยง</th>
-                          <th className="px-4 py-2">ผลตอบแทน</th>
-                          <th className="px-4 py-2">ระยะเวลา</th>
-                          <th className="px-4 py-2">เลือก</th>
+                        <tr className=" text-lg">
+                          <th className="px-4 py-2 text-white font-bold text-lg">
+                            ออมเงินต่อเดือน
+                          </th>
+                          <th className="px-4 py-2 text-white font-bold text-lg">
+                            ความเสี่ยง
+                          </th>
+                          <th className="px-4 py-2 text-white font-bold text-lg">
+                            ผลตอบแทน
+                          </th>
+                          <th className="px-4 py-2 text-white font-bold text-lg">
+                            ระยะเวลา
+                          </th>
+                          <th className="px-4 py-2 text-white font-bold text-lg">
+                            เลือก
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="text-lg">
                         {initialTableData.map(
                           (data, index) =>
-                            data.riskLevel <= selectedRiskLevel &&
-                             (
+                            data.riskLevel <= selectedRiskLevel && (
                               <tr key={index}>
-                                <td className="px-4 py-2">
+                                <td className="px-4 py-2 text-white font-bold text-lg">
                                   {data.monthlySaving}
                                   {/* {monthlySaving} */}
                                 </td>
-                                <td className="px-4 py-2">
+                                <td className="px-4 py-2 text-white font-bold text-lg">
                                   {data.riskLevel}
                                   {/* {riskLevel} */}
                                 </td>
-                                <td className="px-4 py-2">
+                                <td className="px-4 py-2 text-white font-bold text-lg">
                                   {data.returnRate}%{/* {returnRate} */}
                                 </td>
-                                <td className="px-4 py-2">
-                                  {yearsToYearsMonthsDays(data.timeRemaining.toString())}
+                                <td className="px-4 py-2 text-white font-bold text-lg">
+                                  {yearsToYearsMonthsDays(
+                                    data.timeRemaining.toString()
+                                  )}
                                   {/* {period} */}
                                 </td>
                                 <td className="px-4 py-2">
                                   <input
                                     type="radio"
                                     name="option"
-                                    value={index+1}
+                                    value={index + 1}
                                     // checked={data.selected}
-                                    onChange={() => {handleRadioChange(index)}}
-                          
+                                    className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                                    onChange={() => {
+                                      handleRadioChange(index);
+                                    }}
                                   />
                                 </td>
                               </tr>

@@ -1,56 +1,59 @@
-import React, { useState } from 'react';
-import Slider from '@mui/material/Slider';
-import Box from '@mui/material/Box';
+import React, { useState } from "react";
+import Slider from "@mui/material/Slider";
+import Box from "@mui/material/Box";
 import "react-step-progress/dist/index.css";
-interface EmergencyPlanSliderOptionProps  {
+interface EmergencyPlanSliderOptionProps {
   title: string;
   months: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-
-const EmergencyPlanSliderOption: React.FC<EmergencyPlanSliderOptionProps> = ({ title, months, onChange}) => {
+const EmergencyPlanSliderOption: React.FC<EmergencyPlanSliderOptionProps> = ({
+  title,
+  months,
+  onChange,
+}) => {
   const [sliderValue, setSliderValue] = useState<number>(Number(months));
   const marks = [
     {
       value: 3,
-      label: '3',
+      label: "3",
     },
     {
       value: 4,
-      label: '',
+      label: "",
     },
     {
       value: 5,
-      label: '',
+      label: "",
     },
     {
       value: 6,
-      label: '6',
+      label: "6",
     },
     {
       value: 7,
-      label: '',
+      label: "",
     },
     {
       value: 8,
-      label: '',
+      label: "",
     },
     {
       value: 9,
-      label: '9',
+      label: "9",
     },
     {
       value: 10,
-      label: '',
+      label: "",
     },
     {
       value: 11,
-      label: '',
+      label: "",
     },
     {
       value: 12,
-      label: '12',
+      label: "12",
     },
   ];
 
@@ -69,29 +72,30 @@ const EmergencyPlanSliderOption: React.FC<EmergencyPlanSliderOptionProps> = ({ t
   }
 
   function valueLabelFormat(value: number) {
-    console.log(value)
+    console.log(value);
     marks.findIndex((mark) => mark.value === value) + 1;
-    return value
+    return value;
   }
 
   return (
-      <div style={{ width: "100%"}} className='text-black'>
-          <Box sx={{ width: "100%" }}>
-            <Slider
-              aria-label="Temperature"
-              defaultValue={sliderValue}
-              getAriaValueText={valuetext}
-              valueLabelFormat={valueLabelFormat}
-              valueLabelDisplay="auto"
-              step={1}
-              marks={marks}
-              min={3}
-              max={12}
-              onChange={handleSliderChange}
-            />
-          </Box>
-      </div>  
+    <div style={{ width: "100%" }} className="text-black">
+      <Box sx={{ width: "100%" }}>
+        <Slider
+          className="text-white appearance-none h-3 w-full cursor-pointer slider-thumb-green focus:outline-none"
+          aria-label="Temperature"
+          defaultValue={sliderValue}
+          getAriaValueText={valuetext}
+          valueLabelFormat={valueLabelFormat}
+          valueLabelDisplay="auto"
+          step={1}
+          marks={marks}
+          min={3}
+          max={12}
+          onChange={handleSliderChange}
+        />
+      </Box>
+    </div>
   );
 };
-  
+
 export default EmergencyPlanSliderOption;

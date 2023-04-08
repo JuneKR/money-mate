@@ -55,8 +55,8 @@ const LoginPage: React.FC = () => {
       <main className={styles.main}>
         <div>
           <div
-            style={{ backgroundColor: "#E5F8FF" }}
-            className="p-20 shadow-2xl rounded-2xl"
+            // style={{ backgroundColor: "#27264E" }}
+            className="p-20 shadow-2xl rounded-2xl bg-gray-50"
           >
             <h1 className="flex items-center justify-center text-black font-bold text-2xl pb-5">
               ลงชื่อเข้าใช้

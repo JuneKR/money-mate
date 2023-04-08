@@ -140,7 +140,7 @@ const EmergencyDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl dark:text-gray-500 "
+                  className="font-bold text-white text-2xl"
                 >
                   หยอดกระปุก
                 </div>
@@ -249,7 +249,7 @@ const EmergencyDashboard = () => {
                 </div>
                 <div className="flex justify-center item-center py-20">
                   <button
-                    onClick={handleEmergencyInvestmentPortfolioPackage}
+                    // onClick={handleEmergencyInvestmentPortfolioPackage}
                     className="transition ease-in-out delay-150 bg-yellow-200 hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500 duration-300 text-black font-bold py-2 px-4 rounded"
                   >
                     เพิ่มแผนการลงทุน

@@ -16,6 +16,7 @@ type InvestmentData = {
 
 type InvestmentFormProps = InvestmentData & {
   updateFields: (fields: Partial<InvestmentData>) => void;
+  handleInvestmentSelection: any;
 };
 
 export const initialPackage = {
@@ -51,6 +52,7 @@ export function InvestmentForm({
   riskLevel,
   returnRate,
   updateFields,
+  handleInvestmentSelection
 }: InvestmentFormProps) {
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
@@ -214,6 +216,18 @@ export function InvestmentForm({
 
   const [tableData, setTableData] =
     useState<InvestmentData[]>(initialTableData);
+  const [selectedTable, setSelectedTable] = useState(
+    {
+      expense: 0,
+      period: 0,
+      monthlySaving: 0,
+      totalBalance: 0,
+      timeRemaining: 0,
+      targetAmount: 0,
+      riskLevel: 0,
+      returnRate: 0,
+    }
+  )
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -388,18 +402,23 @@ export function InvestmentForm({
 
   const handleCheckboxChange = () => {
     setIsHidden(!isHidden);
+    handleInvestmentSelection(isHidden);
   };
 
   const handleRadioChange = (index: number) => {
     const newData = tableData.map((data, i) => {
       if (i === index) {
-        console.log(data);
+        // console.log(data);
+        setSelectedTable(data)
+        // Using UpdateFields to update state of parent component (multistep form)
         return { ...data, selected: true };
       } else {
+        // setSelectedTable(data)
         return { ...data, selected: false };
       }
     });
-
+    // Set New Selected State
+    // 
     setTableData(newData);
   };
 
@@ -408,9 +427,11 @@ export function InvestmentForm({
     await createEmergencyPlan();
     await getEmergencyPlan();
     // await createInvestmentPortfolio();
-    router.push("/EmergencyPages/emergencyInvestmentDashboard");
+    // router.push("/EmergencyPages/emergencyInvestmentDashboard");
+    router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
-
+  console.log('Selected Table', selectedTable);
+  // console.log('Investment Form', riskLevel);
   return (
     <div>
       <div
@@ -603,7 +624,7 @@ export function InvestmentForm({
                     </table>
                   </div>
                 </div>
-                <div className="flex justify-end py-5">
+                {/* <div className="flex justify-end py-5">
                   <button
                     onClick={handleEmergencyInvestmanet}
                     style={{ width: "209px" }}
@@ -612,7 +633,7 @@ export function InvestmentForm({
                   >
                     สร้างแผนการลงทุน
                   </button>
-                </div>
+                </div> */}
               </form>
             </div>
           )}

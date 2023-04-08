@@ -104,62 +104,62 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
 
   return (
     <div>
-      <Button onClick={handleOpen} className="w-full h-full shadow-2xl">
+      <Button onClick={handleOpen} style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
         <div>
           <div className="flex justify-end">
             <EditIcon />
           </div>
-          <div className="text-left  text-black font-bold py-1">
-            <h1 style={{ color: "#085385" }} className="px-2">
+          <div className="text-left text-white font-bold text-sm py-1">
+            <h1 className="px-2">
               เป้าหมายการออมเงิน
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5">
             <div>
-              <div className="flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
                 จำนวนเงิน
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white font-bold text-lg">
                 {savingEmergency.TargetAmount}
               </div>
             </div>
             <div>
-              <div className="flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
                 ระยะเวลา
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white font-bold text-lg">
                 {savingEmergency.TimeRemaining} เดือน
               </div>
             </div>
             <div>
-              <div className="flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
                 จำนวนเดือน
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white font-bold text-lg">
                 {savingEmergency.TimePeriod} เดือน
               </div>
             </div>
             <div>
-              <div className="flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
                 เงินลงทุน/ต่อเดือน
               </div>
-              <div className="flex items-center justify-center text-black">
+              <div className="flex items-center justify-center text-white font-bold text-lg">
                 {savingEmergency.MonthlySaving}
               </div>
             </div>
             <div>
-              <div className="flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
                 ความเสี่ยงที่รับได้
               </div>
-              <div className="flex items-center justify-center text-black text-gray-500">
+              <div className="flex items-center justify-center text-white font-bold text-lg">
                 {savingInvestmentPort?.RiskSpectrum === undefined ? "-" : savingInvestmentPort?.RiskSpectrum}
               </div>
             </div>
             <div>
-              <div className="flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
                 ผลตอบแทนที่คาดหวัง
               </div>
-              <div className="flex items-center justify-center text-black text-gray-500">
+              <div className="flex items-center justify-center text-white font-bold text-lg">
                 {savingInvestmentPort?.ReturnRate === undefined ? "-" : savingInvestmentPort?.ReturnRate}
               </div>
             </div>
@@ -275,10 +275,10 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
             variant="h6"
             component={"span"}
           >
-            <div className="text-black">
+            <div className="text-white font-bold text-2xl">
               ยินดีด้วย! คุณได้อัพเดทแผนการลงทุนสำหรับการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
             </div>
-            <div className="py-5 text-black">อัพเดทแผนการลงทุนสำเร็จ!!!</div>
+            <div className="py-5 text-white font-bold text-md">อัพเดทแผนการลงทุนสำเร็จ!!!</div>
           </Typography>
         </Box>
       </Modal>

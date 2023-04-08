@@ -23,7 +23,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import HomeIcon from "@mui/icons-material/Home";
 import SavingsIcon from "@mui/icons-material/Savings";
-import FlagIcon from '@mui/icons-material/Flag';
+import FlagIcon from "@mui/icons-material/Flag";
 import ElderlyIcon from "@mui/icons-material/Elderly";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PersonIcon from "@mui/icons-material/Person";
@@ -43,11 +43,11 @@ const openedMixin = (theme: Theme): CSSObject => ({
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     "& .MuiPaper-root": {
-      // borderRadius: "100px",
+      borderRadius: "10px",
       // boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.75);",
       backgroundColor: "#1D1D41",
-    }
-  }
+    },
+  },
 }));
 
 const closedMixin = (theme: Theme): CSSObject => ({
@@ -221,7 +221,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
   };
   return (
     <div>
-      <Box sx={{ display: "flex"}}>
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar style={{ backgroundColor: "#1D1D41" }}>
@@ -283,11 +283,11 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <Drawer
           variant="permanent"
           open={open}
-          style={{ backgroundColor: "#090A0D", color: "#FFFFFF" }}
+          style={{ color: "#FFFFFF" }}
           className={classes.root}
         >
           <DrawerHeader>
-            Logo
+            <h1 className="text-white font-bold py-2 text-3xl">MoneyMate</h1>
             <IconButton onClick={handleDrawerClose} sx={{ color: "#FFFFFF" }}>
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
@@ -305,7 +305,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
               "การลงทุน",
               "Profile",
             ].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block"}}>
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -327,12 +327,12 @@ const Sidebar: React.FC<SidebarProps> = () => {
                         router.push("");
                         break;
                       case 4:
-                        router.push("/EmergencyPages/emergencyInvestmentDashboard");
+                        router.push(
+                          "/EmergencyPages/emergencyInvestmentDashboard"
+                        );
                         break;
                       case 5:
-                        router.push(
-                          "/ProfileManagement/userProfile"
-                        );
+                        router.push("/ProfileManagement/userProfile");
                         break;
                       // case 6:
                       //   router.push("/");

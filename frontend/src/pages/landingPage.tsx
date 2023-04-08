@@ -5,13 +5,6 @@ import { useRouter } from "next/router";
 import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import LandingSavingPlanCard from "@/components/LandingPageComponents/landingSavingPlanCard";
 
-import Image from "next/image";
-import icon1 from "@/images/Icon/กระปุก2.png";
-import icon2 from "@/images/Icon/กระปุก3.png";
-import icon3 from "@/images/Icon/กระปุก5.png";
-
-
-
 interface LandingPageProps {
   index: number;
 }
@@ -35,8 +28,7 @@ interface RowData {
   };
 }
 const LandingPage: React.FC<LandingPageProps> = ({}) => {
-
-  const urlServer = 'http://localhost:8080/'
+  const urlServer = "http://localhost:8080/";
   const [displayData, setdisplayData] = useState<RowData[]>([]);
   const [savingPlans, setSavingPlans] = useState<SavingPlan[]>([]);
 
@@ -45,26 +37,35 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
     async function fetchSavingPlan() {
       try {
         // Fetch User Profile
-        const profileResponse = await fetch(urlServer+'user/profile', {
-          credentials: 'include'
+        const profileResponse = await fetch(urlServer + "user/profile", {
+          credentials: "include",
         });
         const userProfile = await profileResponse.json();
 
         //Fetch Saving Emergency Plan
-        const savingEmergencyResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/emergency`, {
-          credentials: 'include'
-        })
+        const savingEmergencyResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/emergency`,
+          {
+            credentials: "include",
+          }
+        );
         const savingEmergency = await savingEmergencyResponse.json();
 
         //Fetch Goal-Based Saving Plan
-        const savingGoalResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goal`, {
-          credentials: 'include'
-        })
+        const savingGoalResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/goal`,
+          {
+            credentials: "include",
+          }
+        );
         const savingGoal = await savingGoalResponse.json();
 
-        const savingRetirementResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/retirement`, {
-          credentials: 'include'
-        })
+        const savingRetirementResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/retirement`,
+          {
+            credentials: "include",
+          }
+        );
         const savingRetirement = await savingRetirementResponse.json();
 
         const allSavingPlans: SavingPlan[] = [];
@@ -81,16 +82,13 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         }
 
         setSavingPlans(allSavingPlans);
-        console.log('All Saving Plan', allSavingPlans);
-
-
-      } catch(error) {
-        console.log('Fetching Saving Plan Error: ', error)
+        console.log("All Saving Plan", allSavingPlans);
+      } catch (error) {
+        console.log("Fetching Saving Plan Error: ", error);
       }
-
     }
     fetchSavingPlan();
-  }, [])
+  }, []);
 
   // function handleNewData(data: RowData) {
   //   setdisplayData([...displayData, data]);
@@ -110,26 +108,26 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
 
   return (
     <>
+      <Sidebar title="My Sidebar" />
       <main className={styles.main}>
-        <div style={{ padding: "0 4rem", }} className="w-full xl:w-8/12">
-          <Sidebar title="My Sidebar" />
+        <div style={{ padding: "0 4rem" }} className="w-full xl:w-8/12">
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              backgroundColor: "#B2E8FF",
+              backgroundColor: "#6259E8",
             }}
             className=" py-2 rounded bg-gray-50 dark:bg-gray-800 shadow-2xl "
           >
             <p
               style={{ padding: "0 1rem" }}
-              className="font-bold text-black dark:text-gray-500 "
+              className="font-bold text-white dark:text-gray-500 text-2xl "
             >
               ภาพรวม
             </p>
           </div>
           <div className="py-5 ">
-            <div className="text-black shadow-2xl grid grid-cols-2 rounded-3xl w-full h-full h-24 rounded bg-gray-50 dark:bg-gray-800">
+            <div className="grid grid-cols-2 rounded-3xl transition duration-300 delay-150 bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800 shadow-2xl">
               <div className="flex justify-center item-center py-20 grid grid-rows-2 ">
                 <div>
                   <p className="font-bold">เราแนะนำให้คุณสร้างแผนการออมเงิน</p>
@@ -141,7 +139,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               <div className="flex justify-center item-center py-20">
                 <button
                   onClick={handleSavingSelectionPage}
-                  className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 text-white font-bold py-2 px-4 rounded"
+                  className="transition ease-in-out delay-150 bg-purple-500 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300 text-white font-bold py-2 px-4 rounded"
                 >
                   เริ่มสร้างแผนการออมเงินเลย!
                 </button>
@@ -149,23 +147,25 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
             </div>
           </div>
           <div className="">
-            <div className="w-full h-full py-2 h-24 rounded bg-gray-50 dark:bg-gray-800 shadow-2xl">
+            <div
+              style={{ backgroundColor: "#1D1D41" }}
+              className="w-full h-full py-2 h-24 rounded-xl shadow-2xl"
+            >
               <div className="px-5 pb-5">
                 <div className=" grid grid-cols-2">
-                  <div
-                    style={{ color: "#085385" }}
-                    className="border-b-2 border-gray-500 font-bold py-3"
-                  >
+                  <div className="border-b-2 border-gray-500 font-bold py-3 text-white text-xl">
                     <p>ความก้าวหน้าการออมเงินของคุณ</p>
                   </div>
                   <div className="flex item-center justify-end border-b-2 border-gray-500 py-3">
-                    <p className="text-black">จัดเรียง</p>
+                    <p className="text-white">จัดเรียง</p>
                   </div>
                 </div>
               </div>
               {!savingPlans.length ? (
-                <div>
-                  <p className="text-black text-center">คุณยังไม่มีแผน</p>
+                <div className="p-20">
+                  <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                    คุณยังไม่มีแผนการออมเงิน ได้โปรดสร้างแผนการออม
+                  </p>
                 </div>
               ) : (
                 <div className="pb-5 px-5">

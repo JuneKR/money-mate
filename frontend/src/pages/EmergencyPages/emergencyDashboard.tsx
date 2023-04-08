@@ -102,11 +102,8 @@ const EmergencyDashboard = () => {
     <>
       <Sidebar title="My Sidebar" />
       <main className={styles.main} style={{ overflowX: "auto" }}>
-      
         <div className="w-full xl:w-8/12">
-        
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
-            
             <div>
               <div
                 style={{
@@ -148,7 +145,10 @@ const EmergencyDashboard = () => {
                   หยอดกระปุก
                 </div>
               </div>
-              <div style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl pb-5 shadow-2xl ">
+              <div
+                style={{ backgroundColor: "#1D1D41" }}
+                className="rounded-b-2xl pb-5 shadow-2xl "
+              >
                 <div className="pt-5 grid grid-cols-4">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />
@@ -161,7 +161,6 @@ const EmergencyDashboard = () => {
                       title={"my bar"}
                       progress={`${savingEmergencyPlan.Progression}%`}
                     />
-                    
                   </div>
                 </div>
                 <div className=" px-5 text-black">
@@ -170,7 +169,7 @@ const EmergencyDashboard = () => {
                     แผนการออมเงินของคุณ
                   </div>
                   <div
-                    style={{backgroundColor: "#27264E"}}
+                    style={{ backgroundColor: "#27264E" }}
                     className="py-5 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-5 shadow-2xl rounded-lg text-white text-lg font-bold"
                   >
                     <div>
@@ -214,7 +213,12 @@ const EmergencyDashboard = () => {
                         <h1>เหลือเวลาอีก</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{yearsToYearsMonthsDays(savingEmergencyPlan.TimeRemaining)} เดือน</h1>
+                        <h1>
+                          {yearsToYearsMonthsDays(
+                            savingEmergencyPlan.TimeRemaining
+                          )}{" "}
+                          เดือน
+                        </h1>
                       </div>
                     </div>
                   </div>
@@ -234,7 +238,7 @@ const EmergencyDashboard = () => {
               </div>
             </div>
             <div className="pb-5 ">
-              <div className=" grid grid-cols-2 rounded-3xl bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:from-purple-500 hover:to-blue-500 shadow-2xl">
+              <div className=" grid grid-cols-2 rounded-3xl transition duration-300 delay-150 bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800 shadow-2xl">
                 <div className="flex justify-center item-center py-20 grid grid-rows-2">
                   <div>
                     <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
@@ -271,14 +275,18 @@ const EmergencyDashboard = () => {
               </div>
               <div>
                 <div
-                  style={{ maxHeight: "600px", overflow: "auto", backgroundColor: "#1D1D41"}}
+                  style={{
+                    maxHeight: "600px",
+                    overflow: "auto",
+                    backgroundColor: "#1D1D41",
+                  }}
                   className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-2xl"
                 >
                   {!savingEmergencyTransactions.length ? (
-                    <div>
-                      <h1 className="text-black text-center">
-                        คุณยังไม่มีประวัติ
-                      </h1>
+                    <div className="p-20">
+                      <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                        คุณยังไม่มีประวัติารออมเงินและถอนเงิน
+                      </p>
                     </div>
                   ) : (
                     <div className="pb-5 px-5">

@@ -12,7 +12,6 @@ const Progress1: React.FC<Progress1Props> = ({ progress, title }) => {
         style={{ backgroundColor: "#3A3B5A" }}
         className="w-full rounded-full h-11 mb-4"
       >
-        
         <div
           className="h-10 rounded-full flex justify-center item-center font-bold"
           style={{

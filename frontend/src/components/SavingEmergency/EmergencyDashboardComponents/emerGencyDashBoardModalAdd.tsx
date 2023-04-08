@@ -106,7 +106,7 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
           marginRight: "10px",
           backgroundColor: "#6259E8",
         }}
-        className="px-4 py-2 shadow-xl font-bold text-lg text-white rounded-lg"
+        className="px-4 py-2 shadow-xl font-bold text-lg text-white rounded-lg "
         onClick={handleOpen}
       >
         ออมเงิน

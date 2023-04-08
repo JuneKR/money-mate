@@ -7,6 +7,7 @@ import { useMultistepForm } from "@/components/SavingEmergency/EmergencyForm/use
 import { GoalForm } from "@/components/SavingEmergency/EmergencyForm/GoalForm";
 import { PlanForm } from "@/components/SavingEmergency/EmergencyForm/PlanForm";
 import InvestmentForm from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
+import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
 
 type FormData = {
   expense: number;
@@ -33,6 +34,7 @@ const initialData: FormData = {
 const emergencyCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
+  const [showPackageStep, setShowPackageStep] = useState(false);
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {
@@ -40,14 +42,20 @@ const emergencyCreateForm = () => {
     });
   }
 
+  const handleInvestmentSelection = (selected: boolean) => {
+    console.log('Selected Package', selected)
+    setShowPackageStep(selected);
+  };
+
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
       <GoalForm {...data} updateFields={updateFields} />,
       <PlanForm {...data} updateFields={updateFields} />,
-      <InvestmentForm selected={false} {...data} updateFields={updateFields} />,
+      <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
+      <PortfolioPackage {...data} updateFields={updateFields}/>
     ]);
   //   console.log("create formmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-  //   console.log(data);
+    console.log('Multistep form:',data);
 
   const urlServer = "http://localhost:8080/";
   const [uID, setuID] = useState([]);
@@ -187,6 +195,15 @@ const emergencyCreateForm = () => {
                     </span>
                   </StepLabel>
                 </Step>
+                {showPackageStep && (
+                  <Step>
+                  <StepLabel>
+                  <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                    เลือกพอร์ตการลงทุน
+                  </span>
+                </StepLabel>
+                </Step>
+                )}
               </Stepper>
             </Box>{" "}
           </div>

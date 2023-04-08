@@ -88,6 +88,44 @@ export const getPortfolioPackageById = async(req: Request, res: Response) => {
 
 }
 
+export const getPortfolioPackageByRiskSpectrum = async(req: Request, res: Response) => {
+    
+    try {
+        const portfolioPackage = await PortfolioPackage.findOne({
+            where: {
+                RiskSpectrum: req.params.risk
+            }
+        });
+
+        /* Check Plan */
+        if(!portfolioPackage) {
+            return res.status(404).json({msg: `Portfolio Package with Risk Spectrum: ${req.params.risk} not found!`});
+        }
+
+        const response = await PortfolioPackage.findOne({
+            attributes:[
+                'Package_ID',
+                'PackageName',
+                'LastUpdate',
+                'RiskSpectrum',
+                'InvestmentType',
+                'ReturnRate'
+            ],
+            where: {
+                RiskSpectrum: req.params.risk,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+
+}
+
+export const getAllPortfolioPackageByRiskSpectrum = async(req: Request, res: Response) => {
+
+}
+
 export const editPortfolioPackageInfo = async(req: Request, res: Response) => {
     
     try {

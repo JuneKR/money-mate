@@ -4,7 +4,32 @@ import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
 import { useRouter } from 'next/router'
 
-const EmergencyInvestmentPortfolioPackage = () => {
+type PackageData = {
+  expense: number;
+  period: number;
+  monthlySaving: number;
+  totalBalance: number;
+  timeRemaining: number;
+  targetAmount: number;
+  riskLevel: number;
+  returnRate: number;
+};
+
+type PackageProps = PackageData & {
+  updateFields: (fields: Partial<PackageData>) => void;
+};
+
+const EmergencyInvestmentPortfolioPackage = ({
+  expense,
+  period,
+  monthlySaving,
+  totalBalance,
+  timeRemaining,
+  targetAmount,
+  riskLevel,
+  returnRate,
+  updateFields
+}: PackageProps) => {
     const [isOpen, setIsOpen] = useState(false);
     function toggleColumn() {
         setIsOpen(!isOpen);
@@ -17,12 +42,15 @@ const EmergencyInvestmentPortfolioPackage = () => {
         router.push('/EmergencyPages/emergencyInvestmentDashboard')
       }
       const handlesEmergencyPlanForm = () => {
-        router.push('/EmergencyPages/emergencyHomepage')
+        router.push('/EmergencyPages/emergencyCreateForm')
       }
       
+    console.log('Package Expense',expense);
+    console.log('Package Risk',riskLevel);
+    console.log('Package Returns',returnRate);
 
     return(
-        <>
+    <>
     <main className={styles.main}>
         <div style={{padding: "0 4rem"}} className="w-full xl:w-8/12">
             <Sidebar title="My Sidebar" />

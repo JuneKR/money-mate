@@ -263,7 +263,6 @@ const EmergencyInvestmentDashboard = () => {
                   >
                     <Pie1
                       title={"my pie1"}
-                      packageallocation={portPackageAllocate}
                     />
                   </div>
                   {/* <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">

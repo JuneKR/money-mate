@@ -1,20 +1,30 @@
-import React, { useRef, useEffect } from 'react';
-import { Progress, ProgressProps } from '@material-tailwind/react';
+import React, { useRef, useEffect } from "react";
+import { Progress, ProgressProps } from "@material-tailwind/react";
 interface Progress1Props {
-    title: string;
+  title: string;
+  progress: string;
 }
 
-const Progress1: React.FC<Progress1Props> = (props) => {
-    const progress = 50;
-
-    
-    return (
-      <div className='w-full h-full'>
-            <div className="w-full bg-gray-200 rounded h-10 mb-4 dark:bg-gray-700">
-                <div className="h-10 rounded dark:bg-gray-300" style={{width: progress, backgroundColor: "#FEF5AC"}}></div>
-            </div>
+const Progress1: React.FC<Progress1Props> = ({ progress, title }) => {
+  return (
+    <div className="w-full h-full">
+      <div
+        style={{ backgroundColor: "#3A3B5A" }}
+        className="w-full rounded-full h-11 mb-4"
+      >
+        <div
+          className="h-10 rounded-full flex justify-center item-center font-bold"
+          style={{
+            width: progress,
+            backgroundColor: "#64D0F7",
+            alignItems: "center",
+          }}
+        >
+          <h1 className="ml-10">{progress}</h1>
+        </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Progress1;

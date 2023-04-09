@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import PortfolioPackage from "../../models/portfolio management/portfolioPackageModel";
-import PackageItem from "../../models/portfolio management/packageItem";
+import PackageItem from "../../models/portfolio management/packageItemModel";
 import MutualFund from "../../models/portfolio management/mutualFundModel";
 
 /* Portfolio Package */
@@ -69,7 +69,7 @@ export const getPortfolioPackageById = async(req: Request, res: Response) => {
             return res.status(404).json({msg: `Portfolio Package id: ${req.params.id} not found!`});
         }
 
-        const response = await PortfolioPackage.findAll({
+        const response = await PortfolioPackage.findOne({
             attributes:[
                 'PackageName',
                 'LastUpdate',
@@ -145,6 +145,9 @@ export const getAllPortfolioPackageAllocationByPackageId = async(req: Request, r
             attributes:[
                 'Package_ID',
                 'Fund_ID',
+                'PolicyDesc',
+                'FundAbbrName',
+                'OneYearReturns',
                 'AllocationRatio'
             ],
             where: {
@@ -200,6 +203,9 @@ export const addMutualFundToPackage = async(req: Request, res: Response) => {
         {   
             package_id,
             fund_id,
+            policy_desc,
+            fund_abbr_name,
+            one_year_returns,
             allocation_ratio,
         } = req.body;
 
@@ -216,6 +222,9 @@ export const addMutualFundToPackage = async(req: Request, res: Response) => {
         await PackageItem.create({
             Package_ID: package_id,
             Fund_ID: fund_id,
+            PolicyDesc: policy_desc,
+            FundAbbrName: fund_abbr_name,
+            OneYearReturns: one_year_returns,
             AllocationRatio: allocation_ratio
         });
         res.status(201).json({msg: "Successful add mutual fund and allocation to portfolio package"});

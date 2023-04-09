@@ -1,15 +1,15 @@
 import React from 'react';
-import ReactSlider from "react-slider";
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import "react-step-progress/dist/index.css";
 interface EmergencyPlanSliderOption1Props  {
   title: string;
   months: string;
+  disabled?: boolean;
 }
 
 
-const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({ title, months}) => {
+const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({ title, months, disabled}) => {
   const marks = [
     {
       value: 3,
@@ -61,25 +61,19 @@ const EmergencyPlanSliderOption1: React.FC<EmergencyPlanSliderOption1Props> = ({
   const currentval = Number(months);
     return (
         <div style={{ width: "100%"}} className='text-black'>
-            {/* <ReactSlider
-            className="customSlider"
-            trackClassName="customSlider-track" 
-            thumbClassName="customSlider-thumb"
-            marks={20}
-            min={0}
-            max={100}
-            /> */}
             <Box sx={{ width: "100%" }}>
               <Slider
+                className="text-white appearance-none h-3 w-full cursor-pointer slider-thumb-green focus:outline-none"
                 aria-label="Temperature"
                 defaultValue={currentval}
                 getAriaValueText={valuetext}
                 valueLabelFormat={valueLabelFormat}
                 valueLabelDisplay="auto"
-                step={1}
+                step={3}
                 marks={marks}
                 min={3}
                 max={12}
+                disabled={disabled}
               />
             </Box>
             

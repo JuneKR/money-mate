@@ -105,6 +105,43 @@ export const getInvestmentPortfolioById = async(req: Request, res: Response) => 
 
 }
 
+export const getInvestmentPortfolioByEmergencyId = async(req: Request, res: Response) => {
+    
+    try {
+        const investmentPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Emergency_ID: req.params.id
+            }
+        });
+
+        /* Check Investment Portfolio */
+        if(!investmentPortfolio) {
+            return res.status(404).json({msg: `Investment portfolio with emergency id: ${req.params.id} not found!`});
+        }
+
+        const response = await InvestmentPortfolio.findOne({
+            attributes:[
+                'PortfolioName',
+                'TotalValue',
+                'LastUpdate',
+                'StartDate',
+                'RiskSpectrum',
+                'ReturnRate',
+                'Package_ID',
+                'Portfolio_ID'
+            ],
+            where: {
+                Emergency_ID: req.params.id,
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+
+}
+
+
 export const editInvestmentPortfolio = async(req: Request, res: Response) => {
     
     try {
@@ -198,6 +235,9 @@ export const getInvestmentPortfolioAllocationByPortfolioId = async(req: Request,
             attributes:[
                 'Portfolio_ID',
                 'Fund_ID',
+                'PolicyDesc',
+                'FundAbbrName',
+                'OneYearReturns',
                 'AllocationRatio'
             ],
             where: {
@@ -238,10 +278,6 @@ export const editInvestmentPortfolioAllocationByPortfolioId = async(req: Request
     } catch (error: any) {
         return res.status(400).json({msg: error.message});
     }
-}
-
-/* Calculator Funciton */
-export const calculateInvestmentROI = async(req: Request, res: Response) => {
 }
 
 /* Investment Transaction */

@@ -8,13 +8,11 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
         plan_name,
         target_amount,
         time_period,
-        initial_saving,
         monthly_saving,
         start_date,
         last_update,
         total_balance,
         time_remaining,
-        interest_rate,
         progression,
         user_id,
     } = req.body;
@@ -24,17 +22,15 @@ export const createGoalBasedPlan = async(req: Request, res: Response) => {
             PlanName: plan_name,
             TargetAmount: target_amount,
             TimePeriod: time_period,
-            InitialSaving: initial_saving,
             MonthlySaving: monthly_saving,
             StartDate: start_date,
             LastUpdate: last_update,
             TotalBalance: total_balance,
             TimeRemaining: time_remaining,
-            InterestRate: interest_rate,
             Progression: progression,
             User_ID: user_id,
         });
-        res.status(201).json({msg: "Successful Create new goal-based plan "});
+        res.status(201).json({msg: "Successful Create new goal-based plan"});
     } catch (error: any) {
         res.status(400).json({msg: error.message});
     }
@@ -59,13 +55,11 @@ export const getFirstGoalBasedPlanByUserId = async(req: Request, res: Response) 
                 'PlanName',
                 'TargetAmount',
                 'TimePeriod',
-                'InitialSaving',
                 'MonthlySaving',
                 'StartDate',
                 'LastUpdate',
                 'TotalBalance',
                 'TimeRemaining',
-                'InterestRate',
                 'Progression'
             ],
             where: {
@@ -97,13 +91,11 @@ export const getAllGoalBasedPlanByUserId = async(req: Request, res: Response) =>
                 'PlanName',
                 'TargetAmount',
                 'TimePeriod',
-                'InitialSaving',
                 'MonthlySaving',
                 'StartDate',
                 'LastUpdate',
                 'TotalBalance',
                 'TimeRemaining',
-                'InterestRate',
                 'Progression'
             ],
             where: {
@@ -134,13 +126,11 @@ export const getGoalBasedPlanById = async(req: Request, res: Response) => {
                 'PlanName',
                 'TargetAmount',
                 'TimePeriod',
-                'InitialSaving',
                 'MonthlySaving',
                 'StartDate',
                 'LastUpdate',
                 'TotalBalance',
                 'TimeRemaining',
-                'InterestRate',
                 'Progression'
             ],
             where: {
@@ -169,12 +159,10 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
         plan_name,
         target_amount,
         time_period,
-        initial_saving,
         monthly_saving,
         last_update,
         total_balance,
         time_remaining,
-        interest_rate,
         progression
     } = req.body;
 
@@ -183,13 +171,10 @@ export const editGoalBasedPlan = async(req: Request, res: Response) => {
             PlanName: plan_name,
             TargetAmount: target_amount,
             TimePeriod: time_period,
-            InitialSaving: initial_saving,
             MonthlySaving: monthly_saving,
-            // LastUpdate: new Date().toISOString().slice(0, 19).replace('T', ' '),
             LastUpdate: last_update,
             TotalBalance: total_balance,
             TimeRemaining: time_remaining,
-            InterestRate: interest_rate,
             Progression: progression,
         }, {
             where:{
@@ -279,7 +264,6 @@ export const addTransactionToGoalBasedPlan = async(req: Request, res: Response) 
             Type: type,
             Goal_ID: goalBasedPlan.Goal_ID
         });
-        /* !! Must update LastUpdate and TimeRemaining */
 
         res.status(201).json({msg: "Goal-Based transaction history is recorded"});
     } catch (error: any) {

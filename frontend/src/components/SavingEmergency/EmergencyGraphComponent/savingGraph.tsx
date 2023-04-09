@@ -44,6 +44,7 @@ const SavingGraph: React.FC<SavingGraphProps> = (props) => {
           backgroundColor: "#36A2EB",
           borderColor: "#36A2EB",
           tension: 0.1,
+
           // tension: 0.1,
         }
       ]
@@ -59,7 +60,7 @@ const SavingGraph: React.FC<SavingGraphProps> = (props) => {
     };
     return (
       <div>
-        <div className="">
+        <div >
           <div><Line data={data} options={options}/></div>
         </div>
       </div>

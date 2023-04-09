@@ -4,7 +4,10 @@ import db from '../../../config/database';
 interface PortfolioItemAttributes {
     PortfolioItem_ID: number;
     Portfolio_ID: number;
-    Fund_ID: number;   
+    Fund_ID: number;
+    PolicyDesc: string;
+    FundAbbrName: string;
+    OneYearReturns: number;   
     AllocationRatio: number;
 }
 
@@ -41,12 +44,21 @@ const PortfolioItem = db.define<PortfolioItemInstance>('PortfolioItem', {
             key: 'Fund_ID'
         }
     },
+    PolicyDesc: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    FundAbbrName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    OneYearReturns: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
     AllocationRatio: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        validate: {
-            notEmpty: true
-        }
     },
 }, {
     freezeTableName: true

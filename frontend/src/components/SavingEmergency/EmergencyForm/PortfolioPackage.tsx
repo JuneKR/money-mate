@@ -1,4 +1,4 @@
-import React, { useState,useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
@@ -19,6 +19,15 @@ type PackageProps = PackageData & {
   updateFields: (fields: Partial<PackageData>) => void;
 };
 
+const initialPortfolioPackage = {
+    Package_ID: 1,
+    PackageName: "",
+    LastUpdate: "",
+    RiskSpectrum: 1,
+    InvestmentType: "",
+    ReturnRate: 0
+}
+
 export function PortfolioPackage ({
   expense,
   period,
@@ -31,10 +40,64 @@ export function PortfolioPackage ({
   updateFields
 }: PackageProps) {
 
-    console.log('Package', riskLevel);
+    const urlServer = "http://localhost:8080/";
+    const [portfolioPackage, setPortfolioPackage] = useState(initialPortfolioPackage);
+    const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
+
     const handleCheckboxChange = (isChecked: boolean) => {
         // Do something with the new checkbox state
-      };
+    };
+
+    useEffect(() => {
+        // Fetch One Portfolio Pacakge by Risk Spectrum
+        async function fetchPortfolioPackage() {
+          try {
+            // Fetch User Profile
+            const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${riskLevel}`, {
+              credentials: "include",
+            });
+            const portfolioPackage = await packageResponse.json();
+            if (packageResponse.ok) {
+                console.log(portfolioPackage);
+                // Set Portfolio Package
+                setPortfolioPackage(portfolioPackage);
+            } 
+            else {
+                const errorData = await packageResponse.json();
+                console.log(errorData);
+            }
+            console.log('Package Details:', portfolioPackage);
+          } catch (error) {
+            console.log("fetch Package Error: ", error);
+          }
+        }
+
+        // Fetch Portfolio Package Allocation by Package ID
+        async function fetchPortfolioPackageAllocation() {
+            try {
+              // Fetch User Profile
+              const packageResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
+                credentials: "include",
+              });
+              const packageAllocation = await packageResponse.json();
+              if (packageResponse.ok) {
+                  console.log(portfolioPackage);
+                  // Set Portfolio Package Allocation
+                  setPortfolioPackageAllocation(packageAllocation);
+              } 
+              else {
+                  const errorData = await packageResponse.json();
+                  console.log(errorData);
+              }
+              console.log('Package Details:', portfolioPackage);
+            } catch (error) {
+              console.log("fetch Package Error: ", error);
+            }
+        }
+
+        fetchPortfolioPackage();
+        fetchPortfolioPackageAllocation()
+    }, []);
 
     return (
         <>
@@ -48,7 +111,14 @@ export function PortfolioPackage ({
                 </div>
                 <div className='bg-gray-50'>
                     <div className='px-4' >
-                    <InvestmentCheckBox label="My checkbox label" checked={false} onChange={handleCheckboxChange} title={'InvestmentCheckBox'}/>
+                    <InvestmentCheckBox 
+                        label="My checkbox label" 
+                        checked={false} 
+                        onChange={handleCheckboxChange} 
+                        title={'InvestmentCheckBox'}
+                        portfolioPackage={portfolioPackage}
+                        portfolioPackageAllocation={portfolioPackageAllocation}
+                    />
                     </div>
                 </div>
                 <div className="flex justify-end py-2">

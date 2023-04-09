@@ -35,6 +35,7 @@ const emergencyCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
+  const [portfolioData, setPortfolioData] = useState(initialData);
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {
@@ -54,7 +55,7 @@ const emergencyCreateForm = () => {
       <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
       <PortfolioPackage {...data} updateFields={updateFields}/>
     ]);
-  //   console.log("create formmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+
     console.log('Multistep form:',data);
 
   const urlServer = "http://localhost:8080/";
@@ -73,25 +74,24 @@ const emergencyCreateForm = () => {
         console.log("fetch User Profile Error: ", error);
       }
     }
+
+    async function fetchPortfolioPackage() {
+      try {
+        // Fetch User Profile
+        const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`, {
+          credentials: "include",
+        });
+        const portfolioPackage = await packageResponse.json();
+        console.log('Package',portfolioPackage);
+      } catch (error) {
+        console.log("fetch Package Error: ", error);
+      }
+    }
+
     fetchUserProfile();
+    fetchPortfolioPackage();
   }, []);
   console.log(data);
-  //   const updateEmergencyPlanData = {
-  //     plan_name: "แผนออมเงินสำรองฉุกเฉิน",
-  //     target_amount: data.targetAmount,
-  //     time_period: data.period,
-  //     initial_saving: data.totalBalance,
-  //     monthly_saving: data.monthlySaving,
-  //     start_date: "2023-02-26",
-  //     last_update: "2023-02-26 10:2:30",
-  //     total_balance: data.totalBalance,
-  //     time_remaining: data.timeRemaining,
-  //     monthly_expense: data.expense,
-  //     progression: 0,
-  //     user_id: uID,
-  //   };
-  //   console.log("updateEmergencyPlanData");
-  //   console.log(updateEmergencyPlanData);
 
   const createEmergencyPlan = async () => {
     console.log(data);
@@ -134,12 +134,7 @@ const emergencyCreateForm = () => {
       console.error(error);
     }
   };
-  //   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-  //     e.preventDefault();
-  //     if (!isLastStep) return next();
-  //     alert("สร้างแผนการออมเงินสำเร็จแล้ว");
-  //     await updateEmergencyPlan();
-  //   }
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isLastStep) return next();

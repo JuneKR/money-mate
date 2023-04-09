@@ -43,50 +43,6 @@ const EmergencyFundsDetailsTable: React.FC<EmergencyFundsDetailsTableProps> = (p
                                 <td className="whitespace-nowrap px-6 py-4">{packageAllocation[2]?.AllocationRatio}</td>
                             </tr>
                         </tbody>
-                        {/* <tbody>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">กองทุนรวมผสม</td>
-                                <td className="whitespace-nowrap px-6 py-4">ABFC</td>
-                                <td className="whitespace-nowrap px-6 py-4">1.11%</td>
-                                <td className="whitespace-nowrap px-6 py-4">10%</td>
-                                <td className="whitespace-nowrap px-6 py-4">10,000</td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium"></td>
-                                <td className="whitespace-nowrap px-6 py-4">ASP-MRF</td>
-                                <td className="whitespace-nowrap px-6 py-4">1.12%</td>
-                                <td className="whitespace-nowrap px-6 py-4">10%</td>
-                                <td className="whitespace-nowrap px-6 py-4">10,000</td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">กองทุนรวมตลาดเงิน</td>
-                                <td className="whitespace-nowrap px-6 py-4">T-NMRMF</td>
-                                <td className="whitespace-nowrap px-6 py-4">1.13%</td>
-                                <td className="whitespace-nowrap px-6 py-4">5%</td>
-                                <td className="whitespace-nowrap px-6 py-4">15,000</td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium"></td>
-                                <td className="whitespace-nowrap px-6 py-4">TCMF</td>
-                                <td className="whitespace-nowrap px-6 py-4">1.14 %</td>
-                                <td className="whitespace-nowrap px-6 py-4">5%</td>
-                                <td className="whitespace-nowrap px-6 py-4">5,000</td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">กองทุนรวมตราสารหนี้</td>
-                                <td className="whitespace-nowrap px-6 py-4">ASP-FRF</td>
-                                <td className="whitespace-nowrap px-6 py-4">1.15 %</td>
-                                <td className="whitespace-nowrap px-6 py-4">50 %</td>
-                                <td className="whitespace-nowrap px-6 py-4">50,000</td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium"></td>
-                                <td className="whitespace-nowrap px-6 py-4">KKP PLUS</td>
-                                <td className="whitespace-nowrap px-6 py-4">1.16 %</td>
-                                <td className="whitespace-nowrap px-6 py-4">10 %</td>
-                                <td className="whitespace-nowrap px-6 py-4">10,000</td>
-                            </tr>
-                        </tbody> */}
                         </table>
                     </div>
                 </div>

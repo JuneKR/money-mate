@@ -466,7 +466,7 @@ export function InvestmentForm({
     setTableData(newData);
   };
 
-  console.log('Choice',selectedOption)
+  // console.log('Choice',selectedOption)
   // const handleEmergencyInvestmanet = async () => {
   //   console.log("สร้างแผนการลงทุนสำเร็จแล้ว");
   //   await createEmergencyPlan();
@@ -475,7 +475,7 @@ export function InvestmentForm({
   //   // router.push("/EmergencyPages/emergencyInvestmentDashboard");
   //   router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   // };
-  console.log('Selected Table', selectedTable);
+  // console.log('Selected Table', selectedTable);
   // console.log('Investment Form', riskLevel);
   return (
     <div>

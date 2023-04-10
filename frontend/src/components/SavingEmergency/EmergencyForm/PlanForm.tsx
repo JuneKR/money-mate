@@ -225,7 +225,6 @@ export function PlanForm({
     optionEmergencyFund,
     selectedOption,
   ]);
-  console.log("Select", selectedOption);
 
   return (
     <>

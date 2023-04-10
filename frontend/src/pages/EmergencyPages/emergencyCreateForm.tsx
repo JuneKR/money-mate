@@ -36,6 +36,7 @@ const emergencyCreateForm = () => {
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
+  const [stepDesc, setStepDesc] = useState("ถัดไป");
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {
@@ -44,54 +45,85 @@ const emergencyCreateForm = () => {
   }
 
   const handleInvestmentSelection = (selected: boolean) => {
-    console.log('Selected Package', selected)
+    console.log('Selected Package', selected) 
     setShowPackageStep(selected);
   };
 
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
+  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next, goTo } =
     useMultistepForm([
       <GoalForm {...data} updateFields={updateFields} />,
       <PlanForm {...data} updateFields={updateFields} />,
       <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
-      <PortfolioPackage {...data} updateFields={updateFields}/>
+      <PortfolioPackage {...data} updateFields={updateFields} />,
     ]);
 
-    console.log('Multistep form:',data);
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isLastStep) { 
+      console.log('This Page Not The Last Step!', currentStepIndex);
+      return next();
+    }
+    else {
+      alert("สร้างพอร์ตการออมเงิน");
+    }
+  };
 
   const urlServer = "http://localhost:8080/";
   const [uID, setuID] = useState([]);
+  // useEffect(() => {
+  //   async function fetchUserProfile() {
+  //     try {
+  //       // Fetch User Profile
+  //       const profileResponse = await fetch(urlServer + "user/profile", {
+  //         credentials: "include",
+  //       });
+  //       const userProfile = await profileResponse.json();
+  //       const uID = userProfile.User_ID;
+  //       setuID(uID);
+  //     } catch (error) {
+  //       console.log("fetch User Profile Error: ", error);
+  //     }
+  //   }
+
+  //   async function fetchPortfolioPackage() {
+  //     try {
+  //       // Fetch User Profile
+  //       const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`, {
+  //         credentials: "include",
+  //       });
+  //       const portfolioPackage = await packageResponse.json();
+  //       console.log('Package',portfolioPackage);
+  //     } catch (error) {
+  //       console.log("fetch Package Error: ", error);
+  //     }
+  //   }
+
+  //   function validateStep () {
+  //     if (currentStepIndex === 2 && !showPackageStep) {
+  //       console.log('Page 3 Selection:', !showPackageStep)
+  //       setStepDesc("สร้างแผนการออมเงิน")
+  //       console.log('Page 3 Desc:', stepDesc);
+  //     }
+  //     else if (isLastStep) {
+  //       setStepDesc("สร้างพอร์ตการออมเงิน");
+  //     }
+  //   }
+
+  //   validateStep();
+  // }, [currentStepIndex, isLastStep, showPackageStep]);
+
   useEffect(() => {
-    async function fetchUserProfile() {
-      try {
-        // Fetch User Profile
-        const profileResponse = await fetch(urlServer + "user/profile", {
-          credentials: "include",
-        });
-        const userProfile = await profileResponse.json();
-        const uID = userProfile.User_ID;
-        setuID(uID);
-      } catch (error) {
-        console.log("fetch User Profile Error: ", error);
-      }
+    if (currentStepIndex === 2 && showPackageStep) {
+      setStepDesc("ถัดไป");
+    } else if (currentStepIndex === 2 && !showPackageStep) {
+      setStepDesc("สร้างแผนการออมเงิน");
+    } else {
+      setStepDesc("สร้างพอร์ตการออมเงิน");
     }
+  }, [currentStepIndex, showPackageStep]);
+  
 
-    async function fetchPortfolioPackage() {
-      try {
-        // Fetch User Profile
-        const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`, {
-          credentials: "include",
-        });
-        const portfolioPackage = await packageResponse.json();
-        console.log('Package',portfolioPackage);
-      } catch (error) {
-        console.log("fetch Package Error: ", error);
-      }
-    }
-
-    fetchUserProfile();
-    fetchPortfolioPackage();
-  }, []);
-  console.log(data);
+  console.log('Current Index:', currentStepIndex);
 
   const createEmergencyPlan = async () => {
     console.log(data);
@@ -135,12 +167,23 @@ const emergencyCreateForm = () => {
     }
   };
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!isLastStep) return next();
-    alert("สร้างแผนการออมเงินสำเร็จแล้ว");
-    await createEmergencyPlan();
+  const getNextButtonText = () => {
+    if (currentStepIndex === 2) {
+      if (showPackageStep) {
+        return "ถัดไป";
+      } else {
+        return "สร้างแผนการออมเงิน";
+      }
+    }
+    else if (isLastStep) {
+      return "สร้างพอร์ตการออมเงิน";
+    } 
+    else {
+      return "ถัดไป";
+    }
   };
+  
+
   return (
     <main className={styles.main}>
       <Sidebar title="My Sidebar" />
@@ -161,7 +204,6 @@ const emergencyCreateForm = () => {
           </p>
         </div>
 
-        {/* <div style={{ width: "100%", height: "100%" }} className="py-4 flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 center-stepper"> */}
         <div
           className="rounded-b-2xl pb-5 shadow-2xl "
           style={{ backgroundColor: "#1D1D41" }}
@@ -202,7 +244,7 @@ const emergencyCreateForm = () => {
               </Stepper>
             </Box>{" "}
           </div>
-          {/* </div> */}
+
           <form onSubmit={onSubmit}>
             {step}
             <div
@@ -228,7 +270,8 @@ const emergencyCreateForm = () => {
                   type="submit"
                   className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                 >
-                  {isLastStep ? "สร้างแผนการออมเงิน" : "ถัดไป"}
+                  {/* {isLastStep ? stepDesc : "ถัดไป"} */}
+                  {getNextButtonText()}
                 </button>
               </div>
             </div>

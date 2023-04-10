@@ -30,14 +30,17 @@ const Setting: React.FC<SettingProps> = ({ userProfileData }) => {
       risk_level: riskRate,
       email: email2,
       password: "user123456",
-      confPassword: "user123456"
+      confPassword: "user123456",
+      userID: "1"
     };
 
     try {
       console.log("Called");
       console.log(`${urlServer}user/${userProfileData.User_ID}`);
+      console.log("component" + userProfileData.User_ID)
       const response = await fetch(
         `${urlServer}user/${userProfileData.User_ID}`,
+        
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -45,6 +48,7 @@ const Setting: React.FC<SettingProps> = ({ userProfileData }) => {
           credentials: "include",
         }
       );
+      
       if (response.ok) {
         const data = await response.json();
         console.log("done........................");
@@ -52,6 +56,7 @@ const Setting: React.FC<SettingProps> = ({ userProfileData }) => {
         // setShowCongratulatoryMessage(true);
       } else {
         const errorData = await response.json();
+        
         console.log(errorData);
       }
     } catch (error) {
@@ -88,15 +93,16 @@ const Setting: React.FC<SettingProps> = ({ userProfileData }) => {
           autoComplete="off"
           onSubmit={handleSubmit}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
             <div className="pb-5">
-              <p className="pb-2">ชื่อจริง</p>
+              <p className="text-gray-400 pb-2">ชื่อจริง</p>
               <TextField
                 id="filled-basic"
                 label={userProfileData?.FirstName}
                 variant="standard"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                className=""
               />
             </div>
 
@@ -111,7 +117,7 @@ const Setting: React.FC<SettingProps> = ({ userProfileData }) => {
               />
             </div>
             <div className="pb-5">
-              <p className="pb-2">อีเมล</p>
+              <p className="text-gray-400 pb-2">อีเมล</p>
               <TextField
                 id="filled-basic"
                 label={userProfileData?.Email}
@@ -122,7 +128,7 @@ const Setting: React.FC<SettingProps> = ({ userProfileData }) => {
             </div>
 
             <div className="pb-5">
-              <p className="pb-2">โทรศัพท์</p>
+              <p className="text-gray-400 pb-2">โทรศัพท์</p>
               <TextField
                 id="filled-basic"
                 label="098-750-0198"

@@ -48,6 +48,7 @@ const UserProfile = () => {
         });
         const userProfile = await profileResponse.json();
         setUserProfileDatas(userProfile);
+        // console.log(userProfile)
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -59,7 +60,7 @@ const UserProfile = () => {
       <main className={styles.main}>
         <div style={{ padding: "0 4rem" }} className=" xl:w-8/12">
           <Sidebar title="My Sidebar" />
-          <div style={{ backgroundColor: "#1D1D41" }} className="shadow-2xl">
+          <div className="shadow-2xl">
             <div
               style={{
                 display: "flex",
@@ -70,13 +71,13 @@ const UserProfile = () => {
             >
               <p
                 style={{ padding: "0 1rem" }}
-                className="font-bold text-white dark:text-gray-500 text-2xl"
+                className="font-bold text-black dark:text-gray-500 text-2xl"
               >
                 ตั้งค่า
               </p>
             </div>
             <div className="pt-5 ">
-              <div className="text-black px-5 ">
+              <div className="text-black px-5  bg-gray-50">
                 <button
                   onClick={() => handleSettingsButtonClick(1)}
                   className={`transition-all p-4 ${
@@ -95,19 +96,10 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            <div className="flex item-center justify-center ">
+            <div className="flex item-center justify-center bg-gray-50 ">
               {currentPage === "settings" ? (
-                <div className="text-white">
-                  <Setting user={{
-                    fullName: "",
-                    birthDate: "",
-                    gender: "other",
-                    riskRate: 0,
-                    email: "",
-                    phoneNumber: ""
-                  }} onSave={function (updatedUser: { fullName: string; birthDate: string; gender: "other" | "male" | "female"; riskRate: number; email: string; phoneNumber: string; }): void {
-                    throw new Error("Function not implemented.");
-                  } }/>
+                <div>
+                  <Setting userProfileData={userProfileDatas} />
                   
                 </div>
               ) : (

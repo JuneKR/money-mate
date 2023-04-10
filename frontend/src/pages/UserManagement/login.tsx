@@ -3,10 +3,38 @@ import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
 import Head from "next/head";
 import TextField from "@mui/material/TextField";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+const style = {
+  justifyContent: "center",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  height: 300,
+  bgcolor: "#141332",
+  boxShadow: 24,
+  p: 4,
+};
+
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const loginUser = async () => {
     try {
@@ -29,9 +57,11 @@ const LoginPage: React.FC = () => {
       } else {
         const errorData = await response.json();
         console.log(errorData);
+        handleOpen();
       }
     } catch (error) {
       console.error(error);
+      handleOpen();
     }
   };
 
@@ -55,21 +85,34 @@ const LoginPage: React.FC = () => {
       <main className={styles.main}>
         <div>
           <div
-            // style={{ backgroundColor: "#27264E" }}
+            style={{ backgroundColor: "#1D1D41" }}
             className="p-20 shadow-2xl rounded-2xl bg-gray-50"
           >
-            <h1 className="flex items-center justify-center text-black font-bold text-2xl pb-5">
+            <h1 className="flex items-center justify-center font-bold text-white text-2xl pb-5">
               ลงชื่อเข้าใช้
             </h1>
             <div className="flex items-center justify-center pb-20 grid">
               <form onSubmit={handleSubmit} className="w-max">
                 <div className="mb-6 md:flex md:items-center">
                   <div className="">
-                    <TextField
+                    {/* <TextField
                       id="outlined-basic"
                       label="Email"
                       variant="outlined"
                       className="bg-gray-50 w-max"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    /> */}
+                    <input
+                      type="text"
+                      id="code"
+                      placeholder="อีเมล"
+                      style={{
+                        width: "100%",
+                        height: "50px",
+                        backgroundColor: "#141332",
+                      }}
+                      className="text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -77,11 +120,25 @@ const LoginPage: React.FC = () => {
                 </div>
                 <div className="mb-6 flex items-center">
                   <div className="">
-                    <TextField
+                    {/* <TextField
                       id="outlined-basic"
                       label="Password"
                       variant="outlined"
                       className="bg-gray-50 w-max"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    /> */}
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="รหัสผ่าน"
+                      minLength={5}
+                      style={{
+                        width: "100%",
+                        height: "50px",
+                        backgroundColor: "#141332",
+                      }}
+                      className="text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -90,7 +147,7 @@ const LoginPage: React.FC = () => {
                 <div className="flex items-center">
                   <div className="">
                     <button
-                      className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
+                      className="w-full items-center justify-center text-gray-100  font-medium leading-none bg-purple-600 rounded-lg py-3 px-8 border border-transparent transform-gpu hover:-translate-y-0.5  transition-all duration-150 hover:text-gray-200 hover:bg-blue-700 text-sm sm:text-base"
                       type="submit"
                     >
                       เข้าสู่ระบบ
@@ -98,12 +155,62 @@ const LoginPage: React.FC = () => {
                   </div>
                 </div>
               </form>
-              <div className="py-2" >
-                <button onClick={handleRegister} ><p className="text-black">ยังไม่ได้เป็นสมาชิก?</p></button>
+              <div className="py-2">
+                <button onClick={handleRegister}>
+                  <p className="text-white hover:text-blue-500">
+                    ยังไม่ได้เป็นสมาชิก? สมัครเลย!
+                  </p>
+                </button>
               </div>
             </div>
           </div>
         </div>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          slots={{ backdrop: Backdrop }}
+          slotProps={{
+            backdrop: {
+              timeout: 500,
+            },
+          }}
+        >
+          <Fade in={open}>
+            <Box
+              sx={style}
+              className="rounded-lgjuestify-center item-center"
+            >
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+                className="rounded-full px-4 pt-5 text-center"
+              >
+                <h1 className="text-2xl bg-red-500 shadow-2xl p-3 rounded-full">
+                  แจ้งเตือน!
+                </h1>
+              </Typography>
+              <Typography
+                id="transition-modal-description"
+                sx={{ mt: 2 }}
+                className="pb-5"
+              >
+                ไม่พบบัญชีของคุณ โปรดตรวจสอบอีเมลและรหัสผ่านอีกครั้ง
+              </Typography>
+              <div className="px-20">
+                <button
+                  onClick={handleClose}
+                  className="w-full items-center justify-center text-gray-100  font-medium leading-none bg-purple-600 rounded-lg py-3 px-8 border border-transparent transform-gpu hover:-translate-y-0.5  transition-all duration-150 hover:text-gray-200 hover:bg-blue-700 text-sm sm:text-base"
+                >
+                  โอเค
+                </button>
+              </div>
+            </Box>
+          </Fade>
+        </Modal>
       </main>
     </>
   );

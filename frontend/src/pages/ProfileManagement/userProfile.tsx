@@ -25,18 +25,18 @@ const UserProfile = () => {
       <main className={styles.main}>
         <div style={{ padding: "0 4rem" }} className=" xl:w-8/12">
           <Sidebar title="My Sidebar" />
-          <div className="bg-gray-50 shadow-2xl">
+          <div style={{ backgroundColor: "#1D1D41" }} className="shadow-2xl">
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: "#B2E8FF",
+                backgroundColor: "#6259E8",
               }}
-              className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+              className="py-2 rounded bg-gray-50 dark:bg-gray-800 shadow-2xl"
             >
               <p
                 style={{ padding: "0 1rem" }}
-                className="font-bold text-black dark:text-gray-500 "
+                className="font-bold text-white dark:text-gray-500 text-2xl"
               >
                 ตั้งค่า
               </p>
@@ -49,7 +49,7 @@ const UserProfile = () => {
             </div>
             <div className="flex item-center justify-center ">
               {currentPage === "settings" ? (
-                <div className="text-black">
+                <div className="text-white">
                   <Setting user={{
                     fullName: "",
                     birthDate: "",

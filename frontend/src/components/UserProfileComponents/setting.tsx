@@ -72,7 +72,7 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">ชื่อจริง</p>
+              <p className="pb-2">ชื่อจริง</p>
               <TextField
                 id="filled-basic"
                 label="เจนนี่ คิม"
@@ -81,11 +81,11 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
             </div>
 
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">เพศ</p>
+              <p className="pb-2">เพศ</p>
               <TextField id="filled-basic" label="หญิง" variant="standard" />
             </div>
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">อีเมล</p>
+              <p className="pb-2">อีเมล</p>
               <TextField
                 id="filled-basic"
                 label="yokontp6112@gmail.com"
@@ -94,7 +94,7 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
             </div>
 
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">โทรศัพท์</p>
+              <p className="pb-2">โทรศัพท์</p>
               <TextField
                 id="filled-basic"
                 label="098-750-0198"
@@ -102,17 +102,17 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
               />
             </div>
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">ระดับความเสี่ยงที่รับได้</p>
+              <p className="pb-2">ระดับความเสี่ยงที่รับได้</p>
               <TextField id="filled-basic" label="5/8" variant="standard" />
               <FormHelperText
                 id="my-helper-text"
-                className="text-gray-300 hover:text-blue-500"
+                className="text-white hover:text-blue-500"
               >
                 หมายเหตุ: คลิกที่นี่เพื่อประเมินความเสี่ยงของคุณ
               </FormHelperText>
             </div>
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">วัน/เดือน/ปีเกิด</p>
+              <p className="pb-2">วัน/เดือน/ปีเกิด</p>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker />
               </LocalizationProvider>

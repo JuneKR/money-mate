@@ -58,7 +58,7 @@ export function InvestmentForm({
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
 
-  const selectedRiskLevel = riskLevel;
+  const [selectRiskTorelance, setSelectRiskTorelance] = useState(0);
   const tvmCalculator = require("tvm-calculator");
 
   function numberPeriods(
@@ -232,8 +232,7 @@ export function InvestmentForm({
     },
   ];
 
-  const [tableData, setTableData] =
-    useState<InvestmentData[]>(initialTableData);
+  const [tableData, setTableData] = useState<InvestmentData[]>(initialTableData);
   const [selectedTable, setSelectedTable] = useState(
     {
       expense: 0,
@@ -284,7 +283,9 @@ export function InvestmentForm({
       returnRate: returnRate | 0,
   });
   const [selectedOption, setSelectedOption] = useState(0);
-  // fetch user profile
+  
+  // Fix State on Table Component?
+
   useEffect(() => {
     async function fetchUserProfile() {
       try {
@@ -293,7 +294,7 @@ export function InvestmentForm({
           credentials: "include",
         });
         const userProfile = await profileResponse.json();
-        console.log(userProfile);
+        // console.log(userProfile);
         const uID = userProfile.User_ID;
         setuID(uID);
       } catch (error) {
@@ -301,7 +302,7 @@ export function InvestmentForm({
       }
     }
 
-    // Selected Option 0 will use updateField of parent state otherwise use updateField of Selected State
+    // Update Parent Component State 
     if(selectedOption === 0) {
       updateFields(defaultOption);
     }
@@ -450,7 +451,7 @@ export function InvestmentForm({
   const handleRadioChange = (index: number) => {
     const newData = tableData.map((data, i) => {
       if (i === index) {
-        // console.log(data);
+        console.log('New Data:', data);
         setSelectedTable(data)
         setSelectedOption(index+1);
         // updateFields(data)
@@ -466,7 +467,6 @@ export function InvestmentForm({
     setTableData(newData);
   };
 
-  // console.log('Choice',selectedOption)
   // const handleEmergencyInvestmanet = async () => {
   //   console.log("สร้างแผนการลงทุนสำเร็จแล้ว");
   //   await createEmergencyPlan();
@@ -578,6 +578,7 @@ export function InvestmentForm({
                             riskLevel: Number(e.target.value),
                             returnRate: Number(e.target.value) + 1,
                           });
+                          setSelectRiskTorelance(riskLevel);
                         }}
                       />
                     </div>
@@ -631,24 +632,22 @@ export function InvestmentForm({
                       <tbody className="text-lg">
                         {initialTableData.map(
                           (data, index) =>
-                            data.riskLevel <= selectedRiskLevel && (
+                            // data.riskLevel <= selectedRiskLevel && (
                               <tr key={index}>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
+                                {/* <td className="px-4 py-2 text-white font-bold text-lg"> */}
+                                <td className={data.riskLevel <= selectRiskTorelance+1 ? "bg-blue-400" : "px-4 py-2 text-white font-bold text-lg"}>
                                   {data.monthlySaving}
-                                  {/* {monthlySaving} */}
                                 </td>
                                 <td className="px-4 py-2 text-white font-bold text-lg">
                                   {data.riskLevel}
-                                  {/* {riskLevel} */}
                                 </td>
                                 <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {data.returnRate}%{/* {returnRate} */}
+                                  {data.returnRate}%
                                 </td>
                                 <td className="px-4 py-2 text-white font-bold text-lg">
                                   {yearsToYearsMonthsDays(
                                     data.timeRemaining.toString()
                                   )}
-                                  {/* {period} */}
                                 </td>
                                 <td className="px-4 py-2">
                                   <input
@@ -663,22 +662,12 @@ export function InvestmentForm({
                                   />
                                 </td>
                               </tr>
-                            )
+                            // )
                         )}
                       </tbody>
                     </table>
                   </div>
                 </div>
-                {/* <div className="flex justify-end py-5">
-                  <button
-                    onClick={handleEmergencyInvestmanet}
-                    style={{ width: "209px" }}
-                    className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none"
-                    type="button"
-                  >
-                    สร้างแผนการลงทุน
-                  </button>
-                </div> */}
               </form>
             </div>
           )}

@@ -8,6 +8,7 @@ import { GoalForm } from "@/components/SavingEmergency/EmergencyForm/GoalForm";
 import { PlanForm } from "@/components/SavingEmergency/EmergencyForm/PlanForm";
 import InvestmentForm from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
 import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
+import { create } from "domain";
 
 type FormData = {
   expense: number;
@@ -37,6 +38,8 @@ const emergencyCreateForm = () => {
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
+  const [uID, setuID] = useState(1);
+  const urlServer = "http://localhost:8080/";
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {
@@ -59,58 +62,33 @@ const emergencyCreateForm = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isLastStep) { 
-      console.log('This Page Not The Last Step!', currentStepIndex);
+
+    if (currentStepIndex === 2) {
+      if (showPackageStep) {
+        return next();
+      } else {
+        alert('สร้างแผนการออมเงินสำเร็จแล้ว!');
+        const userProfile = await getUserProfile(urlServer);
+        // Set up state of User ID 
+        // setuID(userProfile.User_ID);
+        await createEmergencyPlan(urlServer, userProfile);
+        router.push("/EmergencyPages/emergencyDashboard");
+      }
+    }
+    else if (isLastStep) {
+      alert('สร้างพอร์ตการออมเงินสำเร็จแล้ว!');
+      await getUserProfile(urlServer);
+      // await createEmergencyPlan();
+      // await getPortfolioPackage();
+      // await getPortfolioPackageAllocation();
+      // await createInvestmentPortfolio();
+      // await clonePortfolioPackageAllocation();
+      router.push("/EmergencyPages/emergencyInvestmentDashboard");
+    } 
+    else {
       return next();
     }
-    else {
-      alert("สร้างพอร์ตการออมเงิน");
-    }
   };
-
-  const urlServer = "http://localhost:8080/";
-  const [uID, setuID] = useState([]);
-  // useEffect(() => {
-  //   async function fetchUserProfile() {
-  //     try {
-  //       // Fetch User Profile
-  //       const profileResponse = await fetch(urlServer + "user/profile", {
-  //         credentials: "include",
-  //       });
-  //       const userProfile = await profileResponse.json();
-  //       const uID = userProfile.User_ID;
-  //       setuID(uID);
-  //     } catch (error) {
-  //       console.log("fetch User Profile Error: ", error);
-  //     }
-  //   }
-
-  //   async function fetchPortfolioPackage() {
-  //     try {
-  //       // Fetch User Profile
-  //       const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`, {
-  //         credentials: "include",
-  //       });
-  //       const portfolioPackage = await packageResponse.json();
-  //       console.log('Package',portfolioPackage);
-  //     } catch (error) {
-  //       console.log("fetch Package Error: ", error);
-  //     }
-  //   }
-
-  //   function validateStep () {
-  //     if (currentStepIndex === 2 && !showPackageStep) {
-  //       console.log('Page 3 Selection:', !showPackageStep)
-  //       setStepDesc("สร้างแผนการออมเงิน")
-  //       console.log('Page 3 Desc:', stepDesc);
-  //     }
-  //     else if (isLastStep) {
-  //       setStepDesc("สร้างพอร์ตการออมเงิน");
-  //     }
-  //   }
-
-  //   validateStep();
-  // }, [currentStepIndex, isLastStep, showPackageStep]);
 
   useEffect(() => {
     if (currentStepIndex === 2 && showPackageStep) {
@@ -121,52 +99,93 @@ const emergencyCreateForm = () => {
       setStepDesc("สร้างพอร์ตการออมเงิน");
     }
   }, [currentStepIndex, showPackageStep]);
-  
 
-  console.log('Current Index:', currentStepIndex);
+  const getUserProfile = async (urlServer: string) => {
+    try {
+      // Fetch User Profile
+      const profileResponse = await fetch(`${urlServer}user/profile`, {
+        credentials: "include",
+      });
+      const userProfile = await profileResponse.json();
 
-  const createEmergencyPlan = async () => {
-    console.log(data);
-    // const goal = data.targetAmount * data.period;
+      return userProfile
+    } catch (error) {
+      console.log("fetch User Profile Error: ", error);
+
+      return null;
+    }
+  }
+
+  const createEmergencyPlan = async (urlServer: string, userProfile: any) => {
+
+    const moment = require('moment-timezone');
+    const now = moment().tz('Asia/Bangkok');
+    const startDate = now.format('YYYY-MM-DD');
+    const lastUpdate = now.format('YYYY-MM-DD HH:mm:ss');
+    
+    const defaultPlanName = "แผนออมเงินสำรองฉุกเฉิน";
+
     const createEmergencyPlanData = {
-      plan_name: "แผนออมเงินสำรองฉุกเฉิน",
+      plan_name: defaultPlanName,
       target_amount: data.targetAmount,
       time_period: data.period,
       initial_saving: data.totalBalance,
       monthly_saving: data.monthlySaving,
-      start_date: "2023-02-26",
-      last_update: "2023-02-26 10:2:30",
+      start_date: startDate,
+      last_update: lastUpdate,
       total_balance: data.totalBalance,
       time_remaining: data.timeRemaining,
       monthly_expense: data.expense,
-      progression: 0,
-      user_id: uID,
+      progression: (data.totalBalance/data.targetAmount) * 100,
+      user_id: userProfile.User_ID,
+      // user_id: uID,
     };
-    console.log(createEmergencyPlanData);
     try {
-      console.log("Called");
-      console.log(`${urlServer}saving/emergency`);
       const response = await fetch(`${urlServer}saving/emergency`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(createEmergencyPlanData),
         credentials: "include",
       });
-      if (response.ok) {
-        const data = await response.json();
-        console.log("done........................");
-        console.log(createEmergencyPlanData);
-        // setShowCongratulatoryMessage(true);
-        router.push("/EmergencyPages/emergencyDashboard");
-      } else {
+
+      if (!response.ok) {
         const errorData = await response.json();
         console.log(errorData);
+        return;
       }
+  
+      const responseData = await response.json();
+      console.log(`Successfully Created Saving Plan By ${userProfile.FirstName}`,responseData);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const getPortfolioPackage = async () => {
+    try {
+      // Fetch Portfolio Package
+      const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`, {
+        credentials: "include",
+      });
+      const portfolioPackage = await packageResponse.json();
+      console.log('Package',portfolioPackage);
+    } catch (error) {
+      console.log("fetch Package Error: ", error);
+    }
+  }
+
+  const getPortfolioPackageAllocation = async () => {
+    try {
+      const packageResponse = await fetch(`${urlServer}portfolio/package/1/allocations`, {
+        credentials: "include",
+      });
+
+    } catch (error) {
+      console.log("fetch Package Error: ", error);
+    }
+  }
+
+  // Generate Button Text 
   const getNextButtonText = () => {
     if (currentStepIndex === 2) {
       if (showPackageStep) {

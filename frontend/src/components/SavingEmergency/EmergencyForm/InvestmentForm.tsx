@@ -470,13 +470,16 @@ export function InvestmentForm({
   // const handleEmergencyInvestmanet = async () => {
   //   console.log("สร้างแผนการลงทุนสำเร็จแล้ว");
   //   await createEmergencyPlan();
-  //   // await getEmergencyPlan();
+  //   await getEmergencyPlan();
   //   // await createInvestmentPortfolio();
-  //   // router.push("/EmergencyPages/emergencyInvestmentDashboard");
-  //   router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
+  //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
   // };
-  // console.log('Selected Table', selectedTable);
-  // console.log('Investment Form', riskLevel);
+  
+  const targetAmount2 = Number(targetAmount);
+  const monthlySaving2 = Number(monthlySaving);
+  const formatTargetAmount2 = targetAmount2.toLocaleString();
+  const formattedMonthlySaving = monthlySaving2.toLocaleString();
+  
   return (
     <div>
       <div
@@ -491,13 +494,13 @@ export function InvestmentForm({
             <div className="text-white p-4">เป้าหมาย</div>
             <div className="text-white p-4">ออมเงินเผื่อฉุกเฉิน</div>
             <div className="text-lg p-4">คุณต้องมีเงินฉุกเฉิน</div>
-            <div className="text-lg p-4">{targetAmount} บาท</div>
+            <div className="text-lg p-4">{formatTargetAmount2} บาท</div>
             <div className="p-4">ระยะเวลาในการออม</div>
             <div className="p-4">{timeToAchive}</div>
             <div className="p-4">จำนวนเดือนที่ต้องการเก็บ</div>
             <div className="p-4">{period} เดือน</div>
             <div className="p-4">เงินเก็บต่อเดือน</div>
-            <div className="p-4">{monthlySaving} บาท</div>
+            <div className="p-4">{formattedMonthlySaving} บาท</div>
           </div>
         </div>
         <div className="relative py-8 ">
@@ -607,7 +610,10 @@ export function InvestmentForm({
                     เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้
                   </h1>
                 </div>
-                <div style={{ backgroundColor: "#27264E" }} className="block w-full px-3 py-2 rounded-md shadow-2xl">
+                <div
+                  style={{ backgroundColor: "#27264E" }}
+                  className="block w-full px-3 py-2 rounded-md shadow-2xl"
+                >
                   <div className="flex justify-center item-center">
                     <table className="table-fixed text-black">
                       <thead>

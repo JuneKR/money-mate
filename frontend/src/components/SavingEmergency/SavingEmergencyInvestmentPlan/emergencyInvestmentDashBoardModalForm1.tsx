@@ -101,7 +101,10 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
 
   console.log('Value', investTargetAmount)
   console.log('Value', savingEmergency?.TargetAmount)
-
+  const targetAmountDisplay = Number(savingEmergency.TargetAmount);
+  const monthlySavingDisplay = Number(savingEmergency.MonthlySaving);
+  const formattedํargetAmount = targetAmountDisplay.toLocaleString();
+  const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
   return (
     <div>
       <Button onClick={handleOpen} style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
@@ -120,7 +123,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                 จำนวนเงิน
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingEmergency.TargetAmount}
+                {formattedํargetAmount} บาท
               </div>
             </div>
             <div>
@@ -144,7 +147,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                 เงินลงทุน/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingEmergency.MonthlySaving}
+                {formattedMonthlySaving} บาท
               </div>
             </div>
             <div>
@@ -237,7 +240,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.MonthlySaving + " บาท/เดือน"}
+                  placeholder={formattedMonthlySaving + " บาท/เดือน"}
                   value={investMonthlySaving}
                   onChange={(e) => setInvestMonthlySaving(e.target.value)}
                 />

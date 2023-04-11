@@ -112,6 +112,12 @@ const EmergencyDashBoardModalForm1: React.FC<
     await updateEmergencyPlan();
   };
   // style={{backgroundColor: "#1D1D41"}}
+
+  const targetAmountDisplay = Number(savingEmergency.TargetAmount);
+  const monthlySavingDisplay = Number(savingEmergency.MonthlySaving);
+  const formattedํargetAmount = targetAmountDisplay.toLocaleString();
+  const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
+
   return (
     <div>
       <Button onClick={handleOpen} style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
@@ -130,7 +136,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                 จำนวนเงิน
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {savingEmergency.TargetAmount}
+                {formattedํargetAmount}
               </div>
             </div>
             <div style={{backgroundColor: "#27264E"}}className="shadow-2xl rounded-lg p-5">
@@ -154,7 +160,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                 เงินออม/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {savingEmergency.MonthlySaving} บาท
+                {formattedMonthlySaving} บาท
               </div>
             </div>
           </div>

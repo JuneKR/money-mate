@@ -98,8 +98,14 @@ const EmergencyDashboard = () => {
     fetchSavingPlan();
   }, []);
 
+  const targetAmount2 = Number(savingEmergencyPlan.TargetAmount);
+  const formatTargetAmount2 = targetAmount2.toLocaleString();
+  const totalBalance2 = Number(savingEmergencyPlan.TotalBalance);
+  const formatTotalBalance2 = totalBalance2.toLocaleString();
+
   return (
     <>
+    TotalBalance
       <Sidebar title="My Sidebar" />
       <main className={styles.main} style={{ overflowX: "auto" }}>
         <div className="w-full xl:w-8/12">
@@ -177,7 +183,7 @@ const EmergencyDashboard = () => {
                         <h1>จำนวนเงินเป้าหมาย</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{savingEmergencyPlan.TargetAmount} บาท</h1>
+                        <h1>{formatTargetAmount2} บาท</h1>
                       </div>
                     </div>
                     <div>
@@ -193,7 +199,7 @@ const EmergencyDashboard = () => {
                         จำนวนเงินทั้งหมด
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{savingEmergencyPlan.TotalBalance} บาท</h1>
+                        <h1>{formatTotalBalance2} บาท</h1>
                       </div>
                     </div>
                     <div>
@@ -285,7 +291,7 @@ const EmergencyDashboard = () => {
                   {!savingEmergencyTransactions.length ? (
                     <div className="p-20">
                       <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
-                        คุณยังไม่มีประวัติารออมเงินและถอนเงิน
+                        คุณยังไม่มีประวัติการออมเงินและถอนเงิน
                       </p>
                     </div>
                   ) : (

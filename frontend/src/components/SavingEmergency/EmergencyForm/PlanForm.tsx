@@ -225,7 +225,13 @@ export function PlanForm({
     optionEmergencyFund,
     selectedOption,
   ]);
-
+  
+  const emergencyFund2 = Number(emergencyFund);
+  const monthlySaving2 = Number(monthlySaving);
+  const formattedEmergencyFund = emergencyFund2.toLocaleString();
+  const formattedMonthlySaving = monthlySaving2.toLocaleString();
+  // console.log(formattedEmergencyFund)
+  // console.log(formattedMonthlySaving)
   return (
     <>
       <div style={{ padding: "0 4rem" }}>
@@ -237,13 +243,13 @@ export function PlanForm({
             <div className="text-lg p-4">เป้าหมาย</div>
             <div className="text-lg p-4">ออมเงินเผื่อฉุกเฉิน</div>
             <div className="p-4">คุณต้องมีเงินฉุกเฉิน: </div>
-            <div className="p-4">{emergencyFund} บาท</div>
+            <div className="p-4">{formattedEmergencyFund} บาท</div>
             <div className="p-4">ระยะเวลาในการออม</div>
             <div className="p-4">{timeToAchive}</div>
             <div className="p-4"> จำนวนเดือนที่ต้องการเก็บ</div>
             <div className="p-4">{period} เดือน</div>
             <div className="p-4">เงินเก็บต่อเดือน</div>
-            <div className="p-4">{monthlySaving} บาท</div>
+            <div className="p-4">{formattedMonthlySaving} บาท</div>
           </div>
         </div>
         <div className="relative py-8 ">

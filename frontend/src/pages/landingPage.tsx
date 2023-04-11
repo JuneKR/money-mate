@@ -4,6 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/router";
 import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import LandingSavingPlanCard from "@/components/LandingPageComponents/landingSavingPlanCard";
+import LandingInvestmentPlanCard from "@/components/LandingPageComponents/landingInvestmentPlanCard";
 
 interface LandingPageProps {
   index: number;
@@ -16,6 +17,23 @@ interface SavingPlan {
   TotalBalance: number;
   Progression: number;
   User_ID: number;
+}
+
+interface InvestmentPlan {
+  Portfolio_ID: number;
+  PortfolioName: string;
+  TotalValue: number;
+  LastUpdate: string;
+  StartDate: string;
+  RiskSpectrum: number;
+  ReturnRate: number;
+  User_ID: number;
+  Package_ID: number;
+  Emergency_ID: number;
+  Goal_ID: number;
+  Retirement_ID: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface RowData {
@@ -31,6 +49,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   const urlServer = "http://localhost:8080/";
   const [displayData, setdisplayData] = useState<RowData[]>([]);
   const [savingPlans, setSavingPlans] = useState<SavingPlan[]>([]);
+  const [investmentPlans, setInvestmentPlans] = useState<InvestmentPlan[]>([]);
 
   // Fetch APIs
   useEffect(() => {
@@ -60,6 +79,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         );
         const savingGoal = await savingGoalResponse.json();
 
+        
         const savingRetirementResponse = await fetch(
           `${urlServer}user/${userProfile.User_ID}/saving/retirement`,
           {
@@ -68,6 +88,16 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         );
         const savingRetirement = await savingRetirementResponse.json();
 
+        //Fetch Investment Plan
+        const investmentPlanResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/investment/portfolios`,
+          {
+            credentials: "include",
+          }
+        );
+        const investmentPlan = await investmentPlanResponse.json();
+        setInvestmentPlans(investmentPlan);
+        
         const allSavingPlans: SavingPlan[] = [];
         if (savingEmergency.PlanName) {
           allSavingPlans.push(savingEmergency);
@@ -174,59 +204,36 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                   ))}
                 </div>
               )}
-              {/* <div className="pb-5 px-5">
-                {displayData.map((row, index) => (
-                  <div
-                    key={index}
-                    style={{ alignItems: "center" }}
-                    className="pb-5 relative text-black border border-gray-200 "
-                  >
-                    <div
-                      style={{ alignItems: "center" }}
-                      className="relative grid grid-cols-4 text-black border border-black  "
-                    >
-                      <div className="font-bold py-3 ">
-                        <div className="px-3 ">
-                          <p
-                            style={{ color: "#085385" }}
-                            className="flex justify-center item-center"
-                          >
-                            เงินออมเป้ามายที่ {index + 1}
-                          </p>
-                          <p className="font-bold flex justify-center item-center">
-                            ออมเงินเผื่อฉุกเฉิน
-                          </p>
-                        </div>
-                      </div>
-                      <div className="font-bold py-3">
-                        <div>
-                          <Image
-                            src={icon1}
-                            alt="Your Image"
-                            className="pb-3"
-                          />
-                          <Progress title={""} progress={"90%"} />
-                        </div>
-                      </div>
-                      <div className="font-bold py-3 flex justify-center item-center grid grid-rows-3">
-                        <div></div>
-                        <p style={{ color: "#085385" }}>จำนวนเงินออมเป้าหมาย</p>
-                        <p style={{ color: "#085385" }}>ยอดเงิน</p>
-                      </div>
-                      <div className="font-bold py-3 grid grid-rows-3 ">
-                        <p className="font-bold ">100,000 บาท</p>
-                        <p className="font-bold ">20,000 บาท</p>
-                      </div>
-                      <a
-                        onClick={handleLandingPageDetails}
-                        className="absolute top-3 right-3 flex justify-center item-center cursor-pointer text-black hover:text-blue-800"
-                      >
-                        ดูข้อมูลเพิ่มเติม &gt;
-                      </a>
-                    </div>
+            </div>
+          </div>
+          <div className="pt-10">
+            <div
+              style={{ backgroundColor: "#1D1D41" }}
+              className="w-full h-full py-2 h-24 rounded-xl shadow-2xl"
+            >
+              <div className="px-5 pb-5">
+                <div className=" grid grid-cols-2">
+                  <div className="border-b-2 border-gray-500 font-bold py-3 text-white text-xl">
+                    <p>ความก้าวหน้าการลงทุนของคุณ</p>
                   </div>
-                ))}
-              </div> */}
+                  <div className="flex item-center justify-end border-b-2 border-gray-500 py-3">
+                    <p className="text-white">จัดเรียง</p>
+                  </div>
+                </div>
+              </div>
+              {!investmentPlans.length ? (
+                <div className="p-20">
+                  <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                    คุณยังไม่มีแผนการลงทุน ได้โปรดสร้างแผนการออมถึงจะสามารถสร้างแผนการลงทุนได้
+                  </p>
+                </div>
+              ) : (
+                <div className="pb-5 px-5">
+                  {investmentPlans.map((investmentPlan) => (
+                    <LandingInvestmentPlanCard investmentPlanData={investmentPlan} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

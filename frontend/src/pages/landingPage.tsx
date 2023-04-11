@@ -117,11 +117,11 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               alignItems: "center",
               backgroundColor: "#6259E8",
             }}
-            className="py-2 rounded shadow-2xl"
+            className=" py-2 rounded bg-gray-50 dark:bg-gray-800 shadow-2xl "
           >
             <p
               style={{ padding: "0 1rem" }}
-              className="font-bold text-white text-2xl"
+              className="font-bold text-white dark:text-gray-500 text-2xl "
             >
               ภาพรวม
             </p>
@@ -130,10 +130,10 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
             <div className="grid grid-cols-2 rounded-3xl transition duration-300 delay-150 bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800 shadow-2xl">
               <div className="flex justify-center item-center py-20 grid grid-rows-2 ">
                 <div>
-                  <p className="font-bold text-white">เราแนะนำให้คุณสร้างแผนการออมเงิน</p>
+                  <p className="font-bold">เราแนะนำให้คุณสร้างแผนการออมเงิน</p>
                 </div>
                 <div>
-                  <p className="text-white">สร้างแผนการออมเงินก่อน</p>
+                  <p>สร้างแผนการออมเงินก่อน</p>
                 </div>
               </div>
               <div className="flex justify-center item-center py-20">

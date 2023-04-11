@@ -265,6 +265,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 style: {
                   width: "20ch",
                   maxHeight: "40vh",
+                  backgroundColor: "#1D1D41",
+                  color: "#FFFFFF"
                 },
               }}
             >

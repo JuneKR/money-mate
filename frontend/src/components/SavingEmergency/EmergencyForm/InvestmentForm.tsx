@@ -635,7 +635,7 @@ export function InvestmentForm({
                             // data.riskLevel <= selectedRiskLevel && (
                               <tr key={index}>
                                 {/* <td className="px-4 py-2 text-white font-bold text-lg"> */}
-                                <td className={data.riskLevel <= selectRiskTorelance+1 ? "bg-blue-400" : "px-4 py-2 text-white font-bold text-lg"}>
+                                <td className={data.riskLevel <= selectRiskTorelance ? "bg-blue-400" : "px-4 py-2 text-white font-bold text-lg"}>
                                   {data.monthlySaving}
                                 </td>
                                 <td className="px-4 py-2 text-white font-bold text-lg">

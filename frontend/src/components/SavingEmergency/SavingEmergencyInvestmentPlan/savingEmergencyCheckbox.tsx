@@ -63,14 +63,14 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
                             className="col-span-1 flex justify-center item-center"
                         >
                             <Pie1 
-                                title={portfolioPackage.PackageName
-                            }/>
+                                title={portfolioPackage?.PackageName}
+                            />
                         </div>
                         <div 
                             className="flex justify-center item-center boder border-blue-500 col-span-2 "
                         >
                             <div>
-                            {portfolioPackageAllocation.map((data: any) => (
+                            {portfolioPackageAllocation?.map((data: any) => (
                                 <Hiding
                                     title={data.PolicyDesc}
                                     packageAllocation={data} 
@@ -80,7 +80,7 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <p>ผลตอบแทนที่คาดหวัง {portfolioPackage.ReturnRate}%</p>
+                        <p>ผลตอบแทนที่คาดหวัง {portfolioPackage?.ReturnRate}%</p>
                     </div>
                 </div>
             </div>

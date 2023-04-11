@@ -35,7 +35,7 @@ const SavingSelectionPage: React.FC<SavingSelectionPageProps> = ({ title }) => {
             <div>
               <div className="flex items-center justify-center h-24 rounded-lg bg-purple-600 hover:bg-blue-600 transition delay-300 shadow-2xl">
                 <div className="text-3xl font-bold text-white">
-                  ออมเงินเผื่อฉุกเฉิน
+                  ออมเงินเพื่อเป้าหมาย
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@ const SavingSelectionPage: React.FC<SavingSelectionPageProps> = ({ title }) => {
             <div>
               <div className="flex items-center justify-center h-24 rounded-lg bg-purple-800 hover:bg-blue-800 transition delay-300 shadow-2xl">
                 <div className="text-3xl font-bold text-white">
-                  ออมเงินเผื่อฉุกเฉิน
+                  ออมเงินเเพื่อเกษียณ
                 </div>
               </div>
             </div>

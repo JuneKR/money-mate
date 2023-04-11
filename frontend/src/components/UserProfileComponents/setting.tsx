@@ -8,43 +8,65 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { FormControl, FormHelperText } from "@mui/material";
 interface SettingProps {
-  user: User;
-  onSave: (updatedUser: User) => void;
+  
+  userProfileData: any;
 }
 
-type User = {
-  fullName: string;
-  birthDate: string;
-  gender: "male" | "female" | "other";
-  riskRate: number;
-  email: string;
-  phoneNumber: string;
-};
+const Setting: React.FC<SettingProps> = ({ userProfileData }) => {
+  const [fullName, setFullName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [gender, setGender] = useState("");
+  const [riskRate, setRiskRate] = useState("");
+  const [email2, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(0);
+  const urlServer = "http://localhost:8080/";
 
-type UserProfileProps = {
-  user: User;
-  onSave: (updatedUser: User) => void;
-};
-const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
-  const [fullName, setFullName] = useState(user.fullName);
-  const [birthDate, setBirthDate] = useState(user.birthDate);
-  const [gender, setGender] = useState(user.gender);
-  const [riskRate, setRiskRate] = useState(user.riskRate);
-  const [email, setEmail] = useState(user.email);
-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const updatedUser: User = {
-      fullName,
-      birthDate,
-      gender,
-      riskRate,
-      email,
-      phoneNumber,
+  const updateUserProfile = async () => {
+    const updateUserProfileData = {
+      first_name: fullName,
+      last_name: "milionairegirl",
+      date_of_birth: "1998-08-08",
+      gender: gender,
+      risk_level: riskRate,
+      email: email2,
+      password: "user123456",
+      confPassword: "user123456",
+      userID: "1"
     };
 
-    onSave(updatedUser);
+    try {
+      console.log("Called");
+      console.log(`${urlServer}user/${userProfileData.User_ID}`);
+      console.log("component" + userProfileData.User_ID)
+      const response = await fetch(
+        `${urlServer}user/${userProfileData.User_ID}`,
+        
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updateUserProfileData),
+          credentials: "include",
+        }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log("done........................");
+        console.log(updateUserProfileData);
+        // setShowCongratulatoryMessage(true);
+      } else {
+        const errorData = await response.json();
+        
+        console.log(errorData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await updateUserProfile();
   };
   return (
     <div className="w-full xl:w-8/12 p-10">
@@ -69,32 +91,44 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
           }}
           noValidate
           autoComplete="off"
+          onSubmit={handleSubmit}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">ชื่อจริง</p>
+              <p className="text-gray-400 pb-2">ชื่อจริง</p>
               <TextField
                 id="filled-basic"
-                label="เจนนี่ คิม"
+                label={userProfileData?.FirstName}
                 variant="standard"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className=""
               />
             </div>
 
             <div className="pb-5">
               <p className="pb-2 text-gray-400">เพศ</p>
-              <TextField id="filled-basic" label="หญิง" variant="standard" />
-            </div>
-            <div className="pb-5">
-              <p className="pb-2 text-gray-400">อีเมล</p>
               <TextField
                 id="filled-basic"
-                label="yokontp6112@gmail.com"
+                label={userProfileData?.Gender}
                 variant="standard"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              />
+            </div>
+            <div className="pb-5">
+              <p className="text-gray-400 pb-2">อีเมล</p>
+              <TextField
+                id="filled-basic"
+                label={userProfileData?.Email}
+                variant="standard"
+                value={email2}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
             <div className="pb-5">
-              <p className="pb-2 text-gray-400">โทรศัพท์</p>
+              <p className="text-gray-400 pb-2">โทรศัพท์</p>
               <TextField
                 id="filled-basic"
                 label="098-750-0198"
@@ -103,32 +137,37 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
             </div>
             <div className="pb-5">
               <p className="pb-2 text-gray-400">ระดับความเสี่ยงที่รับได้</p>
-              <TextField id="filled-basic" label="5/8" variant="standard" />
+              <TextField
+                id="filled-basic"
+                label={userProfileData?.RiskLevel}
+                variant="standard"
+                value={riskRate}
+                onChange={(e) => setRiskRate(e.target.value)}
+              />
               <FormHelperText
                 id="my-helper-text"
-                className="text-gray-300 hover:text-blue-500"
+                className="text-white hover:text-blue-500"
               >
                 หมายเหตุ: คลิกที่นี่เพื่อประเมินความเสี่ยงของคุณ
               </FormHelperText>
             </div>
             <div className="pb-5">
               <p className="pb-2 text-gray-400">วัน/เดือน/ปีเกิด</p>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DatePicker
+                  label={userProfileData?.DateOfBirth}
+                />
               </LocalizationProvider>
             </div>
           </div>
-        </Box>
-        <div className="py-3">
-          <div className="flex justify-end grid grid-cols-2 gap-3">
-            <button className="bg-blue-300 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded delay-150">
-              ยืนยัน
-            </button>
-            <button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded delay-150">
-              ยกเลิก
-            </button>
+          <div className="py-3">
+            <div className="flex justify-end grid grid-cols-2 gap-3">
+              <button className="bg-blue-300 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded delay-150">
+                ยืนยัน
+              </button>
+            </div>
           </div>
-        </div>
+        </Box>
       </FormControl>
     </div>
   );

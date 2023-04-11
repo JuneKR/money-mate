@@ -3,6 +3,8 @@ import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 
+
+
 interface SavingPlan {
   PlanName: string;
   TargetAmount: number;

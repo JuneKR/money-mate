@@ -17,6 +17,7 @@ import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
 
 import { initialPackage } from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
+import InvestDropdown from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/emergencyInvestmentDropdown";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
@@ -183,6 +184,10 @@ const EmergencyInvestmentDashboard = () => {
   const handleEmergencyInvestmentTransaction = () => {
     router.push("/EmergencyPages/emergencyInvestmentTransaction");
   };
+  const targetAmountDisplay = Number(savingEmergencyPlan.TargetAmount);
+  const monthlySavingDisplay = Number(savingEmergencyPlan.MonthlySaving);
+  const formattedํargetAmount = targetAmountDisplay.toLocaleString();
+  const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
   return (
     <>
@@ -236,14 +241,14 @@ const EmergencyInvestmentDashboard = () => {
                     Saving Graph
                   </p>
                 </div>
-                <div style={{backgroundColor: "#1D1D41"}} className="p-10">
+                <div style={{ backgroundColor: "#1D1D41" }} className="p-10">
                   <SavingGraph title={"saving chart"} />
                 </div>
               </div>
 
               <div className="py-5 shadow-2xl py-10">
                 <div
-                  style={{ backgroundColor: "#6259E8",}}
+                  style={{ backgroundColor: "#6259E8" }}
                   className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
                 >
                   <div>
@@ -256,14 +261,15 @@ const EmergencyInvestmentDashboard = () => {
                   </div>
                 </div>
 
-                <div style={{backgroundColor: "#1D1D41"}} className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5">
+                <div
+                  style={{ backgroundColor: "#1D1D41" }}
+                  className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 p-10"
+                >
                   <div
                     style={{ alignItems: "center" }}
                     className="col-span-1 flex justify-center item-center"
                   >
-                    <Pie1
-                      title={"my pie1"}
-                    />
+                    <Pie1 title={"my pie1"} />
                   </div>
                   {/* <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
                     <EmergencyFundsDetailsTable
@@ -272,7 +278,7 @@ const EmergencyInvestmentDashboard = () => {
                       packageallocation={portPackageAllocate}
                     />
                   </div> */}
-                  <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
+                  <div className="flex justify-center item-center boder border-blue-500 col-span-3 ">
                     <EmergencyFundsDetailsTable
                       title={""}
                       portfolioPackage={portfolioPackage}
@@ -281,7 +287,10 @@ const EmergencyInvestmentDashboard = () => {
                   </div>
                 </div>
 
-                <div style={{backgroundColor: "#1D1D41"}} className="py-5 px-5 bg-gray-50  shadow-2xl">
+                <div
+                  style={{ backgroundColor: "#1D1D41" }}
+                  className="py-5 px-5 bg-gray-50  shadow-2xl"
+                >
                   <div
                     style={{ backgroundColor: "#3A3B5A" }}
                     className="shadow-2xl grid grid-cols-1 md:grid-cols-3"
@@ -341,8 +350,9 @@ const EmergencyInvestmentDashboard = () => {
                         </h1>
                       </button>
                     </div>
+                    <div className="px-5"></div>
                   </div>
-                  {/* <div className="py-3">
+                  <div className="py-3">
                     <h1 className="font-bold">พอร์ตการลงทุนในปัจจุบัน</h1>
                     <div className="grid grid-cols-3 py-2">
                       <div className="flex justify-center">
@@ -355,34 +365,37 @@ const EmergencyInvestmentDashboard = () => {
                         <h1>เงินลงทุนเทียบกับพอร์ต</h1>
                       </div>
                     </div>
-                  </div> */}
-                  {/* <div>
+                  </div>
+                  <div>
                     <div className="pb-5">
-                      <div className=" grid grid-cols-3 border border-black p-3">
-                        <div>กองทุนรวมผสม</div>
+                      <div className="p-3">
+                        {/* <div>กองทุนรวมผสม</div>
                         <div>10%/20%</div>
-                        <div>10,000/20,000</div>
+                        <div>10,000/20,000</div> */}
+                        <InvestDropdown title={""} />
                       </div>
                     </div>
                     <div className="pb-5">
-                      <div className=" grid grid-cols-3 border border-black p-3">
-                        <div>กองทุนรวมผสม</div>
+                      <div className="p-3">
+                        {/* <div>กองทุนรวมผสม</div>
                         <div>10%/20%</div>
-                        <div>10,000/20,000</div>
+                        <div>10,000/20,000</div> */}
+                        <InvestDropdown title={""} />
                       </div>
                     </div>
                     <div className="pb-5">
-                      <div className=" grid grid-cols-3 border border-black p-3">
-                        <div>กองทุนรวมผสม</div>
+                      <div className="p-3">
+                        {/* <div>กองทุนรวมผสม</div>
                         <div>10%/20%</div>
-                        <div>10,000/20,000</div>
+                        <div>10,000/20,000</div> */}
+                        <InvestDropdown title={""} />
                       </div>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
               </div>
               <div
-                style={{ backgroundColor: "#6259E8",}}
+                style={{ backgroundColor: "#6259E8" }}
                 className=" py-2 rounded"
               >
                 <p
@@ -392,7 +405,10 @@ const EmergencyInvestmentDashboard = () => {
                   หยอดกระปุก
                 </p>
               </div>
-              <div style={{backgroundColor: "#1D1D41"}} className="px-5 pb-10 shadow-2xl">
+              <div
+                style={{ backgroundColor: "#1D1D41" }}
+                className="px-5 pb-10 shadow-2xl"
+              >
                 <div className="pt-5 grid grid-cols-4">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />

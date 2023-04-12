@@ -94,6 +94,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
         setSavingEmergencyPlan(savingEmergency);
 
         //Fetch Saving Emergency Investment Portfolio
+
         const savingEmergencyInvestmentPortResponse = await fetch(
           `${urlServer}user/${userProfile.User_ID}/investment/portfolios`,
           {
@@ -106,7 +107,10 @@ const EmergencyInvestmentPortfolioPackage = () => {
         console.log(
           `${urlServer}investment/${savingEmergencyInvestmentPort[0]?.Portfolio_ID}/transaction`
         );
+
         //Fetch Investment Port Transaction
+        console.log("fetchhhhhhhhhhhhh")
+        console.log(userProfile.User_ID)
         const savingEmergencyTransactionResponse = await fetch(
           `${urlServer}investment/${savingEmergencyInvestmentPort[0]?.Portfolio_ID}/transaction`,
           {
@@ -116,8 +120,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
         const investmentTransaction =
           await savingEmergencyTransactionResponse.json();
         setInvestmentTransactions(investmentTransaction);
-        console.log("sssssssssss");
-        console.log(investmentTransactions);
+       
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }

@@ -492,13 +492,13 @@ export function InvestmentForm({
           <div className="grid grid-cols-1 sm:grid-cols-2 text-white font-bold">
             <div className="text-white p-4">เป้าหมาย</div>
             <div className="text-white p-4">ออมเงินเผื่อฉุกเฉิน</div>
-            <div className="text-lg p-4">คุณต้องมีเงินฉุกเฉิน</div>
+            <div className="text-lg p-4">คุณต้องมีเงินออมฉุกเฉินทั้งหมด</div>
             <div className="text-lg p-4">{formatTargetAmount2} บาท</div>
-            <div className="p-4">ระยะเวลาในการออม</div>
+            <div className="p-4">ระยะเวลาทั้งหมดในการออม</div>
             <div className="p-4">{timeToAchive}</div>
-            <div className="p-4">จำนวนเดือนที่ต้องการเก็บ</div>
+            <div className="p-4">จำนวนเดือนที่ต้องการออม</div>
             <div className="p-4">{period} เดือน</div>
-            <div className="p-4">เงินเก็บต่อเดือน</div>
+            <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
           </div>
         </div>

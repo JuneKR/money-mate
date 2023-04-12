@@ -211,9 +211,8 @@ const emergencyCreateForm = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#6259E8",
           }}
-          className="py-2 rounded-lg"
+          className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
         >
           <p
             style={{ padding: "0 1rem" }}
@@ -224,7 +223,7 @@ const emergencyCreateForm = () => {
         </div>
 
         <div
-          className="rounded-b-2xl pb-5 shadow-2xl "
+          className="rounded-b-2xl pb-5 shadow-2xl"
           style={{ backgroundColor: "#1D1D41" }}
         >
           <div className="py-10">
@@ -274,12 +273,13 @@ const emergencyCreateForm = () => {
                 justifyContent: "flex-end",
               }}
             >
-              <div className="p-5">
-                {!isFirstStep && (
+              <div className="p-5 grid grid-cols-2 gap-5">
+                
+              {!isFirstStep && (
                   <button
                     type="button"
                     onClick={back}
-                    className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
+                    className="px-4 py-2 font-bold text-white bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none  transition delay-150"
                   >
                     ย้อนกลับ
                   </button>
@@ -287,7 +287,7 @@ const emergencyCreateForm = () => {
 
                 <button
                   type="submit"
-                  className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
+                  className="px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
                 >
                   {/* {isLastStep ? stepDesc : "ถัดไป"} */}
                   {getNextButtonText()}

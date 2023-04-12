@@ -53,7 +53,7 @@ export function InvestmentForm({
   riskLevel,
   returnRate,
   updateFields,
-  handleInvestmentSelection
+  handleInvestmentSelection,
 }: InvestmentFormProps) {
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
@@ -232,19 +232,18 @@ export function InvestmentForm({
     },
   ];
 
-  const [tableData, setTableData] = useState<InvestmentData[]>(initialTableData);
-  const [selectedTable, setSelectedTable] = useState(
-    {
-      expense: 0,
-      period: 0,
-      monthlySaving: 0,
-      totalBalance: 0,
-      timeRemaining: 0,
-      targetAmount: 0,
-      riskLevel: 0,
-      returnRate: 0,
-    }
-  )
+  const [tableData, setTableData] =
+    useState<InvestmentData[]>(initialTableData);
+  const [selectedTable, setSelectedTable] = useState({
+    expense: 0,
+    period: 0,
+    monthlySaving: 0,
+    totalBalance: 0,
+    timeRemaining: 0,
+    targetAmount: 0,
+    riskLevel: 0,
+    returnRate: 0,
+  });
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -268,22 +267,23 @@ export function InvestmentForm({
   const [packageAllocation, setPackageAllocation] = useState([]);
   const [selectedRisk, setSelectedRisk] = useState(0);
   const [defaultOption, setDefaultOption] = useState({
-      expense: expense | 0,
-      period: period | 0,
-      monthlySaving: monthlySaving | 0,
-      totalBalance: totalBalance | 0,
-      timeRemaining: numberPeriods(
+    expense: expense | 0,
+    period: period | 0,
+    monthlySaving: monthlySaving | 0,
+    totalBalance: totalBalance | 0,
+    timeRemaining:
+      numberPeriods(
         Number(totalBalance),
         Number(targetAmount),
         Number(monthlySaving),
         0
       ) / 12,
-      targetAmount: targetAmount | 0,
-      riskLevel: riskLevel | 0,
-      returnRate: returnRate | 0,
+    targetAmount: targetAmount | 0,
+    riskLevel: riskLevel | 0,
+    returnRate: returnRate | 0,
   });
   const [selectedOption, setSelectedOption] = useState(0);
-  
+
   // Fix State on Table Component?
 
   useEffect(() => {
@@ -302,11 +302,10 @@ export function InvestmentForm({
       }
     }
 
-    // Update Parent Component State 
-    if(selectedOption === 0) {
+    // Update Parent Component State
+    if (selectedOption === 0) {
       updateFields(defaultOption);
-    }
-    else {
+    } else {
       updateFields(selectedTable);
     }
 
@@ -451,9 +450,9 @@ export function InvestmentForm({
   const handleRadioChange = (index: number) => {
     const newData = tableData.map((data, i) => {
       if (i === index) {
-        console.log('New Data:', data);
-        setSelectedTable(data)
-        setSelectedOption(index+1);
+        console.log("New Data:", data);
+        setSelectedTable(data);
+        setSelectedOption(index + 1);
         // updateFields(data)
         // Using UpdateFields to update state of parent component (multistep form)
         return { ...data, selected: true };
@@ -463,7 +462,7 @@ export function InvestmentForm({
       }
     });
     // Set New Selected State
-    // 
+    //
     setTableData(newData);
   };
 
@@ -474,12 +473,12 @@ export function InvestmentForm({
   //   // await createInvestmentPortfolio();
   //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
   // };
-  
+
   const targetAmount2 = Number(targetAmount);
   const monthlySaving2 = Number(monthlySaving);
   const formatTargetAmount2 = targetAmount2.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
-  
+
   return (
     <div>
       <div
@@ -534,31 +533,17 @@ export function InvestmentForm({
                   <p>ระดับความเสี่ยง (1-8)</p>
                 </div>
                 <div className="flex item-center justify-center pb-3">
-                  <input
-                    placeholder="6"
-                    type="text"
-                    value={riskLevel}
-                    style={{
-                      width: "100%",
-                      backgroundColor: "#3A3B5A",
-                    }}
-                    className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                  />
+                  <div className="font-bold text-2xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer">
+                    {riskLevel}
+                  </div>
                 </div>
                 <div className="font-bold text-white text-lg">
-                  <p>ผลตอบแทนที่คาดหวัง (%)</p>
+                  <p>ผลตอบแทนที่คาดหวัง</p>
                 </div>
-                <div className="flex item-center justify-center">
-                  <input
-                    placeholder="7 %"
-                    type="text"
-                    value={returnRate}
-                    style={{
-                      width: "100%",
-                      backgroundColor: "#3A3B5A",
-                    }}
-                    className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                  />
+                <div className="flex item-center justify-center pb-3">
+                  <div className="font-bold text-2xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer">
+                    {returnRate} %
+                  </div>
                 </div>
               </div>
               <form action="">
@@ -637,38 +622,45 @@ export function InvestmentForm({
                       </thead>
                       <tbody className="text-lg">
                         {initialTableData.map(
-                          (data, index) =>
+                          (data, index) => (
                             // data.riskLevel <= selectedRiskLevel && (
-                              <tr key={index}>
-                                {/* <td className="px-4 py-2 text-white font-bold text-lg"> */}
-                                <td className={data.riskLevel <= selectRiskTorelance ? "bg-blue-400" : "px-4 py-2 text-white font-bold text-lg"}>
-                                  {data.monthlySaving}
-                                </td>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {data.riskLevel}
-                                </td>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {data.returnRate}%
-                                </td>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {yearsToYearsMonthsDays(
-                                    data.timeRemaining.toString()
-                                  )}
-                                </td>
-                                <td className="px-4 py-2">
-                                  <input
-                                    type="radio"
-                                    name="option"
-                                    value={index + 1}
-                                    // checked={data.selected}
-                                    className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
-                                    onChange={() => {
-                                      handleRadioChange(index);
-                                    }}
-                                  />
-                                </td>
-                              </tr>
-                            // )
+                            <tr key={index}>
+                              {/* <td className="px-4 py-2 text-white font-bold text-lg"> */}
+                              <td
+                                className={
+                                  data.riskLevel <= selectRiskTorelance
+                                    ? "bg-blue-400"
+                                    : "px-4 py-2 text-white font-bold text-lg"
+                                }
+                              >
+                                {data.monthlySaving}
+                              </td>
+                              <td className="px-4 py-2 text-white font-bold text-lg">
+                                {data.riskLevel}
+                              </td>
+                              <td className="px-4 py-2 text-white font-bold text-lg">
+                                {data.returnRate}%
+                              </td>
+                              <td className="px-4 py-2 text-white font-bold text-lg">
+                                {yearsToYearsMonthsDays(
+                                  data.timeRemaining.toString()
+                                )}
+                              </td>
+                              <td className="px-4 py-2">
+                                <input
+                                  type="radio"
+                                  name="option"
+                                  value={index + 1}
+                                  // checked={data.selected}
+                                  className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                                  onChange={() => {
+                                    handleRadioChange(index);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          )
+                          // )
                         )}
                       </tbody>
                     </table>

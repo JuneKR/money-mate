@@ -225,7 +225,7 @@ export function PlanForm({
     optionEmergencyFund,
     selectedOption,
   ]);
-  
+
   const emergencyFund2 = Number(emergencyFund);
   const monthlySaving2 = Number(monthlySaving);
   const formattedEmergencyFund = emergencyFund2.toLocaleString();
@@ -242,26 +242,22 @@ export function PlanForm({
           <div className="grid grid-cols-1 md:grid-cols-2 text-white font-bold">
             <div className="text-lg p-4">เป้าหมาย</div>
             <div className="text-lg p-4">ออมเงินเผื่อฉุกเฉิน</div>
-            <div className="p-4">คุณต้องมีเงินฉุกเฉิน: </div>
+            <div className="p-4">คุณต้องมีเงินออมฉุกเฉินทั้งหมด: </div>
             <div className="p-4">{formattedEmergencyFund} บาท</div>
-            <div className="p-4">ระยะเวลาในการออม</div>
+            <div className="p-4">ระยะเวลาทั้งหมดในการออม</div>
             <div className="p-4">{timeToAchive}</div>
-            <div className="p-4"> จำนวนเดือนที่ต้องการเก็บ</div>
+            <div className="p-4"> จำนวนเดือนที่ต้องการออม</div>
             <div className="p-4">{period} เดือน</div>
-            <div className="p-4">เงินเก็บต่อเดือน</div>
+            <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
           </div>
         </div>
         <div className="relative py-8 ">
           <div
-            style={{ backgroundColor: "#6259E8" }}
-            className="px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black"
+            className="px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black bg-indigo-500 hover:bg-blue-500 transition delay-150"
             onClick={handleClick}
           >
-            <span
-              style={{ backgroundColor: "#6259E8" }}
-              className="text-white text-lg rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold"
-            >
+            <span className="text-white text-lg rounded dark:bg-gray-800 py-2 font-bold">
               คุณสามารถปรับเปลี่ยนและเลือกเป้าหมายที่ดูเป็นได้ไปที่สุดสำหรับคุณ
             </span>
             <label className="flex items-center">
@@ -300,13 +296,13 @@ export function PlanForm({
                     />
                   </div>
 
-                  {/* <div style={{ width: "10%", backgroundColor: '#FEF5AC'}} className="rounded border border-gray-500 flex item-center justify-center py-2"> */}
-                  <p className="text-white font-bold text-2xl pb-3">
-                    แผนปัจจุบันของคุณ
-                  </p>
-                  {/* </div> */}
+                  <div className="px-20 pb-5">
+                    <p className="flex item-center justify-center text-white font-bold text-2xl pb-3 bg-indigo-500 rounded-full shadow-2xl">
+                      แผนการออมปัจจุบันของคุณ
+                    </p>
+                  </div>
 
-                  <div className="flex items-center justify-center h-24 px-5">
+                  <div className="flex items-center justify-center h-24 px-5 rounded-full">
                     <Slider1
                       title="my slidebar1"
                       months={currentState.period.toString()}
@@ -325,13 +321,13 @@ export function PlanForm({
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
                           <div className="mb-4 pb-5 text-white font-bold">
-                            รายจ่าย/เดือน
+                            ค่าใช้จ่าย/เดือน
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
-                            เงินเก็บ/เดือน
+                            เงินออม/เดือน
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
-                            เงินปัจจุบัน
+                            เงินออมทั้งหมดในปัจจุบัน
                           </div>
                         </div>
                         <div>
@@ -426,9 +422,11 @@ export function PlanForm({
                     />
                   </div>
 
-                  <p className="text-white font-bold text-2xl pb-3">
-                    แผนทางเลือก
-                  </p>
+                  <div className="px-20">
+                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-pink-500 font-bold text-2xl pb-3 rounded-full shadow-2xl">
+                      แผนการออมเงินทางเลือก
+                    </p>
+                  </div>
 
                   <div className="flex items-center justify-center h-24 px-5">
                     <Slider
@@ -451,13 +449,13 @@ export function PlanForm({
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
                           <div className="mb-4 pb-5 text-white font-bold">
-                            รายจ่าย/เดือน
+                            ค่าใช้จ่าย/เดือน
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
-                            เงินเก็บ/เดือน
+                            เงินออมเดือน
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
-                            เงินปัจจุบัน
+                            เงินออมทั้งหมดปัจจุบัน
                           </div>
                         </div>
                         <div>

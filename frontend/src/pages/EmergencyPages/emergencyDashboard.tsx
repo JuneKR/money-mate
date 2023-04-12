@@ -284,7 +284,7 @@ const EmergencyDashboard = () => {
                   style={{ padding: "0 1rem" }}
                   className="font-bold text-white dark:text-gray-500 text-2xl "
                 >
-                  ประวัติรายการ
+                  ประวัติรายการออมและถอนเงิน
                 </div>
               </div>
               <div>

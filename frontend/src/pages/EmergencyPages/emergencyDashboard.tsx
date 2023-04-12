@@ -102,6 +102,14 @@ const EmergencyDashboard = () => {
   const formatTargetAmount2 = targetAmount2.toLocaleString();
   const totalBalance2 = Number(savingEmergencyPlan.TotalBalance);
   const formatTotalBalance2 = totalBalance2.toLocaleString();
+  
+  savingEmergencyTransactions.sort((a, b) => {
+    const dateA = new Date(a.TransactionDate);
+    const dateB = new Date(b.TransactionDate);
+    return dateB.getTime() - dateA.getTime();
+  });
+  
+  console.log(savingEmergencyTransactions);
 
   return (
     <>
@@ -296,6 +304,7 @@ const EmergencyDashboard = () => {
                     </div>
                   ) : (
                     <div className="pb-5 px-5">
+                      
                       {savingEmergencyTransactions.map(
                         (savingEmergencyTransaction, index) => (
                           <div key={index}>

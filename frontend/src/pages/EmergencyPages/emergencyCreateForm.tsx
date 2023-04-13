@@ -83,7 +83,7 @@ const emergencyCreateForm = () => {
       const portfolioPackageAllocation = await getPortfolioPackageAllocation(urlServer, portfolioPackage);
       await createInvestmentPortfolio(urlServer, portfolioPackage, userProfile, savingEmergency);
       const investmentPortfolio = await getInvestmentPortfolio(urlServer, savingEmergency);
-      // await addMutualFundToInvestmentPortfolio();
+      await addMutualFundsToInvestmentPortfolio(urlServer, investmentPortfolio, portfolioPackageAllocation);
       router.push("/EmergencyPages/emergencyInvestmentDashboard");
     } 
     else {
@@ -164,16 +164,14 @@ const emergencyCreateForm = () => {
   const getSavingEmergencyPlan = async (urlServer: string, userProfile: any) => {
     try {
       // Fetch Saving Emergency Plan
-      const savingResponse = await fetch(`${urlServer}/user/${userProfile.User_ID}/saving/emergency`, {
+      const savingResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/emergency`, {
         credentials: "include",
       });
       const savingEmergencyPlan = await savingResponse.json();
-
+      console.log('Emergency Plan',savingEmergencyPlan);
       return savingEmergencyPlan;
     } catch (error) {
       console.log("fetch Saving Emergency Plan Error: ", error);
-
-      return null;
     }
   }
 
@@ -200,6 +198,7 @@ const emergencyCreateForm = () => {
         credentials: "include",
       });
       const portfolioPackageAllocation = await packageResponse.json();
+      console.log('Package Allocation', portfolioPackageAllocation);
       return portfolioPackageAllocation;
 
     } catch (error) {
@@ -221,7 +220,7 @@ const emergencyCreateForm = () => {
       total_value: 0,
       last_update: lastUpdate,
       start_date: startDate,
-      risk_spectrum: portfolioPackage.riskSpectrum,
+      risk_spectrum: portfolioPackage.RiskSpectrum,
       return_rate: portfolioPackage.ReturnRate,
       user_id: userProfile.User_ID,
       package_id: portfolioPackage.Package_ID,
@@ -257,12 +256,45 @@ const emergencyCreateForm = () => {
         credentials: "include",
       });
       const investmentPortfolio = await portfolioResponse.json();
-
+      console.log('Investment Portfolio', investmentPortfolio);
       return investmentPortfolio;
     } catch (error) {
       console.log("fetch Investment Portfolio Error: ", error);
 
       return null;
+    }
+  }
+
+  const addMutualFundsToInvestmentPortfolio = async (urlServer: string, investmentPortfolio: any, portfolioPackageAllocation: any) => {
+    try {
+      for (const packageAllocation of portfolioPackageAllocation) {
+        const { Package_ID, Fund_ID, PolicyDesc, FundAbbrName, OneYearReturns, AllocationRatio } = packageAllocation;
+        
+        // Add Mutual Fund to Investment Portfolio
+        const response = await fetch(`${urlServer}investment/portfolio/fund`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            portfolio_id: investmentPortfolio.Portfolio_ID,
+            fund_id: Fund_ID,
+            policy_desc: PolicyDesc,
+            fund_abbr_name: FundAbbrName,
+            one_year_returns: OneYearReturns,
+            allocation_ratio: AllocationRatio
+          })
+        });
+  
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(`Failed to add mutual fund allocation: ${errorMessage}`);
+        }
+      }
+  
+      console.log('Successfully added all mutual fund allocations to investment portfolio');
+    } catch (error) {
+      console.error(error);
     }
   }
 

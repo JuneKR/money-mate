@@ -41,6 +41,7 @@ const emergencyCreateForm = () => {
   const [stepDesc, setStepDesc] = useState("ถัดไป");
   const [uID, setuID] = useState(1);
   const urlServer = "http://localhost:8080/";
+  const [isSelectedPackage, setIsSelectedPackage] = useState(false);
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {
@@ -53,12 +54,17 @@ const emergencyCreateForm = () => {
     setShowPackageStep(selected);
   };
 
+  const handlePackageSelection = (selected: boolean) => {
+    console.log('Selected Package', selected) 
+    setIsSelectedPackage(selected);
+  };
+
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next, goTo } =
     useMultistepForm([
       <GoalForm {...data} updateFields={updateFields} />,
       <PlanForm {...data} updateFields={updateFields} />,
       <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
-      <PortfolioPackage {...data} updateFields={updateFields} />,
+      <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
     ]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,16 +81,21 @@ const emergencyCreateForm = () => {
       }
     }
     else if (isLastStep) {
-      alert('สร้างพอร์ตการออมเงินสำเร็จแล้ว!');
-      const userProfile = await getUserProfile(urlServer);
-      await createEmergencyPlan(urlServer, userProfile);
-      const savingEmergency = await getSavingEmergencyPlan(urlServer, userProfile);
-      const portfolioPackage = await getPortfolioPackage(urlServer, data.riskLevel);
-      const portfolioPackageAllocation = await getPortfolioPackageAllocation(urlServer, portfolioPackage);
-      await createInvestmentPortfolio(urlServer, portfolioPackage, userProfile, savingEmergency);
-      const investmentPortfolio = await getInvestmentPortfolio(urlServer, savingEmergency);
-      await addMutualFundsToInvestmentPortfolio(urlServer, investmentPortfolio, portfolioPackageAllocation);
-      router.push("/EmergencyPages/emergencyInvestmentDashboard");
+      if (isSelectedPackage) {
+        alert('สร้างพอร์ตการออมเงินสำเร็จแล้ว!');
+        const userProfile = await getUserProfile(urlServer);
+        await createEmergencyPlan(urlServer, userProfile);
+        const savingEmergency = await getSavingEmergencyPlan(urlServer, userProfile);
+        const portfolioPackage = await getPortfolioPackage(urlServer, data.riskLevel);
+        const portfolioPackageAllocation = await getPortfolioPackageAllocation(urlServer, portfolioPackage);
+        await createInvestmentPortfolio(urlServer, portfolioPackage, userProfile, savingEmergency);
+        const investmentPortfolio = await getInvestmentPortfolio(urlServer, savingEmergency);
+        await addMutualFundsToInvestmentPortfolio(urlServer, investmentPortfolio, portfolioPackageAllocation);
+        router.push("/EmergencyPages/emergencyInvestmentDashboard");
+      }
+      else {
+        alert('โปรดกดเลือกพอร์ตก่อน');
+      }
     } 
     else {
       return next();
@@ -391,7 +402,10 @@ const emergencyCreateForm = () => {
                 {!isFirstStep && (
                   <button
                     type="button"
-                    onClick={back}
+                    onClick={() => {
+                      back() 
+                      setIsSelectedPackage(false)
+                    }}
                     className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                   >
                     ย้อนกลับ
@@ -402,7 +416,6 @@ const emergencyCreateForm = () => {
                   type="submit"
                   className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                 >
-                  {/* {isLastStep ? stepDesc : "ถัดไป"} */}
                   {getNextButtonText()}
                 </button>
               </div>

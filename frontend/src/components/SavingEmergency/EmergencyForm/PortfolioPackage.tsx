@@ -122,12 +122,6 @@ export function PortfolioPackage ({
                     </div>
                 </div>
                 <div className="flex justify-end py-2">
-                    {/* <button onClick={handlesEmergencyPlanForm} style={{ width: "209px"}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
-                            ย้อนกลับ
-                    </button>
-                    <button onClick={handleEmergencyInvestment} style={{ width: "209px",backgroundColor: '#B2E8FF'}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
-                            ถัดไป
-                    </button> */}
                 </div>
             </div>
         </main>

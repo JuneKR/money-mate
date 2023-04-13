@@ -231,7 +231,7 @@ export const getInvestmentPortfolioAllocationByPortfolioId = async(req: Request,
             return res.status(404).json({msg: `Portfolio item with portfolio id ${req.params.id} not found`});
         }
 
-        const response = await InvestmentPortfolio.findAll({
+        const response = await PortfolioItem.findAll({
             attributes:[
                 'Portfolio_ID',
                 'Fund_ID',

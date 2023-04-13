@@ -17,6 +17,7 @@ type PackageData = {
 
 type PackageProps = PackageData & {
   updateFields: (fields: Partial<PackageData>) => void;
+  handlePackageSelection: any;
 };
 
 const initialPortfolioPackage = {
@@ -37,15 +38,19 @@ export function PortfolioPackage ({
   targetAmount,
   riskLevel,
   returnRate,
-  updateFields
+  updateFields,
+  handlePackageSelection
 }: PackageProps) {
 
     const urlServer = "http://localhost:8080/";
     const [portfolioPackage, setPortfolioPackage] = useState(initialPortfolioPackage);
     const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
+    const [isSelected, setIsSelected] = useState(false);
 
-    const handleCheckboxChange = (isChecked: boolean) => {
+    const handleCheckboxChange = (isSelected: boolean) => {
         // Do something with the new checkbox state
+        console.log('isSelect',isSelected);
+        handlePackageSelection(!isSelected);
     };
 
     useEffect(() => {
@@ -113,7 +118,7 @@ export function PortfolioPackage ({
                     <div className='px-4' >
                     <InvestmentCheckBox 
                         label="My checkbox label" 
-                        checked={false} 
+                        // checked={false} 
                         onChange={handleCheckboxChange} 
                         title={'InvestmentCheckBox'}
                         portfolioPackage={portfolioPackage}

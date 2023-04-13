@@ -114,15 +114,14 @@ export const setupAssociations = (sequelize: Sequelize) => {
     //     foreignKey: 'Fund_ID', targetKey: 'Fund_ID'
     // })
 
-    // InvestmentPortfolio.belongsToMany(MutualFund, {
-    //     foreignKey: 'Portfolio_ID',
-    //     through: PortfolioItem
-    // })
+    InvestmentPortfolio.belongsToMany(MutualFund, {
+        through: PortfolioItem,
+        foreignKey: 'Portfolio_ID'
+    })
 
-    // MutualFund.belongsToMany(InvestmentPortfolio, {
-    //     foreignKey: { 
-    //         name: 'Fund_ID'
-    //     }, through: PortfolioItem
-    // })
+    MutualFund.belongsToMany(InvestmentPortfolio, {
+        through: PortfolioItem,
+        foreignKey: 'Fund_ID'
+    })
 }
 /* ------ */

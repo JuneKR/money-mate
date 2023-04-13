@@ -17,7 +17,7 @@ type PortfolioPackageData = {
 interface SavingEmergencyCheckboxProps  {
   title: string;
   label: string;
-  checked: boolean;
+//   checked: boolean;
   onChange: (isChecked: boolean) => void;
   portfolioPackage: PortfolioPackageData
   portfolioPackageAllocation: any;
@@ -26,7 +26,7 @@ interface SavingEmergencyCheckboxProps  {
 const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({ 
     title, 
     label, 
-    checked, 
+    // checked, 
     onChange, 
     portfolioPackage, 
     portfolioPackageAllocation
@@ -36,11 +36,20 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedOption(event.target.value);
+        setSelectedOption('Target Value',event.target.value);
+        console.log(event.target.value);
+        if (selectedOption === 'option1') {
+            console.log('Selected',selectedOption);
+            onChange(true);
+        }
+        else {
+            console.log('Unselect',selectedOption);
+            onChange(false);
+        }
     };
     
     const toggleExpansion = () => setIsExpanded(!isExpanded);
-    console.log('Return',portfolioPackage)
+
     return (
         <div>
             <div className='py-5'>

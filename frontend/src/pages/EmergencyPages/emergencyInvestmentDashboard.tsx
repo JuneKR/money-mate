@@ -55,6 +55,21 @@ export interface PortPackageAllocationData {
   AllocationRatio: number | any;
 }
 
+export interface InvestmentPortfolio {
+  Portfolio_ID: number;
+  PortfolioName: string;
+  TotalValue: number;
+  LastUpdate: string;
+  StartDate: string;
+  RiskSpectrum: number;
+  ReturnRate: number;
+  User_ID: number;
+  Package_ID: number;
+  Emergency_ID: number;
+  Goal_ID: number;
+  Retirement_ID: number;
+}
+
 const initialSavingEmergencyPlan: SavingEmergencyPlan = {
   Emergency_ID: 1,
   LastUpdate: "",
@@ -70,17 +85,30 @@ const initialSavingEmergencyPlan: SavingEmergencyPlan = {
   User_ID: 1,
 };
 
+const initialPortfolio: InvestmentPortfolio = {
+  Portfolio_ID: 1,
+  PortfolioName: "",
+  TotalValue: 0,
+  LastUpdate: "",
+  StartDate: "",
+  RiskSpectrum: 0,
+  ReturnRate: 0,
+  User_ID: 1,
+  Package_ID: 1,
+  Emergency_ID: 0,
+  Goal_ID: 0,
+  Retirement_ID: 0
+}
+
 const EmergencyInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
-  const [savingEmergencyPlan, setSavingEmergencyPlan] =
-    useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
-  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] =
-    useState<SavingEmergencyInvestmentPortData>();
-  const [portPackageAllocate, setPortPackageAllocate] = useState<
-    PortPackageAllocationData[]
-  >([]);
+  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
+  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] = useState<SavingEmergencyInvestmentPortData>();
+  const [portPackageAllocate, setPortPackageAllocate] = useState<PortPackageAllocationData[]>([]);
   const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
   const [packageAllocation, setPackageAllocation] = useState([]);
+  const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
 
   const packageId = 1;
 
@@ -111,23 +139,45 @@ const EmergencyInvestmentDashboard = () => {
             credentials: "include",
           }
         );
-        const emergencyInvestmentPortfolio =
-          await emergencyInvestmentReponse.json();
+        const emergencyInvestmentPortfolio = await emergencyInvestmentReponse.json();
         setSavingEmergencyInvestmentPort(emergencyInvestmentPortfolio);
 
-        //Fetch Port Package Allocation
-        // const portPackageAllocationResponse = await fetch(
-        //   `${urlServer}portfolio/package/${savingEmergencyInvestmentPorts[0]?.Package_ID}/allocations`,
-        //   {
-        //     credentials: "include",
-        //   }
-        // );
-        // const portPackageAllocation =
-        //   await portPackageAllocationResponse.json();
-        // setPortPackageAllocate(portPackageAllocation);
-        // console.log(portPackageAllocation);
+        //Fetch Investment Portfolio Allocation
+        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${savingEmergencyInvestmentPort?.Portfolio_ID}/allocation`, {
+          credentials: "include",
+        });
+        const investmentPortfolioAllocation = await portfolioResponse.json();
+        setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
+
+
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
+      }
+    }
+
+    async function fetchInvestmentPortfolio() {
+      try {
+        const portfolioResponse = await fetch(`${urlServer}emergency/${savingEmergencyPlan.Emergency_ID}/investment/portfolio`, {
+          credentials: "include",
+        });
+        const investmentPortfolio = await portfolioResponse.json();
+        setInvestmentPortfolio(investmentPortfolio);
+        console.log('Investment Portfolio', investmentPortfolio);
+      } catch (error) {
+        console.log("Fetch Investment Portfolio Error: ", error);
+      }
+    }
+
+    async function fetchInvestmentPortfolioAllocation() {
+      try {
+        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${investmentPortfolio.Portfolio_ID}/allocation`, {
+          credentials: "include",
+        });
+        const investmentPortfolioAllocation = await portfolioResponse.json();
+        setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
+        console.log('Investment Portfolio Allocation', investmentPortfolio);
+      } catch (error) {
+        console.log("Fetch Investment Portfolio Allocation Error: ", error);
       }
     }
 
@@ -166,14 +216,12 @@ const EmergencyInvestmentDashboard = () => {
     }
 
     fetchSavingPlan();
-    fetchPackage();
-    fetchPortfolioPackageAllocation();
+    fetchInvestmentPortfolio();
+    fetchInvestmentPortfolioAllocation();
   }, []);
 
-  console.log("After Fetch", savingEmergencyPlan);
-  // console.log('After Fetch', savingEmergencyInvestmentPort)
-  console.log(portfolioPackage);
-  console.log(packageAllocation);
+  console.log('Portfolio', savingEmergencyInvestmentPort);
+  console.log('Allocation',investmentPortfolioAllocation);
 
   const router = useRouter();
 
@@ -221,6 +269,7 @@ const EmergencyInvestmentDashboard = () => {
                       title={""}
                       savingEmergency={savingEmergencyPlan}
                       savingInvestmentPort={savingEmergencyInvestmentPort}
+                      // savingInvestmentPort={investmentPortfolio}
                     />
                   </div>
                 </div>
@@ -281,8 +330,8 @@ const EmergencyInvestmentDashboard = () => {
                   <div className="flex justify-center item-center boder border-blue-500 col-span-3 ">
                     <EmergencyFundsDetailsTable
                       title={""}
-                      portfolioPackage={portfolioPackage}
-                      packageAllocation={packageAllocation}
+                      portfolioPackage={investmentPortfolio}
+                      packageAllocation={investmentPortfolioAllocation}
                     />
                   </div>
                 </div>

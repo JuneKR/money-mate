@@ -231,7 +231,7 @@ export const getInvestmentPortfolioAllocationByPortfolioId = async(req: Request,
             return res.status(404).json({msg: `Portfolio item with portfolio id ${req.params.id} not found`});
         }
 
-        const response = await InvestmentPortfolio.findAll({
+        const response = await PortfolioItem.findAll({
             attributes:[
                 'Portfolio_ID',
                 'Fund_ID',
@@ -277,6 +277,74 @@ export const editInvestmentPortfolioAllocationByPortfolioId = async(req: Request
         res.status(200).json({msg: `Portfolio Item Updated Successfully with Portfolio id: ${req.params.id}`})
     } catch (error: any) {
         return res.status(400).json({msg: error.message});
+    }
+}
+
+/* Add Mutual Fund */
+export const addMutualFundToInvestmentPortfolio = async(req: Request, res: Response) => {
+    try {
+        const 
+        {   
+            portfolio_id,
+            fund_id,
+            policy_desc,
+            fund_abbr_name,
+            one_year_returns,
+            allocation_ratio,
+        } = req.body;
+
+        const investmentPortfolio = await InvestmentPortfolio.findByPk(portfolio_id);
+        if (!investmentPortfolio) {
+            return res.status(404).json({msg: `Investment Portfolio with id ${portfolio_id} not found`});
+        }
+
+        const mutualFund = await MutualFund.findByPk(fund_id);
+        if (!mutualFund) {
+            return res.status(404).json({msg: `Mutual Fund with id ${fund_id} not found`});
+        }
+        
+        await PortfolioItem.create({
+            Portfolio_ID: portfolio_id,
+            Fund_ID: fund_id,
+            PolicyDesc: policy_desc,
+            FundAbbrName: fund_abbr_name,
+            OneYearReturns: one_year_returns,
+            AllocationRatio: allocation_ratio
+        });
+        res.status(201).json({msg: "Successful add mutual fund and allocation to investment portfolio"});
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+export const addMutualFundsToInvestmentPortfolio = async(req: Request, res: Response) => {
+    try {
+        const portfolioItems = req.body;
+        const portfolioId = portfolioItems[0].Portfolio_ID;
+
+        const investmentPortfolio = await InvestmentPortfolio.findByPk(portfolioId);
+        if (!investmentPortfolio) {
+            return res.status(404).json({msg: `Investment Portfolio with id ${portfolioId} not found`});
+        }
+
+        for (const item of portfolioItems) {
+            const mutualFund = await MutualFund.findByPk(item.Fund_ID);
+            if (!mutualFund) {
+                return res.status(404).json({msg: `Mutual Fund with id ${item.Fund_ID} not found`});
+            }
+
+            await PortfolioItem.create({
+                Portfolio_ID: item.Portfolio_ID,
+                Fund_ID: item.Fund_ID,
+                PolicyDesc: item.PolicyDesc,
+                FundAbbrName: item.FundAbbrName,
+                OneYearReturns: item.OneYearReturns,
+                AllocationRatio: item.AllocationRatio
+            });
+        }
+        res.status(201).json({msg: "Successful add mutual fund and allocation to investment portfolio"});
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
     }
 }
 

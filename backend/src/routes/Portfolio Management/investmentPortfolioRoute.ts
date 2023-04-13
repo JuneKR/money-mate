@@ -10,7 +10,9 @@ import {
     editInvestmentPortfolioAllocationByPortfolioId,
     addInvestmentTransaction, 
     getAllInvestmentTransactionsByPortfolioId,
-    getInvestmentTransactionById
+    getInvestmentTransactionById,
+    addMutualFundToInvestmentPortfolio,
+    addMutualFundsToInvestmentPortfolio
 } from '../../controllers/portfolio management/investmentPortfolioController';
 
 const router = express.Router();
@@ -28,5 +30,8 @@ router.patch('/investment/portfolio/:id/allocation', editInvestmentPortfolioAllo
 router.post('/investment/portfolio/:id/transaction', addInvestmentTransaction);
 router.get('/investment/:id/transaction', getAllInvestmentTransactionsByPortfolioId);
 router.get('/investment/transaction/:id', getInvestmentTransactionById);
+
+router.post('/investment/portfolio/fund', addMutualFundToInvestmentPortfolio);
+router.post('/investment/portfolio/funds', addMutualFundsToInvestmentPortfolio);
 
 export default router;

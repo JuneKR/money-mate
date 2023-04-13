@@ -17,6 +17,7 @@ type PackageData = {
 
 type PackageProps = PackageData & {
   updateFields: (fields: Partial<PackageData>) => void;
+  handlePackageSelection: any;
 };
 
 const initialPortfolioPackage = {
@@ -37,15 +38,19 @@ export function PortfolioPackage ({
   targetAmount,
   riskLevel,
   returnRate,
-  updateFields
+  updateFields,
+  handlePackageSelection
 }: PackageProps) {
 
     const urlServer = "http://localhost:8080/";
     const [portfolioPackage, setPortfolioPackage] = useState(initialPortfolioPackage);
     const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
+    const [isSelected, setIsSelected] = useState(false);
 
-    const handleCheckboxChange = (isChecked: boolean) => {
+    const handleCheckboxChange = (isSelected: boolean) => {
         // Do something with the new checkbox state
+        console.log('isSelect',isSelected);
+        handlePackageSelection(!isSelected);
     };
 
     useEffect(() => {
@@ -113,7 +118,7 @@ export function PortfolioPackage ({
                     <div className='px-4' >
                     <InvestmentCheckBox 
                         label="My checkbox label" 
-                        checked={false} 
+                        // checked={false} 
                         onChange={handleCheckboxChange} 
                         title={'InvestmentCheckBox'}
                         portfolioPackage={portfolioPackage}
@@ -122,12 +127,6 @@ export function PortfolioPackage ({
                     </div>
                 </div>
                 <div className="flex justify-end py-2">
-                    {/* <button onClick={handlesEmergencyPlanForm} style={{ width: "209px"}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
-                            ย้อนกลับ
-                    </button>
-                    <button onClick={handleEmergencyInvestment} style={{ width: "209px",backgroundColor: '#B2E8FF'}}className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
-                            ถัดไป
-                    </button> */}
                 </div>
             </div>
         </main>

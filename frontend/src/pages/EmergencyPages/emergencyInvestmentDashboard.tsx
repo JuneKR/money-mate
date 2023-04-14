@@ -212,11 +212,12 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ padding: "0 1rem" }}
                     className="font-bold text-white dark:text-gray-500 text-2xl"
                   >
-                    Saving Graph
+                    กราฟเปรียบเทียบการลงทุนและการออมเงิน
                   </p>
                 </div>
                 <div style={{ backgroundColor: "#1D1D41" }} className="p-10">
                   <SavingGraph title={"saving chart"} />
+                  {/* <p>*หมายเหตุ</p> */}
                 </div>
               </div>
 
@@ -230,7 +231,7 @@ const EmergencyInvestmentDashboard = () => {
                       style={{ padding: "0 1rem" }}
                       className="font-bold text-white dark:text-gray-500 text-2xl"
                     >
-                      My investment Portfolio
+                      {investmentPortfolio.PortfolioName}
                     </p>
                   </div>
                 </div>

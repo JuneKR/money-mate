@@ -29,7 +29,7 @@ const EmergencyInvestmentPieChartPortfolio1: React.FC<EmergencyInvestmentPieChar
         chartInstance.destroy();
       }
     }
-  });
+  }, []);
 
   const getRandomColor = (tone: string) => {
     const randomSaturation = Math.floor(Math.random() * 20);
@@ -53,6 +53,7 @@ const EmergencyInvestmentPieChartPortfolio1: React.FC<EmergencyInvestmentPieChar
     maintainAspectRatio: true,
     plugins: {
       tooltip: {
+        intersect: true,
         callbacks: {
           label: function (context: any) {
             const label = context.dataset.labels[context.dataIndex];

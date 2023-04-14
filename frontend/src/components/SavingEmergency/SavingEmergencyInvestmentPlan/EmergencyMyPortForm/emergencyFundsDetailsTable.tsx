@@ -7,7 +7,7 @@ interface PortfolioItem {
     FundAbbrName: string;
     OneYearReturns: number;
     AllocationRatio: number;
-  }
+}
 
 interface EmergencyFundsDetailsTableProps {
     title: string;

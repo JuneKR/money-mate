@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Chart, ArcElement } from 'chart.js';
+import { Chart, ArcElement, Tooltip } from 'chart.js';
 import tinycolor from 'tinycolor2';
-Chart.register(ArcElement);
+Chart.register(ArcElement, Tooltip);
 
 interface PortfolioItem {
   Portfolio_ID: number;
@@ -54,20 +54,13 @@ const EmergencyInvestmentPieChartPortfolio1: React.FC<EmergencyInvestmentPieChar
     plugins: {
       tooltip: {
         intersect: true,
-        callbacks: {
-          label: function (context: any) {
-            const label = context.dataset.labels[context.dataIndex];
-            const value = context.dataset.data[context.dataIndex];
-            return `${label}: ${value}`;
-          }
-        },
       },
     },
   };
 
   return (
     <div>
-      <h3>{title}</h3>
+      {/* <h3>{title}</h3> */}
       <Pie
         ref={chartRef}
         data={data}

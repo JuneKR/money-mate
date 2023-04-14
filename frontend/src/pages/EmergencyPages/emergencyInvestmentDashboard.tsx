@@ -49,12 +49,6 @@ export interface SavingEmergencyInvestmentPortData {
   Retirement_ID: number | any;
 }
 
-export interface PortPackageAllocationData {
-  Package_ID: number | any;
-  Fund_ID: number | any;
-  AllocationRatio: number | any;
-}
-
 export interface InvestmentPortfolio {
   Portfolio_ID: number;
   PortfolioName: string;
@@ -103,18 +97,12 @@ const initialPortfolio: InvestmentPortfolio = {
 const EmergencyInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
-  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] = useState<SavingEmergencyInvestmentPortData>();
-  const [portPackageAllocate, setPortPackageAllocate] = useState<PortPackageAllocationData[]>([]);
-  const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
-  const [packageAllocation, setPackageAllocation] = useState([]);
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
 
-  const packageId = 1;
-
   // Fetch APIs
   useEffect(() => {
-    async function fetchSavingPlan() {
+    async function fetchData() {
       try {
         // Fetch User Profile
         const profileResponse = await fetch(urlServer + "user/profile", {
@@ -140,10 +128,10 @@ const EmergencyInvestmentDashboard = () => {
           }
         );
         const emergencyInvestmentPortfolio = await emergencyInvestmentReponse.json();
-        setSavingEmergencyInvestmentPort(emergencyInvestmentPortfolio);
+        setInvestmentPortfolio(emergencyInvestmentPortfolio);
 
         //Fetch Investment Portfolio Allocation
-        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${savingEmergencyInvestmentPort?.Portfolio_ID}/allocation`, {
+        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${emergencyInvestmentPortfolio.Portfolio_ID}/allocation`, {
           credentials: "include",
         });
         const investmentPortfolioAllocation = await portfolioResponse.json();
@@ -155,72 +143,10 @@ const EmergencyInvestmentDashboard = () => {
       }
     }
 
-    async function fetchInvestmentPortfolio() {
-      try {
-        const portfolioResponse = await fetch(`${urlServer}emergency/${savingEmergencyPlan.Emergency_ID}/investment/portfolio`, {
-          credentials: "include",
-        });
-        const investmentPortfolio = await portfolioResponse.json();
-        setInvestmentPortfolio(investmentPortfolio);
-        console.log('Investment Portfolio', investmentPortfolio);
-      } catch (error) {
-        console.log("Fetch Investment Portfolio Error: ", error);
-      }
-    }
-
-    async function fetchInvestmentPortfolioAllocation() {
-      try {
-        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${investmentPortfolio.Portfolio_ID}/allocation`, {
-          credentials: "include",
-        });
-        const investmentPortfolioAllocation = await portfolioResponse.json();
-        setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
-        console.log('Investment Portfolio Allocation', investmentPortfolio);
-      } catch (error) {
-        console.log("Fetch Investment Portfolio Allocation Error: ", error);
-      }
-    }
-
-    async function fetchPackage() {
-      try {
-        // Fetch Portfolio Package
-        const packageResponse = await fetch(
-          `${urlServer}portfolio/package/${packageId}`,
-          {
-            credentials: "include",
-          }
-        );
-        const portfolioPackage = await packageResponse.json();
-        console.log(portfolioPackage);
-        setPortfolioPackage(portfolioPackage);
-      } catch (error) {
-        console.log("Fetch Portfolio Package Error: ", error);
-      }
-    }
-
-    async function fetchPortfolioPackageAllocation() {
-      try {
-        // Fetch Portfolio Package Allocation
-        const packageResponse = await fetch(
-          `${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`,
-          {
-            credentials: "include",
-          }
-        );
-        const portfolioPackageAllocation = await packageResponse.json();
-        console.log(portfolioPackageAllocation);
-        setPackageAllocation(portfolioPackageAllocation);
-      } catch (error) {
-        console.log("Fetch Portfolio Package Allocation Error: ", error);
-      }
-    }
-
-    fetchSavingPlan();
-    fetchInvestmentPortfolio();
-    fetchInvestmentPortfolioAllocation();
+    fetchData();
   }, []);
 
-  console.log('Portfolio', savingEmergencyInvestmentPort);
+  console.log('Portfolio', investmentPortfolio);
   console.log('Allocation',investmentPortfolioAllocation);
 
   const router = useRouter();
@@ -268,8 +194,7 @@ const EmergencyInvestmentDashboard = () => {
                     <ModleButtonForm1
                       title={""}
                       savingEmergency={savingEmergencyPlan}
-                      savingInvestmentPort={savingEmergencyInvestmentPort}
-                      // savingInvestmentPort={investmentPortfolio}
+                      savingInvestmentPort={investmentPortfolio}
                     />
                   </div>
                 </div>
@@ -320,18 +245,11 @@ const EmergencyInvestmentDashboard = () => {
                   >
                     <Pie1 title={"my pie1"} />
                   </div>
-                  {/* <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
-                    <EmergencyFundsDetailsTable
-                      title={""}
-                      savingInvestmentPort={savingEmergencyInvestmentPort}
-                      packageallocation={portPackageAllocate}
-                    />
-                  </div> */}
                   <div className="flex justify-center item-center boder border-blue-500 col-span-3 ">
                     <EmergencyFundsDetailsTable
                       title={""}
-                      portfolioPackage={investmentPortfolio}
-                      packageAllocation={investmentPortfolioAllocation}
+                      investmentPortfolio={investmentPortfolio}
+                      investmentPortfolioAllocation={investmentPortfolioAllocation}
                     />
                   </div>
                 </div>
@@ -360,10 +278,10 @@ const EmergencyInvestmentDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {savingEmergencyInvestmentPort?.TotalValue ===
+                          {investmentPortfolio?.TotalValue ===
                           undefined
                             ? "0"
-                            : savingEmergencyInvestmentPort?.TotalValue}{" "}
+                            : investmentPortfolio?.TotalValue}{" "}
                           บาท
                         </h1>
                       </div>

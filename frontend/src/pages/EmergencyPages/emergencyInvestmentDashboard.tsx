@@ -243,7 +243,10 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-1 flex justify-center item-center"
                   >
-                    <Pie1 title={"my pie1"} />
+                    <Pie1 
+                      title={investmentPortfolio.PortfolioName} 
+                      investmentPortfolioAllocation={investmentPortfolioAllocation}
+                    />
                   </div>
                   <div className="flex justify-center item-center boder border-blue-500 col-span-3 ">
                     <EmergencyFundsDetailsTable

@@ -15,6 +15,7 @@ specifiers:
   '@types/node': 18.11.18
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
+  '@types/tinycolor2': ^1.4.3
   add: ^2.0.6
   chart.js: ^4.2.1
   dayjs: ^1.11.7
@@ -31,6 +32,7 @@ specifiers:
   react-step-progress: ^1.0.3
   react-step-progress-bar: ^1.0.3
   styled-components: ^5.3.8
+  tinycolor2: ^1.6.0
   tvm-calculator: ^2.0.0
   typescript: 5.0.3
 
@@ -65,8 +67,12 @@ dependencies:
   react-step-progress: 1.0.3_react@18.2.0
   react-step-progress-bar: 1.0.3_biqbaboplfbrettd7655fr4n2y
   styled-components: 5.3.8_biqbaboplfbrettd7655fr4n2y
+  tinycolor2: 1.6.0
   tvm-calculator: 2.0.0
   typescript: 5.0.3
+
+devDependencies:
+  '@types/tinycolor2': 1.4.3
 
 packages:
 
@@ -1220,6 +1226,10 @@ packages:
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: false
+
+  /@types/tinycolor2/1.4.3:
+    resolution: {integrity: sha512-Kf1w9NE5HEgGxCRyIcRXR/ZYtDv0V8FVPtYHwLxl0O+maGX0erE77pQlD0gpP+/KByMZ87mOA79SjifhSB3PjQ==}
+    dev: true
 
   /@typescript-eslint/parser/5.50.0_t2t7l7dvrhhlfusnbx7xtzlowy:
     resolution: {integrity: sha512-KCcSyNaogUDftK2G9RXfQyOCt51uB5yqC6pkUYqhYh8Kgt+DwR5M0EwEAxGPy/+DH6hnmKeGsNhiZRQxjH71uQ==}
@@ -3494,6 +3504,10 @@ packages:
 
   /tiny-warning/1.0.3:
     resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
+    dev: false
+
+  /tinycolor2/1.6.0:
+    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
     dev: false
 
   /to-fast-properties/2.0.0:

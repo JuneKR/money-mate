@@ -250,7 +250,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
               sx={{ marginLeft: "auto" }}
             >
               {/* <Avatar alt="Profile Image" src='@.'/> */}
-              <Avatar>
+              <Avatar className="transform hover:scale-105 transition duration-300 ease-in-out">
                 <Image src={icon1} alt="Profile Image" width={50} height={50} />
               </Avatar>
             </IconButton>
@@ -311,7 +311,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
+                    
                   }}
+                  className="transform hover:scale-105 transition duration-300 ease-in-out"
                   onClick={() => {
                     switch (index) {
                       case 0:

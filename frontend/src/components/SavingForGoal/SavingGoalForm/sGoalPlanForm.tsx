@@ -2,74 +2,74 @@ import { useState, useEffect } from "react";
 import Slider1 from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1";
 import Slider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption";
 
-type PlanData = {
-  expense: number;
+type sGoalPlanData = {
+  planName: string;
+  targetAmount: number;
   period: number;
+  timeRemaining: number;
   monthlySaving: number;
   totalBalance: number;
-  targetAmount: number;
-  timeRemaining: number;
 };
 
-const initialCurrentData: PlanData = {
-  expense: 0,
+const initialCurrentData: sGoalPlanData = {
+  planName: "",
+  targetAmount: 0,
   period: 0,
+  timeRemaining: 0,
   monthlySaving: 0,
   totalBalance: 0,
-  timeRemaining: 0,
-  targetAmount: 0,
 };
 
-type PlanFormProps = PlanData & {
-  updateFields: (fields: Partial<PlanData>) => void;
+type sGoalPlanFormProps = sGoalPlanData & {
+  updateFields: (fields: Partial<sGoalPlanData>) => void;
 };
 
 type OptionData = {
-  expense: number;
+  planName: string;
+  targetAmount: number;
   period: number;
+  timeRemaining: number;
   monthlySaving: number;
   totalBalance: number;
-  timeRemaining: number;
-  targetAmount: number;
 };
 
 const initialOptionData: OptionData = {
-  expense: 0,
+  planName: "",
+  targetAmount: 0,
   period: 0,
+  timeRemaining: 0,
   monthlySaving: 0,
   totalBalance: 0,
-  timeRemaining: 0,
-  targetAmount: 0,
 };
 
 export function PlanForm({
-  expense,
+  planName,
+  targetAmount,
   period,
+  timeRemaining,
   monthlySaving,
   totalBalance,
-  targetAmount,
-  timeRemaining,
   updateFields,
-}: PlanFormProps) {
+}: sGoalPlanFormProps) {
   const [isHidden, setIsHidden] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
   const [currentState, setCurrentState] = useState(initialCurrentData);
   const currentForm = {
-    expense,
+    planName,
+    targetAmount,
     period,
+    timeRemaining,
     monthlySaving,
     totalBalance,
-    timeRemaining,
-    targetAmount,
   };
   const [optionState, setOptionState] = useState(initialOptionData);
   const optionForm = {
-    expense,
+    planName,
+    targetAmount,
     period,
+    timeRemaining,
     monthlySaving,
     totalBalance,
-    timeRemaining,
-    targetAmount,
   };
 
   function multiply(x: string, y: string): string {
@@ -92,35 +92,33 @@ export function PlanForm({
     return result.toString();
   }
 
-  // Parent State
-  let emergencyFund = multiply(expense.toString(), period.toString());
-  const targetEmergencyFund = Number(emergencyFund) - totalBalance;
-  const years = divided(
-    targetEmergencyFund.toString(),
-    monthlySaving.toString()
-  );
-
+  //   Parent State
+  //   let emergencyFund = multiply(expense.toString(), period.toString());
+  const targetGoalFund = targetAmount - totalBalance;
+  console.log(targetGoalFund);
+  const years = divided(targetGoalFund.toString(), monthlySaving.toString());
+  console.log(years);
   // Current Plan State
-  const currentEmergencyFund = multiply(
-    currentState.expense.toString(),
-    currentState.period.toString()
-  );
-  const currentTargetEmergencyFund =
-    Number(currentEmergencyFund) - currentState.totalBalance;
+  //   const currentGoalFund = multiply(
+  //     currentState.expense.toString(),
+  //     currentState.period.toString()
+  //   );
+  const currentTargetGoalFund =
+    currentState.targetAmount - currentState.totalBalance;
   const currentYears = divided(
-    currentTargetEmergencyFund.toString(),
+    currentTargetGoalFund.toString(),
     currentState.monthlySaving.toString()
   );
 
   // Option Plan State
-  const optionEmergencyFund = multiply(
-    optionState.expense.toString(),
-    optionState.period.toString()
-  );
-  const optionTargetEmergencyFund =
-    Number(optionEmergencyFund) - optionState.totalBalance;
+  //   const optionGoalFund = multiply(
+  //     optionState.expense.toString(),
+  //     optionState.period.toString()
+  //   );
+  const optionTargetGoalFund =
+    optionState.targetAmount - optionState.totalBalance;
   const optionYears = divided(
-    optionTargetEmergencyFund.toString(),
+    optionTargetGoalFund.toString(),
     optionState.monthlySaving.toString()
   );
 
@@ -141,9 +139,9 @@ export function PlanForm({
   const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);
   const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
 
-  //   console.log("Parent State", { timeRemaining, targetAmount });
-  //   console.log("Current Plan", currentState);
-  //   console.log("Option Plan", optionState);
+//   console.log("Parent State", { timeRemaining, targetAmount });
+//   console.log("Current Plan", currentState);
+//   console.log("Option Plan", optionState);
 
   // Once user click on checkbox
   const handleClick = () => {
@@ -156,7 +154,7 @@ export function PlanForm({
     setIsHidden(!isHidden);
   };
 
-  function updateCurrentFields(fields: Partial<PlanData>) {
+  function updateCurrentFields(fields: Partial<sGoalPlanData>) {
     setCurrentState((prev) => {
       return { ...prev, ...fields };
     });
@@ -177,10 +175,10 @@ export function PlanForm({
     if (selectedOption === "option1") {
       // Update the Current Plan State
       updateCurrentFields({ timeRemaining: Number(currentYears) });
-      updateCurrentFields({ targetAmount: Number(currentEmergencyFund) });
+      updateCurrentFields({ targetAmount: Number(currentState.targetAmount) });
 
       updateFields({
-        expense: currentState.expense,
+        planName: currentState.planName,
         period: currentState.period,
         monthlySaving: currentState.monthlySaving,
         totalBalance: currentState.totalBalance,
@@ -190,10 +188,10 @@ export function PlanForm({
     } else if (selectedOption === "option2") {
       // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionYears) });
-      updateOptionFields({ targetAmount: Number(optionEmergencyFund) });
+      updateOptionFields({ targetAmount: Number(optionState.targetAmount) });
 
       updateFields({
-        expense: optionState.expense,
+        planName: optionState.planName,
         period: optionState.period,
         monthlySaving: optionState.monthlySaving,
         totalBalance: optionState.totalBalance,
@@ -203,32 +201,32 @@ export function PlanForm({
     } else {
       // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionYears) });
-      updateOptionFields({ targetAmount: Number(optionEmergencyFund) });
+      updateOptionFields({ targetAmount: Number(optionState.targetAmount) });
 
       // Update the Current Plan State
       updateCurrentFields({ timeRemaining: Number(currentYears) });
-      updateCurrentFields({ targetAmount: Number(currentEmergencyFund) });
+      updateCurrentFields({ targetAmount: Number(currentState.targetAmount) });
     }
 
     // Check the Checkbox is hidden or not to set parent state
     if (isHidden) {
       // Update the Parent Plan State
       updateFields({ timeRemaining: Number(years) });
-      updateFields({ targetAmount: Number(emergencyFund) });
+      updateFields({ targetAmount: Number(targetAmount) });
     }
   }, [
     isHidden,
     selectedOption,
     currentYears,
-    currentEmergencyFund,
+    currentState.targetAmount,
     optionYears,
-    optionEmergencyFund,
+    optionState.targetAmount,
     selectedOption,
   ]);
 
-  const emergencyFund2 = Number(emergencyFund);
+  const sGoalFund2 = Number(targetAmount);
   const monthlySaving2 = Number(monthlySaving);
-  const formattedEmergencyFund = emergencyFund2.toLocaleString();
+  const formattedSGoalFund = sGoalFund2.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
   // console.log(formattedEmergencyFund)
   // console.log(formattedMonthlySaving)
@@ -237,24 +235,26 @@ export function PlanForm({
       <div style={{ padding: "0 4rem" }}>
         <div
           style={{ height: "50%", backgroundColor: "#27264E" }}
-          className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50"
+          className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 text-white font-bold">
             <div className="text-lg p-4">เป้าหมาย</div>
-            <div className="text-lg p-4">ออมเงินเผื่อฉุกเฉิน</div>
-            <div className="p-4">คุณต้องมีเงินออมฉุกเฉินทั้งหมด: </div>
-            <div className="p-4">{formattedEmergencyFund} บาท</div>
-            <div className="p-4">ระยะเวลาทั้งหมดในการออม</div>
-            <div className="p-4">{timeToAchive}</div>
-            <div className="p-4"> จำนวนเดือนที่ต้องการออม</div>
-            <div className="p-4">{period} เดือน</div>
+            <div className="text-lg p-4">ออมเงินเพื่อ{planName}</div>
+            <div className="p-4">จำนวนเงินเป้าหมาย: </div>
+            <div className="p-4">{formattedSGoalFund} บาท</div>
             <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
+            <div className="p-4"> ใส่จำนวนเดือนที่ต้องการ</div>
+            <div className="p-4">{period} เดือน</div>
+            <div className="p-4">ระยะเวลาคงเหลือ</div>
+            <div className="p-4">{timeToAchive}</div>
+            <div className="p-4">เงินในปัจจุบัน</div>
+            <div className="p-4">{totalBalance}</div>
           </div>
         </div>
         <div className="relative py-8 ">
           <div
-            className="transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black bg-indigo-500 hover:bg-blue-500 transition delay-150"
+            className=" transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black bg-indigo-500 hover:bg-blue-500 transition delay-150"
             onClick={handleClick}
           >
             <span className="text-white text-lg rounded py-2 font-bold">
@@ -283,7 +283,7 @@ export function PlanForm({
               <form action="">
                 <div
                   style={{ opacity: 0.6 }}
-                  className="transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                  className=" transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
                 >
                   <div className="flex justify-end">
                     <input
@@ -292,7 +292,7 @@ export function PlanForm({
                       value="option1"
                       checked={selectedOption === "option1"}
                       onChange={handleOptionChange}
-                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out animate-bounce mt-2 cursor-pointer"
                     />
                   </div>
 
@@ -302,13 +302,13 @@ export function PlanForm({
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-center h-24 px-5 rounded-full">
+                  {/* <div className="flex items-center justify-center h-24 px-5 rounded-full">
                     <Slider1
                       title="my slidebar1"
                       months={currentState.period.toString()}
                       disabled={true}
                     />
-                  </div>
+                  </div> */}
 
                   <div
                     style={{ width: "100%", height: "100%" }}
@@ -321,7 +321,7 @@ export function PlanForm({
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
                           <div className="mb-4 pb-5 text-white font-bold">
-                            ค่าใช้จ่าย/เดือน
+                            ระยะเวลา(เดือน)
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
                             เงินออม/เดือน
@@ -334,7 +334,7 @@ export function PlanForm({
                           <div className="pb-5">
                             <input
                               placeholder="15,000"
-                              value={currentState.expense}
+                              value={currentState.period}
                               type="text"
                               readOnly
                               // onChange={e => updateFields({ expense: Number(e.target.value) })}
@@ -409,7 +409,7 @@ export function PlanForm({
 
                 <div
                   style={{ marginTop: 25 }}
-                  className="transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                  className=" transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm "
                 >
                   <div className="flex justify-end">
                     <input
@@ -418,17 +418,17 @@ export function PlanForm({
                       value="option2"
                       checked={selectedOption === "option2"}
                       onChange={handleOptionChange}
-                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out animate-bounce mt-2 cursor-pointer"
                     />
                   </div>
 
                   <div className="px-20">
-                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-pink-500 font-bold text-2xl pb-3 rounded-full shadow-2xl">
+                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-pink-500 font-bold text-2xl pb-3 rounded-full shadow-2xl ">
                       แผนการออมเงินทางเลือก
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-center h-24 px-5">
+                  {/* <div className="flex items-center justify-center h-24 px-5">
                     <Slider
                       title="my slidebar"
                       months={optionState.period.toString()}
@@ -436,7 +436,7 @@ export function PlanForm({
                         updateOptionFields({ period: Number(e.target.value) });
                       }}
                     />
-                  </div>
+                  </div> */}
 
                   <div
                     style={{ width: "100%", height: "100%" }}
@@ -462,10 +462,10 @@ export function PlanForm({
                           <div className="pb-5">
                             <input
                               placeholder="15,000"
-                              value={optionState.expense}
+                              value={optionState.period}
                               onChange={(e) =>
                                 updateOptionFields({
-                                  expense: Number(e.target.value),
+                                  period: Number(e.target.value),
                                 })
                               }
                               type="text"

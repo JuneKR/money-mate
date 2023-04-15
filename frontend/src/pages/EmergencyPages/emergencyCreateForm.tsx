@@ -50,7 +50,7 @@ const emergencyCreateForm = () => {
   }
 
   const handleInvestmentSelection = (selected: boolean) => {
-    console.log('Selected Package', selected) 
+    console.log("Selected Package", selected);
     setShowPackageStep(selected);
   };
 
@@ -74,7 +74,7 @@ const emergencyCreateForm = () => {
       if (showPackageStep) {
         return next();
       } else {
-        alert('สร้างแผนการออมเงินสำเร็จแล้ว!');
+        alert("สร้างแผนการออมเงินสำเร็จแล้ว!");
         const userProfile = await getUserProfile(urlServer);
         await createEmergencyPlan(urlServer, userProfile);
         router.push("/EmergencyPages/emergencyDashboard");
@@ -126,15 +126,14 @@ const emergencyCreateForm = () => {
 
       return null;
     }
-  }
+  };
 
   const createEmergencyPlan = async (urlServer: string, userProfile: any) => {
+    const moment = require("moment-timezone");
+    const now = moment().tz("Asia/Bangkok");
+    const startDate = now.format("YYYY-MM-DD");
+    const lastUpdate = now.format("YYYY-MM-DD HH:mm:ss");
 
-    const moment = require('moment-timezone');
-    const now = moment().tz('Asia/Bangkok');
-    const startDate = now.format('YYYY-MM-DD');
-    const lastUpdate = now.format('YYYY-MM-DD HH:mm:ss');
-    
     const defaultPlanName = "แผนออมเงินสำรองฉุกเฉิน";
 
     const createEmergencyPlanData = {
@@ -148,7 +147,7 @@ const emergencyCreateForm = () => {
       total_balance: data.totalBalance,
       time_remaining: data.timeRemaining,
       monthly_expense: data.expense,
-      progression: (data.totalBalance/data.targetAmount) * 100,
+      progression: (data.totalBalance / data.targetAmount) * 100,
       user_id: userProfile.User_ID,
     };
     try {
@@ -164,9 +163,12 @@ const emergencyCreateForm = () => {
         console.log(errorData);
         return;
       }
-  
+
       const responseData = await response.json();
-      console.log(`Successfully Created Saving Plan By ${userProfile.FirstName}`,responseData);
+      console.log(
+        `Successfully Created Saving Plan By ${userProfile.FirstName}`,
+        responseData
+      );
     } catch (error) {
       console.error(error);
     }
@@ -184,7 +186,7 @@ const emergencyCreateForm = () => {
     } catch (error) {
       console.log("fetch Saving Emergency Plan Error: ", error);
     }
-  }
+  };
 
   const getPortfolioPackage = async (urlServer: string, riskSpectrum: number) => {
     try {
@@ -307,9 +309,9 @@ const emergencyCreateForm = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  // Generate Button Text 
+  // Generate Button Text
   const getNextButtonText = () => {
     if (currentStepIndex === 2) {
       if (showPackageStep) {
@@ -317,15 +319,12 @@ const emergencyCreateForm = () => {
       } else {
         return "สร้างแผนการออมเงิน";
       }
-    }
-    else if (isLastStep) {
+    } else if (isLastStep) {
       return "สร้างพอร์ตการออมเงิน";
-    } 
-    else {
+    } else {
       return "ถัดไป";
     }
   };
-  
 
   return (
     <main className={styles.main}>
@@ -350,7 +349,7 @@ const emergencyCreateForm = () => {
           className="rounded-b-2xl pb-5 shadow-2xl"
           style={{ backgroundColor: "#1D1D41" }}
         >
-          <div className="py-10">
+          {/* <div className="py-10">
             <Box sx={{ width: "100%", padding: "0 4rem" }}>
               <Stepper activeStep={currentStepIndex}>
                 <Step>
@@ -385,6 +384,44 @@ const emergencyCreateForm = () => {
                 )}
               </Stepper>
             </Box>{" "}
+          </div> */}
+          <div className="py-10">
+            <Box
+              sx={{ width: "100%", padding: { base: "0 2rem", lg: "0 4rem" } }}
+            >
+              <Stepper activeStep={currentStepIndex}>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-600 p-2 rounded-full shadow-2xl">
+                      เลือกเป้าหมาย
+                    </span>
+                  </StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-700 p-2 rounded-full shadow-2xl">
+                      สร้างเป้าหมาย
+                    </span>
+                  </StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                      ตรวจสอบและเลือกแผน
+                    </span>
+                  </StepLabel>
+                </Step>
+                {showPackageStep && (
+                  <Step>
+                    <StepLabel>
+                      <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                        เลือกพอร์ตการลงทุน
+                      </span>
+                    </StepLabel>
+                  </Step>
+                )}
+              </Stepper>
+            </Box>
           </div>
 
           <form onSubmit={onSubmit}>
@@ -398,8 +435,7 @@ const emergencyCreateForm = () => {
               }}
             >
               <div className="p-5 grid grid-cols-2 gap-5">
-                
-              {!isFirstStep && (
+                {!isFirstStep && (
                   <button
                     type="button"
                     onClick={() => {
@@ -414,7 +450,7 @@ const emergencyCreateForm = () => {
 
                 <button
                   type="submit"
-                  className="px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
+                  className="transform hover:scale-105 transition duration-300 ease-in-out px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
                 >
                   {getNextButtonText()}
                 </button>

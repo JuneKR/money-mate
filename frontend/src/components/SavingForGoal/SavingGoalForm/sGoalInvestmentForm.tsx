@@ -4,7 +4,7 @@ import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/e
 import { time } from "console";
 
 type InvestmentData = {
-  expense: number;
+  planName: string;
   period: number;
   monthlySaving: number;
   totalBalance: number;
@@ -15,7 +15,7 @@ type InvestmentData = {
   selected: boolean;
 };
 
-type InvestmentFormProps = InvestmentData & {
+type SGoalInvestmentFormProps = InvestmentData & {
   updateFields: (fields: Partial<InvestmentData>) => void;
   handleInvestmentSelection: any;
 };
@@ -39,12 +39,11 @@ export const initialPlanData = {
   LastUpdate: "",
   TotalBalance: 0,
   TimeRemaining: 0,
-  MonthlyExpense: 0,
   Progression: 0,
 };
 
-export function InvestmentForm({
-  expense,
+export function SGoalInvestmentForm({
+  planName,
   period,
   monthlySaving,
   totalBalance,
@@ -54,7 +53,7 @@ export function InvestmentForm({
   returnRate,
   updateFields,
   handleInvestmentSelection,
-}: InvestmentFormProps) {
+}: SGoalInvestmentFormProps) {
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
 
@@ -78,7 +77,7 @@ export function InvestmentForm({
 
   const initialTableData = [
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -95,7 +94,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -112,7 +111,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -129,7 +128,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -146,7 +145,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -163,7 +162,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -180,7 +179,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -197,7 +196,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -214,7 +213,7 @@ export function InvestmentForm({
       selected: false,
     },
     {
-      expense: Number(expense),
+      planName: planName,
       period: Number(period),
       monthlySaving: Number(monthlySaving),
       totalBalance: Number(totalBalance),
@@ -235,7 +234,7 @@ export function InvestmentForm({
   const [tableData, setTableData] =
     useState<InvestmentData[]>(initialTableData);
   const [selectedTable, setSelectedTable] = useState({
-    expense: 0,
+    planName: "",
     period: 0,
     monthlySaving: 0,
     totalBalance: 0,
@@ -267,7 +266,7 @@ export function InvestmentForm({
   const [packageAllocation, setPackageAllocation] = useState([]);
   const [selectedRisk, setSelectedRisk] = useState(0);
   const [defaultOption, setDefaultOption] = useState({
-    expense: expense | 0,
+    // planName: planName | "none",
     period: period | 0,
     monthlySaving: monthlySaving | 0,
     totalBalance: totalBalance | 0,
@@ -314,130 +313,6 @@ export function InvestmentForm({
     // getPortfolioPackageAllocation();
   }, [selectedOption]);
 
-  // const createEmergencyPlan = async () => {
-  //   const createEmergencyPlanData = {
-  //     plan_name: "แผนออมเงินสำรองฉุกเฉิน",
-  //     target_amount: targetAmount,
-  //     time_period: period,
-  //     initial_saving: totalBalance,
-  //     monthly_saving: monthlySaving,
-  //     start_date: "2023-02-26",
-  //     last_update: "2023-02-26 10:2:30",
-  //     total_balance: totalBalance,
-  //     time_remaining: timeRemaining,
-  //     monthly_expense: expense,
-  //     progression: 0,
-  //     user_id: uID,
-  //   };
-  //   console.log(createEmergencyPlanData);
-  //   try {
-  //     const response = await fetch(`${urlServer}saving/emergency`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(createEmergencyPlanData),
-  //       credentials: "include",
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("done........................");
-  //       console.log(data);
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.log(errorData);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // Using only for Evaluation Version
-  // const getPortfolioPackage = async () => {
-  //   try {
-  //     // Fetch Portfolio Package
-  //     const packageResponse = await fetch(
-  //       `${urlServer}portfolio/package/${packageId}`,
-  //       {
-  //         credentials: "include",
-  //       }
-  //     );
-  //     const portfolioPackage = await packageResponse.json();
-  //     console.log(portfolioPackage);
-  //     setPortfolioPackage(portfolioPackage);
-  //   } catch (error) {
-  //     console.log("Fetch Portfolio Package Error: ", error);
-  //   }
-  // };
-
-  // const getPortfolioPackageAllocation = async () => {
-  //   try {
-  //     // Fetch Portfolio Package Allocation
-  //     const packageResponse = await fetch(
-  //       `${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`,
-  //       {
-  //         credentials: "include",
-  //       }
-  //     );
-  //     const portfolioPackageAllocation = await packageResponse.json();
-  //     console.log(portfolioPackageAllocation);
-  //     setPackageAllocation(portfolioPackageAllocation);
-  //   } catch (error) {
-  //     console.log("Fetch Portfolio Package Allocation Error: ", error);
-  //   }
-  // };
-
-  // const getEmergencyPlan = async () => {
-  //   try {
-  //     // Fetch Emergency Plan
-  //     const planResponse = await fetch(
-  //       `${urlServer}user/${uID}/saving/emergency`,
-  //       {
-  //         credentials: "include",
-  //       }
-  //     );
-  //     const emergencyPlan = await planResponse.json();
-  //     console.log(emergencyPlan);
-  //     setEmergencyPlan(emergencyPlan);
-  //   } catch (error) {
-  //     console.log("Fetch Emergency Plan Error: ", error);
-  //   }
-  // };
-
-  // const createInvestmentPortfolio = async () => {
-  //   const createInvestmentPortfolioData = {
-  //     portflio_name: portfolioPackage.PackageName,
-  //     total_value: 0,
-  //     start_date: "2023-02-26",
-  //     last_update: portfolioPackage.LastUpdate,
-  //     risk_spectrum: portfolioPackage.RiskSpectrum,
-  //     return_rate: portfolioPackage.ReturnRate,
-  //     user_id: uID,
-  //     package_id: portfolioPackage.Package_ID,
-  //     emergency_id: emergencyPlan.Emergency_ID,
-  //     goal_id: null,
-  //     retirement_id: null,
-  //   };
-  //   try {
-  //     const response = await fetch(`${urlServer}saving/emergency`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(createInvestmentPortfolioData),
-  //       credentials: "include",
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("done........................");
-  //       console.log(data);
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.log(errorData);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const handleClick = () => {
     setIsHidden(!isHidden);
   };
@@ -474,9 +349,9 @@ export function InvestmentForm({
   //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
   // };
 
-  const targetAmount2 = Number(targetAmount);
+  const sGoalFund2 = Number(targetAmount);
   const monthlySaving2 = Number(monthlySaving);
-  const formatTargetAmount2 = targetAmount2.toLocaleString();
+  const formattedSGoalFund = sGoalFund2.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
 
   return (
@@ -489,17 +364,19 @@ export function InvestmentForm({
           style={{ width: "100%", height: "50%", backgroundColor: "#27264E" }}
           className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 text-white font-bold">
-            <div className="text-white p-4">เป้าหมาย</div>
-            <div className="text-white p-4">ออมเงินเผื่อฉุกเฉิน</div>
-            <div className="text-lg p-4">คุณต้องมีเงินออมฉุกเฉินทั้งหมด</div>
-            <div className="text-lg p-4">{formatTargetAmount2} บาท</div>
-            <div className="p-4">ระยะเวลาทั้งหมดในการออม</div>
-            <div className="p-4">{timeToAchive}</div>
-            <div className="p-4">จำนวนเดือนที่ต้องการออม</div>
-            <div className="p-4">{period} เดือน</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 text-white font-bold">
+            <div className="text-lg p-4">เป้าหมาย</div>
+            <div className="text-lg p-4">ออมเงินเพื่อ{planName}</div>
+            <div className="p-4">จำนวนเงินเป้าหมาย: </div>
+            <div className="p-4">{formattedSGoalFund} บาท</div>
             <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
+            <div className="p-4"> ใส่จำนวนเดือนที่ต้องการ</div>
+            <div className="p-4">{period} เดือน</div>
+            <div className="p-4">ระยะเวลาคงเหลือ</div>
+            <div className="p-4">{timeToAchive}</div>
+            <div className="p-4">เงินในปัจจุบัน</div>
+            <div className="p-4">{totalBalance}</div>
           </div>
         </div>
         <div className="relative py-8 ">
@@ -533,7 +410,7 @@ export function InvestmentForm({
                   <p>ระดับความเสี่ยง (1-8)</p>
                 </div>
                 <div className="flex item-center justify-center pb-3">
-                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white">
+                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer">
                     {riskLevel}
                   </div>
                 </div>
@@ -541,7 +418,7 @@ export function InvestmentForm({
                   <p>ผลตอบแทนที่คาดหวัง</p>
                 </div>
                 <div className="flex item-center justify-center pb-3">
-                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white">
+                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer">
                     {returnRate} %
                   </div>
                 </div>
@@ -624,7 +501,7 @@ export function InvestmentForm({
                         {initialTableData.map(
                           (data, index) => (
                             // data.riskLevel <= selectedRiskLevel && (
-                            <tr key={index}>
+                            <tr key={index} className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50">
                               {/* <td className="px-4 py-2 text-white font-bold text-lg"> */}
                               <td
                                 className={
@@ -675,4 +552,4 @@ export function InvestmentForm({
   );
 }
 
-export default InvestmentForm;
+export default SGoalInvestmentForm;

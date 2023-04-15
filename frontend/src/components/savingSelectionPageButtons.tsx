@@ -18,6 +18,9 @@ const SavingSelectionPage: React.FC<SavingSelectionPageProps> = ({ title }) => {
   const handleEmergencyHomepage = () => {
     router.push("/EmergencyPages/emergencyCreateForm");
   };
+  const handleSavingGoalHomepage = () => {
+    router.push("/GoalBasedPages/goalBasedCreateForm");
+  };
   return (
     <div className="w-full h-full">
       <div>
@@ -31,7 +34,7 @@ const SavingSelectionPage: React.FC<SavingSelectionPageProps> = ({ title }) => {
               </div>
             </div>
           </button>
-          <button>
+          <button onClick={handleSavingGoalHomepage}>
             <div>
               <div className="flex items-center justify-center h-24 rounded-lg bg-purple-600 hover:bg-blue-600 transition delay-300 shadow-2xl">
                 <div className="text-3xl font-bold text-white">

@@ -91,7 +91,7 @@ const goalBasedCreateForm = () => {
         // Set up state of User ID
         // setuID(userProfile.User_ID);
         await createEmergencyPlan(urlServer, userProfile);
-        router.push("/EmergencyPages/emergencyDashboard");
+        // router.push("/GoalBasedPages/goalBasedDashboard");
       }
     } else if (isLastStep) {
       alert("สร้างพอร์ตการออมเงินสำเร็จแล้ว!");
@@ -142,7 +142,7 @@ const goalBasedCreateForm = () => {
     const defaultPlanName = "แผนออมเงิน ทริปสิงคโปร์";
 
     const createGoalBasedPlanData = {
-      plan_name: defaultPlanName,
+      plan_name: data.planName,
       target_amount: data.targetAmount,
       time_period: data.period,
       initial_saving: data.totalBalance,

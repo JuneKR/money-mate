@@ -254,10 +254,10 @@ export function PlanForm({
         </div>
         <div className="relative py-8 ">
           <div
-            className="px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black bg-indigo-500 hover:bg-blue-500 transition delay-150"
+            className=" transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black bg-indigo-500 hover:bg-blue-500 transition delay-150"
             onClick={handleClick}
           >
-            <span className="text-white text-lg rounded dark:bg-gray-800 py-2 font-bold">
+            <span className="text-white text-lg rounded py-2 font-bold">
               คุณสามารถปรับเปลี่ยนและเลือกเป้าหมายที่ดูเป็นได้ไปที่สุดสำหรับคุณ
             </span>
             <label className="flex items-center">
@@ -283,7 +283,7 @@ export function PlanForm({
               <form action="">
                 <div
                   style={{ opacity: 0.6 }}
-                  className="shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                  className=" transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
                 >
                   <div className="flex justify-end">
                     <input
@@ -292,7 +292,7 @@ export function PlanForm({
                       value="option1"
                       checked={selectedOption === "option1"}
                       onChange={handleOptionChange}
-                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out animate-bounce mt-2 cursor-pointer"
                     />
                   </div>
 
@@ -409,7 +409,7 @@ export function PlanForm({
 
                 <div
                   style={{ marginTop: 25 }}
-                  className="shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                  className=" transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm "
                 >
                   <div className="flex justify-end">
                     <input
@@ -418,12 +418,12 @@ export function PlanForm({
                       value="option2"
                       checked={selectedOption === "option2"}
                       onChange={handleOptionChange}
-                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out animate-bounce mt-2 cursor-pointer"
                     />
                   </div>
 
                   <div className="px-20">
-                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-pink-500 font-bold text-2xl pb-3 rounded-full shadow-2xl">
+                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-pink-500 font-bold text-2xl pb-3 rounded-full shadow-2xl ">
                       แผนการออมเงินทางเลือก
                     </p>
                   </div>

@@ -505,7 +505,7 @@ export function InvestmentForm({
         <div className="relative py-8 ">
           <div
             style={{ backgroundColor: "#6259E8" }}
-            className="px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black"
+            className="transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black"
             onClick={handleClick}
           >
             <span
@@ -533,7 +533,7 @@ export function InvestmentForm({
                   <p>ระดับความเสี่ยง (1-8)</p>
                 </div>
                 <div className="flex item-center justify-center pb-3">
-                  <div className="font-bold text-2xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer">
+                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white">
                     {riskLevel}
                   </div>
                 </div>
@@ -541,7 +541,7 @@ export function InvestmentForm({
                   <p>ผลตอบแทนที่คาดหวัง</p>
                 </div>
                 <div className="flex item-center justify-center pb-3">
-                  <div className="font-bold text-2xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer">
+                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white">
                     {returnRate} %
                   </div>
                 </div>

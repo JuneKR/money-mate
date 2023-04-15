@@ -53,7 +53,7 @@ const GoalBasedDashboard = () => {
   };
   const urlServer = "http://localhost:8080/";
 
-  const [savingSGoalPlan, setSavingEmergencyPlan] = useState<
+  const [savingSGoalPlan, setSavingSGoalPlan] = useState<
   SavingGoalPlan[]
   >([]);
 
@@ -71,18 +71,19 @@ const GoalBasedDashboard = () => {
         const userProfile = await profileResponse.json();
 
         //Fetch Saving Goal Plan
-        const savingEmergencyResponse = await fetch(
+        const savingGoalBasedResponse = await fetch(
           `${urlServer}user/${userProfile.User_ID}/saving/goals`,
           {
             credentials: "include",
           }
         );
-        const savingEmergency = await savingEmergencyResponse.json();
-        setSavingEmergencyPlan(savingEmergency);
+        const savingGoal = await savingGoalBasedResponse.json();
+        setSavingSGoalPlan(savingGoal);
+        console.log(`${urlServer}user/${userProfile.User_ID}/saving/goals`)
 
         //Fetch Saving Emergency Transaction
         const savingEmergencyTransactionResponse = await fetch(
-          `${urlServer}saving/emergency/${savingEmergency.Emergency_ID}/transactions`,
+          `${urlServer}saving/emergency/${savingGoal.Emergency_ID}/transactions`,
           {
             credentials: "include",
           }
@@ -103,11 +104,11 @@ const GoalBasedDashboard = () => {
   const totalBalance2 = Number(savingSGoalPlan.TotalBalance);
   const formatTotalBalance2 = totalBalance2.toLocaleString();
   
-  savingEmergencyTransactions.sort((a, b) => {
-    const dateA = new Date(a.TransactionDate);
-    const dateB = new Date(b.TransactionDate);
-    return dateB.getTime() - dateA.getTime();
-  });
+  // savingEmergencyTransactions.sort((a, b) => {
+  //   const dateA = new Date(a.TransactionDate);
+  //   const dateB = new Date(b.TransactionDate);
+  //   return dateB.getTime() - dateA.getTime();
+  // });
   
   console.log(savingEmergencyTransactions);
 
@@ -131,7 +132,7 @@ const GoalBasedDashboard = () => {
                   style={{ padding: "0 1rem" }}
                   className="font-bold text-white dark:text-gray-500 text-2xl"
                 >
-                  การออมเงินเผื่อฉุกเฉิน
+                  การออมเงินเพื่อ {savingSGoalPlan.PlanName}
                 </div>
               </div>
               <div>

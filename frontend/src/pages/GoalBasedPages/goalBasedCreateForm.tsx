@@ -299,7 +299,7 @@ const goalBasedCreateForm = () => {
                   <button
                     type="button"
                     onClick={back}
-                    className="px-4 py-2 font-bold text-white bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none  transition delay-150"
+                    className="transform hover:scale-105 transition duration-300 ease-in-out px-4 py-2 font-bold text-white bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none  transition delay-150"
                   >
                     ย้อนกลับ
                   </button>
@@ -307,7 +307,7 @@ const goalBasedCreateForm = () => {
 
                 <button
                   type="submit"
-                  className="px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
+                  className="transform hover:scale-105 transition duration-300 ease-in-out px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
                 >
                   {/* {isLastStep ? stepDesc : "ถัดไป"} */}
                   {getNextButtonText()}

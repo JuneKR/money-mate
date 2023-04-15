@@ -48,17 +48,30 @@ const emergencyCreateForm = () => {
   }
 
   const handleInvestmentSelection = (selected: boolean) => {
-    console.log('Selected Package', selected) 
+    console.log("Selected Package", selected);
     setShowPackageStep(selected);
   };
 
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next, goTo } =
-    useMultistepForm([
-      <GoalForm {...data} updateFields={updateFields} />,
-      <PlanForm {...data} updateFields={updateFields} />,
-      <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
-      <PortfolioPackage {...data} updateFields={updateFields} />,
-    ]);
+  const {
+    steps,
+    currentStepIndex,
+    step,
+    isFirstStep,
+    isLastStep,
+    back,
+    next,
+    goTo,
+  } = useMultistepForm([
+    <GoalForm {...data} updateFields={updateFields} />,
+    <PlanForm {...data} updateFields={updateFields} />,
+    <InvestmentForm
+      selected={false}
+      {...data}
+      updateFields={updateFields}
+      handleInvestmentSelection={handleInvestmentSelection}
+    />,
+    <PortfolioPackage {...data} updateFields={updateFields} />,
+  ]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,16 +80,15 @@ const emergencyCreateForm = () => {
       if (showPackageStep) {
         return next();
       } else {
-        alert('สร้างแผนการออมเงินสำเร็จแล้ว!');
+        alert("สร้างแผนการออมเงินสำเร็จแล้ว!");
         const userProfile = await getUserProfile(urlServer);
-        // Set up state of User ID 
+        // Set up state of User ID
         // setuID(userProfile.User_ID);
         await createEmergencyPlan(urlServer, userProfile);
         router.push("/EmergencyPages/emergencyDashboard");
       }
-    }
-    else if (isLastStep) {
-      alert('สร้างพอร์ตการออมเงินสำเร็จแล้ว!');
+    } else if (isLastStep) {
+      alert("สร้างพอร์ตการออมเงินสำเร็จแล้ว!");
       await getUserProfile(urlServer);
       // await createEmergencyPlan();
       // await getPortfolioPackage();
@@ -84,8 +96,7 @@ const emergencyCreateForm = () => {
       // await createInvestmentPortfolio();
       // await clonePortfolioPackageAllocation();
       router.push("/EmergencyPages/emergencyInvestmentDashboard");
-    } 
-    else {
+    } else {
       return next();
     }
   };
@@ -108,21 +119,20 @@ const emergencyCreateForm = () => {
       });
       const userProfile = await profileResponse.json();
 
-      return userProfile
+      return userProfile;
     } catch (error) {
       console.log("fetch User Profile Error: ", error);
 
       return null;
     }
-  }
+  };
 
   const createEmergencyPlan = async (urlServer: string, userProfile: any) => {
+    const moment = require("moment-timezone");
+    const now = moment().tz("Asia/Bangkok");
+    const startDate = now.format("YYYY-MM-DD");
+    const lastUpdate = now.format("YYYY-MM-DD HH:mm:ss");
 
-    const moment = require('moment-timezone');
-    const now = moment().tz('Asia/Bangkok');
-    const startDate = now.format('YYYY-MM-DD');
-    const lastUpdate = now.format('YYYY-MM-DD HH:mm:ss');
-    
     const defaultPlanName = "แผนออมเงินสำรองฉุกเฉิน";
 
     const createEmergencyPlanData = {
@@ -136,7 +146,7 @@ const emergencyCreateForm = () => {
       total_balance: data.totalBalance,
       time_remaining: data.timeRemaining,
       monthly_expense: data.expense,
-      progression: (data.totalBalance/data.targetAmount) * 100,
+      progression: (data.totalBalance / data.targetAmount) * 100,
       user_id: userProfile.User_ID,
       // user_id: uID,
     };
@@ -153,9 +163,12 @@ const emergencyCreateForm = () => {
         console.log(errorData);
         return;
       }
-  
+
       const responseData = await response.json();
-      console.log(`Successfully Created Saving Plan By ${userProfile.FirstName}`,responseData);
+      console.log(
+        `Successfully Created Saving Plan By ${userProfile.FirstName}`,
+        responseData
+      );
     } catch (error) {
       console.error(error);
     }
@@ -164,28 +177,33 @@ const emergencyCreateForm = () => {
   const getPortfolioPackage = async () => {
     try {
       // Fetch Portfolio Package
-      const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`, {
-        credentials: "include",
-      });
+      const packageResponse = await fetch(
+        `${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`,
+        {
+          credentials: "include",
+        }
+      );
       const portfolioPackage = await packageResponse.json();
-      console.log('Package',portfolioPackage);
+      console.log("Package", portfolioPackage);
     } catch (error) {
       console.log("fetch Package Error: ", error);
     }
-  }
+  };
 
   const getPortfolioPackageAllocation = async () => {
     try {
-      const packageResponse = await fetch(`${urlServer}portfolio/package/1/allocations`, {
-        credentials: "include",
-      });
-
+      const packageResponse = await fetch(
+        `${urlServer}portfolio/package/1/allocations`,
+        {
+          credentials: "include",
+        }
+      );
     } catch (error) {
       console.log("fetch Package Error: ", error);
     }
-  }
+  };
 
-  // Generate Button Text 
+  // Generate Button Text
   const getNextButtonText = () => {
     if (currentStepIndex === 2) {
       if (showPackageStep) {
@@ -193,15 +211,12 @@ const emergencyCreateForm = () => {
       } else {
         return "สร้างแผนการออมเงิน";
       }
-    }
-    else if (isLastStep) {
+    } else if (isLastStep) {
       return "สร้างพอร์ตการออมเงิน";
-    } 
-    else {
+    } else {
       return "ถัดไป";
     }
   };
-  
 
   return (
     <main className={styles.main}>
@@ -226,7 +241,7 @@ const emergencyCreateForm = () => {
           className="rounded-b-2xl pb-5 shadow-2xl"
           style={{ backgroundColor: "#1D1D41" }}
         >
-          <div className="py-10">
+          {/* <div className="py-10">
             <Box sx={{ width: "100%", padding: "0 4rem" }}>
               <Stepper activeStep={currentStepIndex}>
                 <Step>
@@ -261,6 +276,44 @@ const emergencyCreateForm = () => {
                 )}
               </Stepper>
             </Box>{" "}
+          </div> */}
+          <div className="py-10">
+            <Box
+              sx={{ width: "100%", padding: { base: "0 2rem", lg: "0 4rem" } }}
+            >
+              <Stepper activeStep={currentStepIndex}>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-600 p-2 rounded-full shadow-2xl">
+                      เลือกเป้าหมาย
+                    </span>
+                  </StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-700 p-2 rounded-full shadow-2xl">
+                      สร้างเป้าหมาย
+                    </span>
+                  </StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>
+                    <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                      ตรวจสอบและเลือกแผน
+                    </span>
+                  </StepLabel>
+                </Step>
+                {showPackageStep && (
+                  <Step>
+                    <StepLabel>
+                      <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                        เลือกพอร์ตการลงทุน
+                      </span>
+                    </StepLabel>
+                  </Step>
+                )}
+              </Stepper>
+            </Box>
           </div>
 
           <form onSubmit={onSubmit}>
@@ -274,12 +327,11 @@ const emergencyCreateForm = () => {
               }}
             >
               <div className="p-5 grid grid-cols-2 gap-5">
-                
-              {!isFirstStep && (
+                {!isFirstStep && (
                   <button
                     type="button"
                     onClick={back}
-                    className="px-4 py-2 font-bold text-white bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none  transition delay-150"
+                    className="transform hover:scale-105 transition duration-300 ease-in-out px-4 py-2 font-bold text-white bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none  transition delay-150"
                   >
                     ย้อนกลับ
                   </button>
@@ -287,7 +339,7 @@ const emergencyCreateForm = () => {
 
                 <button
                   type="submit"
-                  className="px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
+                  className="transform hover:scale-105 transition duration-300 ease-in-out px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
                 >
                   {/* {isLastStep ? stepDesc : "ถัดไป"} */}
                   {getNextButtonText()}

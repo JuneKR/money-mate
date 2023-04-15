@@ -44,6 +44,7 @@ export function GoalForm({
             }}
             className="transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
+          
           <FormHelperText
             id="my-helper-text"
             className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"

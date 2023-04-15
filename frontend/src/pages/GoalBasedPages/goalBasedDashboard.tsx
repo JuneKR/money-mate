@@ -69,6 +69,7 @@ const GoalBasedDashboard = () => {
           credentials: "include",
         });
         const userProfile = await profileResponse.json();
+        console.log(userProfile)
 
         //Fetch Saving Goal Plan
         const savingGoalBasedResponse = await fetch(
@@ -79,19 +80,20 @@ const GoalBasedDashboard = () => {
         );
         const savingGoal = await savingGoalBasedResponse.json();
         setSavingSGoalPlan(savingGoal);
+        console.log(savingGoal)
         console.log(`${urlServer}user/${userProfile.User_ID}/saving/goals`)
 
-        //Fetch Saving Emergency Transaction
-        const savingEmergencyTransactionResponse = await fetch(
-          `${urlServer}saving/emergency/${savingGoal.Emergency_ID}/transactions`,
-          {
-            credentials: "include",
-          }
-        );
+        // //Fetch Saving Emergency Transaction
+        // const savingEmergencyTransactionResponse = await fetch(
+        //   `${urlServer}saving/emergency/${savingGoal.Emergency_ID}/transactions`,
+        //   {
+        //     credentials: "include",
+        //   }
+        // );
 
-        const savingEmergencyTransaction =
-          await savingEmergencyTransactionResponse.json();
-        setSavingEmergencyTransactions(savingEmergencyTransaction);
+        // const savingEmergencyTransaction =
+        //   await savingEmergencyTransactionResponse.json();
+        // setSavingEmergencyTransactions(savingEmergencyTransaction);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -99,9 +101,9 @@ const GoalBasedDashboard = () => {
     fetchSavingPlan();
   }, []);
 
-  const targetAmount2 = Number(savingSGoalPlan.TargetAmount);
+  const targetAmount2 = Number(savingSGoalPlan[0]?.TargetAmount);
   const formatTargetAmount2 = targetAmount2.toLocaleString();
-  const totalBalance2 = Number(savingSGoalPlan.TotalBalance);
+  const totalBalance2 = Number(savingSGoalPlan[0]?.TotalBalance);
   const formatTotalBalance2 = totalBalance2.toLocaleString();
   
   // savingEmergencyTransactions.sort((a, b) => {
@@ -132,7 +134,7 @@ const GoalBasedDashboard = () => {
                   style={{ padding: "0 1rem" }}
                   className="font-bold text-white dark:text-gray-500 text-2xl"
                 >
-                  การออมเงินเพื่อ {savingSGoalPlan.PlanName}
+                  การออมเงินเพื่อ {savingSGoalPlan[0]?.PlanName}
                 </div>
               </div>
               <div>
@@ -174,7 +176,7 @@ const GoalBasedDashboard = () => {
                     </h1>
                     <Progress1
                       title={"my bar"}
-                      progress={`${savingSGoalPlan.Progression}%`}
+                      progress={`${savingSGoalPlan[0]?.Progression}%`}
                     />
                   </div>
                 </div>
@@ -200,7 +202,7 @@ const GoalBasedDashboard = () => {
                         <h1>ระยะเวลาในการออม</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{savingSGoalPlan.TimePeriod} เดือน</h1>
+                        <h1>{savingSGoalPlan[0]?.TimePeriod} เดือน</h1>
                       </div>
                     </div>
                     <div>
@@ -217,8 +219,8 @@ const GoalBasedDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
-                          {savingSGoalPlan.TargetAmount -
-                            savingSGoalPlan.TotalBalance}{" "}
+                          {savingSGoalPlan[0]?.TargetAmount -
+                            savingSGoalPlan[0]?.TotalBalance}{" "}
                           บาท
                         </h1>
                       </div>
@@ -230,7 +232,7 @@ const GoalBasedDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            savingSGoalPlan.TimeRemaining
+                            savingSGoalPlan[0]?.TimeRemaining
                           )}{" "}
                           เดือน
                         </h1>

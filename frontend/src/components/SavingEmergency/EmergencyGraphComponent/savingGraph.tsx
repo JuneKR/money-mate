@@ -9,16 +9,20 @@ import {
   PointElement, 
   LineElement, 
   Tooltip,
-  Legend
+  Legend,
+  Filler
 } from 'chart.js';
-Chart.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, Legend);
+Chart.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, Legend, Filler);
 
 interface SavingGraphProps {
   title: string;
+  savingEmergency: any;
+  savingInvestmentPort: any;
 }
 
-const SavingGraph: React.FC<SavingGraphProps> = React.forwardRef<HTMLCanvasElement, SavingGraphProps>((props, ref) => {
+const SavingGraph: React.FC<SavingGraphProps> = React.forwardRef<HTMLCanvasElement, SavingGraphProps>((props) => {
   const chartRef = useRef();
+  const { savingEmergency, savingInvestmentPort } = props;
 
   useEffect(() => {
     if (chartRef.current) {
@@ -27,9 +31,10 @@ const SavingGraph: React.FC<SavingGraphProps> = React.forwardRef<HTMLCanvasEleme
         chartInstance.destroy();
       }
     }
-  });
+  }, []);
 
   const tvmCalculator = require("tvm-calculator");
+  const moment = require('moment-timezone');
 
   function numberPeriods(
     pvInput: number,
@@ -70,33 +75,91 @@ const SavingGraph: React.FC<SavingGraphProps> = React.forwardRef<HTMLCanvasEleme
     return amortizationSchedule;
   }
 
-  const amortizationSchedule = numberPeriods(0, 60000,1000,0.0587);
-  console.log('Amortization Schedule', amortizationSchedule)
+  const bangkokTimezone = 'Asia/Bangkok';
+  const investmentAmortizationSchedule = numberPeriods(savingEmergency.TotalBalance, savingEmergency.TargetAmount, savingEmergency.MonthlySaving,savingInvestmentPort.ReturnRate/100);
+  const savingAmortizationSchedule = numberPeriods(savingEmergency.TotalBalance, savingEmergency.TargetAmount, savingEmergency.MonthlySaving, 0);
+
+  const fvData = investmentAmortizationSchedule.map((period, index) => {
+    const startDate = moment().tz(bangkokTimezone).add(index, 'months');
+    const monthName = startDate.format('MMM');
+    const year = startDate.format('YYYY');
+    const monthYear = `${monthName} ${year}`;
+    return {
+      x: monthName,
+      y: Number(period.fv).toFixed(2),
+      z: monthYear
+    }
+  });
+
+  const fvSavingData = savingAmortizationSchedule.map((period, index) => {
+    const startDate = moment().tz(bangkokTimezone).add(index, 'months');
+    const monthName = startDate.format('MMM');
+    const year = startDate.format('YYYY');
+    const monthYear = `${monthName} ${year}`;
+    return {
+      x: monthName,
+      y: Number(period.fv).toFixed(2),
+      z: monthYear
+    }
+  });
+
+  console.log('FV Data', fvData);
 
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: fvData.map((value)=> value.z),
     datasets: [
       {
         label: "จำนวนเงินจากการออมเงิน",
-        data: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+        data: fvSavingData.map((value)=> value.y),
         fill: true,
-        borderColor: "#FF6384",
-        backgroundColor: "#FF6384",
+        borderColor: "#7EFFB2",
+        // backgroundColor: "#7EFFB2", -> rgba ref color
+        backgroundColor: "rgba(126, 255, 178, 0.5)",
         tension: 0.1,
+        pointRadius: 0
       },
       {
         label: "จำนวนเงินที่ได้จากการลงทุน",
-        data: [0, 5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 105],
+        data: fvData.map((value)=> value.y),
         fill: true,
-        backgroundColor: "#F47458",
-        borderColor: "#F47458",
+        borderColor: "#B796FF ",
+        // backgroundColor: "#B796FF",
+        backgroundColor: "rgba(183, 150, 255, 0.5)",
         tension: 0.1,
+        pointRadius: 0
       },
     ]
   };
 
-  const options = {
-  };
+  const options: ChartOptions = {
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white'
+        }
+      },
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'white',
+          maxTicksLimit: 6
+        },
+      },
+      y: {
+        ticks: {
+          color: 'white'
+        },
+        position: 'right',
+        beginAtZero: true
+      }
+    },
+    backgroundColor: 'black'
+  };  
 
   return (
     <div>

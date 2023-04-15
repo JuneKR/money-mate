@@ -216,8 +216,12 @@ const EmergencyInvestmentDashboard = () => {
                   </p>
                 </div>
                 <div style={{ backgroundColor: "#1D1D41" }} className="p-10">
-                  <SavingGraph title={"saving chart"} />
-                  {/* <p>*หมายเหตุ</p> */}
+                  <SavingGraph 
+                    title={"saving chart"}
+                    savingEmergency={savingEmergencyPlan}
+                    savingInvestmentPort={investmentPortfolio}
+                  />
+                  <p>หมายเหตุ....</p>
                 </div>
               </div>
 

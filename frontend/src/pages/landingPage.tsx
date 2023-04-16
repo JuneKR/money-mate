@@ -228,7 +228,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                   </p>
                 </div>
               ) : (
-                <div className="pb-5 px-5 ">
+                <div className="pb-5 px-5">
                   {investmentPlans.map((investmentPlan) => (
                     <LandingInvestmentPlanCard investmentPlanData={investmentPlan} />
                   ))}

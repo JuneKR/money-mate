@@ -323,7 +323,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                         router.push("/EmergencyPages/emergencyDashboard");
                         break;
                       case 2:
-                        router.push("");
+                        router.push("/GoalBasedPages/goalBasedDashboard");
                         break;
                       case 3:
                         router.push("");

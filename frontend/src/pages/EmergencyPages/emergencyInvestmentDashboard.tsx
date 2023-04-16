@@ -254,11 +254,11 @@ const EmergencyInvestmentDashboard = () => {
                     alignItems: "center",
                     backgroundColor: "#6259E8",
                   }}
-                  className="py-2 rounded bg-gray-50 dark:bg-gray-800"
+                  className="py-2 rounded bg-gray-50"
                 >
                   <p
                     style={{ padding: "0 1rem" }}
-                    className="font-bold text-white dark:text-gray-500 text-2xl"
+                    className="font-bold text-white text-2xl"
                   >
                     การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
                   </p>
@@ -281,11 +281,11 @@ const EmergencyInvestmentDashboard = () => {
                     alignItems: "center",
                     backgroundColor: "#6259E8",
                   }}
-                  className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+                  className=" py-2 rounded bg-gray-50"
                 >
                   <p
                     style={{ padding: "0 1rem" }}
-                    className="font-bold text-white dark:text-gray-500 text-2xl"
+                    className="font-bold text-white text-2xl"
                   >
                     Saving Graph
                   </p>
@@ -298,12 +298,12 @@ const EmergencyInvestmentDashboard = () => {
               <div className="py-5 shadow-2xl py-10">
                 <div
                   style={{ backgroundColor: "#6259E8" }}
-                  className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+                  className=" py-2 rounded bg-gray-50"
                 >
                   <div>
                     <p
                       style={{ padding: "0 1rem" }}
-                      className="font-bold text-white dark:text-gray-500 text-2xl"
+                      className="font-bold text-white text-2xl"
                     >
                       My investment Portfolio
                     </p>
@@ -449,7 +449,7 @@ const EmergencyInvestmentDashboard = () => {
               >
                 <p
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white dark:text-gray-500 text-2xl"
+                  className="font-bold text-white text-2xl"
                 >
                   หยอดกระปุก
                 </p>
@@ -466,7 +466,7 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="px-5 col-span-3 py-5"
                   >
-                    <h1 className="pb-3 flex justify-center item-center font-bold text-white dark:text-gray-500 text-2xl">
+                    <h1 className="pb-3 flex justify-center item-center font-bold text-white text-2xl">
                       นักลงทุนมือใหม่
                     </h1>
                     <div>

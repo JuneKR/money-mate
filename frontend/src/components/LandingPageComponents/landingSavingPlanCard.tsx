@@ -24,7 +24,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
   const formatTargetAmount = targetAmount2.toLocaleString();
   const formatTotalBalance = totalBalance2.toLocaleString();
   return (
-    <div className="pb-10 px-5 transform hover:scale-105 transition duration-300 ease-in-out">
+    <div className="pb-10 px-5">
       <div
         // key={index}
         style={{ alignItems: "center", backgroundColor: "#27264E" }}

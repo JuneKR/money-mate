@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -5,12 +6,10 @@ import Modal from "@mui/material/Modal";
 import { useCallback } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { SavingEmergencyPlan } from "@/pages/EmergencyPages/emergencyDashboard";
-import React, { useState, useEffect } from "react";
 
-interface EmergencyInvestmentDashBoardModalForm1Props {
+interface SGoalDashBoardModalFormProps {
   title: string;
-  savingEmergency: any;
-  savingInvestmentPort: any;
+  savingGoal: any;
 }
 
 const style = {
@@ -19,27 +18,44 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "50%",
-  bgcolor: "#E5F8FF",
+  bgcolor: "#1D1D41",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
-const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBoardModalForm1Props> = 
-({ title, savingEmergency, savingInvestmentPort }) => {
-  const [showCongratulatoryMessage, setShowCongratulatoryMessage] = useState(false);
-  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
+function yearsToYearsMonthsDays(value: string) {
+  const values = Number(value) / 12;
+  const totalDays = Number(values) * 365;
+  const years = Math.floor(totalDays / 365);
+  const months = Math.floor((totalDays - years * 365) / 30);
+  const days = Math.floor(totalDays - years * 365 - months * 30);
+  const result = years + " ปี " + months + " เดือน " + days + " วัน";
+  if (isNaN(years) || isNaN(months) || isNaN(days)) {
+    return "0 ปี 0 เดือน 0 วัน";
+  }
+  return result.toString();
+}
+
+const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
+  title,
+  savingGoal,
+}) => {
+  console.log(savingGoal);
   const [open, setOpen] = React.useState(false);
-  
   const handleClose = () => setOpen(false);
+  const [targetAmount2, setTargetAmount] = useState("");
+  const [timePeriod2, setTimePeriod] = useState("");
+  const [timeRemaining2, setTimeRemaining] = useState("");
+  const [monthlySaving2, setMonthlySaving] = useState("");
+
   const handleOpen = useCallback(() => {
     setOpen(true);
   }, []);
 
-  const [investTargetAmount, setInvestTargetAmount]: any = useState("");
-  const [investTimePeriod, setInvestTimePeriod]: any = useState("");
-  const [investTimeRemaining, setInvestTimeRemaining]: any = useState("");
-  const [investMonthlySaving, setInvestMonthlySaving]: any = useState("");
+  const [showCongratulatoryMessage, setShowCongratulatoryMessage] =
+    useState(false);
+  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
 
   useEffect(() => {
     if (shouldRefreshPage) {
@@ -60,19 +76,17 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
   const urlServer = "http://localhost:8080/";
   const updateEmergencyPlan = async () => {
     const updateEmergencyPlanData = {
-      target_amount: investTargetAmount,
-      time_period: investTimePeriod,
-      time_remaining: investTimeRemaining,
-      monthly_saving: investMonthlySaving,
+      target_amount: targetAmount2,
+      time_period: timePeriod2,
+      time_remaining: timeRemaining2,
+      monthly_saving: monthlySaving2,
     };
 
     try {
-      console.log("APIs Called");
-      console.log(
-        `${urlServer}saving/emergency/${savingEmergency.Emergency_ID}`
-      );
+      console.log("Called");
+      console.log(`${urlServer}saving/goal/${savingGoal.Goal_ID}`);
       const response = await fetch(
-        `${urlServer}saving/emergency/${savingEmergency.Emergency_ID}`,
+        `${urlServer}saving/goal/${8}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -93,77 +107,74 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
       console.error(error);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await updateEmergencyPlan();
   };
+  // style={{backgroundColor: "#1D1D41"}}
 
-  console.log('Value', investTargetAmount)
-  console.log('Value', savingEmergency?.TargetAmount)
-  const targetAmountDisplay = Number(savingEmergency.TargetAmount);
-  const monthlySavingDisplay = Number(savingEmergency.MonthlySaving);
+  const targetAmountDisplay = Number(savingGoal[0]?.TargetAmount);
+  const monthlySavingDisplay = Number(savingGoal[0]?.MonthlySaving);
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
+
   return (
     <div>
-      <Button onClick={handleOpen} style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
+      <Button
+        onClick={handleOpen}
+        style={{ backgroundColor: "#1D1D41" }}
+        className="rounded-b-2xl w-full h-full pb-10 shadow-2xl "
+      >
         <div>
           <div className="flex justify-end">
             <EditIcon />
           </div>
-          <div className="text-left text-white font-bold text-sm py-1">
-            <h1 className="px-2">
-              เป้าหมายการออมเงิน
-            </h1>
+          <div className="text-left text-white font-bold">
+            <h1 className="px-2 text-xl pb-5">เป้าหมายการออมเงิน</h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5">
-            <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 p-5">
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="shadow-2xl rounded-lg p-5 "
+            >
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
                 จำนวนเงิน
               </div>
-              <div className="flex items-center justify-center text-white font-bold text-lg">
-                {formattedํargetAmount} บาท
+              <div className="flex items-center justify-center text-white text-2xl">
+                {formattedํargetAmount}
               </div>
             </div>
-            <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
-                ระยะเวลา
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="shadow-2xl rounded-lg p-5"
+            >
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+                ระยะเวลาคงเหลือ
               </div>
-              <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingEmergency.TimeRemaining} เดือน
+              <div className="flex items-center justify-center text-white text-2xl">
+                {yearsToYearsMonthsDays(savingGoal[0]?.TimeRemaining)}
               </div>
             </div>
-            <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="shadow-2xl rounded-lg p-5"
+            >
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
                 จำนวนเดือน
               </div>
-              <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingEmergency.TimePeriod} เดือน
+              <div className="flex items-center justify-center text-white text-2xl">
+                {savingGoal[0]?.TimePeriod} เดือน
               </div>
             </div>
-            <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
-                เงินลงทุน/ต่อเดือน
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="shadow-2xl rounded-lg p-5"
+            >
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+                เงินออม/ต่อเดือน
               </div>
-              <div className="flex items-center justify-center text-white font-bold text-lg">
+              <div className="flex items-center justify-center text-white text-2xl">
                 {formattedMonthlySaving} บาท
-              </div>
-            </div>
-            <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
-                ความเสี่ยงที่รับได้
-              </div>
-              <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingInvestmentPort?.RiskSpectrum === undefined ? "-" : savingInvestmentPort?.RiskSpectrum}
-              </div>
-            </div>
-            <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
-                ผลตอบแทนที่คาดหวัง
-              </div>
-              <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingInvestmentPort?.ReturnRate === undefined ? "-" : savingInvestmentPort?.ReturnRate}
               </div>
             </div>
           </div>
@@ -178,28 +189,28 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
           <Typography id="modal-modal-title" variant="h6" component="h2">
             <form
               onSubmit={handleSubmit}
+              style={{ backgroundColor: "#27264E" }}
               className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
             >
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
                   จำนวนเงิน
                 </label>
                 <input
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="first-name-input"
-                  type="text"
-                  placeholder={`${savingEmergency.TargetAmount} บาท`}
-                  value={investTargetAmount}
-                  onChange={(e) => setInvestTargetAmount(e.target.value)}
-
+                  type="number"
+                  id=""
+                  placeholder={savingGoal[0]?.TargetAmount.toLocaleString() + " บาท"}
+                  value={targetAmount2}
+                  onChange={(e) => setTargetAmount(e.target.value)}
                 />
               </div>
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
                   ระยะเวลา
@@ -208,14 +219,14 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.TimeRemaining + " เดือน"}
-                  value={investTimePeriod}
-                  onChange={(e) => setInvestTimePeriod(e.target.value)}
+                  placeholder={savingGoal[0]?.TimeRemaining + " เดือน"}
+                  value={timePeriod2}
+                  onChange={(e) => setTimePeriod(e.target.value)}
                 />
               </div>
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
                   จำนวนเดือน
@@ -224,39 +235,39 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.TimePeriod + " เดือน"}
-                  value={investTimeRemaining}
-                  onChange={(e) => setInvestTimeRemaining(e.target.value)}
+                  placeholder={savingGoal[0]?.TimePeriod + " เดือน"}
+                  value={timeRemaining2}
+                  onChange={(e) => setTimeRemaining(e.target.value)}
                 />
               </div>
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-white text-lg font-bold mb-2"
                   htmlFor="first-name-input"
                 >
-                  เงินลงทุนต่อเดือน
+                  เงินออมต่อเดือน
                 </label>
                 <input
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={formattedMonthlySaving + " บาท/เดือน"}
-                  value={investMonthlySaving}
-                  onChange={(e) => setInvestMonthlySaving(e.target.value)}
+                  placeholder={savingGoal[0]?.MonthlySaving.toLocaleString() + " บาท/เดือน"}
+                  value={monthlySaving2}
+                  onChange={(e) => setMonthlySaving(e.target.value)}
                 />
               </div>
-              <div className="flex items-center justify-end">
+              <div className="flex items-center justify-end gap-5">
                 <button
-                  style={{ width: "209px" }}
-                  className="text-sm bg-yellow-100 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  style={{ width: "209px", backgroundColor: "#6259E8" }}
+                  className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                   type="submit"
                 >
-                  ยืนยัน
+                  ยืนยัน อัพเดทแผนของคุณ
                 </button>
                 <button
-                  style={{ width: "209px" }}
+                  style={{ width: "209px", backgroundColor: "#27264E" }}
                   onClick={handleClose}
-                  className="text-sm bg-yellow-100 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
                   type="submit"
                 >
                   ยกเลิก
@@ -279,9 +290,11 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
             component={"span"}
           >
             <div className="text-white font-bold text-2xl">
-              ยินดีด้วย! คุณได้อัพเดทแผนการลงทุนสำหรับการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
+              ยินดีด้วย! คุณได้อัพเดทแผนการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
             </div>
-            <div className="py-5 text-white font-bold text-md">อัพเดทแผนการลงทุนสำเร็จ!!!</div>
+            <div className="py-5 text-white font-bold text-md">
+              อัพเดทแผนการออมสำเร็จ!!! กรุณารอสักครู่และกรุณาอย่าออกจากหน้านี้....
+            </div>
           </Typography>
         </Box>
       </Modal>
@@ -289,4 +302,4 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
   );
 };
 
-export default EmergencyInvestmentDashBoardModalForm1;
+export default SGoalDashBoardModalForm;

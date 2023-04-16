@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
-import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
-import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
+import ModleButtonAdd from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalAdd";
+import ModleButtonWithDraw from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
-import ModleButtonForm1 from "@/components/SavingEmergency/EmergencyDashboardComponents/emergencyDashBoardModalForm1";
+import ModleButtonForm1 from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalForm";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
@@ -35,7 +35,8 @@ export interface SavingGoalTransaction {
   Type: string;
 }
 function yearsToYearsMonthsDays(value: string) {
-  const totalDays = Number(value) * 365;
+  const values = Number(value) / 12;
+  const totalDays = Number(values) * 365;
   const years = Math.floor(totalDays / 365);
   const months = Math.floor((totalDays - years * 365) / 30);
   const days = Math.floor(totalDays - years * 365 - months * 30);
@@ -83,17 +84,17 @@ const GoalBasedDashboard = () => {
         console.log(savingGoal)
         console.log(`${urlServer}user/${userProfile.User_ID}/saving/goals`)
 
-        // //Fetch Saving Emergency Transaction
-        // const savingEmergencyTransactionResponse = await fetch(
-        //   `${urlServer}saving/emergency/${savingGoal.Emergency_ID}/transactions`,
-        //   {
-        //     credentials: "include",
-        //   }
-        // );
+        //Fetch Saving Emergency Transaction
+        const savingEmergencyTransactionResponse = await fetch(
+          `${urlServer}saving/goal/${8}/transactions`,
+          {
+            credentials: "include",
+          }
+        );
 
-        // const savingEmergencyTransaction =
-        //   await savingEmergencyTransactionResponse.json();
-        // setSavingEmergencyTransactions(savingEmergencyTransaction);
+        const savingEmergencyTransaction =
+          await savingEmergencyTransactionResponse.json();
+        setSavingEmergencyTransactions(savingEmergencyTransaction);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -126,13 +127,12 @@ const GoalBasedDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#6259E8",
                 }}
-                className="py-2 rounded-lg"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-red-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white dark:text-gray-500 text-2xl"
+                  className="font-bold text-white text-2xl"
                 >
                   การออมเงินเพื่อ {savingSGoalPlan[0]?.PlanName}
                 </div>
@@ -141,7 +141,7 @@ const GoalBasedDashboard = () => {
                 <div>
                   <ModleButtonForm1
                     title={""}
-                    savingEmergency={savingSGoalPlan}
+                    savingGoal={savingSGoalPlan}
                   />
                 </div>
               </div>
@@ -151,9 +151,9 @@ const GoalBasedDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#6259E8",
+                  // backgroundColor: "#6259E8",
                 }}
-                className=" py-2 rounded-lg"
+                className=" py-2 rounded-lg bg-gradient-to-r from-purple-900 to-red-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -181,7 +181,7 @@ const GoalBasedDashboard = () => {
                   </div>
                 </div>
                 <div className=" px-5 text-black">
-                  <div className="text-2xl text-white text-black dark:text-gray-500 pb-3 ">
+                  <div className="text-2xl text-white text-black pb-3 ">
                     {" "}
                     แผนการออมเงินของคุณ
                   </div>
@@ -244,11 +244,11 @@ const GoalBasedDashboard = () => {
                   <div className="flex justify-end">
                     <ModleButtonAdd
                       title={"my modle1"}
-                      savingEmergency={savingSGoalPlan.Emergency_ID}
+                      savingGoal={savingSGoalPlan}
                     />
                     <ModleButtonWithDraw
                       title={"my modle2"}
-                      savingEmergency={savingSGoalPlan.Emergency_ID}
+                      savingGoal={savingSGoalPlan}
                     />
                   </div>
                 </div>
@@ -279,13 +279,13 @@ const GoalBasedDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#6259E8",
+                  // backgroundColor: "#6259E8",
                 }}
-                className="py-2 rounded-lg"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-red-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white dark:text-gray-500 text-2xl "
+                  className="font-bold text-white text-2xl "
                 >
                   ประวัติรายการออมและถอนเงิน
                 </div>
@@ -314,7 +314,7 @@ const GoalBasedDashboard = () => {
                             <TransactionTable
                               title={"my table1"}
                               transaction={savingEmergencyTransaction}
-                              savingEmergency={savingSGoalPlan}
+                              savingData={savingSGoalPlan}
                             />
                           </div>
                         )

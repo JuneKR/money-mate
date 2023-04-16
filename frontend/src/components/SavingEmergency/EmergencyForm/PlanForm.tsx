@@ -299,7 +299,9 @@ export function PlanForm({
                   <div className="px-20 pb-5">
                     <p className="flex item-center justify-center text-white font-bold text-2xl pb-3 bg-indigo-500 rounded-full shadow-2xl">
                       แผนการออมปัจจุบันของคุณ
+
                     </p>
+                    
                   </div>
 
                   <div className="flex items-center justify-center h-24 px-5 rounded-full">
@@ -312,7 +314,7 @@ export function PlanForm({
 
                   <div
                     style={{ width: "100%", height: "100%" }}
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black p-5"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 p-5"
                   >
                     <div
                       style={{ backgroundColor: "#1D1D41" }}
@@ -440,7 +442,7 @@ export function PlanForm({
 
                   <div
                     style={{ width: "100%", height: "100%" }}
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black p-5"
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 p-5"
                   >
                     <div
                       style={{ backgroundColor: "#1D1D41" }}

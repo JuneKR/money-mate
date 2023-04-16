@@ -129,7 +129,7 @@ const EmergencyDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white dark:text-gray-500 text-2xl"
+                  className="font-bold text-white text-2xl"
                 >
                   การออมเงินเผื่อฉุกเฉิน
                 </div>
@@ -177,8 +177,8 @@ const EmergencyDashboard = () => {
                     />
                   </div>
                 </div>
-                <div className=" px-5 text-black">
-                  <div className="text-2xl text-white text-black dark:text-gray-500 pb-3 ">
+                <div className=" px-5">
+                  <div className="text-2xl text-white pb-3 ">
                     {" "}
                     แผนการออมเงินของคุณ
                   </div>
@@ -282,7 +282,7 @@ const EmergencyDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white dark:text-gray-500 text-2xl "
+                  className="font-bold text-white text-2xl "
                 >
                   ประวัติรายการออมและถอนเงิน
                 </div>
@@ -311,7 +311,7 @@ const EmergencyDashboard = () => {
                             <TransactionTable
                               title={"my table1"}
                               transaction={savingEmergencyTransaction}
-                              savingEmergency={savingEmergencyPlan}
+                              savingData={savingEmergencyPlan}
                             />
                           </div>
                         )

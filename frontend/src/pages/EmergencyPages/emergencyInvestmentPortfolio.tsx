@@ -31,7 +31,7 @@ const EmergencyInvestmentPortfilio = () => {
             <div className='bg-white'>
                 <div className='grid grid-cols-2 pt-5'>
                     <div>
-                        <Pie1 title={'my pie1'}/>
+                        {/* <Pie1 title={'my pie1'}/> */}
                     </div>
                     <div className='text-black'>
                         ข้อมูลกองทุน

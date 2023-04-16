@@ -151,8 +151,8 @@ const EmergencyInvestmentDashboard = () => {
 
   const router = useRouter();
 
-  const handleEmergencyInvestmentPortfilio = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfilio");
+  const handleEmergencyInvestmentPortfolio = () => {
+    router.push("/EmergencyPages/emergencyInvestmentPortfolio");
   };
 
   const handleEmergencyInvestmentTransaction = () => {
@@ -297,7 +297,7 @@ const EmergencyInvestmentDashboard = () => {
                     <div>
                       <div className="grid grid-cols-2 py-5 ">
                         <div className="flex items-center justify-center grid grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfilio}>
+                          <button onClick={handleEmergencyInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <AddIcon />
                             </div>
@@ -308,7 +308,7 @@ const EmergencyInvestmentDashboard = () => {
                           </div>
                         </div>
                         <div className="flex items-center justify-center grid grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfilio}>
+                          <button onClick={handleEmergencyInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <RemoveIcon />
                             </div>

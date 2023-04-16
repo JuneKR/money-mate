@@ -327,7 +327,7 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="px-5"></div>
                   </div>
-                  <div className="py-3">
+                  {/* <div className="py-3">
                     <h1 className="font-bold">พอร์ตการลงทุนในปัจจุบัน</h1>
                     <div className="grid grid-cols-3 py-2">
                       <div className="flex justify-center">
@@ -340,33 +340,24 @@ const EmergencyInvestmentDashboard = () => {
                         <h1>เงินลงทุนเทียบกับพอร์ต</h1>
                       </div>
                     </div>
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <div className="pb-5">
                       <div className="p-3">
-                        {/* <div>กองทุนรวมผสม</div>
-                        <div>10%/20%</div>
-                        <div>10,000/20,000</div> */}
                         <InvestDropdown title={""} />
                       </div>
                     </div>
                     <div className="pb-5">
                       <div className="p-3">
-                        {/* <div>กองทุนรวมผสม</div>
-                        <div>10%/20%</div>
-                        <div>10,000/20,000</div> */}
                         <InvestDropdown title={""} />
                       </div>
                     </div>
                     <div className="pb-5">
                       <div className="p-3">
-                        {/* <div>กองทุนรวมผสม</div>
-                        <div>10%/20%</div>
-                        <div>10,000/20,000</div> */}
                         <InvestDropdown title={""} />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div

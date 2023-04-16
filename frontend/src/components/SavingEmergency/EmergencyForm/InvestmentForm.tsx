@@ -260,12 +260,6 @@ export function InvestmentForm({
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
   const urlServer = "http://localhost:8080/";
-  const packageId = 1;
-  const [uID, setuID] = useState([]);
-  const [emergencyPlan, setEmergencyPlan] = useState(initialPlanData);
-  const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
-  const [packageAllocation, setPackageAllocation] = useState([]);
-  const [selectedRisk, setSelectedRisk] = useState(0);
   const [defaultOption, setDefaultOption] = useState({
     expense: expense | 0,
     period: period | 0,
@@ -283,8 +277,6 @@ export function InvestmentForm({
     returnRate: returnRate | 0,
   });
   const [selectedOption, setSelectedOption] = useState(0);
-
-  // Fix State on Table Component?
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -310,134 +302,9 @@ export function InvestmentForm({
     }
 
     fetchUserProfile();
-    // getPortfolioPackage();
-    // getPortfolioPackageAllocation();
   }, [selectedOption]);
 
-  // const createEmergencyPlan = async () => {
-  //   const createEmergencyPlanData = {
-  //     plan_name: "แผนออมเงินสำรองฉุกเฉิน",
-  //     target_amount: targetAmount,
-  //     time_period: period,
-  //     initial_saving: totalBalance,
-  //     monthly_saving: monthlySaving,
-  //     start_date: "2023-02-26",
-  //     last_update: "2023-02-26 10:2:30",
-  //     total_balance: totalBalance,
-  //     time_remaining: timeRemaining,
-  //     monthly_expense: expense,
-  //     progression: 0,
-  //     user_id: uID,
-  //   };
-  //   console.log(createEmergencyPlanData);
-  //   try {
-  //     const response = await fetch(`${urlServer}saving/emergency`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(createEmergencyPlanData),
-  //       credentials: "include",
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("done........................");
-  //       console.log(data);
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.log(errorData);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // Using only for Evaluation Version
-  // const getPortfolioPackage = async () => {
-  //   try {
-  //     // Fetch Portfolio Package
-  //     const packageResponse = await fetch(
-  //       `${urlServer}portfolio/package/${packageId}`,
-  //       {
-  //         credentials: "include",
-  //       }
-  //     );
-  //     const portfolioPackage = await packageResponse.json();
-  //     console.log(portfolioPackage);
-  //     setPortfolioPackage(portfolioPackage);
-  //   } catch (error) {
-  //     console.log("Fetch Portfolio Package Error: ", error);
-  //   }
-  // };
-
-  // const getPortfolioPackageAllocation = async () => {
-  //   try {
-  //     // Fetch Portfolio Package Allocation
-  //     const packageResponse = await fetch(
-  //       `${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`,
-  //       {
-  //         credentials: "include",
-  //       }
-  //     );
-  //     const portfolioPackageAllocation = await packageResponse.json();
-  //     console.log(portfolioPackageAllocation);
-  //     setPackageAllocation(portfolioPackageAllocation);
-  //   } catch (error) {
-  //     console.log("Fetch Portfolio Package Allocation Error: ", error);
-  //   }
-  // };
-
-  // const getEmergencyPlan = async () => {
-  //   try {
-  //     // Fetch Emergency Plan
-  //     const planResponse = await fetch(
-  //       `${urlServer}user/${uID}/saving/emergency`,
-  //       {
-  //         credentials: "include",
-  //       }
-  //     );
-  //     const emergencyPlan = await planResponse.json();
-  //     console.log(emergencyPlan);
-  //     setEmergencyPlan(emergencyPlan);
-  //   } catch (error) {
-  //     console.log("Fetch Emergency Plan Error: ", error);
-  //   }
-  // };
-
-  // const createInvestmentPortfolio = async () => {
-  //   const createInvestmentPortfolioData = {
-  //     portflio_name: portfolioPackage.PackageName,
-  //     total_value: 0,
-  //     start_date: "2023-02-26",
-  //     last_update: portfolioPackage.LastUpdate,
-  //     risk_spectrum: portfolioPackage.RiskSpectrum,
-  //     return_rate: portfolioPackage.ReturnRate,
-  //     user_id: uID,
-  //     package_id: portfolioPackage.Package_ID,
-  //     emergency_id: emergencyPlan.Emergency_ID,
-  //     goal_id: null,
-  //     retirement_id: null,
-  //   };
-  //   try {
-  //     const response = await fetch(`${urlServer}saving/emergency`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(createInvestmentPortfolioData),
-  //       credentials: "include",
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("done........................");
-  //       console.log(data);
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.log(errorData);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
+  
   const handleClick = () => {
     setIsHidden(!isHidden);
   };
@@ -453,26 +320,13 @@ export function InvestmentForm({
         console.log("New Data:", data);
         setSelectedTable(data);
         setSelectedOption(index + 1);
-        // updateFields(data)
-        // Using UpdateFields to update state of parent component (multistep form)
         return { ...data, selected: true };
       } else {
-        // setSelectedTable(data)
         return { ...data, selected: false };
       }
     });
-    // Set New Selected State
-    //
     setTableData(newData);
   };
-
-  // const handleEmergencyInvestmanet = async () => {
-  //   console.log("สร้างแผนการลงทุนสำเร็จแล้ว");
-  //   await createEmergencyPlan();
-  //   await getEmergencyPlan();
-  //   // await createInvestmentPortfolio();
-  //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
-  // };
 
   const targetAmount2 = Number(targetAmount);
   const monthlySaving2 = Number(monthlySaving);

@@ -39,7 +39,11 @@
     "react-step-progress": "^1.0.3",
     "react-step-progress-bar": "^1.0.3",
     "styled-components": "^5.3.8",
+    "tinycolor2": "^1.6.0",
     "tvm-calculator": "^2.0.0",
     "typescript": "5.0.3"
+  },
+  "devDependencies": {
+    "@types/tinycolor2": "^1.4.3"
   }
 }

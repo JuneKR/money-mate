@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en" className="">
       <link
         rel="stylesheet"
-        href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+        // href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
       />
       <meta charSet="UTF-8" />
 
@@ -18,3 +18,4 @@ export default function Document() {
     </Html>
   );
 }
+  

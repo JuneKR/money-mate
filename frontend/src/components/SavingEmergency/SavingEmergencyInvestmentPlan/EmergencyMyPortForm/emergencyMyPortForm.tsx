@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import DropDown from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownMenu"
+import React, { useState, useEffect } from "react";
+import DropDownPolicy from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownPolicy"
+import DropDownFund from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownFund"
+
 interface FormValues {
   name: string;
   email: string;
@@ -13,20 +15,110 @@ const initialFormValues: FormValues = {
 };
 
 const EmergencyMyPortForm = () => {
+  const urlServer = "http://localhost:8080/"
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
+  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState();
+  const [investmentPortfolio, setInvestmentPortfolio] = useState();
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [investmentAmount, setInvestmentAmount] = useState(0);
+  const [investmentAmountError, setInvestmentAmountError] = useState("");
+  const [transactionType, setTransactionType] = useState("");
+  const [selectedPolicyDesc, setSelectedPolicyDesc] = useState("");
+  const [selectedFundAbbr, setSelectedFundAbbr] = useState("");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch User Profile
+        const profileResponse = await fetch(urlServer + "user/profile", {
+          credentials: "include",
+        });
+        const userProfile = await profileResponse.json();
+
+        //Fetch Saving Emergency Plan
+        const savingEmergencyResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/emergency`,
+          {
+            credentials: "include",
+          }
+        );
+        const savingEmergency = await savingEmergencyResponse.json();
+        setSavingEmergencyPlan(savingEmergency);
+
+        //Fetch Saving Emergency Investment Portfolio
+        const emergencyInvestmentReponse = await fetch(
+          `${urlServer}emergency/${savingEmergency.Emergency_ID}/investment/portfolio`,
+          {
+            credentials: "include",
+          }
+        );
+        const emergencyInvestmentPortfolio = await emergencyInvestmentReponse.json();
+        setInvestmentPortfolio(emergencyInvestmentPortfolio);
+
+        //Fetch Investment Portfolio Allocation
+        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${emergencyInvestmentPortfolio.Portfolio_ID}/allocation`, {
+          credentials: "include",
+        });
+        const investmentPortfolioAllocation = await portfolioResponse.json();
+        setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
+
+
+      } catch (error) {
+        console.log("Fetching Saving Plan Error: ", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  const handleInvestmentAmountChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      setInvestmentAmount(Number(value));
+      setInvestmentAmountError("");
+    } else {
+      setInvestmentAmountError("กรุณากรอกข้อมูลเฉพาะตัวเลข");
+    }
+  };
+
+  const handlePolicyDescSelection = (selected: string) => {
+    setSelectedPolicyDesc(selected);
+  };
+
+  const handleFundAbbrSelection = (selected: string) => {
+    setSelectedFundAbbr(selected);
+  };
+  
+
+  const handleBuyClick = () => {
+    setTransactionType("buy");
+  };
+  
+  const handleSellClick = () => {
+    setTransactionType("sell");
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formValues); // Do something with the form data
-    setFormValues(initialFormValues); // Reset the form
+    if (!selectedPolicyDesc || !selectedFundAbbr) {
+      alert('กรุณากดเลือกประเภทกองทุนและกองทุน');
+    } else {
+      if (transactionType === "buy" && investmentAmount !== 0) {
+        alert('ซื้อกองทุนสำเร็จแล้ว!');
+        console.log('Selected Policy: ', selectedPolicyDesc);
+        console.log('Selected Fund: ', selectedFundAbbr);
+        console.log('Amount of buying: ', investmentAmount);
+      }
+      else if (transactionType === "sell" && investmentAmount !== 0) {
+        alert('ขายกองทุนสำเร็จแล้ว!');
+        console.log('Selected Policy: ', selectedPolicyDesc);
+        console.log('Selected Fund: ', selectedFundAbbr);
+        console.log('Amount of selling: ', investmentAmount);
+      }
+      else {
+        alert('กรุณากรอกจำนวนเงิน');
+      }
+    }
   };
 
   return (
@@ -35,55 +127,60 @@ const EmergencyMyPortForm = () => {
         <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
           ประเภทกองทุนรวม
         </label>
-        {/* <input 
-          className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="name"
-          type="text"
-          placeholder="กองทุนรวมตราสารหนี้"
-          name="name"
-          value={formValues.name}
-          onChange={handleChange}
-        /> */}
-        <DropDown title={""} data={[]}/>
+        <DropDownPolicy 
+          title={"ประเภทกองทุนรวม"} 
+          investmentPortfolioAllocation={investmentPortfolioAllocation}
+          handlePolicyDescSelection={handlePolicyDescSelection}
+        />
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
           สินทรัพย์ที่ลงทุน
         </label>
-        {/* <input
-          className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          type="email"
-          placeholder="TISCOSTF"
-          name="email"
-          value={formValues.email}
-          onChange={handleChange}
-        /> */}
-        <DropDown title={""} data={[]}/>
+        <DropDownFund 
+          title={"สินทรัพย์ที่ลงทุน"} 
+          investmentPortfolioAllocation={investmentPortfolioAllocation}
+          handleFundAbbrSelection={handleFundAbbrSelection}
+        />
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2" htmlFor="message">
           จำนวนเงิน
         </label>
-        {/* <textarea
+        <input
           className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="message"
-          placeholder="1000"
-          name="message"
-          value={formValues.message}
-          onChange={handleChange}
-        ></textarea> */}
-        <DropDown title={""} data={[]}/>
+          id=""
+          type="text"
+          placeholder="1,000 บาท"
+          name="text" 
+          value={investmentAmount}
+          onChange={handleInvestmentAmountChange }
+        />
+        {/* Display error when use input invalid */}
+        {investmentAmountError && (
+          <p className="text-red-500 text-xs italic">{investmentAmountError}</p>
+        )}
       </div>
       <div className="flex items-center justify-end">
         <div className="flex justify-end py-2">
                 <div className="py-5">
-                     <button style={{ width: "209px",marginRight: "10px", backgroundColor: '#B2E8FF'}}className="px-4 py-2 font-bold text-black rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" type="button">
-                              ซื้อหน่วยลงทุน
+                     <button 
+                        style={{ width: "209px",marginRight: "10px", backgroundColor: '#B2E8FF'}} 
+                        className="px-4 py-2 font-bold text-black rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" 
+                        type="submit"
+                        value="buy"
+                        onClick={handleBuyClick}
+                      >
+                        ซื้อหน่วยลงทุน
                      </button>
-                     
-                     <button style={{ width: "209px", marginLeft: "10px", backgroundColor: '#FF8C73'}}className="px-4 py-2 font-bold text-black rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" type="button">
-                              ขายหน่วยลงทุน
+                     <button 
+                        style={{ width: "209px", marginLeft: "10px", backgroundColor: '#FF8C73'}} 
+                        className="px-4 py-2 font-bold text-black rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" 
+                        type="submit"
+                        value="sell"
+                        onClick={handleSellClick}
+                      >
+                        ขายหน่วยลงทุน
                      </button>
                   </div>
             </div>

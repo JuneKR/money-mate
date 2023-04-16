@@ -21,6 +21,9 @@ const SavingSelectionPage: React.FC<SavingSelectionPageProps> = ({ title }) => {
   const handleSavingGoalHomepage = () => {
     router.push("/GoalBasedPages/goalBasedCreateForm");
   };
+  const handleSavingRetirementHomepage = () => {
+    router.push("/RetirementPages/retirementCreateForm");
+  };
   return (
     <div className="w-full h-full">
       <div>
@@ -43,7 +46,7 @@ const SavingSelectionPage: React.FC<SavingSelectionPageProps> = ({ title }) => {
               </div>
             </div>
           </button>
-          <button className="transform hover:scale-105 transition duration-300 ease-in-out">
+          <button onClick={handleSavingRetirementHomepage} className="transform hover:scale-105 transition duration-300 ease-in-out">
             <div>
               <div className="flex items-center justify-center h-24 rounded-lg bg-purple-800 hover:bg-blue-800 transition delay-150 shadow-2xl">
                 <div className="text-3xl font-bold text-white">

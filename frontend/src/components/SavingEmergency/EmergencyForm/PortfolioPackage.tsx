@@ -3,6 +3,8 @@ import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
 import { useRouter } from 'next/router'
+import { ReactSVG } from "react-svg";
+import NotFoundSVG from "./assets/not-found.svg";
 
 type PackageData = {
   expense: number;
@@ -21,7 +23,7 @@ type PackageProps = PackageData & {
 };
 
 const initialPortfolioPackage = {
-    Package_ID: 1,
+    Package_ID: 0,
     PackageName: "",
     LastUpdate: "",
     RiskSpectrum: 1,
@@ -54,79 +56,86 @@ export function PortfolioPackage ({
     };
 
     useEffect(() => {
-        // Fetch One Portfolio Pacakge by Risk Spectrum
-        async function fetchPortfolioPackage() {
+        // Fetch Portfolio Pacakge by Risk Spectrum
+        async function fetchPortfolioPackageData() {
           try {
-            // Fetch User Profile
-            const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${riskLevel}`, {
-              credentials: "include",
-            });
-            const portfolioPackage = await packageResponse.json();
-            if (packageResponse.ok) {
-                console.log(portfolioPackage);
-                // Set Portfolio Package
+            if (riskLevel) {
+              // Fetch Portfolio Package
+              console.log('Risk Before Fetch', riskLevel);
+              const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${riskLevel}`, {
+                credentials: "include",
+              });
+              const portfolioPackage = await packageResponse.json();
+
+              if (portfolioPackage && portfolioPackage.Package_ID) {
                 setPortfolioPackage(portfolioPackage);
-            } 
-            else {
-                const errorData = await packageResponse.json();
-                console.log(errorData);
+                console.log('Package Details:', portfolioPackage);  
+
+                // Fetch Portfolio Package Allocation
+                const packageAllocationResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
+                  credentials: "include",
+                });
+                const packageAllocation = await packageAllocationResponse.json();
+                if (packageAllocation) {
+                  setPortfolioPackageAllocation(packageAllocation);
+                  console.log('Package Allocation Details:', packageAllocation);
+                } else {
+                  console.log("Package allocation not found");
+                }
+              }
             }
-            console.log('Package Details:', portfolioPackage);
           } catch (error) {
-            console.log("fetch Package Error: ", error);
+            console.log("fetch Package Data Error: ", error);
           }
         }
 
-        // Fetch Portfolio Package Allocation by Package ID
-        async function fetchPortfolioPackageAllocation() {
-            try {
-              // Fetch User Profile
-              const packageResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
-                credentials: "include",
-              });
-              const packageAllocation = await packageResponse.json();
-              if (packageResponse.ok) {
-                  console.log(portfolioPackage);
-                  // Set Portfolio Package Allocation
-                  setPortfolioPackageAllocation(packageAllocation);
-              } 
-              else {
-                  const errorData = await packageResponse.json();
-                  console.log(errorData);
-              }
-              console.log('Package Details:', portfolioPackage);
-            } catch (error) {
-              console.log("fetch Package Error: ", error);
-            }
-        }
-
-        fetchPortfolioPackage();
-        fetchPortfolioPackageAllocation()
+        fetchPortfolioPackageData()
     }, []);
 
     return (
         <>
-        <main className={styles.main}>
-            <div style={{padding: "0 4rem"}} className="w-full xl:w-8/12">
+        <main 
+          // className={styles.main}
+        >
+            <div>
                 <Sidebar title="My Sidebar" />
-                <div style={{display: "flex", alignItems: "center",backgroundColor: '#B2E8FF'}} className=" py-2 rounded bg-gray-50 dark:bg-gray-800">
-                   <p style={{ padding: "0 1rem"  }}className="font-bold text-black dark:text-gray-500 ">
+                <div 
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: "#6259E8",
+                  }}
+                  className=" py-2 rounded bg-gray-50"
+                >
+                  <p 
+                    style={{ padding: "0 1rem"  }}
+                    className="font-bold text-white text-2xl"
+                  >
                     การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
                    </p>
                 </div>
-                <div className='bg-gray-50'>
-                    <div className='px-4' >
-                    <InvestmentCheckBox 
+                <div 
+                  className='bg-gray-50'
+                >
+                    <div
+                      style={{ backgroundColor: "#1D1D41" }}
+                    >
+                    {portfolioPackage && portfolioPackageAllocation && portfolioPackageAllocation.length > 0 ? (
+                      <InvestmentCheckBox 
                         label="My checkbox label" 
-                        // checked={false} 
                         onChange={handleCheckboxChange} 
                         title={'InvestmentCheckBox'}
                         portfolioPackage={portfolioPackage}
                         portfolioPackageAllocation={portfolioPackageAllocation}
-                    />
+                      />
+                    ) : (
+                      <div 
+                        className="flex justify-center items-center h-full p-20"
+                      >
+                        <p className="text-white text-3xl">ไม่มีแพ็คเกจการลงทุนตามระดับความเสี่ยงที่ท่านเลือกในขณะนี้</p>
+                      </div>
+                    )}
                     </div>
-                </div>
-                <div className="flex justify-end py-2">
                 </div>
             </div>
         </main>

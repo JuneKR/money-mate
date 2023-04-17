@@ -102,6 +102,8 @@ const emergencyCreateForm = () => {
     }
   };
 
+  console.log('Current Data', data);
+
   useEffect(() => {
     if (currentStepIndex === 2 && showPackageStep) {
       setStepDesc("ถัดไป");

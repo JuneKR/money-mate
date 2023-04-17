@@ -58,6 +58,7 @@ export function InvestmentForm({
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
 
+  // Max User Risk Torelance
   const [selectRiskTorelance, setSelectRiskTorelance] = useState(0);
   const tvmCalculator = require("tvm-calculator");
 
@@ -286,9 +287,6 @@ export function InvestmentForm({
           credentials: "include",
         });
         const userProfile = await profileResponse.json();
-        // console.log(userProfile);
-        const uID = userProfile.User_ID;
-        setuID(uID);
       } catch (error) {
         console.log("fetch User Profile Error: ", error);
       }
@@ -317,9 +315,13 @@ export function InvestmentForm({
   const handleRadioChange = (index: number) => {
     const newData = tableData.map((data, i) => {
       if (i === index) {
-        console.log("New Data:", data);
         setSelectedTable(data);
         setSelectedOption(index + 1);
+        console.log("Selected Data:", data);
+        console.log("Selected Option:", index+1);
+        // Set Selected Risk Spectrum Option
+        // Update Parent Field
+        updateFields(data);
         return { ...data, selected: true };
       } else {
         return { ...data, selected: false };

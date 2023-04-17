@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import Pie1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolio1'
+import PiePackage from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolioPackage'
 import DropDown1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownMenu'
 import Hiding from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn'
-
+import EmergencyFundsDetailsTablePackage from './EmergencyMyPortForm/emergencyFundsDetailsTablePackage';
 
 type PortfolioPackageData = {
     Package_ID: number;
@@ -36,7 +36,7 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedOption('Target Value',event.target.value);
+        setSelectedOption(event.target.value);
         console.log(event.target.value);
         if (selectedOption === 'option1') {
             console.log('Selected',selectedOption);
@@ -47,7 +47,8 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
             onChange(false);
         }
     };
-    
+    console.log('Package at checkbox', portfolioPackage);
+    console.log('Package Allocation at checkbox', portfolioPackageAllocation);
     const toggleExpansion = () => setIsExpanded(!isExpanded);
 
     return (
@@ -65,31 +66,37 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
                     </div>
                     <h1 className='font-bold'>เลือกพอร์ตการลงทุนของคุณ</h1>
                     <div 
-                        style={{backgroundColor: "#1D1D41"}} className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5"
-                    >
+                        style={{backgroundColor: "#1D1D41"}} 
+                        // className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5"
+                    >   
                         <div 
                             style={{ alignItems: "center" }}
                             className="col-span-1 flex justify-center item-center"
                         >
-                            <Pie1 
+                            {portfolioPackage && portfolioPackageAllocation ? (
+                                <PiePackage 
                                 title={portfolioPackage?.PackageName}
+                                portfolioPackageAllocation={portfolioPackageAllocation}
                             />
+                            ): (
+                                <p>ไม่มีแพ็คเกจการลงทุนตามระดับความเสี่ยงที่ท่านเลือกในขณะนี้</p>
+                            )}
                         </div>
                         <div 
-                            className="flex justify-center item-center boder border-blue-500 col-span-2 "
+                            className="text-white flex justify-center item-center boder border-blue-500 col-span-2 "
                         >
                             <div>
-                            {portfolioPackageAllocation?.map((data: any) => (
-                                <Hiding
-                                    title={data.PolicyDesc}
-                                    packageAllocation={data} 
-                                />
-                            ))}
+                            {portfolioPackage && portfolioPackageAllocation ? (
+                            <EmergencyFundsDetailsTablePackage 
+                                title={""}
+                                portfolioPackage={portfolioPackage}
+                                portfolioPackageAllocation={portfolioPackageAllocation}
+                            />
+                            ): (
+                                <p>ไม่มีแพ็คเกจการลงทุนตามระดับความเสี่ยงที่ท่านเลือกในขณะนี้</p>
+                            )}    
                             </div>
                         </div>
-                    </div>
-                    <div className="flex justify-center">
-                        <p>ผลตอบแทนที่คาดหวัง {portfolioPackage?.ReturnRate}%</p>
                     </div>
                 </div>
             </div>

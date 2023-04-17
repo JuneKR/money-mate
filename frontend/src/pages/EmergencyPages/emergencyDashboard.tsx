@@ -103,11 +103,11 @@ const EmergencyDashboard = () => {
   const totalBalance2 = Number(savingEmergencyPlan.TotalBalance);
   const formatTotalBalance2 = totalBalance2.toLocaleString();
   
-  savingEmergencyTransactions.sort((a, b) => {
-    const dateA = new Date(a.TransactionDate);
-    const dateB = new Date(b.TransactionDate);
-    return dateB.getTime() - dateA.getTime();
-  });
+  // savingEmergencyTransactions.sort((a, b) => {
+  //   const dateA = new Date(a.TransactionDate);
+  //   const dateB = new Date(b.TransactionDate);
+  //   return dateB.getTime() - dateA.getTime();
+  // });
   
   console.log(savingEmergencyTransactions);
 

@@ -7,8 +7,6 @@ import TransactionTable from "@/components/TransactionComponents/investTransacti
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
-  InitialSaving: number | any;
-  InterestRate: number | any;
   LastUpdate: string | any;
   MonthlyExpense: number | any;
   MonthlySaving: number | any;
@@ -35,19 +33,19 @@ export interface SavingEmergencyInvestmentPortData {
   Emergency_ID: number | any;
   Goal_ID: number | any;
   Retirement_ID: number | any;
-  createdAt: string | any;
-  updatedAt: string | any;
 }
 
 export interface InvestmentTransaction {
+  sort(arg0: (a: any, b: any) => number): any;
+  map(arg0: (investmentTransaction: any) => JSX.Element): React.ReactNode;
   TransactionDate: string;
   PolicyDesc: string;
   FundAbbrName: string;
   Amount: number;
   Type: string;
 }
+
 const EmergencyInvestmentPortfolioPackage = () => {
-  const [isOpen, setIsOpen] = useState(false);
   function toggleColumn() {
     setIsOpen(!isOpen);
   }
@@ -61,21 +59,16 @@ const EmergencyInvestmentPortfolioPackage = () => {
   const handlesEmergencyPlanForm = () => {
     router.push("/EmergencyPages/emergencyHomepage");
   };
-
-  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] =
-    useState<SavingEmergencyInvestmentPortData[]>([]);
-
-  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<
-    SavingEmergencyPlan[]
-  >([]);
-
-  const [investmentTransactions, setInvestmentTransactions] = useState<
-    InvestmentTransaction[]
-  >([]);
+  
   const urlServer = "http://localhost:8080/";
+  const [isOpen, setIsOpen] = useState(false);
+  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>();
+  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] = useState<SavingEmergencyInvestmentPortData>();
+  const [investmentTransactions, setInvestmentTransactions] = useState<InvestmentTransaction>();
+
   // Fetch APIs
   useEffect(() => {
-    async function fetchSavingPlan() {
+    async function fetchInvestmentTransaction() {
       try {
         // Fetch User Profile
         const profileResponse = await fetch(urlServer + "user/profile", {
@@ -94,38 +87,30 @@ const EmergencyInvestmentPortfolioPackage = () => {
         setSavingEmergencyPlan(savingEmergency);
 
         //Fetch Saving Emergency Investment Portfolio
-
-        const savingEmergencyInvestmentPortResponse = await fetch(
-          `${urlServer}user/${userProfile.User_ID}/investment/portfolios`,
+        const emergencyPortfolioResponse = await fetch(
+          `${urlServer}emergency/${savingEmergency.Emergency_ID}/investment/portfolio`,
           {
             credentials: "include",
           }
         );
-        const savingEmergencyInvestmentPorts =
-          await savingEmergencyInvestmentPortResponse.json();
-        setSavingEmergencyInvestmentPort(savingEmergencyInvestmentPorts);
-        console.log(
-          `${urlServer}investment/${savingEmergencyInvestmentPort[0]?.Portfolio_ID}/transaction`
-        );
+        const emergencyPortfolio = await emergencyPortfolioResponse.json();
 
-        //Fetch Investment Port Transaction
-        console.log("fetchhhhhhhhhhhhh")
-        console.log(userProfile.User_ID)
-        const savingEmergencyTransactionResponse = await fetch(
-          `${urlServer}investment/${savingEmergencyInvestmentPort[0]?.Portfolio_ID}/transaction`,
+        // Fetch All Emergency Investment Transaction By Portfolio ID of Emergency
+        const emergencyInvestmentTransactionResponse = await fetch(
+          `${urlServer}investment/${emergencyPortfolio.Portfolio_ID}/transactions`,
           {
             credentials: "include",
           }
         );
-        const investmentTransaction =
-          await savingEmergencyTransactionResponse.json();
-        setInvestmentTransactions(investmentTransaction);
+
+        const emergencyInvestmentTransaction = await emergencyInvestmentTransactionResponse.json();
+        setInvestmentTransactions(emergencyInvestmentTransaction);
        
       } catch (error) {
-        console.log("Fetching Saving Plan Error: ", error);
+        console.log("Fetching Emergency Investment Transaction Error: ", error);
       }
     }
-    fetchSavingPlan();
+    fetchInvestmentTransaction();
   }, []);
   return (
     <>
@@ -143,7 +128,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white dark:text-gray-500 text-2xl "
+                  className="font-bold text-white text-2xl "
                 >
                   ประวัติรายการซื้อขายกองทุน
                 </div>
@@ -157,7 +142,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
                 }}
                 className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-2xl"
               >
-                {!investmentTransactions.length ? (
+                {!investmentTransactions ? (
                   <div>
                     <h1 className="text-gray-200 flex justify-center item-center text-2xl font-bold">
                       คุณยังไม่มีประวัติการซื้อขายกองทุน
@@ -165,9 +150,10 @@ const EmergencyInvestmentPortfolioPackage = () => {
                   </div>
                 ) : (
                   <div className="pb-5 px-5">
-                    {investmentTransactions.map(
-                      (investmentTransaction, index) => (
-                        <div key={index}>
+                    {investmentTransactions
+                    .map(
+                      (investmentTransaction) => (
+                        <div>
                           <TransactionTable
                             title={"my table1"}
                             transaction={investmentTransaction}

@@ -349,7 +349,107 @@ export const addMutualFundsToInvestmentPortfolio = async(req: Request, res: Resp
 }
 
 /* Investment Transaction */
-// Unfinished
+export const addEmergencyInvestmentTransaction = async(req: Request, res: Response) => {
+    try {
+        const { transaction_date, policy_desc, fund_abbr_name, amount, type } = req.body;
+
+        /* Check Investment Portfolio */
+        const investmentPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Portfolio_ID: req.params.id
+            }
+        });
+
+        if(!investmentPortfolio) {
+            return res.status(404).json({msg: "Investment Portfolio not found"});
+        }
+
+        // Check the saving plan id from portfolio
+        const savingEmergencyId = investmentPortfolio.Emergency_ID;
+
+        if(!savingEmergencyId) {
+            return res.status(404).json({msg: "Emergency saving id not found"});
+        }
+
+        const savingEmergencyPlan = await SavingEmergencyPlan.findOne({
+            where: {
+                Emergency_ID: savingEmergencyId,
+            }
+        });
+
+        if(!savingEmergencyPlan) {
+            return res.status(404).json({msg: "Emergency saving plan not found"});
+        }
+
+        if (type === 'buy') {
+            // Update total balance and progression of saving plan
+            const newTotalBalance: number = savingEmergencyPlan.TotalBalance + parseFloat(amount);
+            const newProgression: number = Math.round((newTotalBalance / savingEmergencyPlan.TargetAmount) * 100);
+            await SavingEmergencyPlan.update({
+                TotalBalance: newTotalBalance,
+                Progression: newProgression
+            }, 
+            {
+                where: {
+                    Emergency_ID: savingEmergencyId
+                } 
+            });
+
+            // Update total value of portfolio
+            const newTotalValue: number = investmentPortfolio.TotalValue + parseFloat(amount);
+            await InvestmentPortfolio.update({
+                TotalValue: newTotalValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            });
+        }
+        else if (type === 'sell') {
+            // Update total balance and progression of saving plan
+            const newTotalBalance: number = savingEmergencyPlan.TotalBalance - parseFloat(amount);
+            const newProgression: number = Math.round((newTotalBalance / savingEmergencyPlan.TargetAmount) * 100);
+            await SavingEmergencyPlan.update({
+                TotalBalance: newTotalBalance,
+                Progression: newProgression
+            }, 
+            {
+                where: {
+                    Emergency_ID: savingEmergencyId
+                } 
+            });
+
+            // Update total value of portfolio
+            const newTotalValue: number = investmentPortfolio.TotalValue - parseFloat(amount);
+            await InvestmentPortfolio.update({
+                TotalValue: newTotalValue
+                
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            });
+        }
+
+        await InvestmentTransaction.create({
+            TransactionDate: transaction_date,
+            PolicyDesc: policy_desc,
+            FundAbbrName: fund_abbr_name,
+            Amount: amount,
+            Type: type,
+            Portfolio_ID: investmentPortfolio.Portfolio_ID
+        });
+
+        res.status(201).json({msg: "Emergency investment transaction history is recorded"});
+    } catch (error: any) {
+        res.status(400).json({msg: error.message});
+    }
+}
+ 
+
+// Unfinish
 export const addInvestmentTransaction = async(req: Request, res: Response) => {
 
     try {

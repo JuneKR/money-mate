@@ -17,6 +17,7 @@ const initialFormValues: FormValues = {
 const EmergencyMyPortForm = () => {
   const urlServer = "http://localhost:8080/"
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
+  const [userProfile, setUserProfile] = useState();
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState();
   const [investmentPortfolio, setInvestmentPortfolio] = useState();
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
@@ -33,11 +34,12 @@ const EmergencyMyPortForm = () => {
         const profileResponse = await fetch(urlServer + "user/profile", {
           credentials: "include",
         });
-        const userProfile = await profileResponse.json();
+        const userProfileResponse = await profileResponse.json();
+        setUserProfile(userProfile);
 
         //Fetch Saving Emergency Plan
         const savingEmergencyResponse = await fetch(
-          `${urlServer}user/${userProfile.User_ID}/saving/emergency`,
+          `${urlServer}user/${userProfileResponse.User_ID}/saving/emergency`,
           {
             credentials: "include",
           }
@@ -89,7 +91,6 @@ const EmergencyMyPortForm = () => {
     setSelectedFundAbbr(selected);
   };
   
-
   const handleBuyClick = () => {
     setTransactionType("buy");
   };
@@ -104,20 +105,72 @@ const EmergencyMyPortForm = () => {
       alert('กรุณากดเลือกประเภทกองทุนและกองทุน');
     } else {
       if (transactionType === "buy" && investmentAmount !== 0) {
+        const transactionData = {
+          policyDesc: selectedPolicyDesc,
+          fundAbbrName: selectedFundAbbr,
+          amount: investmentAmount,
+          type: transactionType || "buy"
+        }
         alert('ซื้อกองทุนสำเร็จแล้ว!');
-        console.log('Selected Policy: ', selectedPolicyDesc);
-        console.log('Selected Fund: ', selectedFundAbbr);
-        console.log('Amount of buying: ', investmentAmount);
+        createEmergencyTransaction(urlServer, investmentPortfolio, transactionData);
+
+        // console.log('User: ', userProfile);
+        // console.log('Selected Policy: ', selectedPolicyDesc);
+        // console.log('Selected Fund: ', selectedFundAbbr);
+        // console.log('Amount of buying: ', investmentAmount);
       }
       else if (transactionType === "sell" && investmentAmount !== 0) {
+        const transactionData = {
+          policyDesc: selectedPolicyDesc,
+          fundAbbrName: selectedFundAbbr,
+          amount: investmentAmount,
+          type: transactionType || "sell"
+        }
         alert('ขายกองทุนสำเร็จแล้ว!');
-        console.log('Selected Policy: ', selectedPolicyDesc);
-        console.log('Selected Fund: ', selectedFundAbbr);
-        console.log('Amount of selling: ', investmentAmount);
+        createEmergencyTransaction(urlServer, investmentPortfolio, transactionData);
+
+        // console.log('Selected Policy: ', selectedPolicyDesc);
+        // console.log('Selected Fund: ', selectedFundAbbr);
+        // console.log('Amount of selling: ', investmentAmount);
       }
       else {
         alert('กรุณากรอกจำนวนเงิน');
       }
+    }
+  };
+
+  const createEmergencyTransaction = async (urlServer: string, investmentPortfolio: any, transactionData: any) => {
+
+    const moment = require('moment-timezone');
+    const now = moment().tz('Asia/Bangkok');
+    const currentDatetime = now.format('YYYY-MM-DD HH:mm:ss');
+    
+    const emergencyTransactionData = {
+      transaction_date: currentDatetime,
+      policy_desc: transactionData.policyDesc,
+      fund_abbr_name: transactionData.fundAbbrName,
+      amount: transactionData.amount,
+      type: transactionData.type
+    };
+
+    try {
+      const response = await fetch(`${urlServer}emergency/investment/portfolio/${investmentPortfolio.Portfolio_ID}/transaction`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emergencyTransactionData),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData);
+        return;
+      }
+
+      const responseData = await response.json();
+      console.log(`Successfully add investment transaction by portfolio id ${investmentPortfolio.Portfolio_ID}`,responseData);
+    } catch (error) {
+      console.error(error);
     }
   };
 

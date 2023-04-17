@@ -111,7 +111,8 @@ export function PortfolioPackage ({
                     style={{ padding: "0 1rem"  }}
                     className="font-bold text-white text-2xl"
                   >
-                    การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
+                    {/* การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน */}
+                    เลือกพอร์ตการลงทุนของคุณ
                    </p>
                 </div>
                 <div 

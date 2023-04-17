@@ -53,8 +53,12 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
 
     return (
         <div>
-            <div className='py-5'>
-                <div style={{ width: "100%", height: "100%", backgroundColor: '#E5F8FF'}} className="text-black relative px-4 py-4 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
+            <div 
+                className='py-5'
+            >   
+                {/* backgroundColor: "#27264E" */}
+                {/* backgroundColor: "#1D1D41" */}
+                <div style={{ width: "100%", height: "100%", backgroundColor: "#1D1D41"}} className="text-black relative px-4 py-4 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
                     <div className="flex justify-end">
                         <input
                             type="radio"
@@ -62,16 +66,20 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
                             value="option1"
                             checked={selectedOption === 'option1'}
                             onChange={handleOptionChange}
+                            className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
                         />
                     </div>
-                    <h1 className='font-bold'>เลือกพอร์ตการลงทุนของคุณ</h1>
+                    <h1 className='font-bold text-white text-center text-2xl p-5'>
+                        {/* เลือกพอร์ตการลงทุนของคุณ */}
+                        {portfolioPackage?.PackageName}
+                    </h1>
                     <div 
-                        style={{backgroundColor: "#1D1D41"}} 
+                        style={{backgroundColor: "#27264E"}} 
                         // className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5"
                     >   
                         <div 
                             style={{ alignItems: "center" }}
-                            className="col-span-1 flex justify-center item-center"
+                            className="col-span-1 flex justify-center item-center p-4"
                         >
                             {portfolioPackage && portfolioPackageAllocation ? (
                                 <PiePackage 

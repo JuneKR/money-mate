@@ -23,7 +23,7 @@ const EmergencyFundsDetailsTable: React.FC<EmergencyFundsDetailsTableProps> = (p
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8 ">
                     <div className="overflow-hidden ">
-                        <table className="min-w-full text-left text-sm font-light">
+                        <table className="min-w-full text-left text-lg font-light">
                         <thead className="border-b font-medium dark:border-neutral-500">
                             <tr>
                             <th scope="col" className="px-6 py-4">ประเภทกองทุน</th>
@@ -43,7 +43,11 @@ const EmergencyFundsDetailsTable: React.FC<EmergencyFundsDetailsTableProps> = (p
                             ))}
                         </tbody>
                         </table>
-                        <p>ผลตอบแทนที่คาดหวัง {portfolioPackage.ReturnRate}%</p>
+                        <p 
+                            className="text-lg text-center p-10 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500 p-1 m-3"
+                        >   
+                            ผลตอบแทนที่คาดหวัง {portfolioPackage.ReturnRate}%
+                        </p>
                     </div>
                 </div>
             </div>

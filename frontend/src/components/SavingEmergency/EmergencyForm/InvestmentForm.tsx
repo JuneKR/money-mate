@@ -431,7 +431,7 @@ export function InvestmentForm({
                         หากไม่ทราบระดับความเสี่ยงของตนเองโปรดทำแบบประเมินความเสี่ยง
                       </h1>
                       <a
-                        href="/"
+                        // href=""
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block text-center md:text-left"

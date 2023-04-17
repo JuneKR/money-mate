@@ -276,7 +276,8 @@ const EmergencyInvestmentDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {savingEmergencyPlan?.TotalBalance} บาท
+                          {/* To display balance of emergency plan by decrease with investment portfolio value */}
+                          {savingEmergencyPlan?.TotalBalance - investmentPortfolio.TotalValue} บาท
                         </h1>
                       </div>
                     </div>

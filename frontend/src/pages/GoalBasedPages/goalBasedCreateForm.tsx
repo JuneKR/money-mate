@@ -7,7 +7,7 @@ import { useMultistepForm } from "@/components/SavingEmergency/EmergencyForm/use
 import { SGoalForm } from "@/components/SavingForGoal/SavingGoalForm/sGoalForm";
 import { PlanForm } from "@/components/SavingForGoal/SavingGoalForm/sGoalPlanForm";
 import SGInvestmentForm from "@/components/SavingForGoal/SavingGoalForm/sGoalInvestmentForm";
-import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
+import PortfolioPackage from "@/components/SavingForGoal/SavingGoalForm/sGoalPortfolioPackage";
 import { create } from "domain";
 
 type FormData = {
@@ -44,7 +44,7 @@ const goalBasedCreateForm = () => {
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
-  const [uID, setuID] = useState(1);
+  const [isSelectedPackage, setIsSelectedPackage] = useState(false);
   const urlServer = "http://localhost:8080/";
 
   function updateFields(fields: Partial<FormData>) {
@@ -56,6 +56,11 @@ const goalBasedCreateForm = () => {
   const handleInvestmentSelection = (selected: boolean) => {
     console.log("Selected Package", selected);
     setShowPackageStep(selected);
+  };
+
+  const handlePackageSelection = (selected: boolean) => {
+    console.log('Selected Package', selected) 
+    setIsSelectedPackage(selected);
   };
 
   const {
@@ -76,7 +81,7 @@ const goalBasedCreateForm = () => {
       updateFields={updateFields}
       handleInvestmentSelection={handleInvestmentSelection}
     />,
-    // <PortfolioPackage {...data} updateFields={updateFields} />,
+    <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
   ]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,20 +93,23 @@ const goalBasedCreateForm = () => {
       } else {
         alert("สร้างแผนการออมเงินสำเร็จแล้ว!");
         const userProfile = await getUserProfile(urlServer);
-        // Set up state of User ID
-        // setuID(userProfile.User_ID);
-        await createEmergencyPlan(urlServer, userProfile);
+        await createGoalPlan(urlServer, userProfile);
         router.push("/GoalBasedPages/goalBasedDashboard");
       }
     } else if (isLastStep) {
-      alert("สร้างพอร์ตการออมเงินสำเร็จแล้ว!");
-      await getUserProfile(urlServer);
-      // await createEmergencyPlan();
-      // await getPortfolioPackage();
-      // await getPortfolioPackageAllocation();
-      // await createInvestmentPortfolio();
-      // await clonePortfolioPackageAllocation();
-      router.push("/EmergencyPages/emergencyInvestmentDashboard");
+      if (isSelectedPackage) {
+        alert("สร้างพอร์ตการออมเงินสำเร็จแล้ว!");
+        await getUserProfile(urlServer);
+        const userProfile = await getUserProfile(urlServer);
+        await createGoalPlan(urlServer, userProfile);
+        const savingGoal = await getSavingGoalPlan(urlServer, userProfile);
+        const portfolioPackage = await getPortfolioPackage(urlServer, data.riskLevel);
+        const portfolioPackageAllocation = await getPortfolioPackageAllocation(urlServer, portfolioPackage);
+        await createInvestmentPortfolio(urlServer, portfolioPackage, userProfile, savingGoal);
+        const investmentPortfolio = await getInvestmentPortfolio(urlServer, savingGoal);
+        await addMutualFundsToInvestmentPortfolio(urlServer, investmentPortfolio, portfolioPackageAllocation);
+        router.push("/GoalBasedPages/goalBasedInvestmentDashboard");
+      }
     } else {
       return next();
     }
@@ -133,13 +141,11 @@ const goalBasedCreateForm = () => {
     }
   };
 
-  const createEmergencyPlan = async (urlServer: string, userProfile: any) => {
+  const createGoalPlan = async (urlServer: string, userProfile: any) => {
     const moment = require("moment-timezone");
     const now = moment().tz("Asia/Bangkok");
     const startDate = now.format("YYYY-MM-DD");
     const lastUpdate = now.format("YYYY-MM-DD HH:mm:ss");
-
-    const defaultPlanName = "แผนออมเงิน ทริปสิงคโปร์";
 
     const createGoalBasedPlanData = {
       plan_name: data.planName,
@@ -151,10 +157,8 @@ const goalBasedCreateForm = () => {
       last_update: lastUpdate,
       total_balance: data.totalBalance,
       time_remaining: data.timeRemaining,
-    //   monthly_expense: data.expense,
       progression: (data.totalBalance / data.targetAmount) * 100,
       user_id: userProfile.User_ID,
-      // user_id: uID,
     };
     try {
       const response = await fetch(`${urlServer}saving/goal`, {
@@ -180,32 +184,140 @@ const goalBasedCreateForm = () => {
     }
   };
 
-  const getPortfolioPackage = async () => {
+  const getSavingGoalPlan = async (urlServer: string, userProfile: any) => {
     try {
-      // Fetch Portfolio Package
-      const packageResponse = await fetch(
-        `${urlServer}portfolio/package/risk-spectrum/${data.riskLevel}`,
-        {
-          credentials: "include",
-        }
-      );
-      const portfolioPackage = await packageResponse.json();
-      console.log("Package", portfolioPackage);
+      // Fetch Saving Emergency Plan
+      const savingResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goal`, {
+        credentials: "include",
+      });
+      const savingGoalPlan = await savingResponse.json();
+      console.log('Emergency Plan',savingGoalPlan);
+      return savingGoalPlan;
     } catch (error) {
-      console.log("fetch Package Error: ", error);
+      console.log("fetch Saving Goal Plan Error: ", error);
     }
   };
 
-  const getPortfolioPackageAllocation = async () => {
+  const getPortfolioPackage = async (urlServer: string, riskSpectrum: number) => {
     try {
-      const packageResponse = await fetch(
-        `${urlServer}portfolio/package/1/allocations`,
-        {
-          credentials: "include",
-        }
-      );
+      // Fetch Portfolio Package
+      const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${riskSpectrum}`, {
+        credentials: "include",
+      });
+      const portfolioPackage = await packageResponse.json();
+      console.log('Package', portfolioPackage);
+
+      return portfolioPackage;
+    } catch (error) {
+      console.log("fetch Portfolio Package Error: ", error);
+
+      return null;
+    }
+  }
+
+  const getPortfolioPackageAllocation = async (userlServer: string, portfolioPackage: any) => {
+    try {
+      const packageResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
+        credentials: "include",
+      });
+      const portfolioPackageAllocation = await packageResponse.json();
+      console.log('Package Allocation', portfolioPackageAllocation);
+      return portfolioPackageAllocation;
+
     } catch (error) {
       console.log("fetch Package Error: ", error);
+
+      return null;
+    }
+  }
+
+  const createInvestmentPortfolio = async (urlServer: string, portfolioPackage: any, userProfile: any, savingGoal: any) => {
+    const defaultPortfolioName = `พอร์ตการลงทุนเพื่อ${savingGoal.PlanName}`
+    const moment = require('moment-timezone');
+    const now = moment().tz('Asia/Bangkok');
+    const startDate = now.format('YYYY-MM-DD');
+    const lastUpdate = now.format('YYYY-MM-DD HH:mm:ss');
+
+    const createInvestmentPortfolioData = {
+      portfolio_name: defaultPortfolioName,
+      total_value: 0,
+      last_update: lastUpdate,
+      start_date: startDate,
+      risk_spectrum: portfolioPackage.RiskSpectrum,
+      return_rate: portfolioPackage.ReturnRate,
+      user_id: userProfile.User_ID,
+      package_id: portfolioPackage.Package_ID,
+      emergency_id: null,
+      goal_id: savingGoal.Goal_ID,
+      retirement_id: null
+    };
+    try {
+      const response = await fetch(`${urlServer}investment/portfolio`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(createInvestmentPortfolioData),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData);
+        return;
+      }
+  
+      const responseData = await response.json();
+      console.log(`Successfully Created Investment Portfolio By Emergency ID: ${savingGoal.Goal_ID}`,responseData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getInvestmentPortfolio = async (urlServer: string, savingGoal: any) => {
+    try {
+      // Fetch Investment Portfolio By Goal ID
+      const portfolioResponse = await fetch(`${urlServer}emergency/${savingGoal.Goal_ID}/investment/portfolio`, {
+        credentials: "include",
+      });
+      const investmentPortfolio = await portfolioResponse.json();
+      console.log('Investment Portfolio', investmentPortfolio);
+      return investmentPortfolio;
+    } catch (error) {
+      console.log("fetch Investment Portfolio Error: ", error);
+
+      return null;
+    }
+  }
+
+  const addMutualFundsToInvestmentPortfolio = async (urlServer: string, investmentPortfolio: any, portfolioPackageAllocation: any) => {
+    try {
+      for (const packageAllocation of portfolioPackageAllocation) {
+        const { Package_ID, Fund_ID, PolicyDesc, FundAbbrName, OneYearReturns, AllocationRatio } = packageAllocation;
+        
+        // Add Mutual Fund to Investment Portfolio
+        const response = await fetch(`${urlServer}investment/portfolio/fund`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            portfolio_id: investmentPortfolio.Portfolio_ID,
+            fund_id: Fund_ID,
+            policy_desc: PolicyDesc,
+            fund_abbr_name: FundAbbrName,
+            one_year_returns: OneYearReturns,
+            allocation_ratio: AllocationRatio
+          })
+        });
+  
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(`Failed to add mutual fund allocation: ${errorMessage}`);
+        }
+      }
+  
+      console.log('Successfully added all mutual fund allocations to investment portfolio');
+    } catch (error) {
+      console.error(error);
     }
   };
 

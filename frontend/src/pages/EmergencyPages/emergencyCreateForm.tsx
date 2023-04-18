@@ -39,7 +39,6 @@ const emergencyCreateForm = () => {
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
-  const [uID, setuID] = useState(1);
   const urlServer = "http://localhost:8080/";
   const [isSelectedPackage, setIsSelectedPackage] = useState(false);
 

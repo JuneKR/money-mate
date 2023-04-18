@@ -203,7 +203,7 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="number"
                   id=""
-                  placeholder={savingRetirement?.TargetAmount.toLocaleString() + " บาท"}
+                  placeholder={savingRetirement?.TargetAmount?.toLocaleString() + " บาท"}
                   value={targetAmount2}
                   onChange={(e) => setTargetAmount(e.target.value)}
                 />

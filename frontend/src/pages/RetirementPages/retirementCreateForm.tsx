@@ -6,7 +6,7 @@ import { Stepper, StepLabel, Step, Box } from "@mui/material";
 import { useMultistepForm } from "@/components/SavingEmergency/EmergencyForm/useMultistepForm";
 import { RetirementForm } from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementForm";
 import { SRetirementPlanForm } from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementPlanForm";
-import SGInvestmentForm from "@/components/SavingForGoal/SavingGoalForm/sGoalInvestmentForm";
+import SRetirementInvestment from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementInvestmentForm";
 import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
 import { create } from "domain";
 
@@ -29,6 +29,7 @@ type FormData = {
   additionalInvestment: number;
   progression: string;
   riskLevel: number;
+  returnRate: number;
 };
 
 const initialData: FormData = {
@@ -50,6 +51,7 @@ const initialData: FormData = {
   additionalInvestment: 0,
   progression: "",
   riskLevel: 0,
+  returnRate: 0,
 };
 
 const retirementCreateForm = () => {
@@ -84,7 +86,7 @@ const retirementCreateForm = () => {
   } = useMultistepForm([
     <RetirementForm {...data} updateFields={updateFields} />,
     <SRetirementPlanForm {...data} updateFields={updateFields} />,
-    <SGInvestmentForm
+    <SRetirementInvestment
       selected={false}
       {...data}
       updateFields={updateFields}

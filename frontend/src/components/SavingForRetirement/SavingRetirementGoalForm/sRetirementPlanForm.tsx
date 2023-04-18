@@ -129,44 +129,19 @@ export function SRetirementPlanForm({
     targetAmount,
   };
 
-  function multiply(x: string, y: string): string {
-    const numX = Number(x);
-    const numY = Number(y);
-    if (Number.isNaN(numX) || Number.isNaN(numY)) {
-      return "Invalid input";
-    }
-    const result = numX * numY;
-    return result.toString();
-  }
-
-  function divided(x: string, y: string): string {
-    const numX = Number(x);
-    const numY = Number(y);
-    if (Number.isNaN(numX) || Number.isNaN(numY)) {
-      return "Invalid input";
-    }
-    const result = numX / numY / 12;
-    return result.toString();
-  }
-
   function findAge(dateOfBirth: string): number {
-    // console.log("dateOfBirth", dateOfBirth);
     const [year, month, day] = dateOfBirth.split("-");
     const birthDate = new Date(Number(year), Number(month) - 1, Number(day));
-    // console.log("birthDate", birthDate);
     const ageInMilliseconds = Date.now() - birthDate.getTime();
-    // console.log("ageInMilliseconds", ageInMilliseconds);
     const ageInYears = Math.floor(
       ageInMilliseconds / 1000 / 60 / 60 / 24 / 365
     );
-    // console.log("ageInYears", ageInYears);
     return ageInYears;
   }
 
   const age = findAge(dateOfBirth);
-  console.log("Age", age);
   const tvmCalculator = require("tvm-calculator");
-  
+
   function retirementPmtValue(
     pvInput: number,
     nperInput: number,
@@ -178,10 +153,7 @@ export function SRetirementPlanForm({
       nper: nperInput,
       fv: fvInput,
       rate: rateInput,
-      
-    }
-    );
-    console.log("remainTimeTvmResult", remainTimeTvmResult)
+    });
     return remainTimeTvmResult;
   }
 
@@ -201,54 +173,78 @@ export function SRetirementPlanForm({
   }
 
   //   Parent State
-  //   let emergencyFund = multiply(expense.toString(), period.toString());
-  const exactExpense = monthlyExpense * 2.0;
-  const retirementFund = exactExpense * ((ageToLive - ageToRetire) * 12);
+  const exactExpense = monthlyExpense * 2.0; //รายจ่าย * เงินเฟ้อ 2%
+  const retirementFund = exactExpense * ((ageToLive - ageToRetire) * 12); //เป้าหมายเงินทุนเกษียณทั้งหมด
   const rePeriod = (ageToRetire - age) * 12;
-  console.log("totalBalance", totalBalance)
-  console.log("rePeriod", rePeriod)
-  console.log("retirementFund", retirementFund)
-  console.log("rate", 2)
+
   const retirementMonthlySaving = retirementPmtValue(
     Number(totalBalance),
     rePeriod,
     retirementFund,
     2
   );
-  console.log(rePeriod);
-  console.log(retirementFund);
-  console.log("retirementMonthlySaving ", retirementMonthlySaving)
-  //   const years = divided(targetGoalFund.toString(), monthlySaving.toString());
-  //   console.log(years);
+
+  const rePeriodPlan = numberPeriods(
+    Number(totalBalance),
+    retirementFund,
+    -retirementMonthlySaving,
+    0
+  );
+  console.log("rePeriodPlan ", rePeriodPlan / 12);
 
   // Current Plan State
-  //   const currentGoalFund = multiply(
-  //     currentState.expense.toString(),
-  //     currentState.period.toString()
-  //   );
-  const currentExactExpense = currentState.monthlyExpense * 2.0;
+  const currentExactExpense = currentState.monthlyExpense * 2.0; //รายจ่าย * เงินเฟ้อ 2%
   const currentRetirementFund =
     currentExactExpense *
-    ((currentState.ageToLive - currentState.ageToRetire) * 12);
-  const currentYears = divided(
-    currentRetirementFund.toString(),
-    currentState.monthlySaving.toString()
+    ((currentState.ageToLive - currentState.ageToRetire) * 12); //เป้าหมายเงินทุนเกษียณทั้งหมด
+  const currentRePeriod = (currentState.ageToRetire - age) * 12;
+  const currentRetirementMonthlySaving =
+    retirementPmtValue(
+      Number(currentState.totalBalance),
+      currentRePeriod,
+      currentRetirementFund,
+      2
+    ) * -1;
+  const currentRePeriodPlan = numberPeriods(
+    Number(currentState.totalBalance),
+    currentRetirementFund,
+    currentRetirementMonthlySaving,
+    0
   );
 
   // Option Plan State
-  //   const optionGoalFund = multiply(
-  //     optionState.expense.toString(),
-  //     optionState.period.toString()
-  //   );
   const optionExactExpense = optionState.monthlyExpense * 2.0;
   const optionRetirementFund =
     optionExactExpense *
     ((optionState.ageToLive - optionState.ageToRetire) * 12);
+  const optionRePeriod = (optionState.ageToRetire - age) * 12;
+  const optionRetirementMonthlySaving =
+    retirementPmtValue(
+      Number(optionState.totalBalance),
+      optionRePeriod,
+      optionRetirementFund,
+      2
+    ) * -1;
 
-  const optionYears = divided(
-    optionRetirementFund.toString(),
-    optionState.monthlySaving.toString()
+  const optionRePeriodPlan = numberPeriods(
+    Number(optionState.totalBalance),
+    optionRetirementFund,
+    optionRetirementMonthlySaving,
+    0
   );
+  //   console.log(
+  //     "rePeriodPlan",
+  //     totalBalance,
+  //     retirementFund,
+  //     retirementMonthlySaving
+  //   );
+  //   console.log(
+  //     "optionRePeriodPlan: ",
+  //     optionRePeriodPlan,
+  //     optionState.totalBalance,
+  //     optionRetirementFund,
+  //     optionRetirementMonthlySaving
+  //   );
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -262,25 +258,23 @@ export function SRetirementPlanForm({
     return result.toString();
   }
 
-  // Set time to achieve
-  //   const timeToAchive = yearsToYearsMonthsDays(years);
-  const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);
-  const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
+  //   console.log("Parent State", {
+  //     dateOfBirth,
+  //     monthlyExpense,
+  //     ageToRetire,
+  //     ageToLive,
+  //     period,
+  //     monthlySaving,
+  //     totalBalance,
+  //     timeRemaining,
+  //     targetAmount,
+  //   });
+  //     console.log("Current Plan", currentState);
+  //     console.log("Option Plan", optionState);
 
-  console.log("Parent State", {
-    dateOfBirth,
-    monthlyExpense,
-    ageToRetire,
-    ageToLive,
-    period,
-    monthlySaving,
-    totalBalance,
-    timeRemaining,
-    targetAmount,
-  });
-  //   console.log("Current Plan", currentState);
-  //   console.log("Option Plan", optionState);
-
+  console.log("rePeriodPlan", rePeriodPlan);
+  console.log("currentRePeriodPlan", currentRePeriodPlan);
+  console.log("optionRePeriodPlan", optionRePeriodPlan);
   // Once user click on checkbox
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -312,8 +306,9 @@ export function SRetirementPlanForm({
     // Check the selected option to fetch the apis and update the parent state
     if (selectedOption === "option1") {
       // Update the Current Plan State
-      updateCurrentFields({ timeRemaining: Number(currentYears) });
+      updateCurrentFields({ timeRemaining: Number(currentRePeriodPlan) });
       updateCurrentFields({ targetAmount: Number(currentRetirementFund) });
+    //   updateCurrentFields({ period: Number(currentRePeriodPlan) });
 
       updateFields({
         dateOfBirth: currentState.dateOfBirth,
@@ -328,9 +323,10 @@ export function SRetirementPlanForm({
       });
     } else if (selectedOption === "option2") {
       // Update the Option Plan State
-      updateOptionFields({ timeRemaining: Number(optionYears) });
+      updateOptionFields({ timeRemaining: Number(optionRePeriodPlan)});
       updateOptionFields({ targetAmount: Number(optionRetirementFund) });
-
+    //   updateOptionFields({ period: Number(optionRePeriodPlan) });
+      updateOptionFields({ monthlySaving: Number(optionRetirementMonthlySaving)});
       updateFields({
         dateOfBirth: optionState.dateOfBirth,
         monthlyExpense: optionState.monthlyExpense,
@@ -344,27 +340,32 @@ export function SRetirementPlanForm({
       });
     } else {
       // Update the Option Plan State
-      updateOptionFields({ timeRemaining: Number(optionYears) });
+      updateOptionFields({ timeRemaining: Number(optionRePeriodPlan) });
       updateOptionFields({ targetAmount: Number(optionRetirementFund) });
+    //   updateOptionFields({ period: Number(optionRePeriodPlan) });
+      updateOptionFields({ monthlySaving: Number(optionRetirementMonthlySaving)});
 
       // Update the Current Plan State
-      updateCurrentFields({ timeRemaining: Number(currentYears) });
+      updateCurrentFields({ timeRemaining: Number(currentRePeriod) });
       updateCurrentFields({ targetAmount: Number(currentRetirementFund) });
+      updateCurrentFields({ period: Number(currentRePeriodPlan) });
+      updateCurrentFields({ monthlySaving: Number(currentRetirementMonthlySaving)});
     }
 
     // Check the Checkbox is hidden or not to set parent state
     if (isHidden) {
       // Update the Parent Plan State
-    //   updateFields({ timeRemaining: Number(retirementTimeRemaining) });
+      updateFields({ timeRemaining: Number(rePeriodPlan) });
       updateFields({ targetAmount: Number(retirementFund) });
+    //   updateFields({ period: Number(rePeriodPlan) });
+      updateFields({ monthlySaving: Number(retirementMonthlySaving)});
       //   updateFields({ ageToLive: Number(retirementFund)});
     }
   }, [
     isHidden,
     selectedOption,
-    currentYears,
+    currentRetirementFund,
     currentState.targetAmount,
-    optionYears,
     optionState.targetAmount,
     selectedOption,
   ]);
@@ -373,8 +374,7 @@ export function SRetirementPlanForm({
   const monthlySaving2 = Number(retirementMonthlySaving) * -1;
   const formattedReFund = reFund.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
-  // console.log(formattedEmergencyFund)
-  // console.log(formattedMonthlySaving)
+
   return (
     <>
       <div style={{ padding: "0 4rem" }}>
@@ -383,23 +383,27 @@ export function SRetirementPlanForm({
           className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 text-white font-bold">
-            <div className="text-lg p-4">เป้าหมาย</div>
+            <div className="text-lg p-4">เป้าหมาย:</div>
             <div className="text-lg p-4">ออมเงินเพื่อเกษียณอายุ</div>
             <div className="p-4">จำนวนเงินเป้าหมายที่ต้องเก็บ: </div>
             <div className="p-4">{formattedReFund} บาท</div>
-            <div className="p-4">จำนวนเงินที่ต้องออมต่อเดือน</div>
+            <div className="p-4">จำนวนเงินที่ต้องออมต่อเดือน:</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
-            <div className="p-4"> ระยะเวลาที่เหลือก่อนเกษียณ</div>
-            <div className="p-4">{period} เดือน</div>
-            {/* <div className="p-4">ระยะเวลาคงเหลือ</div>
-            <div className="p-4">{timeToAchive}</div>
-            <div className="p-4">เงินในปัจจุบัน</div>
-            <div className="p-4">{totalBalance}</div> */}
+            <div className="p-4"> ปัจจุบันคุณอายุ:</div>
+            <div className="p-4"> {age} ปี</div>
+            <div className="p-4"> อยากเกษียณตอนอายุ:</div>
+            <div className="p-4"> {ageToRetire} ปี</div>
+            <div className="p-4"> คุณมีเวลาในการทำแผนการออมให้สำเร็จ:</div>
+            <div className="p-4"> {ageToRetire - age} ปี</div>
+            <div className="p-4"> ระยะเวลาทั้งหมดที่ใช้ในการออมเงิน:</div>
+            <div className="p-4">
+              {yearsToYearsMonthsDays((timeRemaining / 12).toString())}
+            </div>
           </div>
         </div>
         <div className="relative py-8 ">
           <div
-            className=" transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black bg-indigo-500 hover:bg-blue-500 transition delay-150"
+            className=" transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black  bg-gradient-to-r from-purple-900 to-green-500 hover:bg-blue-500 transition delay-150"
             onClick={handleClick}
           >
             <span className="text-white text-lg rounded py-2 font-bold">
@@ -447,14 +451,6 @@ export function SRetirementPlanForm({
                     </p>
                   </div>
 
-                  {/* <div className="flex items-center justify-center h-24 px-5 rounded-full">
-                    <Slider1
-                      title="my slidebar1"
-                      months={currentState.period.toString()}
-                      disabled={true}
-                    />
-                  </div> */}
-
                   <div
                     style={{ width: "100%", height: "100%" }}
                     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black p-5"
@@ -466,10 +462,13 @@ export function SRetirementPlanForm({
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
                           <div className="mb-4 pb-5 text-white font-bold">
-                            ระยะเวลา(เดือน)
+                            ค่าใช้จ่าย/เดือน
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
-                            เงินออม/เดือน
+                            อายุที่ต้องใจเกษียณ
+                          </div>
+                          <div className="mb-4 pb-5 text-white font-bold">
+                            เงินออม/ต่อเดือน
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
                             เงินออมทั้งหมดในปัจจุบัน
@@ -479,10 +478,9 @@ export function SRetirementPlanForm({
                           <div className="pb-5">
                             <input
                               placeholder="15,000"
-                              value={currentState.period}
+                              value={currentState.monthlyExpense}
                               type="text"
                               readOnly
-                              // onChange={e => updateFields({ expense: Number(e.target.value) })}
                               style={{
                                 width: "100%",
                                 backgroundColor: "#27264E",
@@ -493,9 +491,25 @@ export function SRetirementPlanForm({
                           <div className="pb-5">
                             <input
                               placeholder="1,000"
-                              value={currentState.monthlySaving}
-                              // onChange={e => updateFields({ monthlySaving: Number(e.target.value) })}
+                              value={currentState.ageToRetire}
                               readOnly
+                              type="text"
+                              style={{
+                                width: "100%",
+                                backgroundColor: "#27264E",
+                              }}
+                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                            />
+                          </div>
+                          <div className="pb-5">
+                            <input
+                              placeholder="0"
+                              value={currentRetirementMonthlySaving}
+                              onChange={(e) =>
+                                updateOptionFields({
+                                  totalBalance: Number(e.target.value),
+                                })
+                              }
                               type="text"
                               style={{
                                 width: "100%",
@@ -509,7 +523,6 @@ export function SRetirementPlanForm({
                               placeholder="0"
                               value={currentState.totalBalance}
                               readOnly
-                              // onChange={e => updateFields({ totalBalance: Number(e.target.value) })}
                               type="text"
                               style={{
                                 width: "100%",
@@ -534,18 +547,15 @@ export function SRetirementPlanForm({
                           <span className="block m-1 text-white font-bold flex items-center justify-center py-5">
                             ระยะเวลาออม
                           </span>
-                          <input
-                            type="string"
-                            id="#"
-                            value={currentTimeToAchive}
-                            readOnly
-                            placeholder=""
+                          <div
                             style={{
                               width: "100%",
                               backgroundColor: "#27264E",
                             }}
                             className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                          />
+                          >
+                            {yearsToYearsMonthsDays((currentState.period / 12).toString())}
+                          </div>
                         </label>
                       </div>
                     </div>
@@ -568,20 +578,10 @@ export function SRetirementPlanForm({
                   </div>
 
                   <div className="px-20">
-                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-pink-500 font-bold text-2xl pb-3 rounded-full shadow-2xl ">
+                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-green-500 font-bold text-2xl pb-3 rounded-full shadow-2xl ">
                       แผนการออมเงินทางเลือก
                     </p>
                   </div>
-
-                  {/* <div className="flex items-center justify-center h-24 px-5">
-                    <Slider
-                      title="my slidebar"
-                      months={optionState.period.toString()}
-                      onChange={(e) => {
-                        updateOptionFields({ period: Number(e.target.value) });
-                      }}
-                    />
-                  </div> */}
 
                   <div
                     style={{ width: "100%", height: "100%" }}
@@ -597,20 +597,23 @@ export function SRetirementPlanForm({
                             ค่าใช้จ่าย/เดือน
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
-                            เงินออมเดือน
+                            อายุที่ต้องการเกษียณ
                           </div>
                           <div className="mb-4 pb-5 text-white font-bold">
-                            เงินออมทั้งหมดปัจจุบัน
+                            เงินออม/เดือน
+                          </div>
+                          <div className="mb-4 pb-5 text-white font-bold">
+                            เงินออมทั้งหมดในปัจจุบัน
                           </div>
                         </div>
                         <div>
                           <div className="pb-5">
                             <input
                               placeholder="15,000"
-                              value={optionState.period}
+                              value={optionState.monthlyExpense}
                               onChange={(e) =>
                                 updateOptionFields({
-                                  period: Number(e.target.value),
+                                  monthlyExpense: Number(e.target.value),
                                 })
                               }
                               type="text"
@@ -624,6 +627,23 @@ export function SRetirementPlanForm({
                           <div className="pb-5">
                             <input
                               placeholder="1,000"
+                              value={optionState.ageToRetire}
+                              onChange={(e) =>
+                                updateOptionFields({
+                                  ageToRetire: Number(e.target.value),
+                                })
+                              }
+                              type="text"
+                              style={{
+                                width: "100%",
+                                backgroundColor: "#27264E",
+                              }}
+                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                            />
+                          </div>
+                          <div className="pb-5">
+                            <input
+                              placeholder="0"
                               value={optionState.monthlySaving}
                               onChange={(e) =>
                                 updateOptionFields({
@@ -668,18 +688,15 @@ export function SRetirementPlanForm({
                           <span className="block m-1 text-white font-bold flex items-center justify-center py-5">
                             ระยะเวลาออม
                           </span>
-                          <input
-                            type="string"
-                            id="#"
-                            value={optionTimeToAchive}
-                            readOnly
-                            placeholder="8 ปี 9 เดือน"
+                          <div
                             style={{
                               width: "100%",
                               backgroundColor: "#27264E",
                             }}
                             className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                          />
+                          >
+                            {yearsToYearsMonthsDays((optionState.timeRemaining / 12).toString())}
+                          </div>
                         </label>
                       </div>
                     </div>

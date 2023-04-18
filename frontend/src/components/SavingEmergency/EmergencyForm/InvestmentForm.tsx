@@ -288,7 +288,7 @@ export function InvestmentForm({
         const userProfile = await profileResponse.json();
         // console.log(userProfile);
         const uID = userProfile.User_ID;
-        setuID(uID);
+        // setuID(uID);
       } catch (error) {
         console.log("fetch User Profile Error: ", error);
       }

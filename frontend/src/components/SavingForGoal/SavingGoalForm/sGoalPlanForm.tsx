@@ -99,7 +99,7 @@ export function PlanForm({
   const targetGoalFund = targetAmount - totalBalance;
   // Finding the monthly saving for user
   const targetMonthlySaving = Math.floor((targetGoalFund/period));
-  const years = divided(targetGoalFund.toString(), monthlySaving.toString());
+  const years = divided(targetGoalFund.toString(), targetMonthlySaving.toString());
   console.log('Monthly Saving',targetMonthlySaving);
   console.log('Target Goal Fund',targetGoalFund);
   console.log('Year',years);
@@ -120,12 +120,12 @@ export function PlanForm({
     optionTargetGoalFund.toString(),
     optionTargetMonthlySaving.toString()
   );
-
-  console.log('Option Monthly Saving', optionTargetMonthlySaving);
+  
+  // console.log('Option Monthly Saving', optionTargetMonthlySaving);
   // console.log('Option Target Goal Fund', optionTargetGoalFund);
   // console.log('Option Year', Math.round(Number(optionYears)));
   // console.log('Option Period', optionState.period);
-
+  // console.log('Option Years', yearsToYearsMonthsDays(optionYears));
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;

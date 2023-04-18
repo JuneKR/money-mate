@@ -88,39 +88,44 @@ export function PlanForm({
     if (Number.isNaN(numX) || Number.isNaN(numY)) {
       return "Invalid input";
     }
+    if (numY === 0) {
+      return "Cannot divide by zero";
+    }
     const result = numX / numY / 12;
     return result.toString();
   }
 
   //   Parent State
-  //   let emergencyFund = multiply(expense.toString(), period.toString());
   const targetGoalFund = targetAmount - totalBalance;
-  console.log(targetGoalFund);
+  // Finding the monthly saving for user
+  const targetMonthlySaving = Math.floor((targetGoalFund/period));
   const years = divided(targetGoalFund.toString(), monthlySaving.toString());
-  console.log(years);
-  // Current Plan State
-  //   const currentGoalFund = multiply(
-  //     currentState.expense.toString(),
-  //     currentState.period.toString()
-  //   );
-  const currentTargetGoalFund =
-    currentState.targetAmount - currentState.totalBalance;
+  console.log('Monthly Saving',targetMonthlySaving);
+  console.log('Target Goal Fund',targetGoalFund);
+  console.log('Year',years);
+
+  const currentTargetGoalFund = currentState.targetAmount - currentState.totalBalance;
+  const currentTargetMonthlySaving = Math.floor((currentTargetGoalFund/currentState.period));
   const currentYears = divided(
     currentTargetGoalFund.toString(),
-    currentState.monthlySaving.toString()
+    currentTargetMonthlySaving.toString()
   );
 
-  // Option Plan State
-  //   const optionGoalFund = multiply(
-  //     optionState.expense.toString(),
-  //     optionState.period.toString()
-  //   );
-  const optionTargetGoalFund =
-    optionState.targetAmount - optionState.totalBalance;
+  const optionTargetGoalFund = optionState.targetAmount - optionState.totalBalance;
+  const optionTargetMonthlySaving = optionState.period !== 0 ? 
+  Math.floor((optionTargetGoalFund/optionState.period)) : 
+  0;
+
   const optionYears = divided(
     optionTargetGoalFund.toString(),
-    optionState.monthlySaving.toString()
+    optionTargetMonthlySaving.toString()
   );
+
+  console.log('Option Monthly Saving', optionTargetMonthlySaving);
+  // console.log('Option Target Goal Fund', optionTargetGoalFund);
+  // console.log('Option Year', Math.round(Number(optionYears)));
+  // console.log('Option Period', optionState.period);
+
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -138,10 +143,7 @@ export function PlanForm({
   const timeToAchive = yearsToYearsMonthsDays(years);
   const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);
   const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
-
-//   console.log("Parent State", { timeRemaining, targetAmount });
-//   console.log("Current Plan", currentState);
-//   console.log("Option Plan", optionState);
+  // console.log('Option Time 2 Achieve', optionTimeToAchive);
 
   // Once user click on checkbox
   const handleClick = () => {
@@ -175,7 +177,8 @@ export function PlanForm({
     if (selectedOption === "option1") {
       // Update the Current Plan State
       updateCurrentFields({ timeRemaining: Number(currentYears) });
-      updateCurrentFields({ targetAmount: Number(currentState.targetAmount) });
+      updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
+      // updateCurrentFields({ targetAmount: Number(currentState.targetAmount) });
 
       updateFields({
         planName: currentState.planName,
@@ -188,7 +191,8 @@ export function PlanForm({
     } else if (selectedOption === "option2") {
       // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionYears) });
-      updateOptionFields({ targetAmount: Number(optionState.targetAmount) });
+      updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
+      // updateOptionFields({ targetAmount: Number(optionState.targetAmount) });
 
       updateFields({
         planName: optionState.planName,
@@ -201,26 +205,28 @@ export function PlanForm({
     } else {
       // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionYears) });
-      updateOptionFields({ targetAmount: Number(optionState.targetAmount) });
+      updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
 
       // Update the Current Plan State
       updateCurrentFields({ timeRemaining: Number(currentYears) });
-      updateCurrentFields({ targetAmount: Number(currentState.targetAmount) });
+      updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
     }
 
     // Check the Checkbox is hidden or not to set parent state
     if (isHidden) {
       // Update the Parent Plan State
       updateFields({ timeRemaining: Number(years) });
-      updateFields({ targetAmount: Number(targetAmount) });
+      updateFields({ monthlySaving: Number(targetMonthlySaving) });
     }
   }, [
     isHidden,
     selectedOption,
     currentYears,
-    currentState.targetAmount,
+    currentTargetMonthlySaving,
+    currentState.monthlySaving,
     optionYears,
-    optionState.targetAmount,
+    optionTargetMonthlySaving,
+    optionState.monthlySaving,
     selectedOption,
   ]);
 
@@ -242,13 +248,15 @@ export function PlanForm({
             <div className="text-lg p-4">ออมเงินเพื่อ{planName}</div>
             <div className="p-4">จำนวนเงินเป้าหมาย: </div>
             <div className="p-4">{formattedSGoalFund} บาท</div>
-            <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
+            {/* <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div> */}
+            <div className="p-4">จำนวนเงินที่ต้องออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
-            <div className="p-4"> ใส่จำนวนเดือนที่ต้องการ</div>
-            <div className="p-4">{period} เดือน</div>
-            <div className="p-4">ระยะเวลาคงเหลือ</div>
-            <div className="p-4">{timeToAchive}</div>
-            <div className="p-4">เงินในปัจจุบัน</div>
+            {/* <div className="p-4"> ใส่จำนวนเดือนที่ต้องการ</div> */}
+            <div className="p-4">ระยะเวลาในการออม</div>
+            <div className="p-4">{period} เดือน (~{timeToAchive})</div>
+            {/* <div className="p-4">ระยะเวลาคงเหลือ</div>
+            <div className="p-4">{timeToAchive}</div> */}
+            <div className="p-4">จำนวนเงินในปัจจุบัน</div>
             <div className="p-4">{totalBalance}</div>
           </div>
         </div>
@@ -321,11 +329,11 @@ export function PlanForm({
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
                           <div className="mb-4 pb-5 text-white font-bold">
-                            ระยะเวลา(เดือน)
+                            ระยะเวลาในการออม (เดือน) 
                           </div>
-                          <div className="mb-4 pb-5 text-white font-bold">
+                          {/* <div className="mb-4 pb-5 text-white font-bold">
                             เงินออม/เดือน
-                          </div>
+                          </div> */}
                           <div className="mb-4 pb-5 text-white font-bold">
                             เงินออมทั้งหมดในปัจจุบัน
                           </div>
@@ -345,7 +353,7 @@ export function PlanForm({
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                           </div>
-                          <div className="pb-5">
+                          {/* <div className="pb-5">
                             <input
                               placeholder="1,000"
                               value={currentState.monthlySaving}
@@ -358,7 +366,7 @@ export function PlanForm({
                               }}
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
-                          </div>
+                          </div> */}
                           <div className="pb-5">
                             <input
                               placeholder="0"
@@ -387,14 +395,16 @@ export function PlanForm({
                       <div className="flex items-center justify-center">
                         <label htmlFor="#" className="block">
                           <span className="block m-1 text-white font-bold flex items-center justify-center py-5">
-                            ระยะเวลาออม
+                            {/* ระยะเวลาออม */}
+                            จำนวนเงินออม/เดือน
                           </span>
                           <input
                             type="string"
                             id="#"
-                            value={currentTimeToAchive}
+                            // value={currentTimeToAchive}
+                            value={currentTargetMonthlySaving.toLocaleString()}
                             readOnly
-                            placeholder=""
+                            placeholder="10,000 บาท"
                             style={{
                               width: "100%",
                               backgroundColor: "#27264E",
@@ -449,11 +459,11 @@ export function PlanForm({
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
                           <div className="mb-4 pb-5 text-white font-bold">
-                            ค่าใช้จ่าย/เดือน
+                            ระยะเวลาในการออม (เดือน)
                           </div>
-                          <div className="mb-4 pb-5 text-white font-bold">
-                            เงินออมเดือน
-                          </div>
+                          {/* <div className="mb-4 pb-5 text-white font-bold">
+                            เงินออม/เดือน
+                          </div> */}
                           <div className="mb-4 pb-5 text-white font-bold">
                             เงินออมทั้งหมดปัจจุบัน
                           </div>
@@ -476,7 +486,7 @@ export function PlanForm({
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                           </div>
-                          <div className="pb-5">
+                          {/* <div className="pb-5">
                             <input
                               placeholder="1,000"
                               value={optionState.monthlySaving}
@@ -492,7 +502,7 @@ export function PlanForm({
                               }}
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
-                          </div>
+                          </div> */}
                           <div className="pb-5">
                             <input
                               placeholder="0"
@@ -521,14 +531,17 @@ export function PlanForm({
                       <div className="flex items-center justify-center">
                         <label htmlFor="#" className="block ">
                           <span className="block m-1 text-white font-bold flex items-center justify-center py-5">
-                            ระยะเวลาออม
+                            {/* ระยะเวลาออม */}
+                            จำนวนเงินออม/เดือน
                           </span>
                           <input
                             type="string"
                             id="#"
-                            value={optionTimeToAchive}
+                            // value={optionTimeToAchive}
+                            value={optionTargetMonthlySaving.toLocaleString()}
                             readOnly
-                            placeholder="8 ปี 9 เดือน"
+                            // placeholder="8 ปี 9 เดือน"
+                            placeholder="10,000 บาท"
                             style={{
                               width: "100%",
                               backgroundColor: "#27264E",

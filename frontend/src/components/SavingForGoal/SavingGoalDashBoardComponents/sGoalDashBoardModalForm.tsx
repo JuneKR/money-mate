@@ -25,8 +25,7 @@ const style = {
 };
 
 function yearsToYearsMonthsDays(value: string) {
-  const values = Number(value) / 12;
-  const totalDays = Number(values) * 365;
+  const totalDays = Number(value) * 365;
   const years = Math.floor(totalDays / 365);
   const months = Math.floor((totalDays - years * 365) / 30);
   const days = Math.floor(totalDays - years * 365 - months * 30);
@@ -201,7 +200,8 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="number"
                   id=""
-                  placeholder={savingGoal?.TargetAmount.toLocaleString() + " บาท"}
+                  placeholder={savingGoal?.TargetAmount?.toLocaleString() + " บาท"}
+                  // placeholder={savingGoal?.TargetAmount + " บาท"}
                   value={targetAmount2}
                   onChange={(e) => setTargetAmount(e.target.value)}
                 />
@@ -249,7 +249,8 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingGoal?.MonthlySaving.toLocaleString() + " บาท/เดือน"}
+                  placeholder={savingGoal?.MonthlySaving?.toLocaleString() + " บาท/เดือน"}
+                  // placeholder={savingGoal?.MonthlySaving + " บาท/เดือน"}
                   value={monthlySaving2}
                   onChange={(e) => setMonthlySaving(e.target.value)}
                 />

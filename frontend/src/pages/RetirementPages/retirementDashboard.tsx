@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
-import ModleButtonAdd from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalAdd";
-import ModleButtonWithDraw from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalWithDraw";
+import ModleButtonAdd from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalAdd";
+import ModleButtonWithDraw from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalForm";
@@ -98,7 +98,7 @@ const RetirementDashboard = () => {
             credentials: "include",
           }
         );
-          console.log(savingRetirement.Retirement_ID)
+        console.log(savingRetirement.Retirement_ID)
         const savingRetirementTransaction =
           await savingRetirementTransactionResponse.json();
         setSavingRetirementTransactions(savingRetirementTransaction);
@@ -248,11 +248,11 @@ const RetirementDashboard = () => {
                   <div className="flex justify-end">
                     <ModleButtonAdd
                       title={"my modle1"}
-                      savingGoal={savingRetirePlan}
+                      savingRetirement={savingRetirePlan}
                     />
                     <ModleButtonWithDraw
                       title={"my modle2"}
-                      savingGoal={savingRetirePlan}
+                      savingRetirement={savingRetirePlan}
                     />
                   </div>
                 </div>

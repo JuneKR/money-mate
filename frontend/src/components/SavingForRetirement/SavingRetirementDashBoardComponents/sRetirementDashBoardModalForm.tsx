@@ -132,7 +132,7 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
           <div className="text-left text-white font-bold">
             <h1 className="px-2 text-xl pb-5">เป้าหมายการออมเงิน</h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-20 p-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 p-5">
             <div
               style={{ backgroundColor: "#27264E" }}
               className="shadow-2xl rounded-lg p-5 "

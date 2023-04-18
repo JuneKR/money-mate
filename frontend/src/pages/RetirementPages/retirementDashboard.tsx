@@ -32,8 +32,8 @@ export interface SavingRetirementPlan {
   // progression: string;
   // riskLevel: number;
   // User_ID: number | any;
-  PlanName: string | any;
-  TargetAmount: number | any;
+  PlanName: string;
+  TargetAmount: number;
   Period: number;
   MonthlySaving: number;
   Initial_saving: number;
@@ -50,7 +50,7 @@ export interface SavingRetirementPlan {
   AdditionalInvestment: number;
   Progression: string;
   RiskLevel: number;
-  User_ID: number | any;
+  User_ID: number;
 }
 
 export interface SavingRetirementTransaction {

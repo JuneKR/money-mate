@@ -39,6 +39,10 @@ export function RetirementForm({
   updateFields,
 }: sRetirementFormProps) {
   const [showModal, setShowModal] = useState(false);
+  const [expenseWarning, setExpenseWarning] = useState("");
+  const [ageToRetireWarning, setAgeToRetireWarning] = useState("");
+  const [ageToLiveWarning, setAgeToLiveWarning] = useState("");
+  const [totalBalanceWarning, setTotalBalanceWarning] = useState("");
   return (
     //   <div className="py-20">
     <div className="grid grid-cols-2">
@@ -79,9 +83,15 @@ export function RetirementForm({
             id="mDeposit"
             placeholder="1,000"
             value={monthlyExpense}
-            onChange={(e) =>
-              updateFields({ monthlyExpense: Number(e.target.value) })
-            }
+            onChange={(e) => {
+              if (isNaN(Number(e.target.value))) {
+                e.target.classList.add("border-red-500");
+                setExpenseWarning("ค่าใช้จ่ายต้องใส่เป็นตัวเลขเท่านั้น");
+              } else {
+                setExpenseWarning("");
+                updateFields({ monthlyExpense: Number(e.target.value) });
+              }
+            }}
             style={{
               width: "100%",
               height: "50px",
@@ -89,6 +99,9 @@ export function RetirementForm({
             }}
             className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
+          {expenseWarning && (
+            <p className="m-1 text-xs text-red-500">{expenseWarning}</p>
+          )}
           <FormHelperText
             id="my-helper-text"
             className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
@@ -112,9 +125,15 @@ export function RetirementForm({
             id="mDeposit"
             placeholder="1,000"
             value={ageToRetire}
-            onChange={(e) =>
-              updateFields({ ageToRetire: Number(e.target.value) })
-            }
+            onChange={(e) => {
+              if (isNaN(Number(e.target.value))) {
+                e.target.classList.add("border-red-500");
+                setAgeToRetireWarning("อายุต้องเป็นตัวเลขเท่านั้น");
+              } else {
+                setAgeToRetireWarning("");
+                updateFields({ ageToRetire: Number(e.target.value) });
+              }
+            }}
             style={{
               width: "100%",
               height: "50px",
@@ -122,11 +141,16 @@ export function RetirementForm({
             }}
             className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
+          {ageToRetireWarning && (
+            <p className="m-1 text-xs text-red-500">{ageToRetireWarning}</p>
+          )}
           <FormHelperText
             id="my-helper-text"
             className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
           >
-            หมายถึง: อายุที่คุณตั้งใจว่าจะเกษียณตัวเองหรือไม่ทำงานแล้ว โดยปกติบริษัทจะมีนโยบายของตัวเองโดนทั่วไปแล้วอายุที่เกษียนณจะอยู่ราวๆ 60-65 ปี
+            หมายถึง: อายุที่คุณตั้งใจว่าจะเกษียณตัวเองหรือไม่ทำงานแล้ว
+            โดยปกติบริษัทจะมีนโยบายของตัวเองโดนทั่วไปแล้วอายุที่เกษียนณจะอยู่ราวๆ
+            60-65 ปี
           </FormHelperText>
           <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
             ข้อมูลไม่ถูกต้อง
@@ -143,9 +167,15 @@ export function RetirementForm({
             type="text"
             id="months"
             value={ageToLive}
-            onChange={(e) =>
-              updateFields({ ageToLive: Number(e.target.value) })
-            }
+            onChange={(e) => {
+              if (isNaN(Number(e.target.value))) {
+                e.target.classList.add("border-red-500");
+                setAgeToLiveWarning("อายุต้องเป็นตัวเลขเท่านั้น");
+              } else {
+                setAgeToLiveWarning("");
+                updateFields({ ageToLive: Number(e.target.value) });
+              }
+            }}
             placeholder="6"
             style={{
               width: "100%",
@@ -154,6 +184,9 @@ export function RetirementForm({
             }}
             className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
+          {ageToLiveWarning && (
+            <p className="m-1 text-xs text-red-500">{ageToLiveWarning}</p>
+          )}
           <FormHelperText
             id="my-helper-text"
             className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
@@ -176,9 +209,15 @@ export function RetirementForm({
             id="cBalance"
             placeholder="0"
             value={totalBalance}
-            onChange={(e) =>
-              updateFields({ totalBalance: Number(e.target.value) })
-            }
+            onChange={(e) => {
+              if (isNaN(Number(e.target.value))) {
+                e.target.classList.add("border-red-500");
+                setTotalBalanceWarning("จำนวนเงินต้องเป็นตัวเลขเท่านั้น");
+              } else {
+                setTotalBalanceWarning("");
+                updateFields({ totalBalance: Number(e.target.value) });
+              }
+            }}
             style={{
               width: "100%",
               height: "50px",
@@ -186,6 +225,9 @@ export function RetirementForm({
             }}
             className="transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
+          {totalBalanceWarning && (
+            <p className="m-1 text-xs text-red-500">{totalBalanceWarning}</p>
+          )}
           <FormHelperText
             id="my-helper-text"
             className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"

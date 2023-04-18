@@ -37,11 +37,10 @@ function yearsToYearsMonthsDays(value: string) {
   return result.toString();
 }
 
-const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps> = ({
-  title,
-  savingRetirement,
-}) => {
-    console.log(savingRetirement)
+const SRetirementDashBoardModalForm: React.FC<
+  SRetirementDashBoardModalFormProps
+> = ({ title, savingRetirement }) => {
+  console.log(savingRetirement);
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const [targetAmount2, setTargetAmount] = useState("");
@@ -81,10 +80,12 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
       time_remaining: timeRemaining2,
       monthly_saving: monthlySaving2,
     };
-    
+
     try {
       console.log("Called");
-      console.log(`${urlServer}saving/retirement/${savingRetirement.Retirement_ID}`);
+      console.log(
+        `${urlServer}saving/retirement/${savingRetirement.Retirement_ID}`
+      );
       const response = await fetch(
         `${urlServer}saving/retirement/${savingRetirement.Retirement_ID}`,
         {
@@ -112,12 +113,12 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
     await updateEmergencyPlan();
   };
   // style={{backgroundColor: "#1D1D41"}}
-  console.log("timePeriod2", timePeriod2)
+  console.log("timePeriod2", timePeriod2);
   const targetAmountDisplay = Number(savingRetirement?.TargetAmount);
   const monthlySavingDisplay = Number(savingRetirement?.MonthlySaving) * -1;
   const formattedํargetAmount = targetAmountDisplay?.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay?.toLocaleString();
-//   .toLocaleString()
+  //   .toLocaleString()
   return (
     <div>
       <Button
@@ -149,17 +150,6 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
               className="shadow-2xl rounded-lg p-5"
             >
               <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
-                ระยะเวลาคงเหลือ
-              </div>
-              <div className="flex items-center justify-center text-white text-2xl">
-                {yearsToYearsMonthsDays((savingRetirement?.TimePeriod))}
-              </div>
-            </div>
-            <div
-              style={{ backgroundColor: "#27264E" }}
-              className="shadow-2xl rounded-lg p-5"
-            >
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
                 เงินออม/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
@@ -175,6 +165,17 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
                 {savingRetirement?.AgeToRetire} ปี
+              </div>
+            </div>
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="shadow-2xl rounded-lg p-5"
+            >
+              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+                ระยะเวลาคงเหลือ
+              </div>
+              <div className="flex items-center justify-center text-white text-2xl">
+                {yearsToYearsMonthsDays(savingRetirement?.TimePeriod)}
               </div>
             </div>
           </div>
@@ -203,7 +204,9 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="number"
                   id=""
-                  placeholder={savingRetirement?.TargetAmount?.toLocaleString() + " บาท"}
+                  placeholder={
+                    savingRetirement?.TargetAmount?.toLocaleString() + " บาท"
+                  }
                   value={targetAmount2}
                   onChange={(e) => setTargetAmount(e.target.value)}
                 />
@@ -293,7 +296,8 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
               ยินดีด้วย! คุณได้อัพเดทแผนการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
             </div>
             <div className="py-5 text-white font-bold text-md">
-              อัพเดทแผนการออมสำเร็จ!!! กรุณารอสักครู่และกรุณาอย่าออกจากหน้านี้....
+              อัพเดทแผนการออมสำเร็จ!!!
+              กรุณารอสักครู่และกรุณาอย่าออกจากหน้านี้....
             </div>
           </Typography>
         </Box>

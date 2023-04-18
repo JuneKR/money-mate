@@ -107,7 +107,7 @@ const retirementCreateForm = () => {
         // Set up state of User ID
         // setuID(userProfile.User_ID);
         await createEmergencyPlan(urlServer, userProfile);
-        router.push("/GoalBasedPages/goalBasedDashboard");
+        router.push("/RetirementPages/retirementDashboard");
       }
     } else if (isLastStep) {
       alert("สร้างพอร์ตการออมเงินสำเร็จแล้ว!");

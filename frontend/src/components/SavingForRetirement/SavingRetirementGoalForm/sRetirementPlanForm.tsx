@@ -183,14 +183,12 @@ export function SRetirementPlanForm({
     retirementFund,
     2
   );
-
   const rePeriodPlan = numberPeriods(
     Number(totalBalance),
     retirementFund,
     -retirementMonthlySaving,
     0
   );
-  console.log("rePeriodPlan ", rePeriodPlan / 12);
 
   // Current Plan State
   const currentExactExpense = currentState.monthlyExpense * 2.0; //รายจ่าย * เงินเฟ้อ 2%
@@ -232,6 +230,11 @@ export function SRetirementPlanForm({
     optionRetirementMonthlySaving,
     0
   );
+  console.log("optionExactExpense", optionExactExpense);
+  console.log("optionRetirementFund", optionRetirementFund);
+  console.log("optionRePeriod", optionRePeriod);
+  console.log("optionRetirementMonthlySaving", optionRetirementMonthlySaving);
+  console.log("optionRePeriodPlan", optionRePeriodPlan);
   //   console.log(
   //     "rePeriodPlan",
   //     totalBalance,
@@ -272,9 +275,13 @@ export function SRetirementPlanForm({
   //     console.log("Current Plan", currentState);
   //     console.log("Option Plan", optionState);
 
-  console.log("rePeriodPlan", rePeriodPlan);
-  console.log("currentRePeriodPlan", currentRePeriodPlan);
-  console.log("optionRePeriodPlan", optionRePeriodPlan);
+//   console.log("rePeriodPlan", rePeriodPlan);
+//   console.log("currentRePeriodPlan", currentRePeriodPlan);
+//   console.log("optionRePeriodPlan", optionRePeriodPlan);
+
+//   console.log("timeRemaining", timeRemaining);
+//   console.log("currentState.timeRemaining", currentState.timeRemaining);
+//   console.log("optionState.timeRemaining", optionState.timeRemaining);
   // Once user click on checkbox
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -308,6 +315,7 @@ export function SRetirementPlanForm({
       // Update the Current Plan State
       updateCurrentFields({ timeRemaining: Number(currentRePeriodPlan) });
       updateCurrentFields({ targetAmount: Number(currentRetirementFund) });
+      updateOptionFields({ monthlySaving: Number(currentRetirementMonthlySaving)});
     //   updateCurrentFields({ period: Number(currentRePeriodPlan) });
 
       updateFields({
@@ -322,11 +330,12 @@ export function SRetirementPlanForm({
         targetAmount: currentState.targetAmount,
       });
     } else if (selectedOption === "option2") {
+
       // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionRePeriodPlan)});
       updateOptionFields({ targetAmount: Number(optionRetirementFund) });
-    //   updateOptionFields({ period: Number(optionRePeriodPlan) });
       updateOptionFields({ monthlySaving: Number(optionRetirementMonthlySaving)});
+
       updateFields({
         dateOfBirth: optionState.dateOfBirth,
         monthlyExpense: optionState.monthlyExpense,
@@ -342,38 +351,39 @@ export function SRetirementPlanForm({
       // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionRePeriodPlan) });
       updateOptionFields({ targetAmount: Number(optionRetirementFund) });
-    //   updateOptionFields({ period: Number(optionRePeriodPlan) });
       updateOptionFields({ monthlySaving: Number(optionRetirementMonthlySaving)});
 
       // Update the Current Plan State
-      updateCurrentFields({ timeRemaining: Number(currentRePeriod) });
+      updateCurrentFields({ timeRemaining: Number(currentRePeriodPlan) });
       updateCurrentFields({ targetAmount: Number(currentRetirementFund) });
-      updateCurrentFields({ period: Number(currentRePeriodPlan) });
       updateCurrentFields({ monthlySaving: Number(currentRetirementMonthlySaving)});
     }
 
     // Check the Checkbox is hidden or not to set parent state
     if (isHidden) {
+
       // Update the Parent Plan State
       updateFields({ timeRemaining: Number(rePeriodPlan) });
       updateFields({ targetAmount: Number(retirementFund) });
-    //   updateFields({ period: Number(rePeriodPlan) });
       updateFields({ monthlySaving: Number(retirementMonthlySaving)});
-      //   updateFields({ ageToLive: Number(retirementFund)});
     }
   }, [
     isHidden,
     selectedOption,
     currentRetirementFund,
-    currentState.targetAmount,
-    optionState.targetAmount,
+    currentRePeriod,
+    optionRetirementFund,
+    optionRePeriod,
+    optionRetirementMonthlySaving,
+    currentRetirementMonthlySaving,
     selectedOption,
+    rePeriodPlan,
+    retirementFund,
+    retirementMonthlySaving,
   ]);
 
   const reFund = Number(targetAmount);
   const monthlySaving2 = Number(retirementMonthlySaving) * -1;
-  const formattedReFund = reFund.toLocaleString();
-  const formattedMonthlySaving = monthlySaving2.toLocaleString();
 
   return (
     <>
@@ -386,9 +396,9 @@ export function SRetirementPlanForm({
             <div className="text-lg p-4">เป้าหมาย:</div>
             <div className="text-lg p-4">ออมเงินเพื่อเกษียณอายุ</div>
             <div className="p-4">จำนวนเงินเป้าหมายที่ต้องเก็บ: </div>
-            <div className="p-4">{formattedReFund} บาท</div>
+            <div className="p-4">{targetAmount?.toLocaleString()} บาท</div>
             <div className="p-4">จำนวนเงินที่ต้องออมต่อเดือน:</div>
-            <div className="p-4">{formattedMonthlySaving} บาท</div>
+            <div className="p-4">{monthlySaving2?.toLocaleString()} บาท</div>
             <div className="p-4"> ปัจจุบันคุณอายุ:</div>
             <div className="p-4"> {age} ปี</div>
             <div className="p-4"> อยากเกษียณตอนอายุ:</div>
@@ -554,7 +564,7 @@ export function SRetirementPlanForm({
                             }}
                             className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                           >
-                            {yearsToYearsMonthsDays((currentState.period / 12).toString())}
+                            {yearsToYearsMonthsDays((currentState.timeRemaining / 12).toString())}
                           </div>
                         </label>
                       </div>

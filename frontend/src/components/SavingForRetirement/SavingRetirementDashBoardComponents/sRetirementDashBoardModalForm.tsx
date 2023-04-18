@@ -113,8 +113,8 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
   };
   // style={{backgroundColor: "#1D1D41"}}
   console.log("timePeriod2", timePeriod2)
-  const targetAmountDisplay = Number(savingRetirement.TargetAmount);
-  const monthlySavingDisplay = Number(savingRetirement.MonthlySaving) * -1;
+  const targetAmountDisplay = Number(savingRetirement?.TargetAmount);
+  const monthlySavingDisplay = Number(savingRetirement?.MonthlySaving) * -1;
   const formattedํargetAmount = targetAmountDisplay?.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay?.toLocaleString();
 //   .toLocaleString()
@@ -152,7 +152,7 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {yearsToYearsMonthsDays((savingRetirement.TimePeriod))}
+                {yearsToYearsMonthsDays((savingRetirement?.TimePeriod))}
               </div>
             </div>
             <div
@@ -174,7 +174,7 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
                 อายุที่ต้องการเกษียณ
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {savingRetirement.AgeToRetire} ปี
+                {savingRetirement?.AgeToRetire} ปี
               </div>
             </div>
           </div>
@@ -251,7 +251,7 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingRetirement.MonthlySaving + " บาท/เดือน"}
+                  placeholder={savingRetirement?.MonthlySaving + " บาท/เดือน"}
                   value={monthlySaving2}
                   onChange={(e) => setMonthlySaving(e.target.value)}
                 />

@@ -13,24 +13,43 @@ import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
 
 export interface SavingRetirementPlan {
-  planName: string;
-  targetAmount: number;
-  period: number;
-  monthlySaving: number;
-  initial_saving: number;
-  startDate: string;
-  lastUpdate: string;
-  totalBalance: number;
-  timeRemaining: number;
-  dateOfBirth: string;
-  interestRate: number;
-  monthlyExpense: number;
-  ageToRetire: number;
-  ageToLive: number;
-  inflationRate: number;
-  additionalInvestment: number;
-  progression: string;
-  riskLevel: number;
+  // planName: string;
+  // targetAmount: number;
+  // period: number;
+  // monthlySaving: number;
+  // initial_saving: number;
+  // startDate: string;
+  // lastUpdate: string;
+  // totalBalance: number;
+  // timeRemaining: number;
+  // dateOfBirth: string;
+  // interestRate: number;
+  // monthlyExpense: number;
+  // ageToRetire: number;
+  // ageToLive: number;
+  // inflationRate: number;
+  // additionalInvestment: number;
+  // progression: string;
+  // riskLevel: number;
+  // User_ID: number | any;
+  PlanName: string | any;
+  TargetAmount: number | any;
+  Period: number;
+  MonthlySaving: number;
+  Initial_saving: number;
+  StartDate: string;
+  LastUpdate: string;
+  TotalBalance: number;
+  TimeRemaining: number;
+  DateOfBirth: string;
+  InterestRate: number;
+  MonthlyExpense: number;
+  AgeToRetire: number;
+  AgeToLive: number;
+  InflationRate: number;
+  AdditionalInvestment: number;
+  Progression: string;
+  RiskLevel: number;
   User_ID: number | any;
 }
 
@@ -59,9 +78,8 @@ const RetirementDashboard = () => {
   };
   const urlServer = "http://localhost:8080/";
 
-  const [savingRetirePlan, setSavingRetirePlan] = useState<
-    SavingRetirementPlan[]
-  >([]);
+  const [savingRetirePlan, setSavingRetirePlan] =
+    useState<SavingRetirementPlan>();
 
   const [savingRetirementTransactions, setSavingRetirementTransactions] =
     useState<SavingRetirementTransaction[]>([]);
@@ -98,10 +116,19 @@ const RetirementDashboard = () => {
             credentials: "include",
           }
         );
-        console.log(savingRetirement.Retirement_ID)
+        console.log(savingRetirement.Retirement_ID);
         const savingRetirementTransaction =
           await savingRetirementTransactionResponse.json();
         setSavingRetirementTransactions(savingRetirementTransaction);
+
+        // Check if data is defined before using it
+        if (savingRetirement) {
+          setSavingRetirePlan(savingRetirement);
+        }
+
+        if (savingRetirementTransaction) {
+          setSavingRetirementTransactions(savingRetirementTransaction);
+        }
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -113,6 +140,7 @@ const RetirementDashboard = () => {
   const formatTargetAmount2 = targetAmount2?.toLocaleString();
   const totalBalance2 = Number(savingRetirePlan?.TotalBalance);
   const formatTotalBalance2 = totalBalance2?.toLocaleString();
+  const amountRemaining = Number(savingRetirePlan?.TargetAmount) - Number(savingRetirePlan?.TotalBalance);
 
   // savingEmergencyTransactions.sort((a, b) => {
   //   const dateA = new Date(a.TransactionDate);
@@ -124,7 +152,6 @@ const RetirementDashboard = () => {
 
   return (
     <>
-      TotalBalance
       <Sidebar title="My Sidebar" />
       <main className={styles.main} style={{ overflowX: "auto" }}>
         <div className="w-full xl:w-8/12">
@@ -146,7 +173,10 @@ const RetirementDashboard = () => {
               </div>
               <div>
                 <div>
-                  <ModleButtonForm1 title={""} savingRetirement={savingRetirePlan} />
+                  <ModleButtonForm1
+                    title={""}
+                    savingRetirement={savingRetirePlan}
+                  />
                 </div>
               </div>
             </div>
@@ -223,8 +253,7 @@ const RetirementDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
-                          {(savingRetirePlan?.TargetAmount -
-                            savingRetirePlan?.TotalBalance).toLocaleString()}{" "}
+                          {amountRemaining.toLocaleString()}{" "}
                           บาท
                         </h1>
                       </div>
@@ -236,7 +265,7 @@ const RetirementDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            (savingRetirePlan?.TimeRemaining * -1).toString()
+                            (Number(savingRetirePlan?.TimeRemaining) * -1).toString()
                           )}{" "}
                           เดือน
                         </h1>

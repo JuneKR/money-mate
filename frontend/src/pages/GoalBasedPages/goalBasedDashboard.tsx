@@ -13,9 +13,7 @@ import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
 
 export interface SavingGoalPlan {
-//   Emergency_ID: number | any;
-  InitialSaving: number | any;
-  InterestRate: number | any;
+  Goal_ID: number | any;
   LastUpdate: string | any;
   MonthlyExpense: number | any;
   MonthlySaving: number | any;
@@ -49,14 +47,14 @@ function yearsToYearsMonthsDays(value: string) {
 
 const GoalBasedDashboard = () => {
   const router = useRouter();
+
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
+
   const urlServer = "http://localhost:8080/";
 
-  const [savingSGoalPlan, setSavingSGoalPlan] = useState<
-  SavingGoalPlan[]
-  >([]);
+  const [savingSGoalPlan, setSavingSGoalPlan] = useState<SavingGoalPlan>();
 
   const [savingEmergencyTransactions, setSavingEmergencyTransactions] =
     useState<SavingGoalTransaction[]>([]);
@@ -74,26 +72,22 @@ const GoalBasedDashboard = () => {
 
         //Fetch Saving Goal Plan
         const savingGoalBasedResponse = await fetch(
-          `${urlServer}user/${userProfile.User_ID}/saving/goals`,
+          `${urlServer}user/${userProfile.User_ID}/saving/goal`,
           {
             credentials: "include",
           }
         );
         const savingGoal = await savingGoalBasedResponse.json();
         setSavingSGoalPlan(savingGoal);
-        console.log(savingGoal)
-        console.log(`${urlServer}user/${userProfile.User_ID}/saving/goals`)
 
         //Fetch Saving Emergency Transaction
         const savingEmergencyTransactionResponse = await fetch(
-          `${urlServer}saving/goal/${8}/transactions`,
+          `${urlServer}saving/goal/${savingGoal.Goal_ID}/transactions`,
           {
             credentials: "include",
           }
         );
-
-        const savingEmergencyTransaction =
-          await savingEmergencyTransactionResponse.json();
+        const savingEmergencyTransaction = await savingEmergencyTransactionResponse.json();
         setSavingEmergencyTransactions(savingEmergencyTransaction);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
@@ -102,16 +96,10 @@ const GoalBasedDashboard = () => {
     fetchSavingPlan();
   }, []);
 
-  const targetAmount2 = Number(savingSGoalPlan[0]?.TargetAmount);
+  const targetAmount2 = Number(savingSGoalPlan?.TargetAmount);
   const formatTargetAmount2 = targetAmount2.toLocaleString();
-  const totalBalance2 = Number(savingSGoalPlan[0]?.TotalBalance);
+  const totalBalance2 = Number(savingSGoalPlan?.TotalBalance);
   const formatTotalBalance2 = totalBalance2.toLocaleString();
-  
-  // savingEmergencyTransactions.sort((a, b) => {
-  //   const dateA = new Date(a.TransactionDate);
-  //   const dateB = new Date(b.TransactionDate);
-  //   return dateB.getTime() - dateA.getTime();
-  // });
   
   console.log(savingEmergencyTransactions);
 
@@ -134,7 +122,7 @@ const GoalBasedDashboard = () => {
                   style={{ padding: "0 1rem" }}
                   className="font-bold text-white text-2xl"
                 >
-                  การออมเงินเพื่อ {savingSGoalPlan[0]?.PlanName}
+                  การออมเงินเพื่อ {savingSGoalPlan?.PlanName}
                 </div>
               </div>
               <div>
@@ -176,7 +164,7 @@ const GoalBasedDashboard = () => {
                     </h1>
                     <Progress1
                       title={"my bar"}
-                      progress={`${savingSGoalPlan[0]?.Progression}%`}
+                      progress={`${savingSGoalPlan?.Progression}%`}
                     />
                   </div>
                 </div>
@@ -202,7 +190,7 @@ const GoalBasedDashboard = () => {
                         <h1>ระยะเวลาในการออม</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{savingSGoalPlan[0]?.TimePeriod} เดือน</h1>
+                        <h1>{yearsToYearsMonthsDays(savingSGoalPlan?.TimePeriod)} เดือน</h1>
                       </div>
                     </div>
                     <div>
@@ -219,8 +207,8 @@ const GoalBasedDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
-                          {savingSGoalPlan[0]?.TargetAmount -
-                            savingSGoalPlan[0]?.TotalBalance}{" "}
+                          {(savingSGoalPlan?.TargetAmount -
+                            savingSGoalPlan?.TotalBalance).toLocaleString()}{" "}
                           บาท
                         </h1>
                       </div>
@@ -232,7 +220,7 @@ const GoalBasedDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            savingSGoalPlan[0]?.TimeRemaining
+                            savingSGoalPlan?.TimeRemaining
                           )}{" "}
                           เดือน
                         </h1>

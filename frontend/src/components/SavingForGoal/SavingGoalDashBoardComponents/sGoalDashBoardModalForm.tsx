@@ -42,20 +42,21 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
   savingGoal,
 }) => {
   console.log(savingGoal);
+  const urlServer = "http://localhost:8080/";
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => setOpen(false);
   const [targetAmount2, setTargetAmount] = useState("");
   const [timePeriod2, setTimePeriod] = useState("");
   const [timeRemaining2, setTimeRemaining] = useState("");
   const [monthlySaving2, setMonthlySaving] = useState("");
+  const [showCongratulatoryMessage, setShowCongratulatoryMessage] =
+    useState(false);
+  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
 
   const handleOpen = useCallback(() => {
     setOpen(true);
   }, []);
 
-  const [showCongratulatoryMessage, setShowCongratulatoryMessage] =
-    useState(false);
-  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (shouldRefreshPage) {
@@ -73,7 +74,6 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
     }
   }, [showCongratulatoryMessage]);
 
-  const urlServer = "http://localhost:8080/";
   const updateEmergencyPlan = async () => {
     const updateEmergencyPlanData = {
       target_amount: targetAmount2,
@@ -83,10 +83,8 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
     };
 
     try {
-      console.log("Called");
-      console.log(`${urlServer}saving/goal/${savingGoal.Goal_ID}`);
       const response = await fetch(
-        `${urlServer}saving/goal/${8}`,
+        `${urlServer}saving/goal/${savingGoal.Goal_ID}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -113,8 +111,8 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
   };
   // style={{backgroundColor: "#1D1D41"}}
 
-  const targetAmountDisplay = Number(savingGoal[0]?.TargetAmount);
-  const monthlySavingDisplay = Number(savingGoal[0]?.MonthlySaving);
+  const targetAmountDisplay = Number(savingGoal?.TargetAmount);
+  const monthlySavingDisplay = Number(savingGoal?.MonthlySaving);
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
@@ -152,7 +150,7 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {yearsToYearsMonthsDays(savingGoal[0]?.TimeRemaining)}
+                {yearsToYearsMonthsDays(savingGoal?.TimeRemaining)}
               </div>
             </div>
             <div
@@ -163,7 +161,7 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                 จำนวนเดือน
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {savingGoal[0]?.TimePeriod} เดือน
+                {savingGoal?.TimePeriod} เดือน
               </div>
             </div>
             <div
@@ -203,7 +201,7 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="number"
                   id=""
-                  placeholder={savingGoal[0]?.TargetAmount.toLocaleString() + " บาท"}
+                  placeholder={savingGoal?.TargetAmount.toLocaleString() + " บาท"}
                   value={targetAmount2}
                   onChange={(e) => setTargetAmount(e.target.value)}
                 />
@@ -219,7 +217,7 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingGoal[0]?.TimeRemaining + " เดือน"}
+                  placeholder={savingGoal?.TimeRemaining + " เดือน"}
                   value={timePeriod2}
                   onChange={(e) => setTimePeriod(e.target.value)}
                 />
@@ -235,7 +233,7 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingGoal[0]?.TimePeriod + " เดือน"}
+                  placeholder={savingGoal?.TimePeriod + " เดือน"}
                   value={timeRemaining2}
                   onChange={(e) => setTimeRemaining(e.target.value)}
                 />
@@ -251,7 +249,7 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingGoal[0]?.MonthlySaving.toLocaleString() + " บาท/เดือน"}
+                  placeholder={savingGoal?.MonthlySaving.toLocaleString() + " บาท/เดือน"}
                   value={monthlySaving2}
                   onChange={(e) => setMonthlySaving(e.target.value)}
                 />
@@ -293,7 +291,7 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
               ยินดีด้วย! คุณได้อัพเดทแผนการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
             </div>
             <div className="py-5 text-white font-bold text-md">
-              อัพเดทแผนการออมสำเร็จ!!! กรุณารอสักครู่และกรุณาอย่าออกจากหน้านี้....
+              อัพเดทแผนการออมสำเร็จ!!! กรุณารอสักครู่เพื่ออัพเดื....
             </div>
           </Typography>
         </Box>

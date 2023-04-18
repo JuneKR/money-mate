@@ -71,8 +71,7 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
     };
 
     try {
-      console.log("Called");
-      const response = await fetch(`${urlServer}saving/goal/${8}/transaction`, {
+      const response = await fetch(`${urlServer}saving/goal/${savingGoal.Goal_ID}/transaction`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(addtransaction),

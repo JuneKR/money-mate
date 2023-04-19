@@ -368,14 +368,14 @@ const goalBasedCreateForm = () => {
                 <Step>
                   <StepLabel>
                     <span className="text-white text-xl font-bold bg-purple-600 p-2 rounded-full shadow-2xl">
-                      เลือกเป้าหมาย
+                      สร้างเป้าหมาย
                     </span>
                   </StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>
                     <span className="text-white text-xl font-bold bg-purple-700 p-2 rounded-full shadow-2xl">
-                      สร้างเป้าหมาย
+                      สร้างแผนการ
                     </span>
                   </StepLabel>
                 </Step>

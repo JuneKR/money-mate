@@ -53,6 +53,9 @@ export function PlanForm({
 }: PlanFormProps) {
   const [isHidden, setIsHidden] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
+  const [optionMonthlyExpenseError, setOptionMonthlyExpenseError] = useState("");
+  const [optionMonthlySavingError, setOptionMonthlySavingError] = useState("");
+  const [optionTotalBalanceError, setOptionTotalBalanceError] = useState("");
   const [currentState, setCurrentState] = useState(initialCurrentData);
   const currentForm = {
     expense,
@@ -70,6 +73,37 @@ export function PlanForm({
     totalBalance,
     timeRemaining,
     targetAmount,
+  };
+
+  /* handle state to display error message */
+  const handleOptionMonthlyExpenseChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateOptionFields({ expense: Number(value) })
+      setOptionMonthlyExpenseError("");
+    } else {
+      setOptionMonthlyExpenseError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 20000 บาท");
+    }
+  };
+
+  const handleOptionMonthlySavingChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateOptionFields({ monthlySaving: Number(value) })
+      setOptionMonthlySavingError("");
+    } else {
+      setOptionMonthlySavingError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 20000 บาท");
+    }
+  };
+
+  const handleOptionTotalBalanceChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateOptionFields({ totalBalance: Number(value) })
+      setOptionTotalBalanceError("");
+    } else {
+      setOptionTotalBalanceError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 20000 บาท");
+    }
   };
 
   function multiply(x: string, y: string): string {
@@ -465,11 +499,7 @@ export function PlanForm({
                             <input
                               placeholder="15,000"
                               value={optionState.expense}
-                              onChange={(e) =>
-                                updateOptionFields({
-                                  expense: Number(e.target.value),
-                                })
-                              }
+                              onChange={handleOptionMonthlyExpenseChange}
                               type="text"
                               style={{
                                 width: "100%",
@@ -477,16 +507,16 @@ export function PlanForm({
                               }}
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
+                            {/* Display error when user input invalid */}
+                            {optionMonthlyExpenseError && (
+                              <p className="text-red-500 text-xs italic">{optionMonthlyExpenseError}</p>
+                            )}
                           </div>
                           <div className="pb-5">
                             <input
                               placeholder="1,000"
                               value={optionState.monthlySaving}
-                              onChange={(e) =>
-                                updateOptionFields({
-                                  monthlySaving: Number(e.target.value),
-                                })
-                              }
+                              onChange={handleOptionMonthlySavingChange}
                               type="text"
                               style={{
                                 width: "100%",
@@ -494,16 +524,16 @@ export function PlanForm({
                               }}
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
+                            {/* Display error when user input invalid */}
+                            {optionMonthlySavingError && (
+                              <p className="text-red-500 text-xs italic">{optionMonthlySavingError}</p>
+                            )}
                           </div>
                           <div className="pb-5">
                             <input
                               placeholder="0"
                               value={optionState.totalBalance}
-                              onChange={(e) =>
-                                updateOptionFields({
-                                  totalBalance: Number(e.target.value),
-                                })
-                              }
+                              onChange={handleOptionTotalBalanceChange}
                               type="text"
                               style={{
                                 width: "100%",
@@ -511,6 +541,10 @@ export function PlanForm({
                               }}
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
+                            {/* Display error when user input invalid */}
+                            {optionTotalBalanceError && (
+                              <p className="text-red-500 text-xs italic">{optionTotalBalanceError}</p>
+                            )}
                           </div>
                         </div>
                       </div>

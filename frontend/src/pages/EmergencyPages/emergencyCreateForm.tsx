@@ -396,14 +396,14 @@ const emergencyCreateForm = () => {
                 <Step>
                   <StepLabel>
                     <span className="p-2 text-xl font-bold text-white bg-purple-600 rounded-full shadow-2xl">
-                      เลือกเป้าหมาย
+                      สร้างเป้าหมาย
                     </span>
                   </StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>
                     <span className="p-2 text-xl font-bold text-white bg-purple-700 rounded-full shadow-2xl">
-                      สร้างเป้าหมาย
+                      สร้างแผนการ
                     </span>
                   </StepLabel>
                 </Step>

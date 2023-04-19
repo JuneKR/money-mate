@@ -39,12 +39,12 @@ const EmergencyInvestmentPieChartPortfolio1: React.FC<EmergencyInvestmentPieChar
   };
   
   const data = {
-    labels: investmentPortfolioAllocation?.map((item) => item.FundAbbrName),
+    labels: Array.from(investmentPortfolioAllocation)?.map((item) => item.FundAbbrName),
     datasets: [
       {
-        data: investmentPortfolioAllocation?.map((item) => item.AllocationRatio),
-        backgroundColor: investmentPortfolioAllocation?.map(() => getRandomColor("#6259E8")),
-        hoverBackgroundColor: investmentPortfolioAllocation?.map(() => getRandomColor("#1D1D41")),
+        data: Array.from(investmentPortfolioAllocation)?.map((item) => item.AllocationRatio),
+        backgroundColor: Array.from(investmentPortfolioAllocation)?.map(() => getRandomColor("#6259E8")),
+        hoverBackgroundColor: Array.from(investmentPortfolioAllocation)?.map(() => getRandomColor("#1D1D41")),
       },
     ],
   };

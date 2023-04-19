@@ -32,7 +32,7 @@ const EmergencyInvestmentDropDownFund: React.FC<EmergencyInvestmentDropDownFundP
         onChange={handleSelect}
       >
         <option value="default">เลือกกองทุน</option>
-        {investmentPortfolioAllocation.map((item) => (
+        {Array.from(investmentPortfolioAllocation).map((item) => (
           <option key={item.id} value={item.id}>
             {item.FundAbbrName}
           </option>

@@ -10,7 +10,7 @@ interface EmergencyInvestmentDropDownPolicyProps {
 
 const EmergencyInvestmentDropDownPolicy: React.FC<EmergencyInvestmentDropDownPolicyProps> = (props) => {
     const { title, investmentPortfolioAllocation, handlePolicyDescSelection } = props;
-    const filteredPolicyDescs = investmentPortfolioAllocation.filter((item, index, arr) => {
+    const filteredPolicyDescs = Array.from(investmentPortfolioAllocation).filter((item, index, arr) => {
       // Filter out items that have already been processed
       if (arr.findIndex((i) => i.PolicyDesc === item.PolicyDesc) === index) {
         // Keep items where the PolicyDesc value is unique

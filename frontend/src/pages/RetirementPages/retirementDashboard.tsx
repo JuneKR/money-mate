@@ -140,7 +140,9 @@ const RetirementDashboard = () => {
   const formatTargetAmount2 = targetAmount2?.toLocaleString();
   const totalBalance2 = Number(savingRetirePlan?.TotalBalance);
   const formatTotalBalance2 = totalBalance2?.toLocaleString();
-  const amountRemaining = Number(savingRetirePlan?.TargetAmount) - Number(savingRetirePlan?.TotalBalance);
+  const amountRemaining =
+    Number(savingRetirePlan?.TargetAmount) -
+    Number(savingRetirePlan?.TotalBalance);
 
   // savingEmergencyTransactions.sort((a, b) => {
   //   const dateA = new Date(a.TransactionDate);
@@ -252,10 +254,7 @@ const RetirementDashboard = () => {
                         <h1>ต้องออมเงินอีก</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>
-                          {amountRemaining.toLocaleString()}{" "}
-                          บาท
-                        </h1>
+                        <h1>{amountRemaining.toLocaleString()} บาท</h1>
                       </div>
                     </div>
                     <div>
@@ -265,7 +264,9 @@ const RetirementDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            (Number(savingRetirePlan?.TimeRemaining) * -1).toString()
+                            (
+                              Number(savingRetirePlan?.TimeRemaining) * -1
+                            ).toString()
                           )}{" "}
                           เดือน
                         </h1>

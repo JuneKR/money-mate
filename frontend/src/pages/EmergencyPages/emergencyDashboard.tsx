@@ -13,20 +13,20 @@ import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
 
 export interface SavingEmergencyPlan {
-  Emergency_ID: number | any;
-  InitialSaving: number | any;
-  InterestRate: number | any;
-  LastUpdate: string | any;
-  MonthlyExpense: number | any;
-  MonthlySaving: number | any;
-  PlanName: string | any;
-  Progression: number | any;
-  StartDate: string | any;
-  TargetAmount: number | any;
-  TimePeriod: number | any;
-  TimeRemaining: number | any;
-  TotalBalance: number | any;
-  User_ID: number | any;
+  Emergency_ID: number;
+  InitialSaving: number;
+  InterestRate: number;
+  LastUpdate: string;
+  MonthlyExpense: number;
+  MonthlySaving: number;
+  PlanName: string;
+  Progression: number;
+  StartDate: string;
+  TargetAmount: number;
+  TimePeriod: number;
+  TimeRemaining: number;
+  TotalBalance: number;
+  User_ID: number;
 }
 
 export interface SavingEmergencyTransaction {
@@ -48,14 +48,11 @@ function yearsToYearsMonthsDays(value: string) {
 
 const EmergencyDashboard = () => {
   const router = useRouter();
-  const handleEmergencyInvestmentPortfolioPackage = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
-  };
+
   const urlServer = "http://localhost:8080/";
 
-  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<
-    SavingEmergencyPlan[]
-  >([]);
+  const [savingEmergencyPlan, setSavingEmergencyPlan] =
+    useState<SavingEmergencyPlan>();
 
   const [savingEmergencyTransactions, setSavingEmergencyTransactions] =
     useState<SavingEmergencyTransaction[]>([]);
@@ -98,22 +95,24 @@ const EmergencyDashboard = () => {
     fetchSavingPlan();
   }, []);
 
-  const targetAmount2 = Number(savingEmergencyPlan.TargetAmount);
-  const formatTargetAmount2 = targetAmount2.toLocaleString();
-  const totalBalance2 = Number(savingEmergencyPlan.TotalBalance);
-  const formatTotalBalance2 = totalBalance2.toLocaleString();
-  
+  const targetAmount2 = Number(savingEmergencyPlan?.TargetAmount);
+  const formatTargetAmount2 = targetAmount2?.toLocaleString();
+  const totalBalance2 = Number(savingEmergencyPlan?.TotalBalance);
+  const formatTotalBalance2 = totalBalance2?.toLocaleString();
+  const amountRemaining =
+    Number(savingEmergencyPlan?.TargetAmount) -
+    Number(savingEmergencyPlan?.TotalBalance);
+
   // savingEmergencyTransactions.sort((a, b) => {
   //   const dateA = new Date(a.TransactionDate);
   //   const dateB = new Date(b.TransactionDate);
   //   return dateB.getTime() - dateA.getTime();
   // });
-  
+
   // console.log(savingEmergencyTransactions);
 
   return (
     <>
-    TotalBalance
       <Sidebar title="My Sidebar" />
       <main className={styles.main} style={{ overflowX: "auto" }}>
         <div className="w-full xl:w-8/12">
@@ -123,9 +122,8 @@ const EmergencyDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#6259E8",
                 }}
-                className="py-2 rounded-lg"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -148,9 +146,8 @@ const EmergencyDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#6259E8",
                 }}
-                className=" py-2 rounded-lg"
+                className=" py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -173,7 +170,7 @@ const EmergencyDashboard = () => {
                     </h1>
                     <Progress1
                       title={"my bar"}
-                      progress={`${savingEmergencyPlan.Progression}%`}
+                      progress={`${savingEmergencyPlan?.Progression}%`}
                     />
                   </div>
                 </div>
@@ -199,7 +196,7 @@ const EmergencyDashboard = () => {
                         <h1>ระยะเวลาในการออม</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{savingEmergencyPlan.TimePeriod} เดือน</h1>
+                        <h1>{savingEmergencyPlan?.TimePeriod} เดือน</h1>
                       </div>
                     </div>
                     <div>
@@ -215,11 +212,7 @@ const EmergencyDashboard = () => {
                         <h1>จำนวนเงินคงเหลือ</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>
-                          {savingEmergencyPlan.TargetAmount -
-                            savingEmergencyPlan.TotalBalance}{" "}
-                          บาท
-                        </h1>
+                        <h1>{amountRemaining.toString()} บาท</h1>
                       </div>
                     </div>
                     <div>
@@ -229,7 +222,9 @@ const EmergencyDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            savingEmergencyPlan.TimeRemaining
+                            (
+                              Number(savingEmergencyPlan?.TimeRemaining)
+                            ).toString()
                           )}{" "}
                           เดือน
                         </h1>
@@ -241,11 +236,11 @@ const EmergencyDashboard = () => {
                   <div className="flex justify-end">
                     <ModleButtonAdd
                       title={"my modle1"}
-                      savingEmergency={savingEmergencyPlan.Emergency_ID}
+                      savingEmergency={savingEmergencyPlan?.Emergency_ID}
                     />
                     <ModleButtonWithDraw
                       title={"my modle2"}
-                      savingEmergency={savingEmergencyPlan.Emergency_ID}
+                      savingEmergency={savingEmergencyPlan?.Emergency_ID}
                     />
                   </div>
                 </div>
@@ -276,9 +271,8 @@ const EmergencyDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#6259E8",
                 }}
-                className="py-2 rounded-lg"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -304,7 +298,6 @@ const EmergencyDashboard = () => {
                     </div>
                   ) : (
                     <div className="pb-5 px-5">
-                      
                       {savingEmergencyTransactions.map(
                         (savingEmergencyTransaction, index) => (
                           <div key={index}>

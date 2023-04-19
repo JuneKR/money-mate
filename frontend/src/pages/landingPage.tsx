@@ -11,6 +11,9 @@ interface LandingPageProps {
 }
 
 interface SavingPlan {
+  Emergency_ID: number;
+  Goal_ID: number;
+  Retirement_ID: number;
   PlanName: string;
   TargetAmount: number;
   TimePeriod: string;

@@ -2,8 +2,12 @@ import React, { useRef, useEffect } from "react";
 import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
+import { useRouter } from "next/router";
 
 interface SavingPlan {
+  Emergency_ID?: number;
+  Goal_ID?: number;
+  Retirement_ID?: number;
   PlanName: string;
   TargetAmount: number;
   TimePeriod: string;
@@ -19,10 +23,35 @@ interface LandingSavingPlanCardProps {
 
 const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
   const { saving } = props;
+  const router = useRouter();
   const targetAmount2 = Number(saving.TargetAmount);
   const totalBalance2 = Number(saving.TotalBalance);
   const formatTargetAmount = targetAmount2.toLocaleString();
   const formatTotalBalance = totalBalance2.toLocaleString();
+  const isEmergencyPlan = !!saving.Emergency_ID;
+  const isGoalPlan = !!saving.Goal_ID;
+  const isRetirementPlan = !!saving.Retirement_ID;
+
+  let bgColorClass = "";
+  if (isEmergencyPlan) {
+    // handle emergency plan
+    bgColorClass = "bg-gradient-to-r from-purple-900 to-pink-500";
+  } else if (isGoalPlan) {
+    // handle goal plan
+    bgColorClass = "bg-gradient-to-r from-purple-900 to-red-500";
+  } else if (isRetirementPlan) {
+    bgColorClass = "bg-gradient-to-r from-purple-900 to-green-500";
+  }
+
+  const handleClick = () => {
+    if (isEmergencyPlan) {
+      router.push('/EmergencyPages/emergencyDashboard');
+    } else if (isGoalPlan) {
+      router.push('/GoalBasedPages/goalBasedDashboard');
+    } else if (isRetirementPlan) {
+      router.push('/RetirementPages/retirementDashboard');
+    }
+  };
   return (
     <div className="pb-10 px-5">
       <div
@@ -36,10 +65,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
         >
           <div className="py-3 px-3 grid grid-rows-2">
             <div className="absolute top-0 left-0 p-5">
-              <div
-                style={{ backgroundColor: "#6259E8" }}
-                className="px-3 py-3 rounded-lg"
-              >
+              <div className={`px-3 py-3 rounded-lg ${bgColorClass}`}>
                 <p className="font-bold flex justify-center item-center text-xl">
                   {/* ออมเงินเผื่อฉุกเฉิน */}
                   {saving.PlanName}
@@ -72,7 +98,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
             {formatTotalBalance} บาท
           </div>
           <a
-            // onClick={}
+            onClick={handleClick}
             className="absolute top-3 right-3 flex justify-center item-center cursor-pointer text-white hover:text-blue-800"
           >
             ดูข้อมูลเพิ่มเติม &gt;

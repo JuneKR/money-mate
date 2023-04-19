@@ -25,8 +25,7 @@ const style = {
 };
 
 function yearsToYearsMonthsDays(value: string) {
-  const values = Number(value) / 12;
-  const totalDays = Number(values) * 365;
+  const totalDays = Number(value) * 365;
   const years = Math.floor(totalDays / 365);
   const months = Math.floor((totalDays - years * 365) / 30);
   const days = Math.floor(totalDays - years * 365 - months * 30);
@@ -175,7 +174,7 @@ const SRetirementDashBoardModalForm: React.FC<
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {yearsToYearsMonthsDays(savingRetirement?.TimePeriod)}
+                {yearsToYearsMonthsDays((savingRetirement?.TimeRemaining * -1).toString())}
               </div>
             </div>
           </div>

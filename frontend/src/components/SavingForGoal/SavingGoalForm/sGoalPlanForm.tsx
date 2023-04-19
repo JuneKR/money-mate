@@ -53,6 +53,8 @@ export function PlanForm({
 }: sGoalPlanFormProps) {
   const [isHidden, setIsHidden] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
+  const [optionTimePeriodError, setOptionTimePeriodError] = useState("");
+  const [optionTotalBalanceError, setOptionTotalBalanceError] = useState("");
   const [currentState, setCurrentState] = useState(initialCurrentData);
   const currentForm = {
     planName,
@@ -70,6 +72,27 @@ export function PlanForm({
     timeRemaining,
     monthlySaving,
     totalBalance,
+  };
+
+  /* handle state to display error message */
+  const handleOptionTimePeriodChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateOptionFields({ period: Number(value) })
+      setOptionTimePeriodError("");
+    } else {
+      setOptionTimePeriodError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 12 เดือน");
+    }
+  };
+
+  const handleOptionTotalBalanceChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateOptionFields({ totalBalance: Number(value) })
+      setOptionTotalBalanceError("");
+    } else {
+      setOptionTotalBalanceError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 20000 บาท");
+    }
   };
 
   function multiply(x: string, y: string): string {
@@ -120,12 +143,6 @@ export function PlanForm({
     optionTargetGoalFund.toString(),
     optionTargetMonthlySaving.toString()
   );
-  
-  // console.log('Option Monthly Saving', optionTargetMonthlySaving);
-  // console.log('Option Target Goal Fund', optionTargetGoalFund);
-  // console.log('Option Year', Math.round(Number(optionYears)));
-  // console.log('Option Period', optionState.period);
-  // console.log('Option Years', yearsToYearsMonthsDays(optionYears));
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -471,13 +488,9 @@ export function PlanForm({
                         <div>
                           <div className="pb-5">
                             <input
-                              placeholder="15,000"
+                              placeholder="12 เดือน"
                               value={optionState.period}
-                              onChange={(e) =>
-                                updateOptionFields({
-                                  period: Number(e.target.value),
-                                })
-                              }
+                              onChange={handleOptionTimePeriodChange}
                               type="text"
                               style={{
                                 width: "100%",
@@ -485,6 +498,10 @@ export function PlanForm({
                               }}
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
+                            {/* Display error when user input invalid */}
+                            {optionTimePeriodError && (
+                              <p className="text-red-500 text-xs italic">{optionTimePeriodError}</p>
+                            )}
                           </div>
                           {/* <div className="pb-5">
                             <input
@@ -505,13 +522,9 @@ export function PlanForm({
                           </div> */}
                           <div className="pb-5">
                             <input
-                              placeholder="0"
+                              placeholder="1000 บาท"
                               value={optionState.totalBalance}
-                              onChange={(e) =>
-                                updateOptionFields({
-                                  totalBalance: Number(e.target.value),
-                                })
-                              }
+                              onChange={handleOptionTotalBalanceChange}
                               type="text"
                               style={{
                                 width: "100%",
@@ -519,6 +532,10 @@ export function PlanForm({
                               }}
                               className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
+                            {/* Display error when user input invalid */}
+                            {optionTotalBalanceError && (
+                              <p className="text-red-500 text-xs italic">{optionTotalBalanceError}</p>
+                            )}
                           </div>
                         </div>
                       </div>

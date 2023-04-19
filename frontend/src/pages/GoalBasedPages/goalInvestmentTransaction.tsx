@@ -85,24 +85,24 @@ const GoalInvestmentPortfolioPackage = () => {
         setSavingGoalPlan(savingGoal);
 
         //Fetch Saving Goal Investment Portfolio
-        const GoalPortfolioResponse = await fetch(
-          `${urlServer}Goal/${savingGoal.Goal_ID}/investment/portfolio`,
+        const goalPortfolioResponse = await fetch(
+          `${urlServer}goal/${savingGoal.Goal_ID}/investment/portfolio`,
           {
             credentials: "include",
           }
         );
-        const GoalPortfolio = await GoalPortfolioResponse.json();
+        const goalPortfolio = await goalPortfolioResponse.json();
 
         // Fetch All Goal Investment Transaction By Portfolio ID of Goal
-        const GoalInvestmentTransactionResponse = await fetch(
-          `${urlServer}investment/${GoalPortfolio.Portfolio_ID}/transactions`,
+        const goalInvestmentTransactionResponse = await fetch(
+          `${urlServer}investment/${goalPortfolio.Portfolio_ID}/transactions`,
           {
             credentials: "include",
           }
         );
 
-        const GoalInvestmentTransaction = await GoalInvestmentTransactionResponse.json();
-        setInvestmentTransactions(GoalInvestmentTransaction);
+        const goalInvestmentTransaction = await goalInvestmentTransactionResponse.json();
+        setInvestmentTransactions(goalInvestmentTransaction);
        
       } catch (error) {
         console.log("Fetching Goal Investment Transaction Error: ", error);

@@ -305,11 +305,12 @@ export function InvestmentForm({
   
   const handleClick = () => {
     setIsHidden(!isHidden);
+    handleInvestmentSelection(isHidden);
   };
 
   const handleCheckboxChange = () => {
     setIsHidden(!isHidden);
-    handleInvestmentSelection(isHidden);
+    // handleInvestmentSelection(isHidden);
   };
 
   const handleRadioChange = (index: number) => {

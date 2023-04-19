@@ -153,7 +153,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
                     {investmentTransactions
                     .map(
                       (investmentTransaction) => (
-                        <div>
+                        <div> 
                           <TransactionTable
                             title={"my table1"}
                             transaction={investmentTransaction}

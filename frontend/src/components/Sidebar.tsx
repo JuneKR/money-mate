@@ -29,6 +29,17 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PersonIcon from "@mui/icons-material/Person";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+
+import ListSubheader from "@mui/material/ListSubheader";
+import Collapse from "@mui/material/Collapse";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import SendIcon from "@mui/icons-material/Send";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import StarBorder from "@mui/icons-material/StarBorder";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -219,6 +230,34 @@ const Sidebar: React.FC<SidebarProps> = () => {
     setAnchorEl(null);
     router.push("/EmergencyPages/emergencyHomepage");
   };
+  const [openDrop, setDrop] = useState(false);
+  const handleClick = () => {
+    setDrop(!openDrop);
+  };
+  const handleHomePage = () => {
+    router.push("/landingPage");
+  };
+  const handleEmergencyDashboard = () => {
+    router.push("/EmergencyPages/emergencyDashboard");
+  };
+  const handleGoalBasedDashboard = () => {
+    router.push("/GoalBasedPages/goalBasedDashboard");
+  };
+  const handleRetirementDashboard = () => {
+    router.push("/RetirementPages/retirementDashboard");
+  };
+  const handleEmergencyInvestmentDashboard = () => {
+    router.push("/EmergencyPages/emergencyInvestmentDashboard");
+  };
+  // const handleEmergencyInvestmentDashboard = () => {
+  //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
+  // };
+  // const handleEmergencyInvestmentDashboard = () => {
+  //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
+  // };
+  const handleProfile = () => {
+    router.push("/ProfileManagement/userProfile");
+  };
   return (
     <div>
       <Box sx={{ display: "flex" }}>
@@ -296,95 +335,103 @@ const Sidebar: React.FC<SidebarProps> = () => {
               )}
             </IconButton>
           </DrawerHeader>
-          <List style={{ backgroundColor: "#1D1D41", color: "#FFFFFF" }}>
-            {[
-              "หน้าหลัก",
-              "ออมเงินเผื่อฉุกเฉิน",
-              "ออมเงินเพื่อเป้าหมาย",
-              "ออมเงินเพื่อเกษียณ",
-              "การลงทุน",
-              "Profile",
-            ].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          <List
+            sx={{
+              width: "100%",
+              maxWidth: 360,
+              bgcolor: "#1D1D41",
+              color: "#FFFFFF",
+            }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+          >
+            <ListItemButton
+              onClick={handleHomePage}
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:bg-cyan-500 hover:bg-opacity-75 hover:shadow-cyan-500/50"
+            >
+              <ListItemIcon>
+                <HomeIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="หน้าหลัก" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleEmergencyDashboard}
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-pink-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-pink-500/50"
+            >
+              <ListItemIcon>
+                <SavingsIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="ออมเงินเผื่อฉุกเฉิน" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleGoalBasedDashboard}
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-red-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-red-500/50"
+            >
+              <ListItemIcon>
+                <FlagIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="ออมเงินเพื่อเป้าหมาย" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleRetirementDashboard}
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-green-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-green-500/50"
+            >
+              <ListItemIcon>
+                <ElderlyIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="ออมเงินเพื่อเกษียณ" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleClick}
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-yellow-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-yellow-500/50"
+            >
+              <ListItemIcon>
+                <AttachMoneyIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="การลงทุน" />
+              {openDrop ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openDrop} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
                 <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                    
-                  }}
-                  className="transform hover:scale-105 transition duration-300 ease-in-out"
-                  onClick={() => {
-                    switch (index) {
-                      case 0:
-                        router.push("/landingPage");
-                        break;
-                      case 1:
-                        router.push("/EmergencyPages/emergencyDashboard");
-                        break;
-                      case 2:
-                        router.push("/GoalBasedPages/goalBasedDashboard");
-                        break;
-                      case 3:
-                        router.push("/RetirementPages/retirementDashboard");
-                        break;
-                      case 4:
-                        router.push(
-                          "/EmergencyPages/emergencyInvestmentDashboard"
-                        );
-                        break;
-                      case 5:
-                        router.push("/ProfileManagement/userProfile");
-                        break;
-                      // case 6:
-                      //   router.push("/");
-                      //   break;
-                      // case 7:
-                      //   router.push("/ProfileManagement/userProfile");
-                      //   break;
-                      // Add more cases for each button
-                      default:
-                        break;
-                    }
-                  }}
+                  sx={{ pl: 4 }}
+                  onClick={handleEmergencyInvestmentDashboard}
+                  className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-pink-500"
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                    {index === 0 ? (
-                      <HomeIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 1 ? (
-                      <SavingsIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 2 ? (
-                      <FlagIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 3 ? (
-                      <ElderlyIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 4 ? (
-                      <AttachMoneyIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 5 ? (
-                      <PersonIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {/* {index === 6 ? (
-                      <BarChartIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 7 ? (
-                      <PersonIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null} */}
+                  <ListItemIcon>
+                    <SavingsIcon sx={{ color: "#FFFFFF" }} />
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  <ListItemText primary="ลงทุนเพื่อเงินฉุกเฉิน" />
                 </ListItemButton>
-              </ListItem>
-            ))}
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-red-500"
+                >
+                  <ListItemIcon>
+                    <FlagIcon sx={{ color: "#FFFFFF" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="ลงทุนเพื่อเป้าหมาย" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-green-500"
+                >
+                  <ListItemIcon>
+                    <ElderlyIcon sx={{ color: "#FFFFFF" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="ลงทุนเพื่อเกษียณ" />
+                </ListItemButton>
+              </List>
+            </Collapse>
+            <ListItemButton
+              onClick={handleProfile}
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-purple-500/50"
+            >
+              <ListItemIcon>
+                <PersonIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="โปรไฟล์" />
+            </ListItemButton>
           </List>
         </Drawer>
       </Box>

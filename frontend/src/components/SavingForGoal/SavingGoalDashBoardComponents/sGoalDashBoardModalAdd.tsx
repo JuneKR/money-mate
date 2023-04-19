@@ -70,9 +70,8 @@ const SGoalDashBoardModalAdd: React.FC<SGoalDashBoardModalAddProps> = ({
     };
 
     try {
-      console.log("Called");
       const response = await fetch(
-        `${urlServer}saving/goal/${8}/transaction`,
+        `${urlServer}saving/goal/${savingGoal.Goal_ID}/transaction`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

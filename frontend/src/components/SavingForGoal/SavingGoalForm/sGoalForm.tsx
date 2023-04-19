@@ -24,6 +24,42 @@ export function SGoalForm({
   updateFields,
 }: sGoalFormProps) {
   const [showModal, setShowModal] = useState(false);
+  /* set state to display error message */ 
+  const [targetAmountError, setTargetAmountError] = useState("");
+  const [savingPeriodError, setSavingPeriodError] = useState("");
+  const [totalBalanceError, setTotalBalanceError] = useState(""); 
+
+  /* handle state to display error message */
+  const handleTargetAmountChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateFields({ targetAmount: Number(value) })
+      setTargetAmountError("");
+    } else {
+      setTargetAmountError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 20000 บาท");
+    }
+  };
+
+  const handleSavingPeriodChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateFields({ period: Number(value) })
+      setSavingPeriodError("");
+    } else {
+      setSavingPeriodError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 12 เดือน");
+    }
+  };
+
+  const handleTotalBalanceChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateFields({ totalBalance: Number(value) })
+      setTotalBalanceError("");
+    } else {
+      setTotalBalanceError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 5000 บาท");
+    }
+  };
+
   return (
     //   <div className="py-20">
     <div className="grid grid-cols-2">
@@ -65,9 +101,7 @@ export function SGoalForm({
             id="mDeposit"
             placeholder="1,000"
             value={targetAmount}
-            onChange={(e) =>
-              updateFields({ targetAmount: Number(e.target.value) })
-            }
+            onChange={handleTargetAmountChange}
             style={{
               width: "100%",
               height: "50px",
@@ -82,12 +116,13 @@ export function SGoalForm({
             หมายถึง: เป้าหมายของคุณ เช่น คุณต้องการซื้อรถยนต์ในราคา 3,000,000
             บาท เป็นต้น
           </FormHelperText>
-          <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
-          </p>
+          {/* Display error when user input invalid */}
+          {targetAmountError && (
+            <p className="text-red-500 text-xs italic">{targetAmountError}</p>
+          )}
         </label>
 
-        <label htmlFor="monthlyDeposit" className="block text-sm">
+        {/* <label htmlFor="monthlyDeposit" className="block text-sm">
           <div>
             <span className="inline-block m-1 text-white font-bold text-xl pb-2">
               จำนวนเงินที่จะออมต่อเดือน
@@ -117,19 +152,20 @@ export function SGoalForm({
           <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
             ข้อมูลไม่ถูกต้อง
           </p>
-        </label>
+        </label> */}
 
         <label htmlFor="months" className="block text-sm">
           <div>
             <span className="inline-block m-1 text-white font-bold text-xl pb-2">
-              ระยะเวลาที่ต้องการ
+              {/* ระยะเวลาที่ต้องการ  */}
+              ระยะเวลาในการออม​ (เดือน)
             </span>
           </div>
           <input
             type="text"
             id="months"
             value={period}
-            onChange={(e) => updateFields({ period: Number(e.target.value) })}
+            onChange={handleSavingPeriodChange}
             placeholder="6"
             style={{
               width: "100%",
@@ -144,9 +180,10 @@ export function SGoalForm({
           >
             หมายถึง: ระยะเวลาที่คุณต้องการให้แผนการออมนี้สำเร็จ
           </FormHelperText>
-          <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
-          </p>
+          {/* Display error when user input invalid */}
+          {savingPeriodError && (
+            <p className="text-red-500 text-xs italic">{savingPeriodError}</p>
+          )}
         </label>
 
         <label htmlFor="currentBalance" className="block text-sm">
@@ -160,9 +197,7 @@ export function SGoalForm({
             id="cBalance"
             placeholder="0"
             value={totalBalance}
-            onChange={(e) =>
-              updateFields({ totalBalance: Number(e.target.value) })
-            }
+            onChange={handleTotalBalanceChange}
             style={{
               width: "100%",
               height: "50px",
@@ -177,9 +212,10 @@ export function SGoalForm({
             หมายถึง: เงินทั้งหมดในตอนนี้ที่คุณตั้งใจจะออมในแผนการออมนี้
             หรืออาจจะมีอยู่ก่อนแล้ว
           </FormHelperText>
-          <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
-          </p>
+          {/* Display error when user input invalid */}
+          {totalBalanceError && (
+            <p className="text-red-500 text-xs italic">{totalBalanceError}</p>
+          )}
         </label>
       </div>
 

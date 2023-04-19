@@ -341,14 +341,6 @@ export function SGoalInvestmentForm({
     setTableData(newData);
   };
 
-  // const handleEmergencyInvestmanet = async () => {
-  //   console.log("สร้างแผนการลงทุนสำเร็จแล้ว");
-  //   await createEmergencyPlan();
-  //   await getEmergencyPlan();
-  //   // await createInvestmentPortfolio();
-  //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
-  // };
-
   const sGoalFund2 = Number(targetAmount);
   const monthlySaving2 = Number(monthlySaving);
   const formattedSGoalFund = sGoalFund2.toLocaleString();
@@ -371,10 +363,8 @@ export function SGoalInvestmentForm({
             <div className="p-4">{formattedSGoalFund} บาท</div>
             <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
-            <div className="p-4"> ใส่จำนวนเดือนที่ต้องการ</div>
-            <div className="p-4">{period} เดือน</div>
-            <div className="p-4">ระยะเวลาคงเหลือ</div>
-            <div className="p-4">{timeToAchive}</div>
+            <div className="p-4">ระยะเวลาในการออม</div>
+            <div className="p-4">{period} เดือน (~{timeToAchive})</div>
             <div className="p-4">เงินในปัจจุบัน</div>
             <div className="p-4">{totalBalance}</div>
           </div>
@@ -528,7 +518,6 @@ export function SGoalInvestmentForm({
                                   type="radio"
                                   name="option"
                                   value={index + 1}
-                                  // checked={data.selected}
                                   className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
                                   onChange={() => {
                                     handleRadioChange(index);

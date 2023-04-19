@@ -57,7 +57,7 @@ export function SGoalInvestmentForm({
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
 
-  const [selectRiskTorelance, setSelectRiskTorelance] = useState(0);
+  const [selectRiskTorelance, setSelectRiskTorelance] = useState(1);
   const tvmCalculator = require("tvm-calculator");
 
   function numberPeriods(
@@ -434,7 +434,7 @@ export function SGoalInvestmentForm({
                             riskLevel: Number(e.target.value),
                             returnRate: Number(e.target.value) + 1,
                           });
-                          setSelectRiskTorelance(riskLevel);
+                          setSelectRiskTorelance(Number(e.target.value));
                         }}
                       />
                     </div>
@@ -443,7 +443,7 @@ export function SGoalInvestmentForm({
                         หากไม่ทราบระดับความเสี่ยงของตนเองโปรดทำแบบประเมินความเสี่ยง
                       </h1>
                       <a
-                        href="/"
+                        // href=""
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block text-center md:text-left"
@@ -491,28 +491,19 @@ export function SGoalInvestmentForm({
                       <tbody className="text-lg">
                         {initialTableData.map(
                           (data, index) => (
-                            // data.riskLevel <= selectedRiskLevel && (
-                            <tr key={index} className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50">
-                              {/* <td className="px-4 py-2 text-white font-bold text-lg"> */}
-                              <td
-                                className={
-                                  data.riskLevel <= selectRiskTorelance
-                                    ? "bg-blue-400"
-                                    : "px-4 py-2 text-white font-bold text-lg"
-                                }
-                              >
-                                {data.monthlySaving}
-                              </td>
+                            <tr 
+                              key={index}
+                              className={
+                                data.riskLevel <= selectRiskTorelance
+                                  ? "transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50"
+                                  : "opacity-50"
+                              }  
+                            >
+                              <td className="px-4 py-2 text-white font-bold text-lg">{data.monthlySaving}</td>
+                              <td className="px-4 py-2 text-white font-bold text-lg">{data.riskLevel}</td>
+                              <td className="px-4 py-2 text-white font-bold text-lg">{data.returnRate}%</td>
                               <td className="px-4 py-2 text-white font-bold text-lg">
-                                {data.riskLevel}
-                              </td>
-                              <td className="px-4 py-2 text-white font-bold text-lg">
-                                {data.returnRate}%
-                              </td>
-                              <td className="px-4 py-2 text-white font-bold text-lg">
-                                {yearsToYearsMonthsDays(
-                                  data.timeRemaining.toString()
-                                )}
+                                {yearsToYearsMonthsDays(data.timeRemaining.toString())}
                               </td>
                               <td className="px-4 py-2">
                                 <input

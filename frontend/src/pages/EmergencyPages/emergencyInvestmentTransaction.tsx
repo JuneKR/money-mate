@@ -142,7 +142,7 @@ const EmergencyInvestmentPortfolioPackage = () => {
                 }}
                 className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-2xl"
               >
-                {!investmentTransactions ? (
+                {!investmentTransactions || !Array.isArray(investmentTransactions) || investmentTransactions.length === 0 ? (
                   <div>
                     <h1 className="text-gray-200 flex justify-center item-center text-2xl font-bold">
                       คุณยังไม่มีประวัติการซื้อขายกองทุน

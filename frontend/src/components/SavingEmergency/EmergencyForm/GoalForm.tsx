@@ -21,6 +21,42 @@ export function GoalForm({
   updateFields,
 }: GoalFormProps) {
   const [showModal, setShowModal] = useState(false);
+  const [monthlyExpenseError, setMonthlyExpenseError] = useState("");
+  const [monthlySavingError, setMonthlySavingError] = useState("");
+  const [totalBalanceError, settotalBalanceError] = useState("");
+
+  /* handle state to display error message */
+  const handleMonthlyExpenseChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateFields({ expense: Number(value) })
+      setMonthlyExpenseError("");
+    } else {
+      setMonthlyExpenseError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 20000 บาท");
+    }
+  };
+
+  const handleMonthlySavingChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateFields({ monthlySaving: Number(value) })
+      setMonthlySavingError("");
+    } else {
+      setMonthlySavingError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 2000 บาท");
+    }
+  };
+
+  const handleTotalBalanceChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      updateFields({ monthlySaving: Number(value) })
+      settotalBalanceError("");
+    } else {
+      settotalBalanceError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 2000 บาท");
+    }
+  };
+  
+
   return (
     //   <div className="py-20">
     <div className="grid grid-cols-2">
@@ -35,7 +71,7 @@ export function GoalForm({
             type="text"
             id="mExpense"
             value={expense}
-            onChange={(e) => updateFields({ expense: Number(e.target.value) })}
+            onChange={handleMonthlyExpenseChange}
             placeholder="15,000"
             style={{
               width: "100%",
@@ -52,9 +88,10 @@ export function GoalForm({
             หมายถึง: ค่าใช้จ่ายทั้งเดือนโดยรวมทั้งหมดของคุณ
             อาธิเช่นค่านำ้ค่าไฟค่าอาหาร เป็นต้น
           </FormHelperText>
-          <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
-          </p>
+          {/* Display error when user input invalid */}
+          {monthlyExpenseError && (
+            <p className="text-red-500 text-xs italic">{monthlyExpenseError}</p>
+          )}
         </label>
 
         <label htmlFor="monthlyDeposit" className="block text-sm">
@@ -68,9 +105,7 @@ export function GoalForm({
             id="mDeposit"
             placeholder="1,000"
             value={monthlySaving}
-            onChange={(e) =>
-              updateFields({ monthlySaving: Number(e.target.value) })
-            }
+            onChange={handleMonthlySavingChange}
             style={{
               width: "100%",
               height: "50px",
@@ -84,9 +119,10 @@ export function GoalForm({
           >
             หมายถึง: คุณอยากออมเงินเดือนละเท่าไหร่
           </FormHelperText>
-          <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
-          </p>
+          {/* Display error when user input invalid */}
+          {monthlySavingError && (
+            <p className="text-red-500 text-xs italic">{monthlySavingError}</p>
+          )}
         </label>
 
         <label htmlFor="months" className="block text-sm">
@@ -136,9 +172,7 @@ export function GoalForm({
             id="cBalance"
             placeholder="0"
             value={totalBalance}
-            onChange={(e) =>
-              updateFields({ totalBalance: Number(e.target.value) })
-            }
+            onChange={handleTotalBalanceChange}
             style={{
               width: "100%",
               height: "50px",
@@ -153,9 +187,10 @@ export function GoalForm({
             หมายถึง: เงินทั้งหมดในตอนนี้ที่คุณตั้งใจจะออม
             หรืออาจจะมีอยู่ก่อนแล้ว
           </FormHelperText>
-          <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
-          </p>
+          {/* Display error when user input invalid */}
+          {totalBalanceError && (
+            <p className="text-red-500 text-xs italic">{totalBalanceError}</p>
+          )}
         </label>
       </div>
       <div className="py-5 px-4 lg:px-10">

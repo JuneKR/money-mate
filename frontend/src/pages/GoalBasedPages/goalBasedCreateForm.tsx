@@ -189,12 +189,12 @@ const goalBasedCreateForm = () => {
 
   const getSavingGoalPlan = async (urlServer: string, userProfile: any) => {
     try {
-      // Fetch Saving Emergency Plan
+      // Fetch Saving Goal Plan
       const savingResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/goal`, {
         credentials: "include",
       });
       const savingGoalPlan = await savingResponse.json();
-      console.log('Emergency Plan',savingGoalPlan);
+      console.log('Goal Plan',savingGoalPlan);
       return savingGoalPlan;
     } catch (error) {
       console.log("fetch Saving Goal Plan Error: ", error);

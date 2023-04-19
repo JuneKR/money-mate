@@ -454,7 +454,8 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="text-white font-bold">
-                        {yearsToYearsMonthsDays(savingGoalPlan?.TimeRemaining)} เดือน
+                        {/* {yearsToYearsMonthsDays(savingGoalPlan?.TimeRemaining)} เดือน */}
+                        {yearsToYearsMonthsDays((savingGoalPlan?.TimePeriod/12).toString())} เดือน
                       </h1>
                     </div>
                   </div>

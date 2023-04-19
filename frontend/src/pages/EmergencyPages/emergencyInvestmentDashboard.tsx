@@ -127,6 +127,7 @@ const EmergencyInvestmentDashboard = () => {
             credentials: "include",
           }
         );
+        console.log("savingEmergency.Emergency_ID", savingEmergency.Emergency_ID);
         const emergencyInvestmentPortfolio = await emergencyInvestmentReponse.json();
         setInvestmentPortfolio(emergencyInvestmentPortfolio);
 
@@ -171,7 +172,7 @@ const EmergencyInvestmentDashboard = () => {
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <div
               style={{ padding: "0 1rem" }}
-              className="text-white font-bold text-lg py-4 rounded-lg"
+              className="py-4 text-lg font-bold text-white rounded-lg"
             >
               <div>
                 <div
@@ -184,7 +185,7 @@ const EmergencyInvestmentDashboard = () => {
                 >
                   <p
                     style={{ padding: "0 1rem" }}
-                    className="font-bold text-white text-2xl"
+                    className="text-2xl font-bold text-white"
                   >
                     การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
                   </p>
@@ -199,18 +200,18 @@ const EmergencyInvestmentDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className=" shadow-2xl">
+              <div className="shadow-2xl ">
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     backgroundColor: "#6259E8",
                   }}
-                  className=" py-2 rounded bg-gray-50"
+                  className="py-2 rounded bg-gray-50"
                 >
                   <p
                     style={{ padding: "0 1rem" }}
-                    className="font-bold text-white text-2xl"
+                    className="text-2xl font-bold text-white"
                   >
                     กราฟเปรียบเทียบการลงทุนและการออมเงิน
                   </p>
@@ -225,15 +226,15 @@ const EmergencyInvestmentDashboard = () => {
                 </div>
               </div>
 
-              <div className="py-5 shadow-2xl py-10">
+              <div className="py-5 py-10 shadow-2xl">
                 <div
                   style={{ backgroundColor: "#6259E8" }}
-                  className=" py-2 rounded bg-gray-50"
+                  className="py-2 rounded bg-gray-50"
                 >
                   <div>
                     <p
                       style={{ padding: "0 1rem" }}
-                      className="font-bold text-white text-2xl"
+                      className="text-2xl font-bold text-white"
                     >
                       {investmentPortfolio.PortfolioName}
                     </p>
@@ -242,18 +243,18 @@ const EmergencyInvestmentDashboard = () => {
 
                 <div
                   style={{ backgroundColor: "#1D1D41" }}
-                  className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 p-10"
+                  className="grid grid-cols-1 p-10 md:grid-cols-1 lg:grid-cols-4"
                 >
                   <div
                     style={{ alignItems: "center" }}
-                    className="col-span-1 flex justify-center item-center"
+                    className="flex justify-center col-span-1 item-center"
                   >
                     <Pie1 
                       title={investmentPortfolio.PortfolioName} 
                       investmentPortfolioAllocation={investmentPortfolioAllocation}
                     />
                   </div>
-                  <div className="flex justify-center item-center boder border-blue-500 col-span-3 ">
+                  <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
                     <EmergencyFundsDetailsTable
                       title={""}
                       investmentPortfolio={investmentPortfolio}
@@ -264,13 +265,13 @@ const EmergencyInvestmentDashboard = () => {
 
                 <div
                   style={{ backgroundColor: "#1D1D41" }}
-                  className="py-5 px-5 bg-gray-50  shadow-2xl"
+                  className="px-5 py-5 shadow-2xl bg-gray-50"
                 >
                   <div
                     style={{ backgroundColor: "#3A3B5A" }}
-                    className="shadow-2xl grid grid-cols-1 md:grid-cols-3"
+                    className="grid grid-cols-1 shadow-2xl md:grid-cols-3"
                   >
-                    <div className="border-r border-black flex items-center justify-center grid grid-ros-2 px-3 py-5 ">
+                    <div className="flex grid items-center justify-center px-3 py-5 border-r border-black grid-ros-2 ">
                       <div className="">
                         <h1>เงินออมฉุกเฉิน</h1>
                       </div>
@@ -281,7 +282,7 @@ const EmergencyInvestmentDashboard = () => {
                         </h1>
                       </div>
                     </div>
-                    <div className="border-r border-black flex items-center justify-center grid grid-ros-2 px-3 py-5">
+                    <div className="flex grid items-center justify-center px-3 py-5 border-r border-black grid-ros-2">
                       <div className="flex items-center justify-center">
                         <h1>มูลค่าสินทรัพย์ของคุณในปัจจุบัน</h1>
                       </div>
@@ -297,7 +298,7 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div>
                       <div className="grid grid-cols-2 py-5 ">
-                        <div className="flex items-center justify-center grid grid-rows-2">
+                        <div className="flex grid items-center justify-center grid-rows-2">
                           <button onClick={handleEmergencyInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <AddIcon />
@@ -308,7 +309,7 @@ const EmergencyInvestmentDashboard = () => {
                             <p>ซื้อกองทุน</p>
                           </div>
                         </div>
-                        <div className="flex items-center justify-center grid grid-rows-2">
+                        <div className="flex grid items-center justify-center grid-rows-2">
                           <button onClick={handleEmergencyInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <RemoveIcon />
@@ -363,11 +364,11 @@ const EmergencyInvestmentDashboard = () => {
               </div>
               <div
                 style={{ backgroundColor: "#6259E8" }}
-                className=" py-2 rounded"
+                className="py-2 rounded "
               >
                 <p
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   หยอดกระปุก
                 </p>
@@ -376,15 +377,15 @@ const EmergencyInvestmentDashboard = () => {
                 style={{ backgroundColor: "#1D1D41" }}
                 className="px-5 pb-10 shadow-2xl"
               >
-                <div className="pt-5 grid grid-cols-4">
+                <div className="grid grid-cols-4 pt-5">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
                   <div
                     style={{ alignItems: "center" }}
-                    className="px-5 col-span-3 py-5"
+                    className="col-span-3 px-5 py-5"
                   >
-                    <h1 className="pb-3 flex justify-center item-center font-bold text-white text-2xl">
+                    <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
                       นักลงทุนมือใหม่
                     </h1>
                     <div>
@@ -397,24 +398,24 @@ const EmergencyInvestmentDashboard = () => {
                 </div>
                 <div
                   style={{ backgroundColor: "#3A3B5A" }}
-                  className="shadow-2xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5"
+                  className="grid grid-cols-1 shadow-2xl md:grid-cols-2 lg:grid-cols-5"
                 >
                   <div>
                     <div className="flex items-center justify-center py-3 text-white">
                       <h1>จำนวนเงินเป้าหมาย</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TargetAmount}
                       </h1>
                     </div>
                   </div>
-                  <div className=" border-r-2 border-gray-300">
+                  <div className="border-r-2 border-gray-300 ">
                     <div className="flex items-center justify-center py-3 text-white">
                       <h1>ระยะเวลาในการออม</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TimePeriod} เดือน
                       </h1>
                     </div>
@@ -424,17 +425,17 @@ const EmergencyInvestmentDashboard = () => {
                       จำนวนเงินทั้งหมด
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TotalBalance} บาท
                       </h1>
                     </div>
                   </div>
                   <div>
-                    <div className="flex items-center justify-center py-3  text-white">
+                    <div className="flex items-center justify-center py-3 text-white">
                       <h1>จำนวนเงินคงเหลือ</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TargetAmount -
                           savingEmergencyPlan?.TotalBalance}{" "}
                         บาท
@@ -442,11 +443,11 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="flex items-center justify-center py-3  text-white">
+                    <div className="flex items-center justify-center py-3 text-white">
                       <h1>เหลือเวลาอีก</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TimeRemaining} เดือน
                       </h1>
                     </div>

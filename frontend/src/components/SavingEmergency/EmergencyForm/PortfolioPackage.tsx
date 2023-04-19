@@ -3,7 +3,7 @@ import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
 import { useRouter } from 'next/router'
-import { ReactSVG } from "react-svg";
+// import { ReactSVG } from "react-svg";
 import NotFoundSVG from "./assets/not-found.svg";
 
 type PackageData = {
@@ -66,7 +66,8 @@ export function PortfolioPackage ({
                 credentials: "include",
               });
               const portfolioPackage = await packageResponse.json();
-
+              console.log(portfolioPackage)
+              
               if (portfolioPackage && portfolioPackage.Package_ID) {
                 setPortfolioPackage(portfolioPackage);
                 console.log('Package Details:', portfolioPackage);  
@@ -105,11 +106,11 @@ export function PortfolioPackage ({
                     alignItems: "center",
                     backgroundColor: "#6259E8",
                   }}
-                  className=" py-2 rounded bg-gray-50"
+                  className="py-2 rounded bg-gray-50"
                 >
                   <p 
                     style={{ padding: "0 1rem"  }}
-                    className="font-bold text-white text-2xl"
+                    className="text-2xl font-bold text-white"
                   >
                     {/* การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน */}
                     เลือกพอร์ตการลงทุนของคุณ
@@ -131,9 +132,9 @@ export function PortfolioPackage ({
                       />
                     ) : (
                       <div 
-                        className="flex justify-center items-center h-full p-20"
+                        className="flex items-center justify-center h-full p-20"
                       >
-                        <p className="text-white text-3xl">ไม่มีแพ็คเกจการลงทุนตามระดับความเสี่ยงที่ท่านเลือกในขณะนี้</p>
+                        <p className="text-3xl text-white">ไม่มีแพ็คเกจการลงทุนตามระดับความเสี่ยงที่ท่านเลือกในขณะนี้</p>
                       </div>
                     )}
                     </div>

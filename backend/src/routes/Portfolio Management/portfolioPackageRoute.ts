@@ -27,3 +27,4 @@ router.post('/portfolio/package/fund', addMutualFundToPackage);
 router.patch('/portfolio/package/:id/calculate-returns', calculatePortfolioPackageReturns);
 
 export default router;
+// http://localhost:8080/portfolio/package/2/allocations

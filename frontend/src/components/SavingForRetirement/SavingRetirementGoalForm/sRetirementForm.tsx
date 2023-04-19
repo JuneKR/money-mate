@@ -20,7 +20,7 @@ type sRetirementData = {
   ageToLive: number;
   inflationRate: number;
   additionalInvestment: number;
-  progression: string;
+  progression: Number;
   riskLevel: number;
 };
 
@@ -52,7 +52,7 @@ export function RetirementForm({
       >
         <label htmlFor="monthlyExpense" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               วัน/เดือน/ปีเกิด
             </span>
           </div>
@@ -66,7 +66,7 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
             ข้อมูลไม่ถูกต้อง
@@ -74,7 +74,7 @@ export function RetirementForm({
         </label>
         <label htmlFor="monthlyDeposit" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               ค่าใช้จ่ายคงที่ต่อเดือน
             </span>
           </div>
@@ -97,14 +97,14 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           {expenseWarning && (
             <p className="m-1 text-xs text-red-500">{expenseWarning}</p>
           )}
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: ค่าใช้จ่ายทั้งเดือนโดยรวมทั้งหมดของคุณ
             อาธิเช่นค่านำ้ค่าไฟค่าอาหาร เป็นต้น
@@ -116,7 +116,7 @@ export function RetirementForm({
 
         <label htmlFor="monthlyDeposit" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               อายุที่ตั้งใจจะเกษียณ
             </span>
           </div>
@@ -139,14 +139,14 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           {ageToRetireWarning && (
             <p className="m-1 text-xs text-red-500">{ageToRetireWarning}</p>
           )}
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: อายุที่คุณตั้งใจว่าจะเกษียณตัวเองหรือไม่ทำงานแล้ว
             โดยปกติบริษัทจะมีนโยบายของตัวเองโดนทั่วไปแล้วอายุที่เกษียนณจะอยู่ราวๆ
@@ -159,7 +159,7 @@ export function RetirementForm({
 
         <label htmlFor="months" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               อายุที่คาดว่าจะมีอายุอยู่หลังเกษียณ
             </span>
           </div>
@@ -182,14 +182,14 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-sm shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           {ageToLiveWarning && (
             <p className="m-1 text-xs text-red-500">{ageToLiveWarning}</p>
           )}
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: อายุที่คุณคาดว่าหลังจากเกษียณแล้วจะมีอายุอีกกี่ปี
           </FormHelperText>
@@ -200,7 +200,7 @@ export function RetirementForm({
 
         <label htmlFor="currentBalance" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               เงินออมทั้งหมดในปัจจุบัน (ถ้ามี)
             </span>
           </div>
@@ -223,14 +223,14 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           {totalBalanceWarning && (
             <p className="m-1 text-xs text-red-500">{totalBalanceWarning}</p>
           )}
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: เงินทั้งหมดในตอนนี้ที่คุณตั้งใจจะออมในแผนการออมนี้
             หรืออาจจะมีอยู่ก่อนแล้ว
@@ -241,24 +241,24 @@ export function RetirementForm({
         </label>
       </div>
 
-      <div className="py-5 px-4 lg:px-10">
+      <div className="px-4 py-5 lg:px-10">
         <div
           style={{ backgroundColor: "#27264E" }}
-          className="rounded-lg shadow-2xl p-5 hover:shadow-green-500/50"
+          className="p-5 rounded-lg shadow-2xl hover:shadow-green-500/50"
         >
           <Image
             src={Tips1}
             alt="Your Image"
             onClick={() => setShowModal(true)}
-            className="w-full h-auto cursor-pointer transform hover:scale-105 transition duration-300 ease-in-out "
+            className="w-full h-auto transition duration-300 ease-in-out transform cursor-pointer hover:scale-105 "
           />
         </div>
         {showModal && (
           <div
-            className="fixed z-50 inset-0 flex items-center justify-center w-screen h-screen bg-black bg-opacity-75"
+            className="fixed inset-0 z-50 flex items-center justify-center w-screen h-screen bg-black bg-opacity-75"
             onClick={() => setShowModal(false)}
           >
-            <div className="w-11/12 max-w-3xl max-h-3/4 overflow-hidden bg-white rounded-lg">
+            <div className="w-11/12 max-w-3xl overflow-hidden bg-white rounded-lg max-h-3/4">
               <Image
                 src={Tips1}
                 alt="Your Image"

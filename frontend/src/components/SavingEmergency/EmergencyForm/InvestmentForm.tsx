@@ -485,7 +485,7 @@ export function InvestmentForm({
                               key={index}
                               className={
                                 data.riskLevel <= selectRiskTorelance
-                                  ? ""
+                                  ? "transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50"
                                   : "opacity-50"
                               }  
                             >

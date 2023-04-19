@@ -344,13 +344,13 @@ export function InvestmentForm({
       >
         <div
           style={{ width: "100%", height: "50%", backgroundColor: "#27264E" }}
-          className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
+          className="flex items-center justify-center w-full h-24 rounded shadow-2xl bg-gray-50 dark:bg-gray-800"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 text-white font-bold">
-            <div className="text-white p-4">เป้าหมาย</div>
-            <div className="text-white p-4">ออมเงินเผื่อฉุกเฉิน</div>
-            <div className="text-lg p-4">คุณต้องมีเงินออมฉุกเฉินทั้งหมด</div>
-            <div className="text-lg p-4">{formatTargetAmount2} บาท</div>
+          <div className="grid grid-cols-1 font-bold text-white sm:grid-cols-2">
+            <div className="p-4 text-white">เป้าหมาย</div>
+            <div className="p-4 text-white">ออมเงินเผื่อฉุกเฉิน</div>
+            <div className="p-4 text-lg">คุณต้องมีเงินออมฉุกเฉินทั้งหมด</div>
+            <div className="p-4 text-lg">{formatTargetAmount2} บาท</div>
             <div className="p-4">ระยะเวลาทั้งหมดในการออม</div>
             <div className="p-4">{timeToAchive}</div>
             <div className="p-4">จำนวนเดือนที่ต้องการออม</div>
@@ -362,12 +362,12 @@ export function InvestmentForm({
         <div className="relative py-8 ">
           <div
             style={{ backgroundColor: "#6259E8" }}
-            className="transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black"
+            className="flex items-center justify-between px-4 border-2 border-black rounded-t-lg cursor-pointer "
             onClick={handleClick}
           >
             <span
               style={{ backgroundColor: "#6259E8" }}
-              className="text-white text-lg rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold"
+              className="py-2 text-lg font-bold text-white rounded bg-gray-50 dark:bg-gray-800"
             >
               คุณต้องการเพิ่มผลตอบแทนด้วยการลงทุนไหม?
             </span>
@@ -376,7 +376,7 @@ export function InvestmentForm({
                 type="checkbox"
                 checked={!isHidden}
                 onChange={handleCheckboxChange}
-                className="form-checkbox h-5 w-5 text-gray-600 ml-2"
+                className="w-5 h-5 ml-2 text-gray-600 form-checkbox"
               />
             </label>
           </div>
@@ -384,37 +384,37 @@ export function InvestmentForm({
             <div className="py-5 ">
               <div
                 style={{ backgroundColor: "#27264E" }}
-                className="shadow-2xl w-full h-full grid grid-cols-2 p-5"
+                className="grid w-full h-full grid-cols-2 p-5 shadow-2xl"
               >
-                <div className="font-bold text-white text-lg pb-3">
+                <div className="pb-3 text-lg font-bold text-white">
                   <p>ระดับความเสี่ยง (1-8)</p>
                 </div>
-                <div className="flex item-center justify-center pb-3">
-                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white">
+                <div className="flex justify-center pb-3 item-center">
+                  <div className="block w-full px-3 py-2 text-sm text-xl font-bold text-white rounded-lg placeholder:text-white">
                     {riskLevel}
                   </div>
                 </div>
-                <div className="font-bold text-white text-lg">
+                <div className="text-lg font-bold text-white">
                   <p>ผลตอบแทนที่คาดหวัง</p>
                 </div>
-                <div className="flex item-center justify-center pb-3">
-                  <div className="font-bold text-xl text-white block w-full px-3 py-2 text-sm  rounded-lg placeholder:text-white">
+                <div className="flex justify-center pb-3 item-center">
+                  <div className="block w-full px-3 py-2 text-sm text-xl font-bold text-white rounded-lg placeholder:text-white">
                     {returnRate} %
                   </div>
                 </div>
               </div>
               <form action="">
-                <div className="flex flex-col items-center justify-center  w-full h-full gap-20 mb-3 block px-3 py-7 text-lg text-white">
+                <div className="flex flex-col items-center justify-center block w-full h-full gap-20 px-3 mb-3 text-lg text-white py-7">
                   <div
                     style={{ backgroundColor: "#27264E" }}
-                    className="shadow-2xl min-w-64 w-full h-full px-4 py-6 rounded-lg md:p-8"
+                    className="w-full h-full px-4 py-6 rounded-lg shadow-2xl min-w-64 md:p-8"
                   >
-                    <div className="text-black rounded py-2 font-bold">
-                      <h1 className="text-center md:text-left text-white">
+                    <div className="py-2 font-bold text-black rounded">
+                      <h1 className="text-center text-white md:text-left">
                         ความเสี่ยงที่คุณสามารถรับได้
                       </h1>
                     </div>
-                    <div className="w-full h-24 md:h-32 pt-5">
+                    <div className="w-full h-24 pt-5 md:h-32">
                       <InvestmentSlider
                         title="my slidebar"
                         riskLevel={riskLevel.toString()}
@@ -428,7 +428,7 @@ export function InvestmentForm({
                       />
                     </div>
                     <div className="text-black rounded ">
-                      <h1 className="font-bold text-center md:text-left text-white">
+                      <h1 className="font-bold text-center text-white md:text-left">
                         หากไม่ทราบระดับความเสี่ยงของตนเองโปรดทำแบบประเมินความเสี่ยง
                       </h1>
                       <a
@@ -446,9 +446,9 @@ export function InvestmentForm({
                 </div>
                 <div
                   style={{ backgroundColor: "#6259E8" }}
-                  className="text-black rounded-lg font-bold"
+                  className="font-bold text-black rounded-lg"
                 >
-                  <h1 className="text-white text-lg rounded py-2 font-bold">
+                  <h1 className="py-2 text-lg font-bold text-white rounded">
                     เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้
                   </h1>
                 </div>
@@ -457,22 +457,22 @@ export function InvestmentForm({
                   className="block w-full px-3 py-2 rounded-md shadow-2xl"
                 >
                   <div className="flex justify-center item-center">
-                    <table className="table-fixed text-black">
+                    <table className="text-black table-fixed">
                       <thead>
-                        <tr className=" text-lg">
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                        <tr className="text-lg ">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ออมเงินต่อเดือน
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ความเสี่ยง
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ผลตอบแทน
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ระยะเวลา
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             เลือก
                           </th>
                         </tr>
@@ -482,7 +482,7 @@ export function InvestmentForm({
                           (data, index) => (
                             // data.riskLevel <= selectedRiskLevel && (
                             <tr key={index}>
-                              {/* <td className="px-4 py-2 text-white font-bold text-lg"> */}
+                              {/* <td className="px-4 py-2 text-lg font-bold text-white"> */}
                               <td
                                 className={
                                   data.riskLevel <= selectRiskTorelance
@@ -492,13 +492,13 @@ export function InvestmentForm({
                               >
                                 {data.monthlySaving}
                               </td>
-                              <td className="px-4 py-2 text-white font-bold text-lg">
+                              <td className="px-4 py-2 text-lg font-bold text-white">
                                 {data.riskLevel}
                               </td>
-                              <td className="px-4 py-2 text-white font-bold text-lg">
+                              <td className="px-4 py-2 text-lg font-bold text-white">
                                 {data.returnRate}%
                               </td>
-                              <td className="px-4 py-2 text-white font-bold text-lg">
+                              <td className="px-4 py-2 text-lg font-bold text-white">
                                 {yearsToYearsMonthsDays(
                                   data.timeRemaining.toString()
                                 )}
@@ -509,7 +509,7 @@ export function InvestmentForm({
                                   name="option"
                                   value={index + 1}
                                   // checked={data.selected}
-                                  className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                                  className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
                                   onChange={() => {
                                     handleRadioChange(index);
                                   }}

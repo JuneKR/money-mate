@@ -59,7 +59,8 @@ export function InvestmentForm({
   const [isHidden, setIsHidden] = useState(true);
 
   // Max User Risk Torelance
-  const [selectRiskTorelance, setSelectRiskTorelance] = useState(0);
+  const [selectRiskTorelance, setSelectRiskTorelance] = useState(1);
+  
   const tvmCalculator = require("tvm-calculator");
 
   function numberPeriods(
@@ -423,7 +424,7 @@ export function InvestmentForm({
                             riskLevel: Number(e.target.value),
                             returnRate: Number(e.target.value) + 1,
                           });
-                          setSelectRiskTorelance(riskLevel);
+                          setSelectRiskTorelance(Number(e.target.value));
                         }}
                       />
                     </div>
@@ -480,34 +481,26 @@ export function InvestmentForm({
                       <tbody className="text-lg">
                         {initialTableData.map(
                           (data, index) => (
-                            // data.riskLevel <= selectedRiskLevel && (
-                            <tr key={index}>
-                              {/* <td className="px-4 py-2 text-lg font-bold text-white"> */}
-                              <td
-                                className={
-                                  data.riskLevel <= selectRiskTorelance
-                                    ? "bg-blue-400"
-                                    : "px-4 py-2 text-white font-bold text-lg"
-                                }
-                              >
-                                {data.monthlySaving}
-                              </td>
+                            <tr 
+                              key={index}
+                              className={
+                                data.riskLevel <= selectRiskTorelance
+                                  ? ""
+                                  : "opacity-50"
+                              }  
+                            >
+                              <td className="px-4 py-2 text-lg font-bold text-white">{data.monthlySaving}</td>
+                              <td className="px-4 py-2 text-lg font-bold text-white">{data.riskLevel}</td>
+                              <td className="px-4 py-2 text-lg font-bold text-white">{data.returnRate}%</td>
                               <td className="px-4 py-2 text-lg font-bold text-white">
-                                {data.riskLevel}
-                              </td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">
-                                {data.returnRate}%
-                              </td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">
-                                {yearsToYearsMonthsDays(
-                                  data.timeRemaining.toString()
-                                )}
+                                {yearsToYearsMonthsDays(data.timeRemaining.toString())}
                               </td>
                               <td className="px-4 py-2">
                                 <input
                                   type="radio"
                                   name="option"
                                   value={index + 1}
+                                  disabled={data.riskLevel > selectRiskTorelance}
                                   // checked={data.selected}
                                   className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
                                   onChange={() => {
@@ -517,7 +510,6 @@ export function InvestmentForm({
                               </td>
                             </tr>
                           )
-                          // )
                         )}
                       </tbody>
                     </table>

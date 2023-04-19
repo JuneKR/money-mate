@@ -110,6 +110,9 @@ const goalBasedCreateForm = () => {
         await addMutualFundsToInvestmentPortfolio(urlServer, investmentPortfolio, portfolioPackageAllocation);
         router.push("/GoalBasedPages/goalBasedInvestmentDashboard");
       }
+      else {
+        alert('โปรดกดเลือกพอร์ตก่อน');
+      }
     } else {
       return next();
     }
@@ -266,7 +269,7 @@ const goalBasedCreateForm = () => {
       }
   
       const responseData = await response.json();
-      console.log(`Successfully Created Investment Portfolio By Emergency ID: ${savingGoal.Goal_ID}`,responseData);
+      console.log(`Successfully Created Investment Portfolio By Goal ID: ${savingGoal.Goal_ID}`,responseData);
     } catch (error) {
       console.error(error);
     }
@@ -275,7 +278,7 @@ const goalBasedCreateForm = () => {
   const getInvestmentPortfolio = async (urlServer: string, savingGoal: any) => {
     try {
       // Fetch Investment Portfolio By Goal ID
-      const portfolioResponse = await fetch(`${urlServer}emergency/${savingGoal.Goal_ID}/investment/portfolio`, {
+      const portfolioResponse = await fetch(`${urlServer}goal/${savingGoal.Goal_ID}/investment/portfolio`, {
         credentials: "include",
       });
       const investmentPortfolio = await portfolioResponse.json();

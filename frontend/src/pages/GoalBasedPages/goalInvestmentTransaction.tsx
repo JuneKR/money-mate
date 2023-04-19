@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
-import InvestmentCheckBox from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/investTransactionTable";
 
-export interface SavingEmergencyPlan {
-  Emergency_ID: number | any;
+export interface SavingGoalPlan {
+  GoalGoal_ID: number | any;
   LastUpdate: string | any;
-  MonthlyExpense: number | any;
   MonthlySaving: number | any;
   PlanName: string | any;
   Progression: number | any;
@@ -20,7 +18,7 @@ export interface SavingEmergencyPlan {
   User_ID: number | any;
 }
 
-export interface SavingEmergencyInvestmentPortData {
+export interface SavingGoalInvestmentPortData {
   Portfolio_ID: number | any;
   PortfolioName: string | any;
   TotalValue: number | any;
@@ -45,7 +43,7 @@ export interface InvestmentTransaction {
   Type: string;
 }
 
-const EmergencyInvestmentPortfolioPackage = () => {
+const GoalInvestmentPortfolioPackage = () => {
   function toggleColumn() {
     setIsOpen(!isOpen);
   }
@@ -53,17 +51,17 @@ const EmergencyInvestmentPortfolioPackage = () => {
   const handleCheckboxChange = (isChecked: boolean) => {
     // Do something with the new checkbox state
   };
-  const handleEmergencyInvestment = () => {
-    router.push("/EmergencyPages/emergencyInvestmentDashboard");
+  const handleGoalInvestment = () => {
+    router.push("/GoalPages/GoalInvestmentDashboard");
   };
-  const handlesEmergencyPlanForm = () => {
-    router.push("/EmergencyPages/emergencyHomepage");
+  const handlesGoalPlanForm = () => {
+    router.push("/GoalPages/GoalHomepage");
   };
   
   const urlServer = "http://localhost:8080/";
   const [isOpen, setIsOpen] = useState(false);
-  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>();
-  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] = useState<SavingEmergencyInvestmentPortData>();
+  const [savingGoalPlan, setSavingGoalPlan] = useState<SavingGoalPlan>();
+  const [savingGoalInvestmentPort, setSavingGoalInvestmentPort] = useState<SavingGoalInvestmentPortData>();
   const [investmentTransactions, setInvestmentTransactions] = useState<InvestmentTransaction>();
 
   // Fetch APIs
@@ -76,38 +74,38 @@ const EmergencyInvestmentPortfolioPackage = () => {
         });
 
         const userProfile = await profileResponse.json();
-        //Fetch Saving Emergency Plan
-        const savingEmergencyResponse = await fetch(
-          `${urlServer}user/${userProfile.User_ID}/saving/emergency`,
+        //Fetch Saving Goal Plan
+        const savingGoalResponse = await fetch(
+          `${urlServer}user/${userProfile.User_ID}/saving/Goal`,
           {
             credentials: "include",
           }
         );
-        const savingEmergency = await savingEmergencyResponse.json();
-        setSavingEmergencyPlan(savingEmergency);
+        const savingGoal = await savingGoalResponse.json();
+        setSavingGoalPlan(savingGoal);
 
-        //Fetch Saving Emergency Investment Portfolio
-        const emergencyPortfolioResponse = await fetch(
-          `${urlServer}emergency/${savingEmergency.Emergency_ID}/investment/portfolio`,
+        //Fetch Saving Goal Investment Portfolio
+        const goalPortfolioResponse = await fetch(
+          `${urlServer}goal/${savingGoal.Goal_ID}/investment/portfolio`,
           {
             credentials: "include",
           }
         );
-        const emergencyPortfolio = await emergencyPortfolioResponse.json();
+        const goalPortfolio = await goalPortfolioResponse.json();
 
-        // Fetch All Emergency Investment Transaction By Portfolio ID of Emergency
-        const emergencyInvestmentTransactionResponse = await fetch(
-          `${urlServer}investment/${emergencyPortfolio.Portfolio_ID}/transactions`,
+        // Fetch All Goal Investment Transaction By Portfolio ID of Goal
+        const goalInvestmentTransactionResponse = await fetch(
+          `${urlServer}investment/${goalPortfolio.Portfolio_ID}/transactions`,
           {
             credentials: "include",
           }
         );
 
-        const emergencyInvestmentTransaction = await emergencyInvestmentTransactionResponse.json();
-        setInvestmentTransactions(emergencyInvestmentTransaction);
+        const goalInvestmentTransaction = await goalInvestmentTransactionResponse.json();
+        setInvestmentTransactions(goalInvestmentTransaction);
        
       } catch (error) {
-        console.log("Fetching Emergency Investment Transaction Error: ", error);
+        console.log("Fetching Goal Investment Transaction Error: ", error);
       }
     }
     fetchInvestmentTransaction();
@@ -153,11 +151,11 @@ const EmergencyInvestmentPortfolioPackage = () => {
                     {investmentTransactions
                     .map(
                       (investmentTransaction) => (
-                        <div> 
+                        <div>
                           <TransactionTable
                             title={"my table1"}
                             transaction={investmentTransaction}
-                            savingEmergency={savingEmergencyPlan}
+                            savingEmergency={savingGoalPlan}
                           />
                         </div>
                       )
@@ -173,4 +171,4 @@ const EmergencyInvestmentPortfolioPackage = () => {
     </>
   );
 };
-export default EmergencyInvestmentPortfolioPackage;
+export default GoalInvestmentPortfolioPackage;

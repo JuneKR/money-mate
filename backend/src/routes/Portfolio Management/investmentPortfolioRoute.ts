@@ -15,7 +15,9 @@ import {
     getInvestmentTransactionById,
     addMutualFundToInvestmentPortfolio,
     addMutualFundsToInvestmentPortfolio,
-    addEmergencyInvestmentTransaction
+    addEmergencyInvestmentTransaction,
+    addGoalInvestmentTransaction,
+    addRetirementInvestmentTransaction
 } from '../../controllers/portfolio management/investmentPortfolioController';
 
 const router = express.Router();
@@ -36,6 +38,8 @@ router.post('/investment/portfolio/:id/transaction', addInvestmentTransaction);
 router.get('/investment/:id/transactions', getAllInvestmentTransactionsByPortfolioId);
 router.get('/investment/transaction/:id', getInvestmentTransactionById);
 router.post('/emergency/investment/portfolio/:id/transaction', addEmergencyInvestmentTransaction);
+router.post('/goal/investment/portfolio/:id/transaction', addGoalInvestmentTransaction);
+router.post('/retirement/investment/portfolio/:id/transaction', addGoalInvestmentTransaction);
 
 router.post('/investment/portfolio/fund', addMutualFundToInvestmentPortfolio);
 router.post('/investment/portfolio/funds', addMutualFundsToInvestmentPortfolio);

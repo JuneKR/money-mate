@@ -518,6 +518,204 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
         res.status(400).json({msg: error.message});
     }
 }
+
+export const addGoalInvestmentTransaction = async(req: Request, res: Response) => {
+    try {
+        const { transaction_date, policy_desc, fund_abbr_name, amount, type } = req.body;
+
+        /* Check Investment Portfolio */
+        const investmentPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Portfolio_ID: req.params.id
+            }
+        });
+
+        if(!investmentPortfolio) {
+            return res.status(404).json({msg: "Investment Portfolio not found"});
+        }
+
+        // Check the saving plan id from portfolio
+        const savingGoalId = investmentPortfolio.Goal_ID;
+
+        if(!savingGoalId) {
+            return res.status(404).json({msg: "Saving goal id not found"});
+        }
+
+        const savingGoalPlan = await GoalBasedSavingPlan.findOne({
+            where: {
+                Goal_ID: savingGoalId,
+            }
+        });
+
+        if(!savingGoalPlan) {
+            return res.status(404).json({msg: "Goal saving plan not found"});
+        }
+
+        if (type === 'buy') {
+            // Update total balance and progression of saving plan
+            const newTotalBalance: number = savingGoalPlan.TotalBalance + parseFloat(amount);
+            const newProgression: number = Math.round((newTotalBalance / savingGoalPlan.TargetAmount) * 100);
+            await GoalBasedSavingPlan.update({
+                TotalBalance: newTotalBalance,
+                Progression: newProgression
+            }, 
+            {
+                where: {
+                    Goal_ID: savingGoalId
+                } 
+            });
+
+            // Update total value of portfolio
+            const newTotalValue: number = investmentPortfolio.TotalValue + parseFloat(amount);
+            await InvestmentPortfolio.update({
+                TotalValue: newTotalValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            });
+        }
+        else if (type === 'sell') {
+            // Update total balance and progression of saving plan
+            const newTotalBalance: number = savingGoalPlan.TotalBalance - parseFloat(amount);
+            const newProgression: number = Math.round((newTotalBalance / savingGoalPlan.TargetAmount) * 100);
+            await GoalBasedSavingPlan.update({
+                TotalBalance: newTotalBalance,
+                Progression: newProgression
+            }, 
+            {
+                where: {
+                    Goal_ID: savingGoalId
+                } 
+            });
+
+            // Update total value of portfolio
+            const newTotalValue: number = investmentPortfolio.TotalValue - parseFloat(amount);
+            await InvestmentPortfolio.update({
+                TotalValue: newTotalValue
+                
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            });
+        }
+
+        await InvestmentTransaction.create({
+            TransactionDate: transaction_date,
+            PolicyDesc: policy_desc,
+            FundAbbrName: fund_abbr_name,
+            Amount: amount,
+            Type: type,
+            Portfolio_ID: investmentPortfolio.Portfolio_ID
+        });
+
+        res.status(201).json({msg: "Goal-Based investment transaction history is recorded"});
+    } catch (error: any) {
+        res.status(400).json({msg: error.message});
+    }
+}
+
+export const addRetirementInvestmentTransaction = async(req: Request, res: Response) => {
+    try {
+        const { transaction_date, policy_desc, fund_abbr_name, amount, type } = req.body;
+
+        /* Check Investment Portfolio */
+        const investmentPortfolio = await InvestmentPortfolio.findOne({
+            where: {
+                Portfolio_ID: req.params.id
+            }
+        });
+
+        if(!investmentPortfolio) {
+            return res.status(404).json({msg: "Investment Portfolio not found"});
+        }
+
+        // Check the saving plan id from portfolio
+        const savingRetirementId = investmentPortfolio.Goal_ID;
+
+        if(!savingRetirementId) {
+            return res.status(404).json({msg: "Saving retirement id not found"});
+        }
+
+        const savingRetirementPlan = await SavingRetirementPlan.findOne({
+            where: {
+                Retirement_ID: savingRetirementId,
+            }
+        });
+
+        if(!savingRetirementPlan) {
+            return res.status(404).json({msg: "Saving retirement plan not found"});
+        }
+
+        if (type === 'buy') {
+            // Update total balance and progression of saving plan
+            const newTotalBalance: number = savingRetirementPlan.TotalBalance + parseFloat(amount);
+            const newProgression: number = Math.round((newTotalBalance / savingRetirementPlan.TargetAmount) * 100);
+            await SavingRetirementPlan.update({
+                TotalBalance: newTotalBalance,
+                Progression: newProgression
+            }, 
+            {
+                where: {
+                    Retirement_ID: savingRetirementId
+                } 
+            });
+
+            // Update total value of portfolio
+            const newTotalValue: number = investmentPortfolio.TotalValue + parseFloat(amount);
+            await InvestmentPortfolio.update({
+                TotalValue: newTotalValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            });
+        }
+        else if (type === 'sell') {
+            // Update total balance and progression of saving plan
+            const newTotalBalance: number = savingRetirementPlan.TotalBalance - parseFloat(amount);
+            const newProgression: number = Math.round((newTotalBalance / savingRetirementPlan.TargetAmount) * 100);
+            await SavingRetirementPlan.update({
+                TotalBalance: newTotalBalance,
+                Progression: newProgression
+            }, 
+            {
+                where: {
+                    Retirement_ID: savingRetirementId
+                } 
+            });
+
+            // Update total value of portfolio
+            const newTotalValue: number = investmentPortfolio.TotalValue - parseFloat(amount);
+            await InvestmentPortfolio.update({
+                TotalValue: newTotalValue
+                
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            });
+        }
+
+        await InvestmentTransaction.create({
+            TransactionDate: transaction_date,
+            PolicyDesc: policy_desc,
+            FundAbbrName: fund_abbr_name,
+            Amount: amount,
+            Type: type,
+            Portfolio_ID: investmentPortfolio.Portfolio_ID
+        });
+
+        res.status(201).json({msg: "Saving retirement investment transaction history is recorded"});
+    } catch (error: any) {
+        res.status(400).json({msg: error.message});
+    }
+}
  
 
 // Unfinish

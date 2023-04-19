@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
-import SavingGraph from "@/components/SavingEmergency/EmergencyGraphComponent/savingGraph";
+import SavingGraph from "@/components/SavingForGoal/SavingGoalGraphComponent/savingGraph";
 import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import ModleButtonForm1 from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/emergencyInvestmentDashBoardModalForm1";
-import EmergencyFundsDetailsTable from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyFundsDetailsTable";
-import Pie1 from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolio1";
+import ModleButtonForm from "@/components/SavingForGoal/SavingGoalInvestmentPlan/sGoalInvestmentDashBoardModalForm";
+import GoalFundsDetailsTable from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalMyPortForm/goalFundsDetailsTable";
+import Pie from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalInvestmentPortfolioPackageComponents/sGoalInvestmentPieChartPortfolio";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import CachedIcon from "@mui/icons-material/Cached";
@@ -95,6 +95,18 @@ const EmergencyInvestmentDashboard = () => {
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
 
+  function yearsToYearsMonthsDays(value: string) {
+    const totalDays = Number(value) * 365;
+    const years = Math.floor(totalDays / 365);
+    const months = Math.floor((totalDays - years * 365) / 30);
+    const days = Math.floor(totalDays - years * 365 - months * 30);
+    const result = years + " ปี " + months + " เดือน " + days + " วัน";
+    if (isNaN(years) || isNaN(months) || isNaN(days)) {
+      return "0 ปี 0 เดือน 0 วัน";
+    }
+    return result.toString();
+  }  
+
   // Fetch APIs
   useEffect(() => {
     async function fetchData() {
@@ -146,12 +158,12 @@ const EmergencyInvestmentDashboard = () => {
 
   const router = useRouter();
 
-  const handleEmergencyInvestmentPortfolio = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfolio");
+  const handleGoalInvestmentPortfolio = () => {
+    router.push("/GoalBasedPages/goalInvestmentPortfolio");
   };
 
-  const handleEmergencyInvestmentTransaction = () => {
-    router.push("/EmergencyPages/emergencyInvestmentTransaction");
+  const handleGoalInvestmentTransaction = () => {
+    router.push("/GoalBasedPages/goalInvestmentTransaction");
   };
   const targetAmountDisplay = Number(savingGoalPlan.TargetAmount);
   const monthlySavingDisplay = Number(savingGoalPlan.MonthlySaving);
@@ -186,9 +198,9 @@ const EmergencyInvestmentDashboard = () => {
                 </div>
                 <div className="pb-10">
                   <div className="rounded-lg shadow-2xl">
-                    <ModleButtonForm1
+                    <ModleButtonForm
                       title={""}
-                      savingEmergency={savingGoalPlan}
+                      savingGoal={savingGoalPlan}
                       savingInvestmentPort={investmentPortfolio}
                     />
                   </div>
@@ -213,7 +225,7 @@ const EmergencyInvestmentDashboard = () => {
                 <div style={{ backgroundColor: "#1D1D41" }} className="p-10">
                   <SavingGraph 
                     title={"saving chart"}
-                    savingEmergency={savingGoalPlan}
+                    savingGoal={savingGoalPlan}
                     savingInvestmentPort={investmentPortfolio}
                   />
                   <p>หมายเหตุ....</p>
@@ -243,17 +255,17 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-1 flex justify-center item-center"
                   >
-                    {/* <Pie1 
+                    <Pie
                       title={investmentPortfolio.PortfolioName} 
                       investmentPortfolioAllocation={investmentPortfolioAllocation}
-                    /> */}
+                    />
                   </div>
                   <div className="flex justify-center item-center boder border-blue-500 col-span-3 ">
-                    {/* <EmergencyFundsDetailsTable
+                    <GoalFundsDetailsTable
                       title={""}
                       investmentPortfolio={investmentPortfolio}
                       investmentPortfolioAllocation={investmentPortfolioAllocation}
-                    /> */}
+                    />
                   </div>
                 </div>
 
@@ -293,7 +305,7 @@ const EmergencyInvestmentDashboard = () => {
                     <div>
                       <div className="grid grid-cols-2 py-5 ">
                         <div className="flex items-center justify-center grid grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfolio}>
+                          <button onClick={handleGoalInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <AddIcon />
                             </div>
@@ -304,7 +316,7 @@ const EmergencyInvestmentDashboard = () => {
                           </div>
                         </div>
                         <div className="flex items-center justify-center grid grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfolio}>
+                          <button onClick={handleGoalInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <RemoveIcon />
                             </div>
@@ -314,7 +326,7 @@ const EmergencyInvestmentDashboard = () => {
                           </div>
                         </div>
                       </div>
-                      <button onClick={handleEmergencyInvestmentTransaction}>
+                      <button onClick={handleGoalInvestmentTransaction}>
                         <h1 className="flex items-center justify-center pb-5">
                           <CachedIcon />
                           ดูประวัติการทำรายการ
@@ -442,7 +454,8 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="text-white font-bold">
-                        {savingGoalPlan?.TimeRemaining} เดือน
+                        {/* {yearsToYearsMonthsDays(savingGoalPlan?.TimeRemaining)} เดือน */}
+                        {yearsToYearsMonthsDays((savingGoalPlan?.TimePeriod/12).toString())} เดือน
                       </h1>
                     </div>
                   </div>

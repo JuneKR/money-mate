@@ -2,13 +2,13 @@ import React, { useRef, useEffect } from 'react';
 import { useState } from 'react';
 
 
-interface EmergencyInvestmentDropDownFundProps {
+interface GoalInvestmentDropDownFundProps {
     title: string;
     investmentPortfolioAllocation: any[];
     handleFundAbbrSelection: any;
 }
 
-const EmergencyInvestmentDropDownFund: React.FC<EmergencyInvestmentDropDownFundProps> = (props) => {
+const GoalInvestmentDropDownFund: React.FC<GoalInvestmentDropDownFundProps> = (props) => {
     const { title, investmentPortfolioAllocation, handleFundAbbrSelection } = props;
     const [selectedItem, setSelectedItem] = useState("");
 
@@ -32,7 +32,7 @@ const EmergencyInvestmentDropDownFund: React.FC<EmergencyInvestmentDropDownFundP
         onChange={handleSelect}
       >
         <option value="default">เลือกกองทุน</option>
-        {Array.from(investmentPortfolioAllocation).map((item) => (
+        {Array.from(investmentPortfolioAllocation)?.map((item) => (
           <option key={item.id} value={item.id}>
             {item.FundAbbrName}
           </option>
@@ -55,4 +55,4 @@ const EmergencyInvestmentDropDownFund: React.FC<EmergencyInvestmentDropDownFundP
   );
 };
 
-export default EmergencyInvestmentDropDownFund;
+export default GoalInvestmentDropDownFund;

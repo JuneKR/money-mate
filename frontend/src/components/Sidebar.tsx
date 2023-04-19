@@ -338,7 +338,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           >
             <ListItemButton
               onClick={handleHomePage}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:bg-cyan-500 hover:bg-opacity-75 hover:shadow-cyan-500/50"
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <HomeIcon sx={{ color: "#FFFFFF" }} />
@@ -347,7 +347,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleEmergencyDashboard}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-pink-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-pink-500/50"
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <SavingsIcon sx={{ color: "#FFFFFF" }} />
@@ -356,7 +356,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleGoalBasedDashboard}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-red-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-red-500/50"
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <FlagIcon sx={{ color: "#FFFFFF" }} />
@@ -365,7 +365,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleRetirementDashboard}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-green-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-green-500/50"
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <ElderlyIcon sx={{ color: "#FFFFFF" }} />
@@ -374,7 +374,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleClick}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-yellow-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-yellow-500/50"
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <AttachMoneyIcon sx={{ color: "#FFFFFF" }} />
@@ -416,7 +416,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </Collapse>
             <ListItemButton
               onClick={handleProfile}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-purple-500/50"
+              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <PersonIcon sx={{ color: "#FFFFFF" }} />

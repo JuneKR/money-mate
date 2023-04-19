@@ -66,7 +66,9 @@ const emergencyCreateForm = () => {
       <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
       <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
     ]);
-
+    // console.log('Steps', steps);
+    // console.log('Current Step', currentStepIndex);  
+    // console.log('Show Package Step', showPackageStep);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -341,14 +343,14 @@ const emergencyCreateForm = () => {
         >
           <p
             style={{ padding: "0 1rem" }}
-            className="font-bold text-white text-2xl"
+            className="text-2xl font-bold text-white"
           >
             ออมเงินเผื่อฉุกเฉิน
           </p>
         </div>
 
         <div
-          className="rounded-b-2xl pb-5 shadow-2xl"
+          className="pb-5 shadow-2xl rounded-b-2xl"
           style={{ backgroundColor: "#1D1D41" }}
         >
           {/* <div className="py-10">
@@ -356,21 +358,21 @@ const emergencyCreateForm = () => {
               <Stepper activeStep={currentStepIndex}>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-600 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-600 rounded-full shadow-2xl">
                       เลือกเป้าหมาย
                     </span>
                   </StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-700 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-700 rounded-full shadow-2xl">
                       สร้างเป้าหมาย
                     </span>
                   </StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
                       ตรวจสอบและเลือกแผน
                     </span>
                   </StepLabel>
@@ -378,7 +380,7 @@ const emergencyCreateForm = () => {
                 {showPackageStep && (
                   <Step>
                   <StepLabel>
-                  <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                  <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
                     เลือกพอร์ตการลงทุน
                   </span>
                 </StepLabel>
@@ -394,21 +396,21 @@ const emergencyCreateForm = () => {
               <Stepper activeStep={currentStepIndex}>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-600 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-600 rounded-full shadow-2xl">
                       เลือกเป้าหมาย
                     </span>
                   </StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-700 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-700 rounded-full shadow-2xl">
                       สร้างเป้าหมาย
                     </span>
                   </StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
                       ตรวจสอบและเลือกแผน
                     </span>
                   </StepLabel>
@@ -416,7 +418,7 @@ const emergencyCreateForm = () => {
                 {showPackageStep && (
                   <Step>
                     <StepLabel>
-                      <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                      <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
                         เลือกพอร์ตการลงทุน
                       </span>
                     </StepLabel>
@@ -436,7 +438,7 @@ const emergencyCreateForm = () => {
                 justifyContent: "flex-end",
               }}
             >
-              <div className="p-5 grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-2 gap-5 p-5">
                 {!isFirstStep && (
                   <button
                     type="button"
@@ -444,7 +446,7 @@ const emergencyCreateForm = () => {
                       back() 
                       setIsSelectedPackage(false)
                     }}
-                    className="px-4 py-2 font-bold text-white bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none  transition delay-150"
+                    className="px-4 py-2 font-bold text-white transition delay-150 bg-indigo-500 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                   >
                     ย้อนกลับ
                   </button>
@@ -452,7 +454,7 @@ const emergencyCreateForm = () => {
 
                 <button
                   type="submit"
-                  className="transform hover:scale-105 transition duration-300 ease-in-out px-4 py-2 font-bold text-white  bg-indigo-500 hover:bg-blue-500 rounded shadow focus:shadow-outline focus:outline-none transition delay-150"
+                  className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out delay-150 transform bg-indigo-500 rounded shadow hover:scale-105 hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                 >
                   {getNextButtonText()}
                 </button>

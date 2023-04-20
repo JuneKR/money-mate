@@ -529,7 +529,7 @@ export function SRetirementInvestment({
                             }
                           >
                             <td className="px-4 py-2 text-lg font-bold text-white">
-                              {data.monthlySaving}
+                              {(data.monthlySaving * -1).toString()}
                             </td>
                             <td className="px-4 py-2 text-lg font-bold text-white">
                               {data.riskLevel}

@@ -302,7 +302,7 @@ const retirementCreateForm = () => {
     userProfile: any,
     savingRetirement: any
   ) => {
-    const defaultPortfolioName = "พอร์ตการลงทุนเผื่อเงินออมฉุกเฉิน";
+    const defaultPortfolioName = "พอร์ตการลงทุนเพื่อเกษียณอายุ";
     const moment = require("moment-timezone");
     const now = moment().tz("Asia/Bangkok");
     const startDate = now.format("YYYY-MM-DD");

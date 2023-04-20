@@ -23,17 +23,14 @@ const EmergencyInvestmentPortfilio = () => {
     <main className={styles.main}>
         <div style={{padding: "0 4rem"}} className="w-full xl:w-8/12">
             <Sidebar title="My Sidebar" />
-            <div style={{backgroundColor: '#B2E8FF'}}className="flex justify-center py-2 rounded bg-gray-50 dark:bg-gray-800">
-                <p style={{ padding: "0 1rem"  }}className="font-bold text-2xl text-black">
+            <div className="flex justify-center py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500">
+                <p style={{ padding: "0 1rem"  }}className="text-2xl font-bold text-white">
                     พอร์ตการลงทุนของคุณ
                 </p>
             </div>
-            <div className='bg-white'>
-                <div className='grid grid-cols-2 pt-5'>
-                    <div>
-                        {/* <Pie1 title={'my pie1'}/> */}
-                    </div>
-                    <div className='text-black'>
+            <div style={{ backgroundColor: "#1D1D41" }} className='shadow-2xl'>
+                <div className='flex justify-center pt-5'>
+                    <div className='text-white'>
                         ข้อมูลกองทุน
                     </div>
                 </div>

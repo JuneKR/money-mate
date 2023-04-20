@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DropDownPolicy from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownPolicy"
-import DropDownFund from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownFund"
+import DropDownPolicy from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownPolicy";
+import DropDownFund from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownFund";
 
 interface FormValues {
   name: string;
@@ -15,12 +15,13 @@ const initialFormValues: FormValues = {
 };
 
 const EmergencyMyPortForm = () => {
-  const urlServer = "http://localhost:8080/"
+  const urlServer = "http://localhost:8080/";
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [userProfile, setUserProfile] = useState();
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState();
   const [investmentPortfolio, setInvestmentPortfolio] = useState();
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] =
+    useState([]);
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentAmountError, setInvestmentAmountError] = useState("");
   const [transactionType, setTransactionType] = useState("");
@@ -54,17 +55,19 @@ const EmergencyMyPortForm = () => {
             credentials: "include",
           }
         );
-        const emergencyInvestmentPortfolio = await emergencyInvestmentReponse.json();
+        const emergencyInvestmentPortfolio =
+          await emergencyInvestmentReponse.json();
         setInvestmentPortfolio(emergencyInvestmentPortfolio);
 
         //Fetch Investment Portfolio Allocation
-        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${emergencyInvestmentPortfolio.Portfolio_ID}/allocation`, {
-          credentials: "include",
-        });
+        const portfolioResponse = await fetch(
+          `${urlServer}investment/portfolio/${emergencyInvestmentPortfolio.Portfolio_ID}/allocation`,
+          {
+            credentials: "include",
+          }
+        );
         const investmentPortfolioAllocation = await portfolioResponse.json();
         setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
-
-
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -73,7 +76,9 @@ const EmergencyMyPortForm = () => {
     fetchData();
   }, []);
 
-  const handleInvestmentAmountChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInvestmentAmountChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const value = event.target.value;
     if (/^\d*$/.test(value)) {
       setInvestmentAmount(Number(value));
@@ -90,11 +95,11 @@ const EmergencyMyPortForm = () => {
   const handleFundAbbrSelection = (selected: string) => {
     setSelectedFundAbbr(selected);
   };
-  
+
   const handleBuyClick = () => {
     setTransactionType("buy");
   };
-  
+
   const handleSellClick = () => {
     setTransactionType("sell");
   };
@@ -102,64 +107,76 @@ const EmergencyMyPortForm = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selectedPolicyDesc || !selectedFundAbbr) {
-      alert('กรุณากดเลือกประเภทกองทุนและกองทุน');
+      alert("กรุณากดเลือกประเภทกองทุนและกองทุน");
     } else {
       if (transactionType === "buy" && investmentAmount !== 0) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
           fundAbbrName: selectedFundAbbr,
           amount: investmentAmount,
-          type: transactionType || "buy"
-        }
-        alert('ซื้อกองทุนสำเร็จแล้ว!');
-        createEmergencyTransaction(urlServer, investmentPortfolio, transactionData);
+          type: transactionType || "buy",
+        };
+        alert("ซื้อกองทุนสำเร็จแล้ว!");
+        createEmergencyTransaction(
+          urlServer,
+          investmentPortfolio,
+          transactionData
+        );
 
         // console.log('User: ', userProfile);
         // console.log('Selected Policy: ', selectedPolicyDesc);
         // console.log('Selected Fund: ', selectedFundAbbr);
         // console.log('Amount of buying: ', investmentAmount);
-      }
-      else if (transactionType === "sell" && investmentAmount !== 0) {
+      } else if (transactionType === "sell" && investmentAmount !== 0) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
           fundAbbrName: selectedFundAbbr,
           amount: investmentAmount,
-          type: transactionType || "sell"
-        }
-        alert('ขายกองทุนสำเร็จแล้ว!');
-        createEmergencyTransaction(urlServer, investmentPortfolio, transactionData);
+          type: transactionType || "sell",
+        };
+        alert("ขายกองทุนสำเร็จแล้ว!");
+        createEmergencyTransaction(
+          urlServer,
+          investmentPortfolio,
+          transactionData
+        );
 
         // console.log('Selected Policy: ', selectedPolicyDesc);
         // console.log('Selected Fund: ', selectedFundAbbr);
         // console.log('Amount of selling: ', investmentAmount);
-      }
-      else {
-        alert('กรุณากรอกจำนวนเงิน');
+      } else {
+        alert("กรุณากรอกจำนวนเงิน");
       }
     }
   };
 
-  const createEmergencyTransaction = async (urlServer: string, investmentPortfolio: any, transactionData: any) => {
+  const createEmergencyTransaction = async (
+    urlServer: string,
+    investmentPortfolio: any,
+    transactionData: any
+  ) => {
+    const moment = require("moment-timezone");
+    const now = moment().tz("Asia/Bangkok");
+    const currentDatetime = now.format("YYYY-MM-DD HH:mm:ss");
 
-    const moment = require('moment-timezone');
-    const now = moment().tz('Asia/Bangkok');
-    const currentDatetime = now.format('YYYY-MM-DD HH:mm:ss');
-    
     const emergencyTransactionData = {
       transaction_date: currentDatetime,
       policy_desc: transactionData.policyDesc,
       fund_abbr_name: transactionData.fundAbbrName,
       amount: transactionData.amount,
-      type: transactionData.type
+      type: transactionData.type,
     };
 
     try {
-      const response = await fetch(`${urlServer}emergency/investment/portfolio/${investmentPortfolio.Portfolio_ID}/transaction`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(emergencyTransactionData),
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${urlServer}emergency/investment/portfolio/${investmentPortfolio.Portfolio_ID}/transaction`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(emergencyTransactionData),
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -168,75 +185,91 @@ const EmergencyMyPortForm = () => {
       }
 
       const responseData = await response.json();
-      console.log(`Successfully add investment transaction by portfolio id ${investmentPortfolio.Portfolio_ID}`,responseData);
+      console.log(
+        `Successfully add investment transaction by portfolio id ${investmentPortfolio.Portfolio_ID}`,
+        responseData
+      );
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className=' py-5 px-5'>
+    <form onSubmit={handleSubmit} className="px-5 py-5 ">
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+        <label className="block mb-2 font-bold text-white" htmlFor="name">
           ประเภทกองทุนรวม
         </label>
-        <DropDownPolicy 
-          title={"ประเภทกองทุนรวม"} 
+        <DropDownPolicy
+          title={"ประเภทกองทุนรวม"}
           investmentPortfolioAllocation={investmentPortfolioAllocation}
           handlePolicyDescSelection={handlePolicyDescSelection}
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+        <label className="block mb-2 font-bold " htmlFor="email">
           สินทรัพย์ที่ลงทุน
         </label>
-        <DropDownFund 
-          title={"สินทรัพย์ที่ลงทุน"} 
+        <DropDownFund
+          title={"สินทรัพย์ที่ลงทุน"}
           investmentPortfolioAllocation={investmentPortfolioAllocation}
           handleFundAbbrSelection={handleFundAbbrSelection}
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="message">
+        <label className="block mb-2 font-bold " htmlFor="message">
           จำนวนเงิน
         </label>
         <input
-          className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          style={{
+            width: "100%",
+            height: "50px",
+            backgroundColor: "#27264E",
+          }}
+          className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400"
           id=""
           type="text"
           placeholder="1,000 บาท"
-          name="text" 
+          name="text"
           value={investmentAmount}
-          onChange={handleInvestmentAmountChange }
+          onChange={handleInvestmentAmountChange}
         />
         {/* Display error when use input invalid */}
         {investmentAmountError && (
-          <p className="text-red-500 text-xs italic">{investmentAmountError}</p>
+          <p className="text-xs italic text-red-500">{investmentAmountError}</p>
         )}
       </div>
       <div className="flex items-center justify-end">
         <div className="flex justify-end py-2">
-                <div className="py-5">
-                     <button 
-                        style={{ width: "209px",marginRight: "10px", backgroundColor: '#B2E8FF'}} 
-                        className="px-4 py-2 font-bold text-black rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" 
-                        type="submit"
-                        value="buy"
-                        onClick={handleBuyClick}
-                      >
-                        ซื้อหน่วยลงทุน
-                     </button>
-                     <button 
-                        style={{ width: "209px", marginLeft: "10px", backgroundColor: '#FF8C73'}} 
-                        className="px-4 py-2 font-bold text-black rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" 
-                        type="submit"
-                        value="sell"
-                        onClick={handleSellClick}
-                      >
-                        ขายหน่วยลงทุน
-                     </button>
-                  </div>
-            </div>
+          <div className="py-5">
+            <button
+              style={{
+                width: "209px",
+                marginRight: "10px",
+                backgroundColor: "#6259E8",
+              }}
+              className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out transform rounded shadow shadow-2xl hover:scale-105 hover:bg-gray-400 focus:shadow-outline focus:outline-none"
+              type="submit"
+              value="buy"
+              onClick={handleBuyClick}
+            >
+              ซื้อหน่วยลงทุน
+            </button>
+            <button
+              style={{
+                width: "209px",
+                marginLeft: "10px",
+                backgroundColor: "#93878D",
+              }}
+              className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out transform rounded shadow shadow-2xl hover:scale-105 hover:bg-blue-500 focus:shadow-outline focus:outline-none"
+              type="submit"
+              value="sell"
+              onClick={handleSellClick}
+            >
+              ขายหน่วยลงทุน
+            </button>
+          </div>
+        </div>
       </div>
     </form>
   );

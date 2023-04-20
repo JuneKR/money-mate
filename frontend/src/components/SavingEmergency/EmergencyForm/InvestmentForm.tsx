@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider";
+import { time } from "console";
 
 type InvestmentData = {
   expense: number;
@@ -16,6 +17,7 @@ type InvestmentData = {
 
 type InvestmentFormProps = InvestmentData & {
   updateFields: (fields: Partial<InvestmentData>) => void;
+  handleInvestmentSelection: any;
 };
 
 export const initialPackage = {
@@ -51,11 +53,14 @@ export function InvestmentForm({
   riskLevel,
   returnRate,
   updateFields,
+  handleInvestmentSelection,
 }: InvestmentFormProps) {
   const router = useRouter();
   const [isHidden, setIsHidden] = useState(true);
 
-  const selectedRiskLevel = riskLevel;
+  // Max User Risk Torelance
+  const [selectRiskTorelance, setSelectRiskTorelance] = useState(1);
+
   const tvmCalculator = require("tvm-calculator");
 
   function numberPeriods(
@@ -74,6 +79,23 @@ export function InvestmentForm({
   }
 
   const initialTableData = [
+    {
+      expense: Number(expense),
+      period: Number(period),
+      monthlySaving: Number(monthlySaving),
+      totalBalance: Number(totalBalance),
+      timeRemaining:
+        numberPeriods(
+          Number(totalBalance),
+          Number(targetAmount),
+          Number(monthlySaving),
+          0
+        ) / 12,
+      targetAmount: Number(targetAmount),
+      riskLevel: 0,
+      returnRate: 0,
+      selected: false,
+    },
     {
       expense: Number(expense),
       period: Number(period),
@@ -214,6 +236,16 @@ export function InvestmentForm({
 
   const [tableData, setTableData] =
     useState<InvestmentData[]>(initialTableData);
+  const [selectedTable, setSelectedTable] = useState({
+    expense: 0,
+    period: 0,
+    monthlySaving: 0,
+    totalBalance: 0,
+    timeRemaining: 0,
+    targetAmount: 0,
+    riskLevel: 0,
+    returnRate: 0,
+  });
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -230,13 +262,24 @@ export function InvestmentForm({
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
   const urlServer = "http://localhost:8080/";
-  const packageId = 1;
-  const [uID, setuID] = useState([]);
-  const [emergencyPlan, setEmergencyPlan] = useState(initialPlanData);
-  const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
-  const [packageAllocation, setPackageAllocation] = useState([]);
+  const [defaultOption, setDefaultOption] = useState({
+    expense: expense | 0,
+    period: period | 0,
+    monthlySaving: monthlySaving | 0,
+    totalBalance: totalBalance | 0,
+    timeRemaining:
+      numberPeriods(
+        Number(totalBalance),
+        Number(targetAmount),
+        Number(monthlySaving),
+        0
+      ) / 12,
+    targetAmount: targetAmount | 0,
+    riskLevel: riskLevel | 0,
+    returnRate: returnRate | 0,
+  });
+  const [selectedOption, setSelectedOption] = useState(0);
 
-  // fetch user profile
   useEffect(() => {
     async function fetchUserProfile() {
       try {
@@ -245,171 +288,53 @@ export function InvestmentForm({
           credentials: "include",
         });
         const userProfile = await profileResponse.json();
-        console.log(userProfile);
-        const uID = userProfile.User_ID;
-        setuID(uID);
       } catch (error) {
         console.log("fetch User Profile Error: ", error);
       }
     }
 
+    // Update Parent Component State
+    if (selectedOption === 0) {
+      updateFields(defaultOption);
+    } else {
+      updateFields(selectedTable);
+    }
+
     fetchUserProfile();
-    getPortfolioPackage();
-    getPortfolioPackageAllocation();
-  }, []);
-
-  const createEmergencyPlan = async () => {
-    const createEmergencyPlanData = {
-      plan_name: "แผนออมเงินสำรองฉุกเฉิน",
-      target_amount: targetAmount,
-      time_period: period,
-      initial_saving: totalBalance,
-      monthly_saving: monthlySaving,
-      start_date: "2023-02-26",
-      last_update: "2023-02-26 10:2:30",
-      total_balance: totalBalance,
-      time_remaining: timeRemaining,
-      monthly_expense: expense,
-      progression: 0,
-      user_id: uID,
-    };
-    console.log(createEmergencyPlanData);
-    try {
-      const response = await fetch(`${urlServer}saving/emergency`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(createEmergencyPlanData),
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("done........................");
-        console.log(data);
-      } else {
-        const errorData = await response.json();
-        console.log(errorData);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Using only for Evaluation Version
-  const getPortfolioPackage = async () => {
-    try {
-      // Fetch Portfolio Package
-      const packageResponse = await fetch(
-        `${urlServer}portfolio/package/${packageId}`,
-        {
-          credentials: "include",
-        }
-      );
-      const portfolioPackage = await packageResponse.json();
-      console.log(portfolioPackage);
-      setPortfolioPackage(portfolioPackage);
-    } catch (error) {
-      console.log("Fetch Portfolio Package Error: ", error);
-    }
-  };
-
-  const getPortfolioPackageAllocation = async () => {
-    try {
-      // Fetch Portfolio Package Allocation
-      const packageResponse = await fetch(
-        `${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`,
-        {
-          credentials: "include",
-        }
-      );
-      const portfolioPackageAllocation = await packageResponse.json();
-      console.log(portfolioPackageAllocation);
-      setPackageAllocation(portfolioPackageAllocation);
-    } catch (error) {
-      console.log("Fetch Portfolio Package Allocation Error: ", error);
-    }
-  };
-
-  const getEmergencyPlan = async () => {
-    try {
-      // Fetch Emergency Plan
-      const planResponse = await fetch(
-        `${urlServer}user/${uID}/saving/emergency`,
-        {
-          credentials: "include",
-        }
-      );
-      const emergencyPlan = await planResponse.json();
-      console.log(emergencyPlan);
-      setEmergencyPlan(emergencyPlan);
-    } catch (error) {
-      console.log("Fetch Emergency Plan Error: ", error);
-    }
-  };
-
-  const createInvestmentPortfolio = async () => {
-    const createInvestmentPortfolioData = {
-      portflio_name: portfolioPackage.PackageName,
-      total_value: 0,
-      start_date: "2023-02-26",
-      last_update: portfolioPackage.LastUpdate,
-      risk_spectrum: portfolioPackage.RiskSpectrum,
-      return_rate: portfolioPackage.ReturnRate,
-      user_id: uID,
-      package_id: portfolioPackage.Package_ID,
-      emergency_id: emergencyPlan.Emergency_ID,
-      goal_id: null,
-      retirement_id: null,
-    };
-    try {
-      const response = await fetch(`${urlServer}saving/emergency`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(createInvestmentPortfolioData),
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("done........................");
-        console.log(data);
-      } else {
-        const errorData = await response.json();
-        console.log(errorData);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  }, [selectedOption]);
 
   const handleClick = () => {
     setIsHidden(!isHidden);
+    handleInvestmentSelection(isHidden);
   };
 
   const handleCheckboxChange = () => {
     setIsHidden(!isHidden);
+    // handleInvestmentSelection(isHidden);
   };
 
   const handleRadioChange = (index: number) => {
     const newData = tableData.map((data, i) => {
       if (i === index) {
-        console.log(data);
+        setSelectedTable(data);
+        setSelectedOption(index + 1);
+        console.log("Selected Data:", data);
+        console.log("Selected Option:", index + 1);
+        // Set Selected Risk Spectrum Option
+        // Update Parent Field
+        updateFields(data);
         return { ...data, selected: true };
       } else {
         return { ...data, selected: false };
       }
     });
-
     setTableData(newData);
   };
 
-  const handleEmergencyInvestmanet = async () => {
-    console.log("สร้างแผนการลงทุนสำเร็จแล้ว");
-    await createEmergencyPlan();
-    await getEmergencyPlan();
-    // await createInvestmentPortfolio();
-    router.push("/EmergencyPages/emergencyInvestmentDashboard");
-  };
+  const targetAmount2 = Number(targetAmount);
+  const monthlySaving2 = Number(monthlySaving);
+  const formatTargetAmount2 = targetAmount2.toLocaleString();
+  const formattedMonthlySaving = monthlySaving2.toLocaleString();
 
   return (
     <div>
@@ -419,30 +344,30 @@ export function InvestmentForm({
       >
         <div
           style={{ width: "100%", height: "50%", backgroundColor: "#27264E" }}
-          className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
+          className="flex items-center justify-center w-full h-24 rounded shadow-2xl bg-gray-50 dark:bg-gray-800"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 text-white font-bold">
-            <div className="text-white p-4">เป้าหมาย</div>
-            <div className="text-white p-4">ออมเงินเผื่อฉุกเฉิน</div>
-            <div className="text-lg p-4">คุณต้องมีเงินฉุกเฉิน</div>
-            <div className="text-lg p-4">{targetAmount} บาท</div>
-            <div className="p-4">ระยะเวลาในการออม</div>
+          <div className="grid grid-cols-1 font-bold text-white sm:grid-cols-2">
+            <div className="p-4 text-white">เป้าหมาย</div>
+            <div className="p-4 text-white">ออมเงินเผื่อฉุกเฉิน</div>
+            <div className="p-4 text-lg">คุณต้องมีเงินออมฉุกเฉินทั้งหมด</div>
+            <div className="p-4 text-lg">{formatTargetAmount2} บาท</div>
+            <div className="p-4">ระยะเวลาทั้งหมดในการออม</div>
             <div className="p-4">{timeToAchive}</div>
-            <div className="p-4">จำนวนเดือนที่ต้องการเก็บ</div>
+            <div className="p-4">จำนวนเดือนที่ต้องการออม</div>
             <div className="p-4">{period} เดือน</div>
-            <div className="p-4">เงินเก็บต่อเดือน</div>
-            <div className="p-4">{monthlySaving} บาท</div>
+            <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
+            <div className="p-4">{formattedMonthlySaving} บาท</div>
           </div>
         </div>
         <div className="relative py-8 ">
           <div
             style={{ backgroundColor: "#6259E8" }}
-            className="px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black"
+            className="flex items-center justify-between px-4 border-2 border-black rounded-t-lg cursor-pointer "
             onClick={handleClick}
           >
             <span
               style={{ backgroundColor: "#6259E8" }}
-              className="text-white text-lg rounded bg-gray-50 dark:bg-gray-800 py-2 font-bold"
+              className="py-2 text-lg font-bold text-white rounded bg-gray-50 dark:bg-gray-800"
             >
               คุณต้องการเพิ่มผลตอบแทนด้วยการลงทุนไหม?
             </span>
@@ -451,7 +376,7 @@ export function InvestmentForm({
                 type="checkbox"
                 checked={!isHidden}
                 onChange={handleCheckboxChange}
-                className="form-checkbox h-5 w-5 text-gray-600 ml-2"
+                className="w-5 h-5 ml-2 text-gray-600 form-checkbox"
               />
             </label>
           </div>
@@ -459,51 +384,37 @@ export function InvestmentForm({
             <div className="py-5 ">
               <div
                 style={{ backgroundColor: "#27264E" }}
-                className="shadow-2xl w-full h-full grid grid-cols-2 p-5"
+                className="grid w-full h-full grid-cols-2 p-5 shadow-2xl"
               >
-                <div className="font-bold text-white text-lg pb-3">
+                <div className="pb-3 text-lg font-bold text-white">
                   <p>ระดับความเสี่ยง (1-8)</p>
                 </div>
-                <div className="flex item-center justify-center pb-3">
-                  <input
-                    placeholder="6"
-                    type="text"
-                    value={riskLevel}
-                    style={{
-                      width: "100%",
-                      backgroundColor: "#3A3B5A",
-                    }}
-                    className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                  />
+                <div className="flex justify-center pb-3 item-center">
+                  <div className="block w-full px-3 py-2 text-sm text-xl font-bold text-white rounded-lg placeholder:text-white">
+                    {riskLevel}
+                  </div>
                 </div>
-                <div className="font-bold text-white text-lg">
-                  <p>ผลตอบแทนที่คาดหวัง (%)</p>
+                <div className="text-lg font-bold text-white">
+                  <p>ผลตอบแทนที่คาดหวัง</p>
                 </div>
-                <div className="flex item-center justify-center">
-                  <input
-                    placeholder="7 %"
-                    type="text"
-                    value={returnRate}
-                    style={{
-                      width: "100%",
-                      backgroundColor: "#3A3B5A",
-                    }}
-                    className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-                  />
+                <div className="flex justify-center pb-3 item-center">
+                  <div className="block w-full px-3 py-2 text-sm text-xl font-bold text-white rounded-lg placeholder:text-white">
+                    {returnRate} %
+                  </div>
                 </div>
               </div>
               <form action="">
-                <div className="flex flex-col items-center justify-center  w-full h-full gap-20 mb-3 block px-3 py-7 text-lg text-white">
+                <div className="flex flex-col items-center justify-center block w-full h-full gap-20 px-3 mb-3 text-lg text-white py-7">
                   <div
                     style={{ backgroundColor: "#27264E" }}
-                    className="shadow-2xl min-w-64 w-full h-full px-4 py-6 rounded-lg md:p-8"
+                    className="w-full h-full px-4 py-6 rounded-lg shadow-2xl min-w-64 md:p-8"
                   >
-                    <div className="text-black rounded py-2 font-bold">
-                      <h1 className="text-center md:text-left text-white">
+                    <div className="py-2 font-bold text-black rounded">
+                      <h1 className="text-center text-white md:text-left">
                         ความเสี่ยงที่คุณสามารถรับได้
                       </h1>
                     </div>
-                    <div className="w-full h-24 md:h-32 pt-5">
+                    <div className="w-full h-24 pt-5 md:h-32">
                       <InvestmentSlider
                         title="my slidebar"
                         riskLevel={riskLevel.toString()}
@@ -512,15 +423,16 @@ export function InvestmentForm({
                             riskLevel: Number(e.target.value),
                             returnRate: Number(e.target.value) + 1,
                           });
+                          setSelectRiskTorelance(Number(e.target.value));
                         }}
                       />
                     </div>
                     <div className="text-black rounded ">
-                      <h1 className="font-bold text-center md:text-left text-white">
+                      <h1 className="font-bold text-center text-white md:text-left">
                         หากไม่ทราบระดับความเสี่ยงของตนเองโปรดทำแบบประเมินความเสี่ยง
                       </h1>
                       <a
-                        href="/"
+                        // href=""
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block text-center md:text-left"
@@ -534,84 +446,79 @@ export function InvestmentForm({
                 </div>
                 <div
                   style={{ backgroundColor: "#6259E8" }}
-                  className="text-black rounded-lg font-bold"
+                  className="font-bold text-black rounded-lg"
                 >
-                  <h1 className="text-white text-lg rounded py-2 font-bold">
+                  <h1 className="py-2 text-lg font-bold text-white rounded">
                     เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้
                   </h1>
                 </div>
-                <div style={{ backgroundColor: "#27264E" }} className="block w-full px-3 py-2 rounded-md shadow-2xl">
+                <div
+                  style={{ backgroundColor: "#27264E" }}
+                  className="block w-full px-3 py-2 rounded-md shadow-2xl"
+                >
                   <div className="flex justify-center item-center">
-                    <table className="table-fixed text-black">
+                    <table className="text-black table-fixed">
                       <thead>
-                        <tr className=" text-lg">
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                        <tr className="text-lg ">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ออมเงินต่อเดือน
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ความเสี่ยง
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ผลตอบแทน
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             ระยะเวลา
                           </th>
-                          <th className="px-4 py-2 text-white font-bold text-lg">
+                          <th className="px-4 py-2 text-lg font-bold text-white">
                             เลือก
                           </th>
                         </tr>
                       </thead>
                       <tbody className="text-lg">
-                        {initialTableData.map(
-                          (data, index) =>
-                            data.riskLevel <= selectedRiskLevel && (
-                              <tr key={index}>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {data.monthlySaving}
-                                  {/* {monthlySaving} */}
-                                </td>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {data.riskLevel}
-                                  {/* {riskLevel} */}
-                                </td>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {data.returnRate}%{/* {returnRate} */}
-                                </td>
-                                <td className="px-4 py-2 text-white font-bold text-lg">
-                                  {yearsToYearsMonthsDays(
-                                    data.timeRemaining.toString()
-                                  )}
-                                  {/* {period} */}
-                                </td>
-                                <td className="px-4 py-2">
-                                  <input
-                                    type="radio"
-                                    name="option"
-                                    value={index + 1}
-                                    // checked={data.selected}
-                                    className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
-                                    onChange={() => {
-                                      handleRadioChange(index);
-                                    }}
-                                  />
-                                </td>
-                              </tr>
-                            )
-                        )}
+                        {initialTableData.map((data, index) => (
+                          <tr
+                            key={index}
+                            className={
+                              data.riskLevel <= selectRiskTorelance
+                                ? "transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50"
+                                : "opacity-50"
+                            }
+                          >
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.monthlySaving}
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.riskLevel}
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.returnRate}%
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {yearsToYearsMonthsDays(
+                                data.timeRemaining.toString()
+                              )}
+                            </td>
+                            <td className="px-4 py-2">
+                              <input
+                                type="radio"
+                                name="option"
+                                value={index + 1}
+                                disabled={data.riskLevel > selectRiskTorelance}
+                                // checked={data.selected}
+                                className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
+                                onChange={() => {
+                                  handleRadioChange(index);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
-                </div>
-                <div className="flex justify-end py-5">
-                  <button
-                    onClick={handleEmergencyInvestmanet}
-                    style={{ width: "209px" }}
-                    className="px-4 py-2 font-bold text-black bg-gray-300 rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none"
-                    type="button"
-                  >
-                    สร้างแผนการลงทุน
-                  </button>
                 </div>
               </form>
             </div>

@@ -29,6 +29,11 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PersonIcon from "@mui/icons-material/Person";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
+
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -130,9 +135,6 @@ const Drawer = styled(MuiDrawer, {
 
 const Sidebar: React.FC<SidebarProps> = () => {
   const classes = useStyles();
-  // const Sidebar: React.FC<SidebarProps> = ({ title, profile }) => {
-  // const { FirstName } = profile;
-
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -219,6 +221,34 @@ const Sidebar: React.FC<SidebarProps> = () => {
     setAnchorEl(null);
     router.push("/EmergencyPages/emergencyHomepage");
   };
+  const [openDrop, setDrop] = useState(false);
+  const handleClick = () => {
+    setDrop(!openDrop);
+  };
+  const handleHomePage = () => {
+    router.push("/landingPage");
+  };
+  const handleEmergencyDashboard = () => {
+    router.push("/EmergencyPages/emergencyDashboard");
+  };
+  const handleGoalBasedDashboard = () => {
+    router.push("/GoalBasedPages/goalBasedDashboard");
+  };
+  const handleRetirementDashboard = () => {
+    router.push("/RetirementPages/retirementDashboard");
+  };
+  const handleEmergencyInvestmentDashboard = () => {
+    router.push("/EmergencyPages/emergencyInvestmentDashboard");
+  };
+  const handleGoalBasedInvestmentDashboard = () => {
+    router.push("/GoalBasedPages/goalBasedInvestmentDashboard");
+  };
+  const handleRetirementInvestmentDashboard = () => {
+    router.push("/RetirementPages/retirementInvestmentDashboard");
+  };
+  const handleProfile = () => {
+    router.push("/ProfileManagement/userProfile");
+  };
   return (
     <div>
       <Box sx={{ display: "flex" }}>
@@ -250,7 +280,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
               sx={{ marginLeft: "auto" }}
             >
               {/* <Avatar alt="Profile Image" src='@.'/> */}
-              <Avatar>
+              <Avatar className="transition duration-300 ease-in-out transform hover:scale-105">
                 <Image src={icon1} alt="Profile Image" width={50} height={50} />
               </Avatar>
             </IconButton>
@@ -287,7 +317,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           className={classes.root}
         >
           <DrawerHeader>
-            <h1 className="text-white font-bold py-2 text-3xl">MoneyMate</h1>
+            <h1 className="py-2 text-3xl font-bold text-white">MoneyMate</h1>
             <IconButton onClick={handleDrawerClose} sx={{ color: "#FFFFFF" }}>
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
@@ -296,93 +326,105 @@ const Sidebar: React.FC<SidebarProps> = () => {
               )}
             </IconButton>
           </DrawerHeader>
-          <List style={{ backgroundColor: "#1D1D41", color: "#FFFFFF" }}>
-            {[
-              "หน้าหลัก",
-              "ออมเงินเผื่อฉุกเฉิน",
-              "ออมเงินเพื่อเป้าหมาย",
-              "ออมเงินเพื่อเกษียณ",
-              "การลงทุน",
-              "Profile",
-            ].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          <List
+            sx={{
+              width: "100%",
+              maxWidth: 360,
+              bgcolor: "#1D1D41",
+              color: "#FFFFFF",
+            }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+          >
+            <ListItemButton
+              onClick={handleHomePage}
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-cyan-500/50"
+            >
+              <ListItemIcon>
+                <HomeIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="หน้าหลัก" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleEmergencyDashboard}
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+            >
+              <ListItemIcon>
+                <SavingsIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="ออมเงินเผื่อฉุกเฉิน" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleGoalBasedDashboard}
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+            >
+              <ListItemIcon>
+                <FlagIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="ออมเงินเพื่อเป้าหมาย" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleRetirementDashboard}
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+            >
+              <ListItemIcon>
+                <ElderlyIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="ออมเงินเพื่อเกษียณ" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={handleClick}
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+            >
+              <ListItemIcon>
+                <AttachMoneyIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="การลงทุน" />
+              {openDrop ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openDrop} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
                 <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                  onClick={() => {
-                    switch (index) {
-                      case 0:
-                        router.push("/landingPage");
-                        break;
-                      case 1:
-                        router.push("/EmergencyPages/emergencyDashboard");
-                        break;
-                      case 2:
-                        router.push("");
-                        break;
-                      case 3:
-                        router.push("");
-                        break;
-                      case 4:
-                        router.push(
-                          "/EmergencyPages/emergencyInvestmentDashboard"
-                        );
-                        break;
-                      case 5:
-                        router.push("/ProfileManagement/userProfile");
-                        break;
-                      // case 6:
-                      //   router.push("/");
-                      //   break;
-                      // case 7:
-                      //   router.push("/ProfileManagement/userProfile");
-                      //   break;
-                      // Add more cases for each button
-                      default:
-                        break;
-                    }
-                  }}
+                  sx={{ pl: 4 }}
+                  onClick={handleEmergencyInvestmentDashboard}
+                  className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-pink-500"
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                    {index === 0 ? (
-                      <HomeIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 1 ? (
-                      <SavingsIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 2 ? (
-                      <FlagIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 3 ? (
-                      <ElderlyIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 4 ? (
-                      <AttachMoneyIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 5 ? (
-                      <PersonIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {/* {index === 6 ? (
-                      <BarChartIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null}
-                    {index === 7 ? (
-                      <PersonIcon sx={{ color: "#FFFFFF" }} />
-                    ) : null} */}
+                  <ListItemIcon>
+                    <SavingsIcon sx={{ color: "#FFFFFF" }} />
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  <ListItemText primary="ลงทุนเพื่อเงินฉุกเฉิน" />
                 </ListItemButton>
-              </ListItem>
-            ))}
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={handleGoalBasedInvestmentDashboard}
+                  className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-red-500"
+                >
+                  <ListItemIcon>
+                    <FlagIcon sx={{ color: "#FFFFFF" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="ลงทุนเพื่อเป้าหมาย" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={handleRetirementInvestmentDashboard}
+                  className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-green-500"
+                >
+                  <ListItemIcon>
+                    <ElderlyIcon sx={{ color: "#FFFFFF" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="ลงทุนเพื่อเกษียณ" />
+                </ListItemButton>
+              </List>
+            </Collapse>
+            <ListItemButton
+              onClick={handleProfile}
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+            >
+              <ListItemIcon>
+                <PersonIcon sx={{ color: "#FFFFFF" }} />
+              </ListItemIcon>
+              <ListItemText primary="โปรไฟล์" />
+            </ListItemButton>
           </List>
         </Drawer>
       </Box>

@@ -112,6 +112,12 @@ const EmergencyDashBoardModalForm1: React.FC<
     await updateEmergencyPlan();
   };
   // style={{backgroundColor: "#1D1D41"}}
+
+  const targetAmountDisplay = Number(savingEmergency?.TargetAmount);
+  const monthlySavingDisplay = Number(savingEmergency?.MonthlySaving);
+  const formattedํargetAmount = targetAmountDisplay.toLocaleString();
+  const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
+
   return (
     <div>
       <Button onClick={handleOpen} style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
@@ -130,7 +136,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                 จำนวนเงิน
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {savingEmergency.TargetAmount}
+                {formattedํargetAmount}
               </div>
             </div>
             <div style={{backgroundColor: "#27264E"}}className="shadow-2xl rounded-lg p-5">
@@ -138,7 +144,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {yearsToYearsMonthsDays(savingEmergency.TimeRemaining)} 
+                {yearsToYearsMonthsDays(savingEmergency?.TimeRemaining)} 
               </div>
             </div>
             <div style={{backgroundColor: "#27264E"}} className="shadow-2xl rounded-lg p-5">
@@ -146,7 +152,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                 จำนวนเดือน
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {savingEmergency.TimePeriod} เดือน
+                {savingEmergency?.TimePeriod} เดือน
               </div>
             </div>
             <div style={{backgroundColor: "#27264E"}}className="shadow-2xl rounded-lg p-5">
@@ -154,7 +160,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                 เงินออม/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-white text-2xl">
-                {savingEmergency.MonthlySaving} บาท
+                {formattedMonthlySaving} บาท
               </div>
             </div>
           </div>
@@ -183,7 +189,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="number"
                   id=""
-                  placeholder={savingEmergency.TargetAmount + " บาท"}
+                  placeholder={savingEmergency?.TargetAmount + " บาท"}
                   value={targetAmount2}
                   onChange={(e) => setTargetAmount(e.target.value)}
                 />
@@ -199,7 +205,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.TimeRemaining + " เดือน"}
+                  placeholder={savingEmergency?.TimeRemaining + " เดือน"}
                   value={timePeriod2}
                   onChange={(e) => setTimePeriod(e.target.value)}
                 />
@@ -215,7 +221,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.TimePeriod + " เดือน"}
+                  placeholder={savingEmergency?.TimePeriod + " เดือน"}
                   value={timeRemaining2}
                   onChange={(e) => setTimeRemaining(e.target.value)}
                 />
@@ -231,7 +237,7 @@ const EmergencyDashBoardModalForm1: React.FC<
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.MonthlySaving + " บาท/เดือน"}
+                  placeholder={savingEmergency?.MonthlySaving + " บาท/เดือน"}
                   value={monthlySaving2}
                   onChange={(e) => setMonthlySaving(e.target.value)}
                 />

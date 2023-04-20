@@ -17,6 +17,7 @@ import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
 
 import { initialPackage } from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
+import InvestDropdown from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/emergencyInvestmentDropdown";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
@@ -48,10 +49,19 @@ export interface SavingEmergencyInvestmentPortData {
   Retirement_ID: number | any;
 }
 
-export interface PortPackageAllocationData {
-  Package_ID: number | any;
-  Fund_ID: number | any;
-  AllocationRatio: number | any;
+export interface InvestmentPortfolio {
+  Portfolio_ID: number;
+  PortfolioName: string;
+  TotalValue: number;
+  LastUpdate: string;
+  StartDate: string;
+  RiskSpectrum: number;
+  ReturnRate: number;
+  User_ID: number;
+  Package_ID: number;
+  Emergency_ID: number;
+  Goal_ID: number;
+  Retirement_ID: number;
 }
 
 const initialSavingEmergencyPlan: SavingEmergencyPlan = {
@@ -69,23 +79,30 @@ const initialSavingEmergencyPlan: SavingEmergencyPlan = {
   User_ID: 1,
 };
 
+const initialPortfolio: InvestmentPortfolio = {
+  Portfolio_ID: 1,
+  PortfolioName: "",
+  TotalValue: 0,
+  LastUpdate: "",
+  StartDate: "",
+  RiskSpectrum: 0,
+  ReturnRate: 0,
+  User_ID: 1,
+  Package_ID: 1,
+  Emergency_ID: 0,
+  Goal_ID: 0,
+  Retirement_ID: 0
+}
+
 const EmergencyInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
-  const [savingEmergencyPlan, setSavingEmergencyPlan] =
-    useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
-  const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] =
-    useState<SavingEmergencyInvestmentPortData>();
-  const [portPackageAllocate, setPortPackageAllocate] = useState<
-    PortPackageAllocationData[]
-  >([]);
-  const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
-  const [packageAllocation, setPackageAllocation] = useState([]);
-
-  const packageId = 1;
+  const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
+  const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
 
   // Fetch APIs
   useEffect(() => {
-    async function fetchSavingPlan() {
+    async function fetchData() {
       try {
         // Fetch User Profile
         const profileResponse = await fetch(urlServer + "user/profile", {
@@ -110,79 +127,42 @@ const EmergencyInvestmentDashboard = () => {
             credentials: "include",
           }
         );
-        const emergencyInvestmentPortfolio =
-          await emergencyInvestmentReponse.json();
-        setSavingEmergencyInvestmentPort(emergencyInvestmentPortfolio);
+        console.log("savingEmergency.Emergency_ID", savingEmergency.Emergency_ID);
+        const emergencyInvestmentPortfolio = await emergencyInvestmentReponse.json();
+        setInvestmentPortfolio(emergencyInvestmentPortfolio);
 
-        //Fetch Port Package Allocation
-        // const portPackageAllocationResponse = await fetch(
-        //   `${urlServer}portfolio/package/${savingEmergencyInvestmentPorts[0]?.Package_ID}/allocations`,
-        //   {
-        //     credentials: "include",
-        //   }
-        // );
-        // const portPackageAllocation =
-        //   await portPackageAllocationResponse.json();
-        // setPortPackageAllocate(portPackageAllocation);
-        // console.log(portPackageAllocation);
+        //Fetch Investment Portfolio Allocation
+        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${emergencyInvestmentPortfolio.Portfolio_ID}/allocation`, {
+          credentials: "include",
+        });
+        const investmentPortfolioAllocation = await portfolioResponse.json();
+        setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
+
+
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
     }
 
-    async function fetchPackage() {
-      try {
-        // Fetch Portfolio Package
-        const packageResponse = await fetch(
-          `${urlServer}portfolio/package/${packageId}`,
-          {
-            credentials: "include",
-          }
-        );
-        const portfolioPackage = await packageResponse.json();
-        console.log(portfolioPackage);
-        setPortfolioPackage(portfolioPackage);
-      } catch (error) {
-        console.log("Fetch Portfolio Package Error: ", error);
-      }
-    }
-
-    async function fetchPortfolioPackageAllocation() {
-      try {
-        // Fetch Portfolio Package Allocation
-        const packageResponse = await fetch(
-          `${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`,
-          {
-            credentials: "include",
-          }
-        );
-        const portfolioPackageAllocation = await packageResponse.json();
-        console.log(portfolioPackageAllocation);
-        setPackageAllocation(portfolioPackageAllocation);
-      } catch (error) {
-        console.log("Fetch Portfolio Package Allocation Error: ", error);
-      }
-    }
-
-    fetchSavingPlan();
-    fetchPackage();
-    fetchPortfolioPackageAllocation();
+    fetchData();
   }, []);
 
-  console.log("After Fetch", savingEmergencyPlan);
-  // console.log('After Fetch', savingEmergencyInvestmentPort)
-  console.log(portfolioPackage);
-  console.log(packageAllocation);
+  console.log('Portfolio', investmentPortfolio);
+  console.log('Allocation',investmentPortfolioAllocation);
 
   const router = useRouter();
 
-  const handleEmergencyInvestmentPortfilio = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfilio");
+  const handleEmergencyInvestmentPortfolio = () => {
+    router.push("/EmergencyPages/emergencyInvestmentPortfolio");
   };
 
   const handleEmergencyInvestmentTransaction = () => {
     router.push("/EmergencyPages/emergencyInvestmentTransaction");
   };
+  const targetAmountDisplay = Number(savingEmergencyPlan.TargetAmount);
+  const monthlySavingDisplay = Number(savingEmergencyPlan.MonthlySaving);
+  const formattedํargetAmount = targetAmountDisplay.toLocaleString();
+  const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
   return (
     <>
@@ -192,20 +172,19 @@ const EmergencyInvestmentDashboard = () => {
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <div
               style={{ padding: "0 1rem" }}
-              className="text-white font-bold text-lg py-4 rounded-lg"
+              className="py-4 text-lg font-bold text-white rounded-lg"
             >
               <div>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: "#6259E8",
                   }}
-                  className="py-2 rounded bg-gray-50 dark:bg-gray-800"
+                  className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
                 >
                   <p
                     style={{ padding: "0 1rem" }}
-                    className="font-bold text-white dark:text-gray-500 text-2xl"
+                    className="text-2xl font-bold text-white"
                   >
                     การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
                   </p>
@@ -215,106 +194,109 @@ const EmergencyInvestmentDashboard = () => {
                     <ModleButtonForm1
                       title={""}
                       savingEmergency={savingEmergencyPlan}
-                      savingInvestmentPort={savingEmergencyInvestmentPort}
+                      savingInvestmentPort={investmentPortfolio}
                     />
                   </div>
                 </div>
               </div>
-              <div className=" shadow-2xl">
+              <div className="shadow-2xl ">
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: "#6259E8",
                   }}
-                  className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+                  className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
                 >
                   <p
                     style={{ padding: "0 1rem" }}
-                    className="font-bold text-white dark:text-gray-500 text-2xl"
+                    className="text-2xl font-bold text-white"
                   >
-                    Saving Graph
+                    กราฟเปรียบเทียบการลงทุนและการออมเงิน
                   </p>
                 </div>
-                <div style={{backgroundColor: "#1D1D41"}} className="p-10">
-                  <SavingGraph title={"saving chart"} />
+                <div style={{ backgroundColor: "#1D1D41" }} className="p-10">
+                  <SavingGraph 
+                    title={"saving chart"}
+                    savingEmergency={savingEmergencyPlan}
+                    savingInvestmentPort={investmentPortfolio}
+                  />
+                  <p>หมายเหตุ....</p>
                 </div>
               </div>
 
-              <div className="py-5 shadow-2xl py-10">
+              <div className="py-5 py-10 shadow-2xl">
                 <div
-                  style={{ backgroundColor: "#6259E8",}}
-                  className=" py-2 rounded bg-gray-50 dark:bg-gray-800"
+                  className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
                 >
                   <div>
                     <p
                       style={{ padding: "0 1rem" }}
-                      className="font-bold text-white dark:text-gray-500 text-2xl"
+                      className="text-2xl font-bold text-white"
                     >
-                      My investment Portfolio
+                      {investmentPortfolio.PortfolioName}
                     </p>
                   </div>
                 </div>
 
-                <div style={{backgroundColor: "#1D1D41"}} className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5">
+                <div
+                  style={{ backgroundColor: "#1D1D41" }}
+                  className="grid grid-cols-1 p-10 md:grid-cols-1 lg:grid-cols-4"
+                >
                   <div
                     style={{ alignItems: "center" }}
-                    className="col-span-1 flex justify-center item-center"
+                    className="flex justify-center col-span-1 item-center"
                   >
-                    <Pie1
-                      title={"my pie1"}
-                      packageallocation={portPackageAllocate}
+                    <Pie1 
+                      title={investmentPortfolio.PortfolioName} 
+                      investmentPortfolioAllocation={investmentPortfolioAllocation}
                     />
                   </div>
-                  {/* <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
+                  <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
                     <EmergencyFundsDetailsTable
                       title={""}
-                      savingInvestmentPort={savingEmergencyInvestmentPort}
-                      packageallocation={portPackageAllocate}
-                    />
-                  </div> */}
-                  <div className="flex justify-center item-center boder border-blue-500 col-span-2 ">
-                    <EmergencyFundsDetailsTable
-                      title={""}
-                      portfolioPackage={portfolioPackage}
-                      packageAllocation={packageAllocation}
+                      investmentPortfolio={investmentPortfolio}
+                      investmentPortfolioAllocation={investmentPortfolioAllocation}
                     />
                   </div>
                 </div>
 
-                <div style={{backgroundColor: "#1D1D41"}} className="py-5 px-5 bg-gray-50  shadow-2xl">
+                <div
+                  style={{ backgroundColor: "#1D1D41" }}
+                  className="px-5 py-5 shadow-2xl bg-gray-50"
+                >
                   <div
                     style={{ backgroundColor: "#3A3B5A" }}
-                    className="shadow-2xl grid grid-cols-1 md:grid-cols-3"
+                    className="grid grid-cols-1 shadow-2xl md:grid-cols-3"
                   >
-                    <div className="border-r border-black flex items-center justify-center grid grid-ros-2 px-3 py-5 ">
+                    <div className="flex grid items-center justify-center px-3 py-5 border-r border-black grid-ros-2 ">
                       <div className="">
                         <h1>เงินออมฉุกเฉิน</h1>
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {savingEmergencyPlan?.TotalBalance} บาท
+                          {/* To display balance of emergency plan by decrease with investment portfolio value */}
+                          {savingEmergencyPlan?.TotalBalance - investmentPortfolio.TotalValue} บาท
                         </h1>
                       </div>
                     </div>
-                    <div className="border-r border-black flex items-center justify-center grid grid-ros-2 px-3 py-5">
+                    <div className="flex grid items-center justify-center px-3 py-5 border-r border-black grid-ros-2">
                       <div className="flex items-center justify-center">
                         <h1>มูลค่าสินทรัพย์ของคุณในปัจจุบัน</h1>
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {savingEmergencyInvestmentPort?.TotalValue ===
+                          {investmentPortfolio?.TotalValue ===
                           undefined
                             ? "0"
-                            : savingEmergencyInvestmentPort?.TotalValue}{" "}
+                            : investmentPortfolio?.TotalValue}{" "}
                           บาท
                         </h1>
                       </div>
                     </div>
                     <div>
                       <div className="grid grid-cols-2 py-5 ">
-                        <div className="flex items-center justify-center grid grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfilio}>
+                        <div className="flex grid items-center justify-center grid-rows-2">
+                          <button onClick={handleEmergencyInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <AddIcon />
                             </div>
@@ -324,8 +306,8 @@ const EmergencyInvestmentDashboard = () => {
                             <p>ซื้อกองทุน</p>
                           </div>
                         </div>
-                        <div className="flex items-center justify-center grid grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfilio}>
+                        <div className="flex grid items-center justify-center grid-rows-2">
+                          <button onClick={handleEmergencyInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <RemoveIcon />
                             </div>
@@ -342,67 +324,33 @@ const EmergencyInvestmentDashboard = () => {
                         </h1>
                       </button>
                     </div>
+                    <div className="px-5"></div>
                   </div>
-                  {/* <div className="py-3">
-                    <h1 className="font-bold">พอร์ตการลงทุนในปัจจุบัน</h1>
-                    <div className="grid grid-cols-3 py-2">
-                      <div className="flex justify-center">
-                        <h1>ประเภทพอร์ตการลงทุน</h1>
-                      </div>
-                      <div className="flex justify-center">
-                        <h1>% เทียบกับพอร์ตที่แนะนำ</h1>
-                      </div>
-                      <div className="flex justify-center">
-                        <h1>เงินลงทุนเทียบกับพอร์ต</h1>
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* <div>
-                    <div className="pb-5">
-                      <div className=" grid grid-cols-3 border border-black p-3">
-                        <div>กองทุนรวมผสม</div>
-                        <div>10%/20%</div>
-                        <div>10,000/20,000</div>
-                      </div>
-                    </div>
-                    <div className="pb-5">
-                      <div className=" grid grid-cols-3 border border-black p-3">
-                        <div>กองทุนรวมผสม</div>
-                        <div>10%/20%</div>
-                        <div>10,000/20,000</div>
-                      </div>
-                    </div>
-                    <div className="pb-5">
-                      <div className=" grid grid-cols-3 border border-black p-3">
-                        <div>กองทุนรวมผสม</div>
-                        <div>10%/20%</div>
-                        <div>10,000/20,000</div>
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
               </div>
               <div
-                style={{ backgroundColor: "#6259E8",}}
-                className=" py-2 rounded"
+                className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <p
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white dark:text-gray-500 text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   หยอดกระปุก
                 </p>
               </div>
-              <div style={{backgroundColor: "#1D1D41"}} className="px-5 pb-10 shadow-2xl">
-                <div className="pt-5 grid grid-cols-4">
+              <div
+                style={{ backgroundColor: "#1D1D41" }}
+                className="px-5 pb-10 shadow-2xl"
+              >
+                <div className="grid grid-cols-4 pt-5">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
                   <div
                     style={{ alignItems: "center" }}
-                    className="px-5 col-span-3 py-5"
+                    className="col-span-3 px-5 py-5"
                   >
-                    <h1 className="pb-3 flex justify-center item-center font-bold text-white dark:text-gray-500 text-2xl">
+                    <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
                       นักลงทุนมือใหม่
                     </h1>
                     <div>
@@ -415,24 +363,24 @@ const EmergencyInvestmentDashboard = () => {
                 </div>
                 <div
                   style={{ backgroundColor: "#3A3B5A" }}
-                  className="shadow-2xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5"
+                  className="grid grid-cols-1 shadow-2xl md:grid-cols-2 lg:grid-cols-5"
                 >
                   <div>
                     <div className="flex items-center justify-center py-3 text-white">
                       <h1>จำนวนเงินเป้าหมาย</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TargetAmount}
                       </h1>
                     </div>
                   </div>
-                  <div className=" border-r-2 border-gray-300">
+                  <div className="border-r-2 border-gray-300 ">
                     <div className="flex items-center justify-center py-3 text-white">
                       <h1>ระยะเวลาในการออม</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TimePeriod} เดือน
                       </h1>
                     </div>
@@ -442,17 +390,17 @@ const EmergencyInvestmentDashboard = () => {
                       จำนวนเงินทั้งหมด
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TotalBalance} บาท
                       </h1>
                     </div>
                   </div>
                   <div>
-                    <div className="flex items-center justify-center py-3  text-white">
+                    <div className="flex items-center justify-center py-3 text-white">
                       <h1>จำนวนเงินคงเหลือ</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TargetAmount -
                           savingEmergencyPlan?.TotalBalance}{" "}
                         บาท
@@ -460,11 +408,11 @@ const EmergencyInvestmentDashboard = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="flex items-center justify-center py-3  text-white">
+                    <div className="flex items-center justify-center py-3 text-white">
                       <h1>เหลือเวลาอีก</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="text-white font-bold">
+                      <h1 className="font-bold text-white">
                         {savingEmergencyPlan?.TimeRemaining} เดือน
                       </h1>
                     </div>

@@ -66,6 +66,7 @@ export const getRetirementPlanByUserId = async(req: Request, res: Response) => {
     try {
         const response = await SavingRetirementPlan.findOne({
             attributes:[
+                'Retirement_ID',
                 'PlanName',
                 'TargetAmount',
                 'TimePeriod',
@@ -107,6 +108,7 @@ export const getRetirementPlanById = async(req: Request, res: Response) => {
     try {
         const response = await SavingRetirementPlan.findOne({
             attributes:[
+                
                 'PlanName',
                 'TargetAmount',
                 'TimePeriod',

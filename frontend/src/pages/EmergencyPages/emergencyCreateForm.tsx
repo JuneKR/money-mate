@@ -7,6 +7,9 @@ import { useMultistepForm } from "@/components/SavingEmergency/EmergencyForm/use
 import { GoalForm } from "@/components/SavingEmergency/EmergencyForm/GoalForm";
 import { PlanForm } from "@/components/SavingEmergency/EmergencyForm/PlanForm";
 import InvestmentForm from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
+import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
+import { create } from "domain";
+import { start } from "repl";
 
 type FormData = {
   expense: number;
@@ -33,6 +36,11 @@ const initialData: FormData = {
 const emergencyCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
+  const [showPackageStep, setShowPackageStep] = useState(false);
+  const [portfolioData, setPortfolioData] = useState(initialData);
+  const [stepDesc, setStepDesc] = useState("ถัดไป");
+  const urlServer = "http://localhost:8080/";
+  const [isSelectedPackage, setIsSelectedPackage] = useState(false);
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {
@@ -40,104 +48,287 @@ const emergencyCreateForm = () => {
     });
   }
 
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
+  const handleInvestmentSelection = (selected: boolean) => {
+    console.log("Selected Package", selected);
+    setShowPackageStep(selected);
+  };
+
+  const handlePackageSelection = (selected: boolean) => {
+    console.log('Selected Package', selected) 
+    setIsSelectedPackage(selected);
+  };
+
+  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next, goTo } =
     useMultistepForm([
       <GoalForm {...data} updateFields={updateFields} />,
       <PlanForm {...data} updateFields={updateFields} />,
-      <InvestmentForm selected={false} {...data} updateFields={updateFields} />,
+      <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
+      <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
     ]);
-  //   console.log("create formmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-  //   console.log(data);
+    // console.log('Steps', steps);
+    // console.log('Current Step', currentStepIndex);  
+    // console.log('Show Package Step', showPackageStep);
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const urlServer = "http://localhost:8080/";
-  const [uID, setuID] = useState([]);
-  useEffect(() => {
-    async function fetchUserProfile() {
-      try {
-        // Fetch User Profile
-        const profileResponse = await fetch(urlServer + "user/profile", {
-          credentials: "include",
-        });
-        const userProfile = await profileResponse.json();
-        const uID = userProfile.User_ID;
-        setuID(uID);
-      } catch (error) {
-        console.log("fetch User Profile Error: ", error);
+    if (currentStepIndex === 2) {
+      if (showPackageStep) {
+        return next();
+      } else {
+        alert("สร้างแผนการออมเงินสำเร็จแล้ว!");
+        const userProfile = await getUserProfile(urlServer);
+        await createEmergencyPlan(urlServer, userProfile);
+        router.push("/EmergencyPages/emergencyDashboard");
       }
     }
-    fetchUserProfile();
-  }, []);
-  console.log(data);
-  //   const updateEmergencyPlanData = {
-  //     plan_name: "แผนออมเงินสำรองฉุกเฉิน",
-  //     target_amount: data.targetAmount,
-  //     time_period: data.period,
-  //     initial_saving: data.totalBalance,
-  //     monthly_saving: data.monthlySaving,
-  //     start_date: "2023-02-26",
-  //     last_update: "2023-02-26 10:2:30",
-  //     total_balance: data.totalBalance,
-  //     time_remaining: data.timeRemaining,
-  //     monthly_expense: data.expense,
-  //     progression: 0,
-  //     user_id: uID,
-  //   };
-  //   console.log("updateEmergencyPlanData");
-  //   console.log(updateEmergencyPlanData);
+    else if (isLastStep) {
+      if (isSelectedPackage) {
+        alert('สร้างพอร์ตการออมเงินสำเร็จแล้ว!');
+        const userProfile = await getUserProfile(urlServer);
+        await createEmergencyPlan(urlServer, userProfile);
+        const savingEmergency = await getSavingEmergencyPlan(urlServer, userProfile);
+        const portfolioPackage = await getPortfolioPackage(urlServer, data.riskLevel);
+        const portfolioPackageAllocation = await getPortfolioPackageAllocation(urlServer, portfolioPackage);
+        await createInvestmentPortfolio(urlServer, portfolioPackage, userProfile, savingEmergency);
+        const investmentPortfolio = await getInvestmentPortfolio(urlServer, savingEmergency);
+        await addMutualFundsToInvestmentPortfolio(urlServer, investmentPortfolio, portfolioPackageAllocation);
+        router.push("/EmergencyPages/emergencyInvestmentDashboard");
+      }
+      else {
+        alert('โปรดกดเลือกพอร์ตก่อน');
+      }
+    } 
+    else {
+      return next();
+    }
+  };
 
-  const createEmergencyPlan = async () => {
-    console.log(data);
-    // const goal = data.targetAmount * data.period;
+  console.log('Current Data', data);
+
+  useEffect(() => {
+    if (currentStepIndex === 2 && showPackageStep) {
+      setStepDesc("ถัดไป");
+    } else if (currentStepIndex === 2 && !showPackageStep) {
+      setStepDesc("สร้างแผนการออมเงิน");
+    } else {
+      setStepDesc("สร้างพอร์ตการออมเงิน");
+    }
+  }, [currentStepIndex, showPackageStep]);
+
+  const getUserProfile = async (urlServer: string) => {
+    try {
+      // Fetch User Profile
+      const profileResponse = await fetch(`${urlServer}user/profile`, {
+        credentials: "include",
+      });
+      const userProfile = await profileResponse.json();
+
+      return userProfile;
+    } catch (error) {
+      console.log("fetch User Profile Error: ", error);
+
+      return null;
+    }
+  };
+
+  const createEmergencyPlan = async (urlServer: string, userProfile: any) => {
+    const moment = require("moment-timezone");
+    const now = moment().tz("Asia/Bangkok");
+    const startDate = now.format("YYYY-MM-DD");
+    const lastUpdate = now.format("YYYY-MM-DD HH:mm:ss");
+
+    const defaultPlanName = "แผนออมเงินสำรองฉุกเฉิน";
+
     const createEmergencyPlanData = {
-      plan_name: "แผนออมเงินสำรองฉุกเฉิน",
+      plan_name: defaultPlanName,
       target_amount: data.targetAmount,
       time_period: data.period,
       initial_saving: data.totalBalance,
       monthly_saving: data.monthlySaving,
-      start_date: "2023-02-26",
-      last_update: "2023-02-26 10:2:30",
+      start_date: startDate,
+      last_update: lastUpdate,
       total_balance: data.totalBalance,
       time_remaining: data.timeRemaining,
       monthly_expense: data.expense,
-      progression: 0,
-      user_id: uID,
+      progression: (data.totalBalance / data.targetAmount) * 100,
+      user_id: userProfile.User_ID,
     };
-    console.log(createEmergencyPlanData);
     try {
-      console.log("Called");
-      console.log(`${urlServer}saving/emergency`);
       const response = await fetch(`${urlServer}saving/emergency`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(createEmergencyPlanData),
         credentials: "include",
       });
-      if (response.ok) {
-        const data = await response.json();
-        console.log("done........................");
-        console.log(createEmergencyPlanData);
-        // setShowCongratulatoryMessage(true);
-        router.push("/EmergencyPages/emergencyDashboard");
-      } else {
+
+      if (!response.ok) {
         const errorData = await response.json();
         console.log(errorData);
+        return;
       }
+
+      const responseData = await response.json();
+      console.log(
+        `Successfully Created Saving Plan By ${userProfile.FirstName}`,
+        responseData
+      );
     } catch (error) {
       console.error(error);
     }
   };
-  //   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-  //     e.preventDefault();
-  //     if (!isLastStep) return next();
-  //     alert("สร้างแผนการออมเงินสำเร็จแล้ว");
-  //     await updateEmergencyPlan();
-  //   }
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!isLastStep) return next();
-    alert("สร้างแผนการออมเงินสำเร็จแล้ว");
-    await createEmergencyPlan();
+
+  const getSavingEmergencyPlan = async (urlServer: string, userProfile: any) => {
+    try {
+      // Fetch Saving Emergency Plan
+      const savingResponse = await fetch(`${urlServer}user/${userProfile.User_ID}/saving/emergency`, {
+        credentials: "include",
+      });
+      const savingEmergencyPlan = await savingResponse.json();
+      console.log('Emergency Plan',savingEmergencyPlan);
+      return savingEmergencyPlan;
+    } catch (error) {
+      console.log("fetch Saving Emergency Plan Error: ", error);
+    }
   };
+
+  const getPortfolioPackage = async (urlServer: string, riskSpectrum: number) => {
+    try {
+      // Fetch Portfolio Package
+      const packageResponse = await fetch(`${urlServer}portfolio/package/risk-spectrum/${riskSpectrum}`, {
+        credentials: "include",
+      });
+      const portfolioPackage = await packageResponse.json();
+      console.log('Package', portfolioPackage);
+
+      return portfolioPackage;
+    } catch (error) {
+      console.log("fetch Portfolio Package Error: ", error);
+
+      return null;
+    }
+  }
+
+  const getPortfolioPackageAllocation = async (userlServer: string, portfolioPackage: any) => {
+    try {
+      const packageResponse = await fetch(`${urlServer}portfolio/package/${portfolioPackage.Package_ID}/allocations`, {
+        credentials: "include",
+      });
+      const portfolioPackageAllocation = await packageResponse.json();
+      console.log('Package Allocation', portfolioPackageAllocation);
+      return portfolioPackageAllocation;
+
+    } catch (error) {
+      console.log("fetch Package Error: ", error);
+
+      return null;
+    }
+  }
+
+  const createInvestmentPortfolio = async (urlServer: string, portfolioPackage: any, userProfile: any, savingEmergency: any) => {
+    const defaultPortfolioName = "พอร์ตการลงทุนเผื่อเงินออมฉุกเฉิน"
+    const moment = require('moment-timezone');
+    const now = moment().tz('Asia/Bangkok');
+    const startDate = now.format('YYYY-MM-DD');
+    const lastUpdate = now.format('YYYY-MM-DD HH:mm:ss');
+
+    const createInvestmentPortfolioData = {
+      portfolio_name: defaultPortfolioName,
+      total_value: 0,
+      last_update: lastUpdate,
+      start_date: startDate,
+      risk_spectrum: portfolioPackage.RiskSpectrum,
+      return_rate: portfolioPackage.ReturnRate,
+      user_id: userProfile.User_ID,
+      package_id: portfolioPackage.Package_ID,
+      emergency_id: savingEmergency.Emergency_ID,
+      goal_id: null,
+      retirement_id: null
+    };
+    try {
+      const response = await fetch(`${urlServer}investment/portfolio`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(createInvestmentPortfolioData),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData);
+        return;
+      }
+  
+      const responseData = await response.json();
+      console.log(`Successfully Created Investment Portfolio By Emergency ID: ${savingEmergency.Emergency_ID}`,responseData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getInvestmentPortfolio = async (urlServer: string, savingEmergency: any) => {
+    try {
+      // Fetch Investment Portfolio By Emergency ID
+      const portfolioResponse = await fetch(`${urlServer}emergency/${savingEmergency.Emergency_ID}/investment/portfolio`, {
+        credentials: "include",
+      });
+      const investmentPortfolio = await portfolioResponse.json();
+      console.log('Investment Portfolio', investmentPortfolio);
+      return investmentPortfolio;
+    } catch (error) {
+      console.log("fetch Investment Portfolio Error: ", error);
+
+      return null;
+    }
+  }
+
+  const addMutualFundsToInvestmentPortfolio = async (urlServer: string, investmentPortfolio: any, portfolioPackageAllocation: any) => {
+    try {
+      for (const packageAllocation of portfolioPackageAllocation) {
+        const { Package_ID, Fund_ID, PolicyDesc, FundAbbrName, OneYearReturns, AllocationRatio } = packageAllocation;
+        
+        // Add Mutual Fund to Investment Portfolio
+        const response = await fetch(`${urlServer}investment/portfolio/fund`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            portfolio_id: investmentPortfolio.Portfolio_ID,
+            fund_id: Fund_ID,
+            policy_desc: PolicyDesc,
+            fund_abbr_name: FundAbbrName,
+            one_year_returns: OneYearReturns,
+            allocation_ratio: AllocationRatio
+          })
+        });
+  
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(`Failed to add mutual fund allocation: ${errorMessage}`);
+        }
+      }
+  
+      console.log('Successfully added all mutual fund allocations to investment portfolio');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Generate Button Text
+  const getNextButtonText = () => {
+    if (currentStepIndex === 2) {
+      if (showPackageStep) {
+        return "ถัดไป";
+      } else {
+        return "สร้างแผนการออมเงิน";
+      }
+    } else if (isLastStep) {
+      return "สร้างพอร์ตการออมเงิน";
+    } else {
+      return "ถัดไป";
+    }
+  };
+
   return (
     <main className={styles.main}>
       <Sidebar title="My Sidebar" />
@@ -146,51 +337,60 @@ const emergencyCreateForm = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#6259E8",
           }}
-          className="py-2 rounded-lg"
+          className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
         >
           <p
             style={{ padding: "0 1rem" }}
-            className="font-bold text-white text-2xl"
+            className="text-2xl font-bold text-white"
           >
             ออมเงินเผื่อฉุกเฉิน
           </p>
         </div>
 
-        {/* <div style={{ width: "100%", height: "100%" }} className="py-4 flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 center-stepper"> */}
         <div
-          className="rounded-b-2xl pb-5 shadow-2xl "
+          className="pb-5 shadow-2xl rounded-b-2xl"
           style={{ backgroundColor: "#1D1D41" }}
         >
           <div className="py-10">
-            <Box sx={{ width: "100%", padding: "0 4rem" }}>
+            <Box
+              sx={{ width: "100%", padding: { base: "0 2rem", lg: "0 4rem" } }}
+            >
               <Stepper activeStep={currentStepIndex}>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-600 p-2 rounded-full shadow-2xl">
-                      เลือกเป้าหมาย
-                    </span>
-                  </StepLabel>
-                </Step>
-                <Step>
-                  <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-700 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-600 rounded-full shadow-2xl">
                       สร้างเป้าหมาย
                     </span>
                   </StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>
-                    <span className="text-white text-xl font-bold bg-purple-900 p-2 rounded-full shadow-2xl">
+                    <span className="p-2 text-xl font-bold text-white bg-purple-700 rounded-full shadow-2xl">
+                      สร้างแผนการ
+                    </span>
+                  </StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>
+                    <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
                       ตรวจสอบและเลือกแผน
                     </span>
                   </StepLabel>
                 </Step>
+                {showPackageStep && (
+                  <Step>
+                    <StepLabel>
+                      <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
+                        เลือกพอร์ตการลงทุน
+                      </span>
+                    </StepLabel>
+                  </Step>
+                )}
               </Stepper>
-            </Box>{" "}
+            </Box>
           </div>
-          {/* </div> */}
+
           <form onSubmit={onSubmit}>
             {step}
             <div
@@ -201,12 +401,15 @@ const emergencyCreateForm = () => {
                 justifyContent: "flex-end",
               }}
             >
-              <div className="p-5">
+              <div className="grid grid-cols-2 gap-5 p-5">
                 {!isFirstStep && (
                   <button
                     type="button"
-                    onClick={back}
-                    className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
+                    onClick={() => {
+                      back() 
+                      setIsSelectedPackage(false)
+                    }}
+                    className="px-4 py-2 font-bold text-white transition delay-150 bg-indigo-500 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                   >
                     ย้อนกลับ
                   </button>
@@ -214,9 +417,9 @@ const emergencyCreateForm = () => {
 
                 <button
                   type="submit"
-                  className="px-4 py-2 font-bold text-white bg-blue-300 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none"
+                  className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out delay-150 transform bg-indigo-500 rounded shadow hover:scale-105 hover:bg-blue-500 focus:shadow-outline focus:outline-none"
                 >
-                  {isLastStep ? "สร้างแผนการออมเงิน" : "ถัดไป"}
+                  {getNextButtonText()}
                 </button>
               </div>
             </div>

@@ -1,31 +1,64 @@
 import React from 'react';
 import { useState } from 'react';
-import Pie1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolio1'
+import PiePackage from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolioPackage'
 import DropDown1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownMenu'
-import Hiding1 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn1'
-import Hiding2 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn2'
-import Hiding3 from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn3'
+import Hiding from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyHidingColumn/emergencyHidingColumn'
+import EmergencyFundsDetailsTablePackage from './EmergencyMyPortForm/emergencyFundsDetailsTablePackage';
+
+type PortfolioPackageData = {
+    Package_ID: number;
+    PackageName: string;
+    LastUpdate: string;
+    RiskSpectrum: number;
+    InvestmentType: string;
+    ReturnRate: number;
+  };
 
 interface SavingEmergencyCheckboxProps  {
   title: string;
   label: string;
-  checked: boolean;
+//   checked: boolean;
   onChange: (isChecked: boolean) => void;
+  portfolioPackage: PortfolioPackageData
+  portfolioPackageAllocation: any;
 }
 
+const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({ 
+    title, 
+    label, 
+    // checked, 
+    onChange, 
+    portfolioPackage, 
+    portfolioPackageAllocation
+}) => {
 
-const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({ title, label, checked, onChange}) => {
-
-      const [selectedOption, setSelectedOption] = useState('');
-      const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-          setSelectedOption(event.target.value);
-      };
+    const [selectedOption, setSelectedOption] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedOption(event.target.value);
+        console.log(event.target.value);
+        if (selectedOption === 'option1') {
+            console.log('Selected',selectedOption);
+            onChange(true);
+        }
+        else {
+            console.log('Unselect',selectedOption);
+            onChange(false);
+        }
+    };
+    console.log('Package at checkbox', portfolioPackage);
+    console.log('Package Allocation at checkbox', portfolioPackageAllocation);
     const toggleExpansion = () => setIsExpanded(!isExpanded);
+
     return (
         <div>
-            <div className='py-5'>
-                <div style={{ width: "100%", height: "100%", backgroundColor: '#E5F8FF'}} className="text-black relative px-4 py-4 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
+            <div 
+                className='py-5'
+            >   
+                {/* backgroundColor: "#27264E" */}
+                {/* backgroundColor: "#1D1D41" */}
+                <div style={{ width: "100%", height: "100%", backgroundColor: "#1D1D41"}} className="text-black relative px-4 py-4 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
                     <div className="flex justify-end">
                         <input
                             type="radio"
@@ -33,84 +66,49 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({ title
                             value="option1"
                             checked={selectedOption === 'option1'}
                             onChange={handleOptionChange}
+                            className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
                         />
                     </div>
-                    <div className=' w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                        <div className='flex justify-center item-center boder border-blue-500 grid grid-cols-2'>
-                            <h1 className='font-bold'>เลือกพอร์ตการลงทุนของคุณ</h1>
-                            <Pie1 title={'my pie1'}/>
+                    <h1 className='font-bold text-white text-center text-2xl p-5'>
+                        {/* เลือกพอร์ตการลงทุนของคุณ */}
+                        {portfolioPackage?.PackageName}
+                    </h1>
+                    <div 
+                        style={{backgroundColor: "#27264E"}} 
+                        // className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5"
+                    >   
+                        <div 
+                            style={{ alignItems: "center" }}
+                            className="col-span-1 flex justify-center item-center p-4"
+                        >
+                            {portfolioPackage && portfolioPackageAllocation ? (
+                                <PiePackage 
+                                title={portfolioPackage?.PackageName}
+                                portfolioPackageAllocation={portfolioPackageAllocation}
+                            />
+                            ): (
+                                <p>ไม่มีแพ็คเกจการลงทุนตามระดับความเสี่ยงที่ท่านเลือกในขณะนี้</p>
+                            )}
                         </div>
-                        <div className='flex justify-center item-center boder border-blue-500'>
+                        <div 
+                            className="text-white flex justify-center item-center boder border-blue-500 col-span-2 "
+                        >
                             <div>
-                            <Hiding1 title={''}/>
-                            <Hiding2 title={''}/>
-                            <Hiding3 title={''}/>
+                            {portfolioPackage && portfolioPackageAllocation ? (
+                            <EmergencyFundsDetailsTablePackage 
+                                title={""}
+                                portfolioPackage={portfolioPackage}
+                                portfolioPackageAllocation={portfolioPackageAllocation}
+                            />
+                            ): (
+                                <p>ไม่มีแพ็คเกจการลงทุนตามระดับความเสี่ยงที่ท่านเลือกในขณะนี้</p>
+                            )}    
                             </div>
-                            
                         </div>
-
                     </div>
                 </div>
             </div>
-            <div>
-                <div style={{ width: "100%", height: "100%", backgroundColor: '#E5F8FF'}} className="text-black relative px-4 py-4 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
-                    <div className="flex justify-end">
-                        <input
-                            type="radio"
-                            name="option"
-                            value="option2"
-                            checked={selectedOption === 'option2'}
-                            onChange={handleOptionChange}
-                        />
-                    </div>
-                    <div className=' w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                        <div className='flex justify-center item-center boder border-blue-500 grid grid-cols-2'>
-                            <h1 className='font-bold'>เลือกพอร์ตการลงทุนของคุณ</h1>
-                            <Pie1 title={'my pie1'}/>
-                        </div>
-                        <div className='flex justify-center item-center boder border-blue-500'>
-                            <div>
-                            <Hiding1 title={''}/>
-                            <Hiding2 title={''}/>
-                            <Hiding3 title={''}/>
-                            </div>
-                            
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div className='py-5'>
-                <div style={{ width: "100%", height: "100%", backgroundColor: '#E5F8FF'}} className="text-black relative px-4 py-4 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
-                    <div className="flex justify-end">
-                        <input
-                            type="radio"
-                            name="option"
-                            value="option3"
-                            checked={selectedOption === 'option3'}
-                            onChange={handleOptionChange}
-                        />
-                    </div>
-                    <div className=' w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                        <div className='flex justify-center item-center boder border-blue-500 grid grid-cols-2'>
-                            <h1 className='font-bold'>เลือกพอร์ตการลงทุนของคุณ</h1>
-                            <Pie1 title={'my pie1'}/>
-                        </div>
-                        <div className='flex justify-center item-center boder border-blue-500'>
-                            <div>
-                            <Hiding1 title={''}/>
-                            <Hiding2 title={''}/>
-                            <Hiding3 title={''}/>
-                            </div>
-                            
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
+        </div>  
     );
   };
   

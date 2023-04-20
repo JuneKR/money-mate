@@ -14,7 +14,7 @@ const EmergencyInvestmentSlider: React.FC<EmergencyInvestmentSliderProps> = ({ t
   const marks = [
     {
       value: 1,
-      label: '1',
+      label: 'ระดับที่ 1',
     },
     {
       value: 2,
@@ -42,7 +42,7 @@ const EmergencyInvestmentSlider: React.FC<EmergencyInvestmentSliderProps> = ({ t
     },
     {
       value: 8,
-      label: '8',
+      label: 'ระดับที่ 8',
     }
   ];
 
@@ -69,6 +69,11 @@ const EmergencyInvestmentSlider: React.FC<EmergencyInvestmentSliderProps> = ({ t
           <Box sx={{ width: "100%" }}>
             <Slider
               // key={sliderValue}
+              sx={{
+                "& .MuiSlider-markLabel": {
+                  color: "white",
+                },
+              }}
               className="text-white appearance-none h-3 w-full cursor-pointer slider-thumb-green focus:outline-none"
               aria-label="Temperature"
               defaultValue={sliderValue}

@@ -28,6 +28,8 @@
     "dayjs": "^1.11.7",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -37,7 +39,14 @@
     "react-step-progress": "^1.0.3",
     "react-step-progress-bar": "^1.0.3",
     "styled-components": "^5.3.8",
+    "tinycolor2": "^1.6.0",
     "tvm-calculator": "^2.0.0",
     "typescript": "5.0.3"
+  },
+  "devDependencies": {
+    "@types/tinycolor2": "^1.4.3",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.1"
   }
 }

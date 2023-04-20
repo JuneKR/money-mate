@@ -6,13 +6,13 @@ import icon1 from "@/images/Profile/img_pf_jm2.jpg";
 interface TransactionTableProps {
   title: string;
   transaction: any;
-  savingEmergency: any;
+  savingData: any;
 }
 
 const TransactionTable: React.FC<TransactionTableProps> = ({
   title,
   transaction,
-  savingEmergency,
+  savingData,
 
 }) => {
 
@@ -40,7 +40,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   return (
     <div
       style={{ width: "100%"}}
-      className="py-5 text-black"
+      className="py-5 text-white"
     >
       <h1 className="text-lg text-white font-bold">{splitArray[0]}</h1>
       <div className="grid grid-cols-4 py-5">
@@ -50,7 +50,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           </Avatar>
         </div>
         <div className="h-20 flex items-center justify-center text-lg text-white font-bold grid grid-rows-2">
-          <h1>{savingEmergency.PlanName}</h1>
+          <h1>{savingData.PlanName}</h1>
           <FormHelperText
             id="my-helper-text"
             className="text-gray-400 text-sm flex items-center justify-center"

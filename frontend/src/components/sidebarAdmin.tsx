@@ -218,6 +218,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                className="transform hover:scale-105 transition duration-300 ease-in-out"
                 onClick={() => {
                   switch (index) {
                     case 0:

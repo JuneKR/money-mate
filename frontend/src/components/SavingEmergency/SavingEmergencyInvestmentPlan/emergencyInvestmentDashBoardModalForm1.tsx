@@ -101,7 +101,10 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
 
   console.log('Value', investTargetAmount)
   console.log('Value', savingEmergency?.TargetAmount)
-
+  const targetAmountDisplay = Number(savingEmergency.TargetAmount);
+  const monthlySavingDisplay = Number(savingEmergency.MonthlySaving);
+  const formattedํargetAmount = targetAmountDisplay.toLocaleString();
+  const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
   return (
     <div>
       <Button onClick={handleOpen} style={{backgroundColor: "#1D1D41"}} className="rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
@@ -116,15 +119,15 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5">
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
                 จำนวนเงิน
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingEmergency.TargetAmount}
+                {formattedํargetAmount} บาท
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
                 ระยะเวลา
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
@@ -132,7 +135,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
                 จำนวนเดือน
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
@@ -140,15 +143,15 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
                 เงินลงทุน/ต่อเดือน
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
-                {savingEmergency.MonthlySaving}
+                {formattedMonthlySaving} บาท
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
                 ความเสี่ยงที่รับได้
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
@@ -156,7 +159,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center text-black font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
                 ผลตอบแทนที่คาดหวัง
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
@@ -237,7 +240,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                   className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
-                  placeholder={savingEmergency.MonthlySaving + " บาท/เดือน"}
+                  placeholder={formattedMonthlySaving + " บาท/เดือน"}
                   value={investMonthlySaving}
                   onChange={(e) => setInvestMonthlySaving(e.target.value)}
                 />
@@ -245,7 +248,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
               <div className="flex items-center justify-end">
                 <button
                   style={{ width: "209px" }}
-                  className="text-sm bg-yellow-100 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="text-sm bg-yellow-100 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
                   ยืนยัน
@@ -253,7 +256,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
                 <button
                   style={{ width: "209px" }}
                   onClick={handleClose}
-                  className="text-sm bg-yellow-100 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="text-sm bg-yellow-100 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
                   ยกเลิก

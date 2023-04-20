@@ -54,14 +54,14 @@ const EmergencyInvestmentPortfolioPackage = ({
     <main className={styles.main}>
         <div style={{padding: "0 4rem"}} className="w-full xl:w-8/12">
             <Sidebar title="My Sidebar" />
-            <div style={{display: "flex", alignItems: "center",backgroundColor: '#B2E8FF'}} className=" py-2 rounded bg-gray-50 dark:bg-gray-800">
+            <div style={{display: "flex", alignItems: "center",backgroundColor: '#B2E8FF'}} className="py-2 rounded bg-gray-50 dark:bg-gray-800">
                <p style={{ padding: "0 1rem"  }}className="font-bold text-black dark:text-gray-500 ">
                 การลงทุนสำหรับเงินออมเผื่อฉุกเฉิน
                </p>
             </div>
             <div className='bg-gray-50'>
                 <div className='px-4' >
-                <InvestmentCheckBox label="My checkbox label" checked={false} onChange={handleCheckboxChange} title={'InvestmentCheckBox'}/>
+                <InvestmentCheckBox label="My checkbox label" onChange={handleCheckboxChange} title={'InvestmentCheckBox'} portfolioPackage={portfolioPackage} portfolioPackageAllocation={undefined}/>
                 </div>
             </div>
             <div className="flex justify-end py-2">

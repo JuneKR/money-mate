@@ -60,7 +60,7 @@ export function InvestmentForm({
 
   // Max User Risk Torelance
   const [selectRiskTorelance, setSelectRiskTorelance] = useState(1);
-  
+
   const tvmCalculator = require("tvm-calculator");
 
   function numberPeriods(
@@ -303,7 +303,6 @@ export function InvestmentForm({
     fetchUserProfile();
   }, [selectedOption]);
 
-  
   const handleClick = () => {
     setIsHidden(!isHidden);
     handleInvestmentSelection(isHidden);
@@ -320,7 +319,7 @@ export function InvestmentForm({
         setSelectedTable(data);
         setSelectedOption(index + 1);
         console.log("Selected Data:", data);
-        console.log("Selected Option:", index+1);
+        console.log("Selected Option:", index + 1);
         // Set Selected Risk Spectrum Option
         // Update Parent Field
         updateFields(data);
@@ -479,38 +478,44 @@ export function InvestmentForm({
                         </tr>
                       </thead>
                       <tbody className="text-lg">
-                        {initialTableData.map(
-                          (data, index) => (
-                            <tr 
-                              key={index}
-                              className={
-                                data.riskLevel <= selectRiskTorelance
-                                  ? "transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50"
-                                  : "opacity-50"
-                              }  
-                            >
-                              <td className="px-4 py-2 text-lg font-bold text-white">{data.monthlySaving}</td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">{data.riskLevel}</td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">{data.returnRate}%</td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">
-                                {yearsToYearsMonthsDays(data.timeRemaining.toString())}
-                              </td>
-                              <td className="px-4 py-2">
-                                <input
-                                  type="radio"
-                                  name="option"
-                                  value={index + 1}
-                                  disabled={data.riskLevel > selectRiskTorelance}
-                                  // checked={data.selected}
-                                  className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
-                                  onChange={() => {
-                                    handleRadioChange(index);
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          )
-                        )}
+                        {initialTableData.map((data, index) => (
+                          <tr
+                            key={index}
+                            className={
+                              data.riskLevel <= selectRiskTorelance
+                                ? "transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50"
+                                : "opacity-50"
+                            }
+                          >
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.monthlySaving}
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.riskLevel}
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.returnRate}%
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {yearsToYearsMonthsDays(
+                                data.timeRemaining.toString()
+                              )}
+                            </td>
+                            <td className="px-4 py-2">
+                              <input
+                                type="radio"
+                                name="option"
+                                value={index + 1}
+                                disabled={data.riskLevel > selectRiskTorelance}
+                                // checked={data.selected}
+                                className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
+                                onChange={() => {
+                                  handleRadioChange(index);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

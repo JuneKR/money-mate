@@ -59,6 +59,9 @@ export function RetirementForm({
           <input
             type="date"
             id="mExpense"
+            min="01-01-1900"
+            max={new Date().toISOString().split("T")[0]}
+            pattern="\d{2}-\d{2}-\d{4}"
             value={dateOfBirth}
             onChange={(e) => updateFields({ dateOfBirth: e.target.value })}
             style={{
@@ -66,10 +69,10 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
+            กรุณาเช็ค วัน/เดือน/ปีเกิด ของคุณ
           </p>
         </label>
         <label htmlFor="monthlyDeposit" className="block text-sm">
@@ -97,7 +100,7 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           {expenseWarning && (
             <p className="m-1 text-xs text-red-500">{expenseWarning}</p>
@@ -139,7 +142,7 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           {ageToRetireWarning && (
             <p className="m-1 text-xs text-red-500">{ageToRetireWarning}</p>
@@ -182,7 +185,7 @@ export function RetirementForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-sm shadow-2xl  hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-sm shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           {ageToLiveWarning && (
             <p className="m-1 text-xs text-red-500">{ageToLiveWarning}</p>

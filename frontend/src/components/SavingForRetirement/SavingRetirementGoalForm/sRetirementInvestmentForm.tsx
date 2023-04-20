@@ -260,14 +260,7 @@ export function SRetirementInvestment({
     initialTableData[1].monthlySaving,
     initialTableData[1].returnRate
   );
-  console.log(
-    numberPeriods(
-      0,
-      3600000,
-      -6700,
-      9
-    ) / 12
-  );
+  console.log(numberPeriods(0, 3600000, -6700, 9) / 12);
   const [tableData, setTableData] =
     useState<ReInvestmentData[]>(initialTableData);
 
@@ -414,14 +407,10 @@ export function SRetirementInvestment({
         </div>
         <div className="relative py-8 ">
           <div
-            
-            className="flex items-center justify-between px-4 transition duration-300 ease-in-out transform border-2 border-black rounded-t-lg cursor-pointer  bg-gradient-to-r from-purple-900 to-green-500 hover:scale-105"
+            className="flex items-center justify-between px-4 transition duration-300 ease-in-out transform border-2 border-black rounded-t-lg cursor-pointer bg-gradient-to-r from-purple-900 to-green-500 hover:scale-105"
             onClick={handleClick}
           >
-            <span
-
-              className="py-2 text-lg font-bold text-white rounded"
-            >
+            <span className="py-2 text-lg font-bold text-white rounded">
               คุณต้องการเพิ่มผลตอบแทนด้วยการลงทุนไหม?
             </span>
             <label className="flex items-center">
@@ -476,7 +465,7 @@ export function SRetirementInvestment({
                             riskLevel: Number(e.target.value),
                             returnRate: Number(e.target.value) + 1,
                           });
-                          setSelectRiskTorelance(riskLevel);
+                          setSelectRiskTorelance(Number(e.target.value));
                         }}
                       />
                     </div>
@@ -485,7 +474,7 @@ export function SRetirementInvestment({
                         หากไม่ทราบระดับความเสี่ยงของตนเองโปรดทำแบบประเมินความเสี่ยง
                       </h1>
                       <a
-                        href="/"
+                        // href=""
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block text-center md:text-left"
@@ -498,8 +487,7 @@ export function SRetirementInvestment({
                   </div>
                 </div>
                 <div
-                  style={{ backgroundColor: "#6259E8" }}
-                  className="font-bold text-black rounded-lg"
+                  className="font-bold text-black rounded-lg bg-gradient-to-r from-purple-900 to-green-500"
                 >
                   <h1 className="py-2 text-lg font-bold text-white rounded">
                     เลือกแผนของคุณด้วยผลตอบแทนที่คุณรับได้
@@ -531,47 +519,44 @@ export function SRetirementInvestment({
                         </tr>
                       </thead>
                       <tbody className="text-lg">
-                        {initialTableData.map(
-                          (data, index) => (
-                            // data.riskLevel <= selectedRiskLevel && (
-                            <tr key={index}>
-                              {/* <td className="px-4 py-2 text-lg font-bold text-white"> */}
-                              <td
-                                className={
-                                  data.riskLevel <= selectRiskTorelance
-                                    ? "bg-blue-400"
-                                    : "px-4 py-2 text-white font-bold text-lg"
-                                }
-                              >
-                                {data.monthlySaving * -1}
-                              </td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">
-                                {data.riskLevel}
-                              </td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">
-                                {data.returnRate}%
-                              </td>
-                              <td className="px-4 py-2 text-lg font-bold text-white">
-                                {yearsToYearsMonthsDays(
-                                  data.timeRemaining.toString()
-                                )}
-                              </td>
-                              <td className="px-4 py-2">
-                                <input
-                                  type="radio"
-                                  name="option"
-                                  value={index + 1}
-                                  // checked={data.selected}
-                                  className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
-                                  onChange={() => {
-                                    handleRadioChange(index);
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          )
-                          // )
-                        )}
+                        {initialTableData.map((data, index) => (
+                          <tr
+                            key={index}
+                            className={
+                              data.riskLevel <= selectRiskTorelance
+                                ? "transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-purple-500/50"
+                                : "opacity-50"
+                            }
+                          >
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.monthlySaving}
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.riskLevel}
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {data.returnRate}%
+                            </td>
+                            <td className="px-4 py-2 text-lg font-bold text-white">
+                              {yearsToYearsMonthsDays(
+                                data.timeRemaining.toString()
+                              )}
+                            </td>
+                            <td className="px-4 py-2">
+                              <input
+                                type="radio"
+                                name="option"
+                                value={index + 1}
+                                disabled={data.riskLevel > selectRiskTorelance}
+                                // checked={data.selected}
+                                className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
+                                onChange={() => {
+                                  handleRadioChange(index);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

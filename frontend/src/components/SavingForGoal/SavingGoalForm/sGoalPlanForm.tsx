@@ -258,11 +258,11 @@ export function PlanForm({
       <div style={{ padding: "0 4rem" }}>
         <div
           style={{ height: "50%", backgroundColor: "#27264E" }}
-          className="shadow-2xl w-full flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800"
+          className="flex items-center justify-center w-full h-24 rounded shadow-2xl bg-gray-50 dark:bg-gray-800"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 text-white font-bold">
-            <div className="text-lg p-4">เป้าหมาย</div>
-            <div className="text-lg p-4">ออมเงินเพื่อ{planName}</div>
+          <div className="grid grid-cols-1 font-bold text-white md:grid-cols-2">
+            <div className="p-4 text-lg">เป้าหมาย</div>
+            <div className="p-4 text-lg">ออมเงินเพื่อ{planName}</div>
             <div className="p-4">จำนวนเงินเป้าหมาย: </div>
             <div className="p-4">{formattedSGoalFund} บาท</div>
             {/* <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div> */}
@@ -279,10 +279,10 @@ export function PlanForm({
         </div>
         <div className="relative py-8 ">
           <div
-            className=" transform hover:scale-105 transition duration-300 ease-in-out px-4 rounded-t-lg cursor-pointer flex justify-between items-center border-2 border-black bg-indigo-500 hover:bg-blue-500 transition delay-150"
+            className="flex items-center justify-between px-4 transition duration-300 ease-in-out delay-150 transform border-2 border-black rounded-t-lg cursor-pointer hover:scale-105 bg-gradient-to-r from-purple-900 to-red-500"
             onClick={handleClick}
           >
-            <span className="text-white text-lg rounded py-2 font-bold">
+            <span className="py-2 text-lg font-bold text-white rounded">
               คุณสามารถปรับเปลี่ยนและเลือกเป้าหมายที่ดูเป็นได้ไปที่สุดสำหรับคุณ
             </span>
             <label className="flex items-center">
@@ -290,7 +290,7 @@ export function PlanForm({
                 type="checkbox"
                 checked={!isHidden}
                 onChange={handleCheckboxChange}
-                className="form-checkbox h-5 w-5 text-gray-600 ml-2"
+                className="w-5 h-5 ml-2 text-gray-600 form-checkbox"
               />
             </label>
           </div>
@@ -300,7 +300,7 @@ export function PlanForm({
               style={{ backgroundColor: "#27264E" }}
             >
               <div className="pb-5">
-                <p className="text-white font-bold text-md">
+                <p className="font-bold text-white text-md">
                   Tips: ลองปรับเปลี่ยนตัวแปร
                   เพื่อหาระยะเวลาออมที่เหมาะสมสำหรับคุณ
                 </p>
@@ -308,7 +308,7 @@ export function PlanForm({
               <form action="">
                 <div
                   style={{ opacity: 0.6 }}
-                  className=" transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+                  className="block w-full px-3 py-2 text-sm placeholder-gray-500 transition duration-300 ease-in-out transform border border-gray-300 rounded-md shadow-sm shadow-2xl hover:scale-105"
                 >
                   <div className="flex justify-end">
                     <input
@@ -317,12 +317,12 @@ export function PlanForm({
                       value="option1"
                       checked={selectedOption === "option1"}
                       onChange={handleOptionChange}
-                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out animate-bounce mt-2 cursor-pointer"
+                      className="w-10 h-6 mt-2 text-indigo-600 transition duration-150 ease-in-out cursor-pointer form-radio animate-bounce"
                     />
                   </div>
 
                   <div className="px-20 pb-5">
-                    <p className="flex item-center justify-center text-white font-bold text-2xl pb-3 bg-indigo-500 rounded-full shadow-2xl">
+                    <p className="flex justify-center pb-3 text-2xl font-bold text-white bg-indigo-500 rounded-full shadow-2xl item-center">
                       แผนการออมปัจจุบันของคุณ
                     </p>
                   </div>
@@ -337,7 +337,7 @@ export function PlanForm({
 
                   <div
                     style={{ width: "100%", height: "100%" }}
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black p-5"
+                    className="grid grid-cols-1 gap-5 p-5 text-black sm:grid-cols-2 md:grid-cols-2"
                   >
                     <div
                       style={{ backgroundColor: "#1D1D41" }}
@@ -345,13 +345,13 @@ export function PlanForm({
                     >
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
-                          <div className="mb-4 pb-5 text-white font-bold">
+                          <div className="pb-5 mb-4 font-bold text-white">
                             ระยะเวลาในการออม (เดือน) 
                           </div>
-                          {/* <div className="mb-4 pb-5 text-white font-bold">
+                          {/* <div className="pb-5 mb-4 font-bold text-white">
                             เงินออม/เดือน
                           </div> */}
-                          <div className="mb-4 pb-5 text-white font-bold">
+                          <div className="pb-5 mb-4 font-bold text-white">
                             เงินออมทั้งหมดในปัจจุบัน
                           </div>
                         </div>
@@ -367,7 +367,7 @@ export function PlanForm({
                                 width: "100%",
                                 backgroundColor: "#27264E",
                               }}
-                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                              className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                           </div>
                           {/* <div className="pb-5">
@@ -381,7 +381,7 @@ export function PlanForm({
                                 width: "100%",
                                 backgroundColor: "#27264E",
                               }}
-                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                              className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                           </div> */}
                           <div className="pb-5">
@@ -395,7 +395,7 @@ export function PlanForm({
                                 width: "100%",
                                 backgroundColor: "#27264E",
                               }}
-                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                              className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                           </div>
                         </div>
@@ -407,11 +407,11 @@ export function PlanForm({
                         width: "100%",
                         backgroundColor: "#3A3B5A",
                       }}
-                      className="mb-4 sm:ml-2 md:ml-0 md:mb-0 rounded-lg"
+                      className="mb-4 rounded-lg sm:ml-2 md:ml-0 md:mb-0"
                     >
                       <div className="flex items-center justify-center">
                         <label htmlFor="#" className="block">
-                          <span className="block m-1 text-white font-bold flex items-center justify-center py-5">
+                          <span className="flex items-center justify-center block py-5 m-1 font-bold text-white">
                             {/* ระยะเวลาออม */}
                             จำนวนเงินออม/เดือน
                           </span>
@@ -426,7 +426,7 @@ export function PlanForm({
                               width: "100%",
                               backgroundColor: "#27264E",
                             }}
-                            className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                            className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                           />
                         </label>
                       </div>
@@ -436,7 +436,7 @@ export function PlanForm({
 
                 <div
                   style={{ marginTop: 25 }}
-                  className=" transform hover:scale-105 transition duration-300 ease-in-out shadow-2xl block w-full px-3  py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm "
+                  className="block w-full px-3 py-2 text-sm placeholder-gray-500 transition duration-300 ease-in-out transform border border-gray-300 rounded-md shadow-sm shadow-2xl hover:scale-105"
                 >
                   <div className="flex justify-end">
                     <input
@@ -445,12 +445,12 @@ export function PlanForm({
                       value="option2"
                       checked={selectedOption === "option2"}
                       onChange={handleOptionChange}
-                      className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out animate-bounce mt-2 cursor-pointer"
+                      className="w-10 h-6 mt-2 text-indigo-600 transition duration-150 ease-in-out cursor-pointer form-radio animate-bounce"
                     />
                   </div>
 
                   <div className="px-20">
-                    <p className="flex item-center justify-center text-white bg-gradient-to-r from-purple-900 to-pink-500 font-bold text-2xl pb-3 rounded-full shadow-2xl ">
+                    <p className="flex justify-center pb-3 text-2xl font-bold text-white rounded-full shadow-2xl item-center bg-gradient-to-r from-purple-900 to-red-500 ">
                       แผนการออมเงินทางเลือก
                     </p>
                   </div>
@@ -467,21 +467,21 @@ export function PlanForm({
 
                   <div
                     style={{ width: "100%", height: "100%" }}
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 text-black p-5"
+                    className="grid grid-cols-1 gap-5 p-5 text-black sm:grid-cols-2 md:grid-cols-2"
                   >
                     <div
                       style={{ backgroundColor: "#1D1D41" }}
-                      className="p-5 mb-4 sm:mr-2 md:mr-0 md:mb-0 md:col-span-1 shoadow-2xl rounded-lg"
+                      className="p-5 mb-4 rounded-lg sm:mr-2 md:mr-0 md:mb-0 md:col-span-1 shoadow-2xl"
                     >
                       <div className="grid grid-cols-2 gap-4 pt-5">
                         <div className="flex flex-col justify-center">
-                          <div className="mb-4 pb-5 text-white font-bold">
+                          <div className="pb-5 mb-4 font-bold text-white">
                             ระยะเวลาในการออม (เดือน)
                           </div>
-                          {/* <div className="mb-4 pb-5 text-white font-bold">
+                          {/* <div className="pb-5 mb-4 font-bold text-white">
                             เงินออม/เดือน
                           </div> */}
-                          <div className="mb-4 pb-5 text-white font-bold">
+                          <div className="pb-5 mb-4 font-bold text-white">
                             เงินออมทั้งหมดปัจจุบัน
                           </div>
                         </div>
@@ -496,11 +496,11 @@ export function PlanForm({
                                 width: "100%",
                                 backgroundColor: "#27264E",
                               }}
-                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                              className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                             {/* Display error when user input invalid */}
                             {optionTimePeriodError && (
-                              <p className="text-red-500 text-xs italic">{optionTimePeriodError}</p>
+                              <p className="text-xs italic text-red-500">{optionTimePeriodError}</p>
                             )}
                           </div>
                           {/* <div className="pb-5">
@@ -517,7 +517,7 @@ export function PlanForm({
                                 width: "100%",
                                 backgroundColor: "#27264E",
                               }}
-                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                              className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                           </div> */}
                           <div className="pb-5">
@@ -530,11 +530,11 @@ export function PlanForm({
                                 width: "100%",
                                 backgroundColor: "#27264E",
                               }}
-                              className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                              className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                             />
                             {/* Display error when user input invalid */}
                             {optionTotalBalanceError && (
-                              <p className="text-red-500 text-xs italic">{optionTotalBalanceError}</p>
+                              <p className="text-xs italic text-red-500">{optionTotalBalanceError}</p>
                             )}
                           </div>
                         </div>
@@ -543,11 +543,11 @@ export function PlanForm({
 
                     <div
                       style={{ width: "100%", backgroundColor: "#3A3B5A" }}
-                      className="mb-4 sm:ml-2 md:ml-0 md:mb-0 rounded-lg"
+                      className="mb-4 rounded-lg sm:ml-2 md:ml-0 md:mb-0"
                     >
                       <div className="flex items-center justify-center">
                         <label htmlFor="#" className="block ">
-                          <span className="block m-1 text-white font-bold flex items-center justify-center py-5">
+                          <span className="flex items-center justify-center block py-5 m-1 font-bold text-white">
                             {/* ระยะเวลาออม */}
                             จำนวนเงินออม/เดือน
                           </span>
@@ -563,7 +563,7 @@ export function PlanForm({
                               width: "100%",
                               backgroundColor: "#27264E",
                             }}
-                            className="text-white block w-full px-3 py-2 text-sm  rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                            className="block w-full px-3 py-2 text-sm text-white rounded-lg shadow-2xl placeholder:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                           />
                         </label>
                       </div>

@@ -240,12 +240,12 @@ const Sidebar: React.FC<SidebarProps> = () => {
   const handleEmergencyInvestmentDashboard = () => {
     router.push("/EmergencyPages/emergencyInvestmentDashboard");
   };
-  // const handleEmergencyInvestmentDashboard = () => {
-  //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
-  // };
-  // const handleEmergencyInvestmentDashboard = () => {
-  //   router.push("/EmergencyPages/emergencyInvestmentDashboard");
-  // };
+  const handleGoalBasedInvestmentDashboard = () => {
+    router.push("/GoalBasedPages/goalBasedInvestmentDashboard");
+  };
+  const handleRetirementInvestmentDashboard = () => {
+    router.push("/RetirementPages/retirementInvestmentDashboard");
+  };
   const handleProfile = () => {
     router.push("/ProfileManagement/userProfile");
   };
@@ -280,7 +280,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
               sx={{ marginLeft: "auto" }}
             >
               {/* <Avatar alt="Profile Image" src='@.'/> */}
-              <Avatar className="transform hover:scale-105 transition duration-300 ease-in-out">
+              <Avatar className="transition duration-300 ease-in-out transform hover:scale-105">
                 <Image src={icon1} alt="Profile Image" width={50} height={50} />
               </Avatar>
             </IconButton>
@@ -317,7 +317,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           className={classes.root}
         >
           <DrawerHeader>
-            <h1 className="text-white font-bold py-2 text-3xl">MoneyMate</h1>
+            <h1 className="py-2 text-3xl font-bold text-white">MoneyMate</h1>
             <IconButton onClick={handleDrawerClose} sx={{ color: "#FFFFFF" }}>
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
@@ -338,7 +338,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           >
             <ListItemButton
               onClick={handleHomePage}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <HomeIcon sx={{ color: "#FFFFFF" }} />
@@ -347,7 +347,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleEmergencyDashboard}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <SavingsIcon sx={{ color: "#FFFFFF" }} />
@@ -356,7 +356,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleGoalBasedDashboard}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <FlagIcon sx={{ color: "#FFFFFF" }} />
@@ -365,7 +365,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleRetirementDashboard}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <ElderlyIcon sx={{ color: "#FFFFFF" }} />
@@ -374,7 +374,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleClick}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <AttachMoneyIcon sx={{ color: "#FFFFFF" }} />
@@ -387,7 +387,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 <ListItemButton
                   sx={{ pl: 4 }}
                   onClick={handleEmergencyInvestmentDashboard}
-                  className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-pink-500"
+                  className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-pink-500"
                 >
                   <ListItemIcon>
                     <SavingsIcon sx={{ color: "#FFFFFF" }} />
@@ -396,7 +396,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 </ListItemButton>
                 <ListItemButton
                   sx={{ pl: 4 }}
-                  className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-red-500"
+                  onClick={handleGoalBasedInvestmentDashboard}
+                  className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-red-500"
                 >
                   <ListItemIcon>
                     <FlagIcon sx={{ color: "#FFFFFF" }} />
@@ -405,7 +406,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 </ListItemButton>
                 <ListItemButton
                   sx={{ pl: 4 }}
-                  className="transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-green-500"
+                  onClick={handleRetirementInvestmentDashboard}
+                  className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 hover:bg-gradient-to-r from-yellow-500 to-green-500"
                 >
                   <ListItemIcon>
                     <ElderlyIcon sx={{ color: "#FFFFFF" }} />
@@ -416,7 +418,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </Collapse>
             <ListItemButton
               onClick={handleProfile}
-              className="transform hover:scale-105 transition duration-300 ease-in-out hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <PersonIcon sx={{ color: "#FFFFFF" }} />

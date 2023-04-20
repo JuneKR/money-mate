@@ -179,9 +179,8 @@ const EmergencyInvestmentDashboard = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: "#6259E8",
                   }}
-                  className="py-2 rounded bg-gray-50"
+                  className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
                 >
                   <p
                     style={{ padding: "0 1rem" }}
@@ -205,9 +204,8 @@ const EmergencyInvestmentDashboard = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: "#6259E8",
                   }}
-                  className="py-2 rounded bg-gray-50"
+                  className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
                 >
                   <p
                     style={{ padding: "0 1rem" }}
@@ -228,8 +226,7 @@ const EmergencyInvestmentDashboard = () => {
 
               <div className="py-5 py-10 shadow-2xl">
                 <div
-                  style={{ backgroundColor: "#6259E8" }}
-                  className="py-2 rounded bg-gray-50"
+                  className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
                 >
                   <div>
                     <p
@@ -332,8 +329,7 @@ const EmergencyInvestmentDashboard = () => {
                 </div>
               </div>
               <div
-                style={{ backgroundColor: "#6259E8" }}
-                className="py-2 rounded "
+                className="py-2 rounded bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <p
                   style={{ padding: "0 1rem" }}

@@ -352,42 +352,6 @@ const emergencyCreateForm = () => {
           className="pb-5 shadow-2xl rounded-b-2xl"
           style={{ backgroundColor: "#1D1D41" }}
         >
-          {/* <div className="py-10">
-            <Box sx={{ width: "100%", padding: "0 4rem" }}>
-              <Stepper activeStep={currentStepIndex}>
-                <Step>
-                  <StepLabel>
-                    <span className="p-2 text-xl font-bold text-white bg-purple-600 rounded-full shadow-2xl">
-                      เลือกเป้าหมาย
-                    </span>
-                  </StepLabel>
-                </Step>
-                <Step>
-                  <StepLabel>
-                    <span className="p-2 text-xl font-bold text-white bg-purple-700 rounded-full shadow-2xl">
-                      สร้างเป้าหมาย
-                    </span>
-                  </StepLabel>
-                </Step>
-                <Step>
-                  <StepLabel>
-                    <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
-                      ตรวจสอบและเลือกแผน
-                    </span>
-                  </StepLabel>
-                </Step>
-                {showPackageStep && (
-                  <Step>
-                  <StepLabel>
-                  <span className="p-2 text-xl font-bold text-white bg-purple-900 rounded-full shadow-2xl">
-                    เลือกพอร์ตการลงทุน
-                  </span>
-                </StepLabel>
-                </Step>
-                )}
-              </Stepper>
-            </Box>{" "}
-          </div> */}
           <div className="py-10">
             <Box
               sx={{ width: "100%", padding: { base: "0 2rem", lg: "0 4rem" } }}

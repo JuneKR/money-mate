@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Image from "next/image";
-import icon1 from "@/images/Profile/img_pf_yk2.jpg";
+import icon1 from "@/images/Profile/img_pf_yk1.jpg";
 import { Menu, MenuItem, Avatar } from "@mui/material";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -433,3 +433,61 @@ const Sidebar: React.FC<SidebarProps> = () => {
 };
 
 export default Sidebar;
+{/* <List style={{backgroundColor: '#1D1D41'}}>
+          {['Dashboard', 'เพิ่มข้อมูลกองทุน', 'สร้างพอร์ตการลงทุน', 'พอร์ตการลงทุนของคุณ', 'จัดการข้อมูลกองทุน', 'จัดการข้อมูลพอร์ตการลงทุน'].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+                className="transition duration-300 ease-in-out transform hover:scale-105"
+                onClick={() => {
+                  switch (index) {
+                    case 0:
+                      router.push('/');
+                      break;
+                    case 1:
+                      router.push('/AdminPages/adminFundsAddingPage');
+                      break;
+                    case 2:
+                      router.push('/AdminPages/adminPortsAddingPage');
+                      break;
+                    case 3:
+                      router.push('/AdminPages/adminPortPage');
+                      break;
+                    case 4:
+                      router.push('/AdminPages/adminFundsManagement');
+                      break;
+                    case 5:
+                      router.push('/AdminPages/adminPortsManagement');
+                      break;
+                    // Add more cases for each button
+                    default:
+                      break;
+                  }
+                }}
+                >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+        //           { index === 0 ? <HomeIcon /> : null}
+        //           { index === 1 ? <SavingsIcon /> : null}
+        //           { index === 2 ? <AccountBalanceWalletIcon/> : null}
+        //           { index === 3 ? <GridViewIcon/> : null}
+        //           { index === 4 ? <ElderlyIcon/> : null}
+        //           { index === 5 ? <AttachMoneyIcon/> : null}
+        //           { index === 6 ? <BarChartIcon/> : null}
+        //           { index === 7 ? <PersonIcon/> : null}
+        //         </ListItemIcon>
+        //         <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+        //       </ListItemButton>
+        //     </ListItem>
+        //   ))}
+        // </List> */}

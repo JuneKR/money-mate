@@ -190,7 +190,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                     <p>ความก้าวหน้าการออมเงินของคุณ</p>
                   </div>
                   <div className="flex justify-end py-3 border-b-2 border-gray-500 item-center">
-                    <p className="text-white">จัดเรียง</p>
+                    {/* <p className="text-white">จัดเรียง</p> */}
                   </div>
                 </div>
               </div>
@@ -209,7 +209,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               )}
             </div>
           </div>
-          {/* <div className="pt-10">
+          <div className="pt-10">
             <div
               style={{ backgroundColor: "#1D1D41" }}
               className="w-full h-24 h-full py-2 shadow-2xl rounded-xl"
@@ -217,10 +217,10 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               <div className="px-5 pb-5">
                 <div className="grid grid-cols-2 ">
                   <div className="py-3 text-xl font-bold text-white border-b-2 border-gray-500">
-                    <p>ความก้าวหน้าการลงทุนของคุณ</p>
+                    <p>การลงทุนทั้งหมดของคุณ</p>
                   </div>
                   <div className="flex justify-end py-3 border-b-2 border-gray-500 item-center">
-                    <p className="text-white">จัดเรียง</p>
+                    {/* <p className="text-white">จัดเรียง</p> */}
                   </div>
                 </div>
               </div>
@@ -233,12 +233,12 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               ) : (
                 <div className="px-5 pb-5">
                   {investmentPlans.map((investmentPlan) => (
-                    <LandingInvestmentPlanCard investmentPlanData={investmentPlan} saving={savingPlans} />
+                    <LandingInvestmentPlanCard investmentPlanData={investmentPlan} />
                   ))}
                 </div>
               )}
             </div>
-          </div> */}
+          </div>
         </div>
       </main>
     </>

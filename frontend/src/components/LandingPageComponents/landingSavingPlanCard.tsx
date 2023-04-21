@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from "react";
 import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
+import icon2 from "@/images/Icon/กระปุก3.png";
+import icon3 from "@/images/Icon/กระปุก4.png";
 import { useRouter } from "next/router";
 
 interface SavingPlan {
@@ -28,11 +30,12 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
   const totalBalance2 = Number(saving.TotalBalance);
   const formatTargetAmount = targetAmount2.toLocaleString();
   const formatTotalBalance = totalBalance2.toLocaleString();
-  const isEmergencyPlan = !!saving.Emergency_ID;
-  const isGoalPlan = !!saving.Goal_ID;
-  const isRetirementPlan = !!saving.Retirement_ID;
+  const isEmergencyPlan = !!saving?.Emergency_ID;
+  const isGoalPlan = !!saving?.Goal_ID;
+  const isRetirementPlan = !!saving?.Retirement_ID;
 
   let bgColorClass = "";
+  let icon: string = "";
   if (isEmergencyPlan) {
     // handle emergency plan
     bgColorClass = "bg-gradient-to-r from-purple-900 to-pink-500";
@@ -53,22 +56,22 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
     }
   };
   return (
-    <div className="pb-10 px-5">
+    <div className="px-5 pb-10">
       <div
         // key={index}
         style={{ alignItems: "center", backgroundColor: "#27264E" }}
-        className="pb-5 relative text-white  shadow-2xl"
+        className="relative pb-5 text-white shadow-2xl"
       >
         <div
           style={{ alignItems: "center" }}
-          className="relative grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 text-white gap-5 py-10 px-3"
+          className="relative grid grid-cols-1 gap-5 px-3 py-10 text-white md:grid-cols-1 lg:grid-cols-3"
         >
-          <div className="py-3 px-3 grid grid-rows-2">
+          <div className="grid grid-rows-2 px-3 py-3">
             <div className="absolute top-0 left-0 p-5">
               <div className={`px-3 py-3 rounded-lg ${bgColorClass}`}>
-                <p className="font-bold flex justify-center item-center text-xl">
+                <p className="flex justify-center text-xl font-bold item-center">
                   {/* ออมเงินเผื่อฉุกเฉิน */}
-                  {saving.PlanName}
+                  {saving?.PlanName}
                 </p>
               </div>
             </div>
@@ -77,7 +80,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
                 style={{ backgroundColor: "#6259E8" }}
                 className="px-3 py-3 rounded-lg"
               >
-                <p className="font-bold flex justify-center item-center text-xl">
+                <p className="flex justify-center text-xl font-bold item-center">
                   {/* ออมเงินเผื่อฉุกเฉิน */}
                   {formatTotalBalance} / {formatTargetAmount}
                 </p>
@@ -91,7 +94,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
               {/* <Progress title={""} progress={"90%"} /> */}
             </div>
           </div>
-          <div className="font-bold py-3 flex justify-center item-center grid grid-cols-2 gap-5">
+          <div className="flex grid justify-center grid-cols-2 gap-5 py-3 font-bold item-center">
             <p>จำนวนเงินออมเป้าหมาย</p>
             {formatTargetAmount} บาท
             <p>ยอดเงินปัจจุบัน</p>
@@ -99,7 +102,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
           </div>
           <a
             onClick={handleClick}
-            className="absolute top-3 right-3 flex justify-center item-center cursor-pointer text-white hover:text-blue-800"
+            className="absolute flex justify-center text-white cursor-pointer top-3 right-3 item-center hover:text-blue-800"
           >
             ดูข้อมูลเพิ่มเติม &gt;
           </a>

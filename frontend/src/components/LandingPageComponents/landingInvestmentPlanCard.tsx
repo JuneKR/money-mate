@@ -34,7 +34,6 @@ interface SavingPlan {
 interface LandingInvestmentPlanCardProps {
   // key: any;
   investmentPlanData: InvestmentPlan;
-  saving: SavingPlan;
 }
 
 const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
@@ -60,6 +59,17 @@ const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
   } else if (isRetirementPlan) {
     bgColorClass = "bg-gradient-to-r from-purple-900 to-green-500";
   }
+
+  const handleClick = () => {
+    if (isEmergencyPlan) {
+      router.push('/EmergencyPages/emergencyInvestmentDashboard');
+    } else if (isGoalPlan) {
+      router.push('/GoalBasedPages/goalBasedInvestmentDashboard');
+    } else if (isRetirementPlan) {
+      router.push('/RetirementPages/retirementInvestmentDashboard');
+    }
+  };
+  
   return (
     <div className="px-5 pb-10">
       <div
@@ -69,46 +79,21 @@ const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
       >
         <div
           style={{ alignItems: "center" }}
-          className="relative grid grid-cols-1 gap-5 px-3 py-10 text-white md:grid-cols-1 lg:grid-cols-3"
+          className="relative gap-5 px-3 py-10 text-white"
         >
-          <div className="grid grid-rows-2 px-3 py-3">
-            <div className="absolute top-0 left-0 p-5">
+          <div className="px-3 py-3">
+            <div className="">
               <div
                 style={{ backgroundColor: "#6259E8" }}
                 className={`px-3 py-3 rounded-lg ${bgColorClass}`}>
                 <p className="flex justify-center text-xl font-bold item-center">
-                  {/* ออมเงินเผื่อฉุกเฉิน */}
                   {investmentPlanData.PortfolioName}
                 </p>
               </div>
             </div>
-            <div className="mt-10">
-              <div
-                style={{ backgroundColor: "#6259E8" }}
-                className="px-3 py-3 rounded-lg"
-              >
-                <p className="flex justify-center text-xl font-bold item-center">
-                  {/* ออมเงินเผื่อฉุกเฉิน */}
-                  {/* {formatTotalBalance} / {formatTargetAmount} */}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="font-bold">
-            <div>
-              <Image src={icon1} alt="Your Image" className="pb-3" />
-              {/* <Progress title={""} progress={`${saving.Progression}%`} /> */}
-              {/* <Progress title={""} progress={"90%"} /> */}
-            </div>
-          </div>
-          <div className="flex grid justify-center grid-cols-2 gap-5 py-3 font-bold item-center">
-            {/* <p>จำนวนเงินออมเป้าหมาย</p>
-            {formatTargetAmount} บาท
-            <p>ยอดเงินปัจจุบัน</p>
-            {formatTotalBalance} บาท */}
           </div>
           <a
-            // onClick={}
+            onClick={handleClick}
             className="absolute flex justify-center text-white cursor-pointer top-3 right-3 item-center hover:text-blue-800"
           >
             ดูข้อมูลเพิ่มเติม &gt;

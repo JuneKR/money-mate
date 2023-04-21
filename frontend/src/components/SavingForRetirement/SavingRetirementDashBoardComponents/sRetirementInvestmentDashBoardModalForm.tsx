@@ -101,7 +101,7 @@ const SRetirementInvestmentDashBoardModalForm: React.FC<SRetirementInvestmentDas
   console.log('Value', investTargetAmount)
   console.log('Value', savingRetirement?.TargetAmount)
   const targetAmountDisplay = Number(savingRetirement?.TargetAmount);
-  const monthlySavingDisplay = Number(savingRetirement?.MonthlySaving);
+  const monthlySavingDisplay = Number(savingRetirement?.MonthlySaving) * -1;
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
   return (

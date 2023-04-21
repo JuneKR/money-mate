@@ -127,7 +127,7 @@ const EmergencyDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   การออมเงินเผื่อฉุกเฉิน
                 </div>
@@ -147,25 +147,25 @@ const EmergencyDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className=" py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
+                className="py-2 rounded-lg  bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   หยอดกระปุก
                 </div>
               </div>
               <div
                 style={{ backgroundColor: "#1D1D41" }}
-                className="rounded-b-2xl pb-5 shadow-2xl "
+                className="pb-5 shadow-2xl rounded-b-2xl "
               >
-                <div className="pt-5 grid grid-cols-4">
+                <div className="grid grid-cols-4 pt-5">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
-                  <div className="px-5 w-full h-full col-span-3 py-5">
-                    <h1 className="flex justify-center item-center text-lg font-bold pb-7">
+                  <div className="w-full h-full col-span-3 px-5 py-5">
+                    <h1 className="flex justify-center text-lg font-bold item-center pb-7">
                       นักออมฉุกเฉินมือใหม่
                     </h1>
                     <Progress1
@@ -174,14 +174,14 @@ const EmergencyDashboard = () => {
                     />
                   </div>
                 </div>
-                <div className=" px-5">
-                  <div className="text-2xl text-white pb-3 ">
+                <div className="px-5 ">
+                  <div className="pb-3 text-2xl text-white ">
                     {" "}
                     แผนการออมเงินของคุณ
                   </div>
                   <div
                     style={{ backgroundColor: "#27264E" }}
-                    className="py-5 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-5 shadow-2xl rounded-lg text-white text-lg font-bold"
+                    className="grid grid-cols-1 py-5 text-lg font-bold text-white rounded-lg shadow-2xl md:grid-cols-1 lg:grid-cols-5"
                   >
                     <div>
                       <div className="flex items-center justify-center py-3">
@@ -246,9 +246,9 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="pb-5 ">
-              <div className=" grid grid-cols-2 rounded-3xl transition duration-300 delay-150 bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800 shadow-2xl">
-                <div className="flex justify-center item-center py-20 grid grid-rows-2">
+            {/* <div className="pb-5 ">
+              <div className="grid grid-cols-2 transition duration-300 delay-150 shadow-2xl  rounded-3xl bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800">
+                <div className="flex grid justify-center grid-rows-2 py-20 item-center">
                   <div>
                     <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
                   </div>
@@ -256,16 +256,16 @@ const EmergencyDashboard = () => {
                     <div>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</div>
                   </div>
                 </div>
-                <div className="flex justify-center item-center py-20">
+                <div className="flex justify-center py-20 item-center">
                   <button
                     // onClick={handleEmergencyInvestmentPortfolioPackage}
-                    className="transition ease-in-out delay-150 bg-yellow-200 hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500 duration-300 text-black font-bold py-2 px-4 rounded"
+                    className="px-4 py-2 font-bold text-black transition duration-300 ease-in-out delay-150 bg-yellow-200 rounded hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500"
                   >
                     เพิ่มแผนการลงทุน
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="pt-5 shadow-2xl">
               <div
                 style={{
@@ -276,7 +276,7 @@ const EmergencyDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl "
+                  className="text-2xl font-bold text-white "
                 >
                   ประวัติรายการออมและถอนเงิน
                 </div>
@@ -292,12 +292,12 @@ const EmergencyDashboard = () => {
                 >
                   {!savingEmergencyTransactions.length ? (
                     <div className="p-20">
-                      <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                      <p className="flex justify-center text-2xl font-bold text-gray-200 item-center">
                         คุณยังไม่มีประวัติการออมเงินและถอนเงิน
                       </p>
                     </div>
                   ) : (
-                    <div className="pb-5 px-5">
+                    <div className="px-5 pb-5">
                       {savingEmergencyTransactions.map(
                         (savingEmergencyTransaction, index) => (
                           <div key={index}>

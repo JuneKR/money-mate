@@ -186,6 +186,18 @@ const RetirementInvestmentDashboard = () => {
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
+  function yearsToYearsMonthsDays(value: string) {
+    // const values = Number(value) / 12;
+    const totalDays = Number(value) * 365;
+    const years = Math.floor(totalDays / 365);
+    const months = Math.floor((totalDays - years * 365) / 30);
+    const days = Math.floor(totalDays - years * 365 - months * 30);
+    const result = years + " ปี " + months + " เดือน " + days + " วัน";
+    if (isNaN(years) || isNaN(months) || isNaN(days)) {
+      return "0 ปี 0 เดือน 0 วัน";
+    }
+    return result.toString();
+  }
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -402,20 +414,20 @@ const RetirementInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {savingRetirementPlan?.TargetAmount}
+                        {formattedํargetAmount} บาท
                       </h1>
                     </div>
                   </div>
-                  <div className="border-r-2 border-gray-300 ">
+                  {/* <div className="border-r-2 border-gray-300 ">
                     <div className="flex items-center justify-center py-3 text-white">
                       <h1>ระยะเวลาในการออม</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {/* {savingRetirementPlan?.TimePeriod} เดือน */}
+                        {savingRetirementPlan?.TimeRemaining} เดือน
                       </h1>
                     </div>
-                  </div>
+                  </div> */}
                   <div>
                     <div className="flex items-center justify-center py-3 text-white">
                       จำนวนเงินทั้งหมด
@@ -432,8 +444,8 @@ const RetirementInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {savingRetirementPlan?.TargetAmount -
-                          savingRetirementPlan?.TotalBalance}{" "}
+                        {(savingRetirementPlan?.TargetAmount -
+                          savingRetirementPlan?.TotalBalance).toLocaleString()}{" "}
                         บาท
                       </h1>
                     </div>

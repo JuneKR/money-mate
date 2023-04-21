@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
+import { useRouter } from "next/router";
 
 interface InvestmentPlan {
   Portfolio_ID: number;
@@ -19,19 +20,35 @@ interface InvestmentPlan {
   createdAt: string;
   updatedAt: string;
 }
-
+interface SavingPlan {
+  Emergency_ID?: number;
+  Goal_ID?: number;
+  Retirement_ID?: number;
+  PlanName: string;
+  TargetAmount: number;
+  TimePeriod: string;
+  TotalBalance: number;
+  Progression: number;
+  User_ID: number;
+}
 interface LandingInvestmentPlanCardProps {
   // key: any;
   investmentPlanData: InvestmentPlan;
+  saving: SavingPlan;
 }
 
 const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
   props
 ) => {
   const { investmentPlanData } = props;
-  const isEmergencyPlan = !!investmentPlanData.Emergency_ID;
-  const isGoalPlan = !!investmentPlanData.Goal_ID;
-  const isRetirementPlan = !!investmentPlanData.Retirement_ID;
+  const isEmergencyPlan = !!investmentPlanData?.Emergency_ID;
+  const isGoalPlan = !!investmentPlanData?.Goal_ID;
+  const isRetirementPlan = !!investmentPlanData?.Retirement_ID;
+  const router = useRouter();
+  // const targetAmount2 = Number(investmentPlanData?.TargetAmount);
+  // const totalBalance2 = Number(investmentPlanData?.TotalBalance);
+  // const formatTargetAmount = targetAmount2.toLocaleString();
+  // const formatTotalBalance = totalBalance2.toLocaleString();
   
   let bgColorClass = "";
   if (isEmergencyPlan) {

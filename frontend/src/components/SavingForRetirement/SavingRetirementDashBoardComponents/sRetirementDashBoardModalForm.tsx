@@ -123,58 +123,58 @@ const SRetirementDashBoardModalForm: React.FC<
       <Button
         onClick={handleOpen}
         style={{ backgroundColor: "#1D1D41" }}
-        className="rounded-b-2xl w-full h-full pb-10 shadow-2xl "
+        className="w-full h-full pb-10 shadow-2xl rounded-b-2xl "
       >
         <div>
           <div className="flex justify-end">
             <EditIcon />
           </div>
-          <div className="text-left text-white font-bold">
-            <h1 className="px-2 text-xl pb-5">เป้าหมายการออมเงิน</h1>
+          <div className="font-bold text-left text-white">
+            <h1 className="px-2 pb-5 text-xl">เป้าหมายการออมเงิน</h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 p-5">
+          <div className="grid grid-cols-1 gap-20 p-5 md:grid-cols-2 lg:grid-cols-4">
             <div
               style={{ backgroundColor: "#27264E" }}
-              className="shadow-2xl rounded-lg p-5 "
+              className="p-5 rounded-lg shadow-2xl "
             >
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 จำนวนเงิน
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
+              <div className="flex items-center justify-center text-2xl text-white">
                 {formattedํargetAmount}
               </div>
             </div>
             <div
               style={{ backgroundColor: "#27264E" }}
-              className="shadow-2xl rounded-lg p-5"
+              className="p-5 rounded-lg shadow-2xl"
             >
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 เงินออม/ต่อเดือน
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
+              <div className="flex items-center justify-center text-2xl text-white">
                 {formattedMonthlySaving} บาท
               </div>
             </div>
             <div
               style={{ backgroundColor: "#27264E" }}
-              className="shadow-2xl rounded-lg p-5"
+              className="p-5 rounded-lg shadow-2xl"
             >
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 อายุที่ต้องการเกษียณ
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
+              <div className="flex items-center justify-center text-2xl text-white">
                 {savingRetirement?.AgeToRetire} ปี
               </div>
             </div>
             <div
               style={{ backgroundColor: "#27264E" }}
-              className="shadow-2xl rounded-lg p-5"
+              className="p-5 rounded-lg shadow-2xl"
             >
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 ระยะเวลาคงเหลือ
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
-                {yearsToYearsMonthsDays((savingRetirement?.TimeRemaining * -1).toString())}
+              <div className="flex items-center justify-center text-2xl text-white">
+                {yearsToYearsMonthsDays((savingRetirement?.TimeRemaining).toString())}
               </div>
             </div>
           </div>
@@ -190,17 +190,17 @@ const SRetirementDashBoardModalForm: React.FC<
             <form
               onSubmit={handleSubmit}
               style={{ backgroundColor: "#27264E" }}
-              className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+              className="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md"
             >
               <div className="mb-4">
                 <label
-                  className="block text-white text-lg font-bold mb-2"
+                  className="block mb-2 text-lg font-bold text-white"
                   htmlFor="first-name-input"
                 >
                   จำนวนเงิน
                 </label>
                 <input
-                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 text-sm leading-tight text-gray-700 bg-white border border-gray-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   type="number"
                   id=""
                   placeholder={
@@ -212,13 +212,13 @@ const SRetirementDashBoardModalForm: React.FC<
               </div>
               {/* <div className="mb-4">
                 <label
-                  className="block text-white text-lg font-bold mb-2"
+                  className="block mb-2 text-lg font-bold text-white"
                   htmlFor="first-name-input"
                 >
                   ระยะเวลา
                 </label>
                 <input
-                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 text-sm leading-tight text-gray-700 bg-white border border-gray-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
                   placeholder={savingRetirement.TimeRemaining + " เดือน"}
@@ -228,13 +228,13 @@ const SRetirementDashBoardModalForm: React.FC<
               </div> */}
               {/* <div className="mb-4">
                 <label
-                  className="block text-white text-lg font-bold mb-2"
+                  className="block mb-2 text-lg font-bold text-white"
                   htmlFor="first-name-input"
                 >
                   จำนวนเดือน
                 </label>
                 <input
-                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 text-sm leading-tight text-gray-700 bg-white border border-gray-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
                   placeholder={savingRetirement.TimePeriod + " เดือน"}
@@ -244,13 +244,13 @@ const SRetirementDashBoardModalForm: React.FC<
               </div> */}
               <div className="mb-4">
                 <label
-                  className="block text-white text-lg font-bold mb-2"
+                  className="block mb-2 text-lg font-bold text-white"
                   htmlFor="first-name-input"
                 >
                   เงินออมต่อเดือน
                 </label>
                 <input
-                  className="text-sm bg-white border border-gray-500 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="w-full px-3 py-2 text-sm leading-tight text-gray-700 bg-white border border-gray-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   id="first-name-input"
                   type="text"
                   placeholder={savingRetirement?.MonthlySaving + " บาท/เดือน"}
@@ -261,7 +261,7 @@ const SRetirementDashBoardModalForm: React.FC<
               <div className="flex items-center justify-end gap-5">
                 <button
                   style={{ width: "209px", backgroundColor: "#6259E8" }}
-                  className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
+                  className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400"
                   type="submit"
                 >
                   ยืนยัน บันทึกแผนของคุณ
@@ -269,7 +269,7 @@ const SRetirementDashBoardModalForm: React.FC<
                 <button
                   style={{ width: "209px", backgroundColor: "#27264E" }}
                   onClick={handleClose}
-                  className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
+                  className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400"
                   type="submit"
                 >
                   ยกเลิก
@@ -291,10 +291,10 @@ const SRetirementDashBoardModalForm: React.FC<
             variant="h6"
             component={"span"}
           >
-            <div className="text-white font-bold text-2xl">
+            <div className="text-2xl font-bold text-white">
               ยินดีด้วย! คุณได้อัพเดทแผนการออมเงินเผื่อฉุกเฉินสำเร็จแล้ว
             </div>
-            <div className="py-5 text-white font-bold text-md">
+            <div className="py-5 font-bold text-white text-md">
               อัพเดทแผนการออมสำเร็จ!!!
               กรุณารอสักครู่และกรุณาอย่าออกจากหน้านี้....
             </div>

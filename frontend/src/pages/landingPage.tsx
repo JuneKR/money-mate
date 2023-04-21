@@ -150,18 +150,18 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               alignItems: "center",
               backgroundColor: "#6259E8",
             }}
-            className=" py-2 rounded bg-gray-50 shadow-2xl "
+            className="py-2 rounded shadow-2xl bg-gray-50"
           >
             <p
               style={{ padding: "0 1rem" }}
-              className="font-bold text-white text-2xl "
+              className="text-2xl font-bold text-white "
             >
               ภาพรวม
             </p>
           </div>
           <div className="py-5 ">
-            <div className="grid grid-cols-2 rounded-3xl transition duration-300 delay-150 bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800 shadow-2xl">
-              <div className="flex justify-center item-center py-20 grid grid-rows-2 ">
+            <div className="grid grid-cols-2 transition duration-300 delay-150 shadow-2xl rounded-3xl bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800">
+              <div className="flex grid justify-center grid-rows-2 py-20 item-center ">
                 <div>
                   <p className="font-bold">เราแนะนำให้คุณสร้างแผนการออมเงิน</p>
                 </div>
@@ -169,10 +169,10 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
                   <p>สร้างแผนการออมเงินก่อน</p>
                 </div>
               </div>
-              <div className="flex justify-center item-center py-20">
+              <div className="flex justify-center py-20 item-center">
                 <button
                   onClick={handleSavingSelectionPage}
-                  className="animate-bounce bg-purple-500 shadow-lg shadow-pink-500/50 duration-300 text-white font-bold py-2 px-4 rounded"
+                  className="px-4 py-2 font-bold text-white duration-300 bg-purple-500 rounded shadow-lg animate-bounce shadow-pink-500/50"
                 >
                   เริ่มสร้างแผนการออมเงินเลย!
                 </button>
@@ -182,26 +182,26 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
           <div className="">
             <div
               style={{ backgroundColor: "#1D1D41" }}
-              className="w-full h-full py-2 h-24 rounded-xl shadow-2xl"
+              className="w-full h-24 h-full py-2 shadow-2xl rounded-xl"
             >
               <div className="px-5 pb-5">
-                <div className=" grid grid-cols-2">
-                  <div className="border-b-2 border-gray-500 font-bold py-3 text-white text-xl">
+                <div className="grid grid-cols-2 ">
+                  <div className="py-3 text-xl font-bold text-white border-b-2 border-gray-500">
                     <p>ความก้าวหน้าการออมเงินของคุณ</p>
                   </div>
-                  <div className="flex item-center justify-end border-b-2 border-gray-500 py-3">
+                  <div className="flex justify-end py-3 border-b-2 border-gray-500 item-center">
                     <p className="text-white">จัดเรียง</p>
                   </div>
                 </div>
               </div>
               {!savingPlans.length ? (
                 <div className="p-20">
-                  <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                  <p className="flex justify-center text-2xl font-bold text-gray-200 item-center">
                     คุณยังไม่มีแผนการออมเงิน ได้โปรดสร้างแผนการออม
                   </p>
                 </div>
               ) : (
-                <div className="pb-5 px-5">
+                <div className="px-5 pb-5">
                   {savingPlans.map((savingPlan) => (
                     <LandingSavingPlanCard saving={savingPlan} />
                   ))}
@@ -209,36 +209,36 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               )}
             </div>
           </div>
-          <div className="pt-10">
+          {/* <div className="pt-10">
             <div
               style={{ backgroundColor: "#1D1D41" }}
-              className="w-full h-full py-2 h-24 rounded-xl shadow-2xl"
+              className="w-full h-24 h-full py-2 shadow-2xl rounded-xl"
             >
               <div className="px-5 pb-5">
-                <div className=" grid grid-cols-2">
-                  <div className="border-b-2 border-gray-500 font-bold py-3 text-white text-xl">
+                <div className="grid grid-cols-2 ">
+                  <div className="py-3 text-xl font-bold text-white border-b-2 border-gray-500">
                     <p>ความก้าวหน้าการลงทุนของคุณ</p>
                   </div>
-                  <div className="flex item-center justify-end border-b-2 border-gray-500 py-3">
+                  <div className="flex justify-end py-3 border-b-2 border-gray-500 item-center">
                     <p className="text-white">จัดเรียง</p>
                   </div>
                 </div>
               </div>
               {!investmentPlans.length ? (
                 <div className="p-20">
-                  <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                  <p className="flex justify-center text-2xl font-bold text-gray-200 item-center">
                     คุณยังไม่มีแผนการลงทุน ได้โปรดสร้างแผนการออมถึงจะสามารถสร้างแผนการลงทุนได้
                   </p>
                 </div>
               ) : (
-                <div className="pb-5 px-5">
+                <div className="px-5 pb-5">
                   {investmentPlans.map((investmentPlan) => (
-                    <LandingInvestmentPlanCard investmentPlanData={investmentPlan} />
+                    <LandingInvestmentPlanCard investmentPlanData={investmentPlan} saving={savingPlans} />
                   ))}
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
     </>

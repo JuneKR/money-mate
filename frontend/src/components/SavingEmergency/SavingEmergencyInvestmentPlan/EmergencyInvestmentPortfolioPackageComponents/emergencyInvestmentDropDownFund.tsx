@@ -12,7 +12,7 @@ const EmergencyInvestmentDropDownFund: React.FC<
 > = (props) => {
   const { title, investmentPortfolioAllocation, handleFundAbbrSelection } =
     props;
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItem, setSelectedItem] = useState("default");
 
   useEffect(() => {
     // set default value after component has mounted
@@ -23,8 +23,6 @@ const EmergencyInvestmentDropDownFund: React.FC<
     setSelectedItem(event.target.value);
     handleFundAbbrSelection(event.target.value);
   };
-
-  // console.log('Default Item in Fund Menu: ', selectedItem);
 
   return (
     <div className="relative">
@@ -45,19 +43,6 @@ const EmergencyInvestmentDropDownFund: React.FC<
           </option>
         ))}
       </select>
-      <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
-        <svg
-          className="w-4 h-4 fill-current"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M12.293 7.293a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 9.414l-7.293 7.293a1 1 0 01-1.414-1.414l7-7a1 1 0 011.414 0z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </div>
     </div>
   );
 };

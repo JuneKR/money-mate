@@ -14,19 +14,58 @@ const initialFormValues: FormValues = {
   message: "",
 };
 
+interface IMutualFund {
+  LastUpdate: string,
+  FundName: string,
+  FundAbbrName: string,
+  RiskSpectrum: number,
+  PolicyDesc: string,
+  SpecCode: string,
+  SpecDesc: string,
+  NAV: number,
+  MinimumInvestmentAmount: number;
+  MinimumAdditionalAmount: number;
+  oneYearReturns: number;
+  threeYearReturns: number;
+  fiveYearReturns: number;
+  YTDReturns: number;
+}
+
+const initialMutualFund: IMutualFund = {
+  LastUpdate: '',
+  FundName: '',
+  FundAbbrName: '',
+  RiskSpectrum: 0,
+  PolicyDesc: '',
+  SpecCode: '',
+  SpecDesc: '',
+  NAV: 0,
+  MinimumInvestmentAmount: 0,
+  MinimumAdditionalAmount: 0,
+  oneYearReturns: 0,
+  threeYearReturns: 0,
+  fiveYearReturns: 0,
+  YTDReturns: 0,
+};
+
+
 const EmergencyMyPortForm = () => {
   const urlServer = "http://localhost:8080/";
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [userProfile, setUserProfile] = useState();
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState();
   const [investmentPortfolio, setInvestmentPortfolio] = useState();
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] =
-    useState([]);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentAmountError, setInvestmentAmountError] = useState("");
   const [transactionType, setTransactionType] = useState("");
   const [selectedPolicyDesc, setSelectedPolicyDesc] = useState("");
-  const [selectedFundAbbr, setSelectedFundAbbr] = useState("");
+  const [selectedFundAbbr, setSelectedFundAbbr] = useState("default");
+  const [selectedMutualFund, setSelectedMutualFund] = useState<IMutualFund>(initialMutualFund);
+  console.log('Select', selectedFundAbbr);
+
+  const formattedDate = new Date(selectedMutualFund.LastUpdate).toLocaleDateString('th-TH');
+
 
   useEffect(() => {
     async function fetchData() {
@@ -76,6 +115,32 @@ const EmergencyMyPortForm = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchMutualFundData() {
+      try {
+        // Fetch Mutual Fund By Abbr Name
+        const mutualFundResponse = await fetch(
+          `${urlServer}mutual/fund/abbr/${selectedFundAbbr}`,
+          {
+            credentials: "include",
+          }
+        );
+        if (mutualFundResponse.ok) {
+          const mutualFund = await mutualFundResponse.json();
+          setSelectedMutualFund(mutualFund);
+        } else {
+          throw new Error(`Request failed with status ${mutualFundResponse.status}`);
+        }
+      } catch (error) {
+        console.log("Fetching Mutual Fund Error: ", error);
+      }
+    }
+
+    if (selectedFundAbbr !== 'default') {
+      fetchMutualFundData();
+    }
+  }, [selectedFundAbbr]);
+
   const handleInvestmentAmountChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -106,10 +171,11 @@ const EmergencyMyPortForm = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!selectedPolicyDesc || !selectedFundAbbr) {
-      alert("กรุณากดเลือกประเภทกองทุนและกองทุน");
+    // if (!selectedPolicyDesc || !selectedFundAbbr) {
+    if (selectedFundAbbr === "default") {
+      alert("กรุณากดเลือกกองทุน");
     } else {
-      if (transactionType === "buy" && investmentAmount !== 0) {
+      if (transactionType === "buy" && investmentAmount !== 0 && investmentAmount >= selectedMutualFund.MinimumInvestmentAmount) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
           fundAbbrName: selectedFundAbbr,
@@ -122,11 +188,6 @@ const EmergencyMyPortForm = () => {
           investmentPortfolio,
           transactionData
         );
-
-        // console.log('User: ', userProfile);
-        // console.log('Selected Policy: ', selectedPolicyDesc);
-        // console.log('Selected Fund: ', selectedFundAbbr);
-        // console.log('Amount of buying: ', investmentAmount);
       } else if (transactionType === "sell" && investmentAmount !== 0) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
@@ -140,12 +201,8 @@ const EmergencyMyPortForm = () => {
           investmentPortfolio,
           transactionData
         );
-
-        // console.log('Selected Policy: ', selectedPolicyDesc);
-        // console.log('Selected Fund: ', selectedFundAbbr);
-        // console.log('Amount of selling: ', investmentAmount);
       } else {
-        alert("กรุณากรอกจำนวนเงิน");
+        alert("กรุณากรอกจำนวนเงินและกรอกจำนวนเงินให้มากกว่ามูลค่าขั้นต่ำ");
       }
     }
   };
@@ -196,7 +253,7 @@ const EmergencyMyPortForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="px-5 py-5 ">
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <label className="block mb-2 font-bold text-white" htmlFor="name">
           ประเภทกองทุนรวม
         </label>
@@ -205,9 +262,9 @@ const EmergencyMyPortForm = () => {
           investmentPortfolioAllocation={investmentPortfolioAllocation}
           handlePolicyDescSelection={handlePolicyDescSelection}
         />
-      </div>
+      </div> */}
       <div className="mb-4">
-        <label className="block mb-2 font-bold " htmlFor="email">
+        <label className="text-white block mb-2 font-bold " htmlFor="email">
           สินทรัพย์ที่ลงทุน
         </label>
         <DropDownFund
@@ -216,8 +273,31 @@ const EmergencyMyPortForm = () => {
           handleFundAbbrSelection={handleFundAbbrSelection}
         />
       </div>
+      {selectedMutualFund !== initialMutualFund && selectedFundAbbr !== 'default' && (
+        <div className="mb-4">
+          <label className="text-white block mb-2 font-bold " htmlFor="email">
+            รายละเอียดข้อมูลกองทุน
+          </label>
+          <div
+            style={{
+              backgroundColor: "#27264E",
+            }}
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400"
+          >
+            <p className="font-bold">
+              {selectedMutualFund.FundAbbrName}
+            </p>
+            <p className="pb-2 border-b">
+              {selectedMutualFund.FundName}
+            </p>
+            <p className="pt-2">NAV ({formattedDate}): {selectedMutualFund.NAV}</p>
+            <p>มูลค่าขั้นต่ำซื้อครั้งแรก: {selectedMutualFund.MinimumInvestmentAmount} บาท</p>
+            <p>มูลค่าขั้นต่ำซื้อครั้งถัดไป: {selectedMutualFund.MinimumAdditionalAmount} บาท</p>
+          </div>
+        </div>
+      )}
       <div className="mb-4">
-        <label className="block mb-2 font-bold " htmlFor="message">
+        <label className="text-white block mb-2 font-bold " htmlFor="message">
           จำนวนเงิน
         </label>
         <input

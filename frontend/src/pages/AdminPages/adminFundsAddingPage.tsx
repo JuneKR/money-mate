@@ -16,7 +16,7 @@ const AdminFundsAddingPage = () => {
         <div className="w-full xl:w-8/12">
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <Sidebar title="My Sidebar" />
-            <div className="bg-gray-50 shadow-2xl">
+            <div className="shadow-2xl bg-gray-50">
               <div
                 style={{
                   display: "flex",
@@ -32,7 +32,7 @@ const AdminFundsAddingPage = () => {
                   เพิ่มข้อมูลกองทุน
                 </p>
               </div>
-              <div className="flex justify-center item-center p-5">
+              <div className="flex justify-center p-5 item-center">
                 <AddingForm title={""} />
               </div>
             </div>

@@ -162,7 +162,7 @@ const AdminPortPageTable: React.FC<AdminPortPageTableProps> = ({ title }) => {
     },
   ];
   return (
-    <div  className="bg-gray-50 w-full h-full">
+    <div  className="w-full h-full bg-gray-50">
       
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
@@ -171,30 +171,30 @@ const AdminPortPageTable: React.FC<AdminPortPageTableProps> = ({ title }) => {
           // pageSize={15}
           // rowsPerPageOptions={[5]}
           checkboxSelection
-          className="flex item-center justify-center "
+          className="flex justify-center item-center "
         />
       </div>
       <div>
         <div className="py-5 bg-gray-50">
-          <div className="flex justify-end grid grid-cols-3 gap-3">
+          <div className="flex grid justify-end grid-cols-3 gap-3">
             <button
               onClick={handleReturn}
               style={{ backgroundColor: "#D9D9D9" }}
-              className="text-black font-bold py-2 px-4 rounded delay-150"
+              className="px-4 py-2 font-bold text-black delay-150 rounded"
             >
               ย้อนกลับ
             </button>
             <button
               onClick={handleCalculate}
               style={{ backgroundColor: "#FEF5AC" }}
-              className=" text-black font-bold py-2 px-4 rounded delay-150"
+              className="px-4 py-2 font-bold text-black delay-150 rounded "
             >
               คำนวณ
             </button>
             <button
               onClick={handleSave}
               style={{ backgroundColor: "#B2E8FF" }}
-              className="text-black font-bold py-2 px-4 rounded delay-150"
+              className="px-4 py-2 font-bold text-black delay-150 rounded"
             >
               บันทึกข้อมูล
             </button>

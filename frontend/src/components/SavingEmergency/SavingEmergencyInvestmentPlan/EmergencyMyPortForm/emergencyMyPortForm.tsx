@@ -31,6 +31,18 @@ interface IMutualFund {
   YTDReturns: number;
 }
 
+interface IPortfolioItem {
+  PortfolioItem_ID: number;
+  Portfolio_ID: number;
+  Fund_ID: number;
+  PolicyDesc: string;
+  FundAbbrName: string;
+  OneYearReturns: number;
+  AllocationRatio: number;
+  CurrentHoldingUnits: number;
+  TotalHoldingValue: number;
+}
+
 const initialMutualFund: IMutualFund = {
   LastUpdate: '',
   FundName: '',
@@ -48,6 +60,17 @@ const initialMutualFund: IMutualFund = {
   YTDReturns: 0,
 };
 
+const initialPortfolioItem: IPortfolioItem = {
+  PortfolioItem_ID: 0,
+  Portfolio_ID: 0,
+  Fund_ID: 0,
+  PolicyDesc: "",
+  FundAbbrName: "",
+  OneYearReturns: 0,
+  AllocationRatio: 0,
+  CurrentHoldingUnits: 0,
+  TotalHoldingValue: 0,
+};
 
 const EmergencyMyPortForm = () => {
   const urlServer = "http://localhost:8080/";
@@ -62,10 +85,9 @@ const EmergencyMyPortForm = () => {
   const [selectedPolicyDesc, setSelectedPolicyDesc] = useState("");
   const [selectedFundAbbr, setSelectedFundAbbr] = useState("default");
   const [selectedMutualFund, setSelectedMutualFund] = useState<IMutualFund>(initialMutualFund);
-  console.log('Select', selectedFundAbbr);
+  const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<IPortfolioItem>(initialPortfolioItem);
 
   const formattedDate = new Date(selectedMutualFund.LastUpdate).toLocaleDateString('th-TH');
-
 
   useEffect(() => {
     async function fetchData() {
@@ -159,6 +181,9 @@ const EmergencyMyPortForm = () => {
 
   const handleFundAbbrSelection = (selected: string) => {
     setSelectedFundAbbr(selected);
+    // set a selected portfolio item for display in mutual fund section
+    const filteredPortfolioItem = investmentPortfolioAllocation.find(item => item.FundAbbrName === selected) || initialPortfolioItem;
+    setSelectedPortfolioItem(filteredPortfolioItem);
   };
 
   const handleBuyClick = () => {
@@ -186,8 +211,10 @@ const EmergencyMyPortForm = () => {
         createEmergencyTransaction(
           urlServer,
           investmentPortfolio,
-          transactionData
+          transactionData,
+          selectedMutualFund
         );
+        window.location.reload();
       } else if (transactionType === "sell" && investmentAmount !== 0) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
@@ -199,8 +226,10 @@ const EmergencyMyPortForm = () => {
         createEmergencyTransaction(
           urlServer,
           investmentPortfolio,
-          transactionData
+          transactionData,
+          selectedMutualFund
         );
+        window.location.reload();
       } else {
         alert("กรุณากรอกจำนวนเงินและกรอกจำนวนเงินให้มากกว่ามูลค่าขั้นต่ำ");
       }
@@ -210,7 +239,8 @@ const EmergencyMyPortForm = () => {
   const createEmergencyTransaction = async (
     urlServer: string,
     investmentPortfolio: any,
-    transactionData: any
+    transactionData: any,
+    mutualFund: any
   ) => {
     const moment = require("moment-timezone");
     const now = moment().tz("Asia/Bangkok");
@@ -222,6 +252,8 @@ const EmergencyMyPortForm = () => {
       fund_abbr_name: transactionData.fundAbbrName,
       amount: transactionData.amount,
       type: transactionData.type,
+      current_holding_units: (transactionData.amount/mutualFund.NAV),
+      total_holding_value: transactionData.amount
     };
 
     try {
@@ -292,7 +324,26 @@ const EmergencyMyPortForm = () => {
             </p>
             <p className="pt-2">NAV ({formattedDate}): {selectedMutualFund.NAV}</p>
             <p>มูลค่าขั้นต่ำซื้อครั้งแรก: {selectedMutualFund.MinimumInvestmentAmount} บาท</p>
-            <p>มูลค่าขั้นต่ำซื้อครั้งถัดไป: {selectedMutualFund.MinimumAdditionalAmount} บาท</p>
+            <p className="pb-2">มูลค่าขั้นต่ำซื้อครั้งถัดไป: {selectedMutualFund.MinimumAdditionalAmount} บาท</p>
+          </div>
+        </div>
+      )}
+      {selectedMutualFund !== initialMutualFund && selectedFundAbbr !== 'default' && (
+        <div className="mb-4">
+        <label className="text-white block mb-2 font-bold " htmlFor="email">
+          ข้อมูลกองทุนที่ถือในพอร์ตการลงทุนของคุณ
+        </label>
+          <div
+              style={{
+                backgroundColor: "#27264E",
+              }}
+              className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400"
+            >
+            <p className="pb-2 border-b" >
+              {selectedMutualFund.FundAbbrName} ที่ถืออยู่ในพอร์ตปัจจุบัน
+            </p>
+            <p className="pt-2">จำนวนหน่วยที่มีอยู่ทั้งหมด: {selectedPortfolioItem.CurrentHoldingUnits} หน่วย</p>
+            <p>มูลค่าที่มีอยู่ทั้งหมด: {selectedPortfolioItem.TotalHoldingValue} บาท</p>
           </div>
         </div>
       )}

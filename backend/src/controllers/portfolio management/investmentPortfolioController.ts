@@ -463,7 +463,8 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
         // Find portfolio item by fund abbr name
         const portfolioItem = await PortfolioItem.findOne({
             where: {
-                FundAbbrName: fund_abbr_name
+                FundAbbrName: fund_abbr_name,
+                Portfolio_ID: investmentPortfolio.Portfolio_ID
             }
         })
 
@@ -565,7 +566,7 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
 
 export const addGoalInvestmentTransaction = async(req: Request, res: Response) => {
     try {
-        const { transaction_date, policy_desc, fund_abbr_name, amount, type } = req.body;
+        const { transaction_date, policy_desc, fund_abbr_name, amount, type, current_holding_units, total_holding_value } = req.body;
 
         /* Check Investment Portfolio */
         const investmentPortfolio = await InvestmentPortfolio.findOne({
@@ -595,6 +596,18 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
             return res.status(404).json({msg: "Goal saving plan not found"});
         }
 
+        // Find portfolio item by fund abbr name
+        const portfolioItem = await PortfolioItem.findOne({
+            where: {
+                FundAbbrName: fund_abbr_name,
+                Portfolio_ID: investmentPortfolio.Portfolio_ID
+            }
+        })
+
+        if(!portfolioItem) {
+            return res.status(404).json({msg: `Portfolio item with fund abbr name ${fund_abbr_name} not found`});
+        }
+
         if (type === 'buy') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingGoalPlan.TotalBalance + parseFloat(amount);
@@ -619,6 +632,19 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+            // Update current holding units and total holding value of portfolio item
+            const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits + parseFloat(current_holding_units);
+            const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue + parseFloat(total_holding_value);
+            await portfolioItem.update({
+                CurrentHoldingUnits: newCurrentHoldingUnits,
+                TotalHoldingValue: newTotalHoldingValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            })
         }
         else if (type === 'sell') {
             // Update total balance and progression of saving plan
@@ -645,6 +671,19 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+            // Update current holding units and total holding value of portfolio item
+            const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits - parseFloat(current_holding_units);
+            const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue - parseFloat(total_holding_value);
+            await portfolioItem.update({
+                CurrentHoldingUnits: newCurrentHoldingUnits,
+                TotalHoldingValue: newTotalHoldingValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            })
         }
 
         await InvestmentTransaction.create({

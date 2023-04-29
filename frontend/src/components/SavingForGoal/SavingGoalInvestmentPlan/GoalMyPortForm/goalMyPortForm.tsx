@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DropDownPolicy from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownPolicy";
 import DropDownFund from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownFund";
+import { IMutualFund, IPortfolioItem, initialMutualFund, initialPortfolioItem } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
 
 interface FormValues {
   name: string;
@@ -25,7 +26,11 @@ const GoalMyPortForm = () => {
   const [investmentAmountError, setInvestmentAmountError] = useState("");
   const [transactionType, setTransactionType] = useState("");
   const [selectedPolicyDesc, setSelectedPolicyDesc] = useState("");
-  const [selectedFundAbbr, setSelectedFundAbbr] = useState("");
+  const [selectedFundAbbr, setSelectedFundAbbr] = useState("default");
+  const [selectedMutualFund, setSelectedMutualFund] = useState<IMutualFund>(initialMutualFund);
+  const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<IPortfolioItem>(initialPortfolioItem);
+
+  const formattedDate = new Date(selectedMutualFund.LastUpdate).toLocaleDateString('th-TH');
 
   useEffect(() => {
     async function fetchData() {
@@ -63,8 +68,6 @@ const GoalMyPortForm = () => {
         });
         const investmentPortfolioAllocation = await portfolioResponse.json();
         setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
-
-
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -72,6 +75,32 @@ const GoalMyPortForm = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    async function fetchMutualFundData() {
+      try {
+        // Fetch Mutual Fund By Abbr Name
+        const mutualFundResponse = await fetch(
+          `${urlServer}mutual/fund/abbr/${selectedFundAbbr}`,
+          {
+            credentials: "include",
+          }
+        );
+        if (mutualFundResponse.ok) {
+          const mutualFund = await mutualFundResponse.json();
+          setSelectedMutualFund(mutualFund);
+        } else {
+          throw new Error(`Request failed with status ${mutualFundResponse.status}`);
+        }
+      } catch (error) {
+        console.log("Fetching Mutual Fund Error: ", error);
+      }
+    }
+
+    if (selectedFundAbbr !== 'default') {
+      fetchMutualFundData();
+    }
+  }, [selectedFundAbbr]);
 
   const handleInvestmentAmountChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = event.target.value;
@@ -89,6 +118,9 @@ const GoalMyPortForm = () => {
 
   const handleFundAbbrSelection = (selected: string) => {
     setSelectedFundAbbr(selected);
+    // set a selected portfolio item for display in mutual fund section
+    const filteredPortfolioItem = investmentPortfolioAllocation.find(item => item.FundAbbrName === selected) || initialPortfolioItem;
+    setSelectedPortfolioItem(filteredPortfolioItem);
   };
   
   const handleBuyClick = () => {
@@ -101,10 +133,10 @@ const GoalMyPortForm = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!selectedPolicyDesc || !selectedFundAbbr) {
-      alert('กรุณากดเลือกประเภทกองทุนและกองทุน');
+    if (selectedFundAbbr === "default") {
+      alert("กรุณากดเลือกกองทุน");
     } else {
-      if (transactionType === "buy" && investmentAmount !== 0) {
+      if (transactionType === "buy" && investmentAmount !== 0 && investmentAmount >= selectedMutualFund.MinimumInvestmentAmount) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
           fundAbbrName: selectedFundAbbr,
@@ -112,9 +144,15 @@ const GoalMyPortForm = () => {
           type: transactionType || "buy"
         }
         alert('ซื้อกองทุนสำเร็จแล้ว!');
-        createGoalTransaction(urlServer, investmentPortfolio, transactionData);
+        createGoalTransaction(
+          urlServer, 
+          investmentPortfolio, 
+          transactionData,
+          selectedMutualFund
+        );
+        window.location.reload();
       }
-      else if (transactionType === "sell" && investmentAmount !== 0) {
+      else if (transactionType === "sell" && investmentAmount !== 0 && investmentAmount <= selectedPortfolioItem.TotalHoldingValue) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
           fundAbbrName: selectedFundAbbr,
@@ -122,7 +160,13 @@ const GoalMyPortForm = () => {
           type: transactionType || "sell"
         }
         alert('ขายกองทุนสำเร็จแล้ว!');
-        createGoalTransaction(urlServer, investmentPortfolio, transactionData);
+        createGoalTransaction(
+          urlServer, 
+          investmentPortfolio, 
+          transactionData,
+          selectedMutualFund
+        );
+        window.location.reload();
       }
       else {
         alert('กรุณากรอกจำนวนเงิน');
@@ -130,7 +174,12 @@ const GoalMyPortForm = () => {
     }
   };
 
-  const createGoalTransaction = async (urlServer: string, investmentPortfolio: any, transactionData: any) => {
+  const createGoalTransaction = async (
+    urlServer: string, 
+    investmentPortfolio: any, 
+    transactionData: any,
+    mutualFund: any
+  ) => {
 
     const moment = require('moment-timezone');
     const now = moment().tz('Asia/Bangkok');
@@ -141,7 +190,9 @@ const GoalMyPortForm = () => {
       policy_desc: transactionData.policyDesc,
       fund_abbr_name: transactionData.fundAbbrName,
       amount: transactionData.amount,
-      type: transactionData.type
+      type: transactionData.type,
+      current_holding_units: (transactionData.amount/mutualFund.NAV),
+      total_holding_value: transactionData.amount
     };
 
     try {
@@ -167,7 +218,7 @@ const GoalMyPortForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className=' py-5 px-5'>
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
           ประเภทกองทุนรวม
         </label>
@@ -176,9 +227,9 @@ const GoalMyPortForm = () => {
           investmentPortfolioAllocation={investmentPortfolioAllocation}
           handlePolicyDescSelection={handlePolicyDescSelection}
         />
-      </div>
+      </div> */}
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+        <label className="text-white block text-gray-700 font-bold mb-2" htmlFor="email">
           สินทรัพย์ที่ลงทุน
         </label>
         <DropDownFund 
@@ -187,12 +238,59 @@ const GoalMyPortForm = () => {
           handleFundAbbrSelection={handleFundAbbrSelection}
         />
       </div>
+      {selectedMutualFund !== initialMutualFund && selectedFundAbbr !== 'default' && (
+        <div className="mb-4">
+          <label className="text-white block mb-2 font-bold " htmlFor="email">
+            รายละเอียดข้อมูลกองทุน
+          </label>
+          <div
+            style={{
+              backgroundColor: "#27264E",
+            }}
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400"
+          >
+            <p className="font-bold">
+              {selectedMutualFund.FundAbbrName}
+            </p>
+            <p className="pb-2 border-b">
+              {selectedMutualFund.FundName}
+            </p>
+            <p className="pt-2">NAV ({formattedDate}): {selectedMutualFund.NAV}</p>
+            <p>มูลค่าขั้นต่ำซื้อครั้งแรก: {selectedMutualFund.MinimumInvestmentAmount} บาท</p>
+            <p className="pb-2">มูลค่าขั้นต่ำซื้อครั้งถัดไป: {selectedMutualFund.MinimumAdditionalAmount} บาท</p>
+          </div>
+        </div>
+      )}
+      {selectedMutualFund !== initialMutualFund && selectedFundAbbr !== 'default' && (
+        <div className="mb-4">
+        <label className="text-white block mb-2 font-bold " htmlFor="email">
+          ข้อมูลกองทุนที่ถือในพอร์ตการลงทุนของคุณ
+        </label>
+          <div
+              style={{
+                backgroundColor: "#27264E",
+              }}
+              className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400"
+            >
+            <p className="pb-2 border-b" >
+              {selectedMutualFund.FundAbbrName} ที่ถืออยู่ในพอร์ตปัจจุบัน
+            </p>
+            <p className="pt-2">จำนวนหน่วยที่มีอยู่ทั้งหมด: {selectedPortfolioItem.CurrentHoldingUnits} หน่วย</p>
+            <p>มูลค่าที่มีอยู่ทั้งหมด: {selectedPortfolioItem.TotalHoldingValue} บาท</p>
+          </div>
+        </div>
+      )}
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="message">
+        <label className="text-white block text-gray-700 font-bold mb-2" htmlFor="message">
           จำนวนเงิน
         </label>
         <input
-          className="bg-white appearance-none border border-gray-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          style={{
+            width: "100%",
+            height: "50px",
+            backgroundColor: "#27264E",
+          }}
+          className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400"
           id=""
           type="text"
           placeholder="1,000 บาท"
@@ -209,8 +307,12 @@ const GoalMyPortForm = () => {
         <div className="flex justify-end py-2">
                 <div className="py-5">
                      <button 
-                        style={{ width: "209px",marginRight: "10px", backgroundColor: '#B2E8FF'}} 
-                        className="px-4 py-2 font-bold text-black rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" 
+                        style={{
+                          width: "209px",
+                          marginRight: "10px",
+                          backgroundColor: "#6259E8",
+                        }}
+                        className="px-4 py-2 font-bold text-white rounded shadow hover:bg-gray-400 focus:shadow-outline focus:outline-none" 
                         type="submit"
                         value="buy"
                         onClick={handleBuyClick}
@@ -218,8 +320,12 @@ const GoalMyPortForm = () => {
                         ซื้อหน่วยลงทุน
                      </button>
                      <button 
-                        style={{ width: "209px", marginLeft: "10px", backgroundColor: '#FF8C73'}} 
-                        className="px-4 py-2 font-bold text-black rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" 
+                        style={{
+                          width: "209px",
+                          marginLeft: "10px",
+                          backgroundColor: "#93878D",
+                        }}
+                        className="px-4 py-2 font-bold text-white rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" 
                         type="submit"
                         value="sell"
                         onClick={handleSellClick}

@@ -27,7 +27,12 @@ const GoalInvestmentDropDownFund: React.FC<GoalInvestmentDropDownFundProps> = (p
     return (
       <div className="relative">
       <select
-        className="text-black block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+        style={{
+          width: "100%",
+          height: "50px",
+          backgroundColor: "#27264E",
+        }}
+        className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400"
         value={selectedItem}
         onChange={handleSelect}
       >
@@ -38,19 +43,6 @@ const GoalInvestmentDropDownFund: React.FC<GoalInvestmentDropDownFundProps> = (p
           </option>
         ))}
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <svg
-          className="fill-current h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M12.293 7.293a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L10 9.414l-7.293 7.293a1 1 0 01-1.414-1.414l7-7a1 1 0 011.414 0z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </div>
     </div>
   );
 };

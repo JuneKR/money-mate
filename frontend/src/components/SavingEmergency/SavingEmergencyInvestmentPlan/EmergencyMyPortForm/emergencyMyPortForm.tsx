@@ -14,7 +14,7 @@ const initialFormValues: FormValues = {
   message: "",
 };
 
-interface IMutualFund {
+export interface IMutualFund {
   LastUpdate: string,
   FundName: string,
   FundAbbrName: string,
@@ -31,7 +31,7 @@ interface IMutualFund {
   YTDReturns: number;
 }
 
-interface IPortfolioItem {
+export interface IPortfolioItem {
   PortfolioItem_ID: number;
   Portfolio_ID: number;
   Fund_ID: number;
@@ -43,7 +43,7 @@ interface IPortfolioItem {
   TotalHoldingValue: number;
 }
 
-const initialMutualFund: IMutualFund = {
+export const initialMutualFund: IMutualFund = {
   LastUpdate: '',
   FundName: '',
   FundAbbrName: '',
@@ -60,7 +60,7 @@ const initialMutualFund: IMutualFund = {
   YTDReturns: 0,
 };
 
-const initialPortfolioItem: IPortfolioItem = {
+export const initialPortfolioItem: IPortfolioItem = {
   PortfolioItem_ID: 0,
   Portfolio_ID: 0,
   Fund_ID: 0,
@@ -215,7 +215,7 @@ const EmergencyMyPortForm = () => {
           selectedMutualFund
         );
         window.location.reload();
-      } else if (transactionType === "sell" && investmentAmount !== 0) {
+      } else if (transactionType === "sell" && investmentAmount !== 0 && investmentAmount <= selectedPortfolioItem.TotalHoldingValue) {
         const transactionData = {
           policyDesc: selectedPolicyDesc,
           fundAbbrName: selectedFundAbbr,

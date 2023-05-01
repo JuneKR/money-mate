@@ -274,21 +274,22 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
           ล้างข้อมูล
         </button>
       </div>
-      <div className="py-10 shadow-2xl bg-gray-50">
+      <div className="py-10 shadow-2xl">
+
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#B2E8FF",
+            backgroundColor: "#6259E8",
           }}
-          className="py-2 rounded "
+          className="py-2 rounded shadow-2xl"
         >
-          <div
+          <p
             style={{ padding: "0 1rem" }}
-            className="font-bold text-black dark:text-gray-500 "
+            className="text-2xl font-bold text-white "
           >
             กองทุนรวมทั้งหมด
-          </div>
+          </p>
         </div>
         <div>
           <div

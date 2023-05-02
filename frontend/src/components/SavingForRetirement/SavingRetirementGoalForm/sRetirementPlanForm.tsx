@@ -3,24 +3,6 @@ import Slider1 from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyP
 import Slider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption";
 
 type sGoalPlanData = {
-  //   planName: string;
-  //   targetAmount: number;
-  //   period: number;
-  //   monthlySaving: number;
-  //   initial_saving: number;
-  //   startDate: string;
-  //   lastUpdate: string;
-  //   totalBalance: number;
-  //   timeRemaining: number;
-  //   dateOfBirth: string;
-  //   interestRate: number;
-  //   monthlyExpense: number;
-  //   ageToRetire: number;
-  //   ageToLive: number;
-  //   inflationRate: number;
-  //   additionalInvestment: number;
-  //   progression: string;
-  //   riskLevel: number;
   dateOfBirth: string;
   monthlyExpense: number;
   ageToRetire: number;
@@ -33,24 +15,6 @@ type sGoalPlanData = {
 };
 
 const initialCurrentData: sGoalPlanData = {
-  //   planName: "",
-  //   targetAmount: 0,
-  //   period: 0,
-  //   monthlySaving: 0,
-  //   initial_saving: 0,
-  //   startDate: "",
-  //   lastUpdate: "",
-  //   totalBalance: 0,
-  //   timeRemaining: 0,
-  //   dateOfBirth: "",
-  //   interestRate: 0,
-  //   monthlyExpense: 0,
-  //   ageToRetire: 0,
-  //   ageToLive: 0,
-  //   inflationRate: 0,
-  //   additionalInvestment: 0,
-  //   progression: "",
-  //   riskLevel: 0,
   dateOfBirth: "",
   monthlyExpense: 0,
   ageToRetire: 0,
@@ -190,6 +154,8 @@ export function SRetirementPlanForm({
     0
   );
 
+  console.log('Retirement Monthly Saving', retirementMonthlySaving);
+
   // Current Plan State
   const currentExactExpense = currentState.monthlyExpense * 2.0; //รายจ่าย * เงินเฟ้อ 2%
   const currentRetirementFund =
@@ -235,19 +201,6 @@ export function SRetirementPlanForm({
   console.log("optionRePeriod", optionRePeriod);
   console.log("optionRetirementMonthlySaving", optionRetirementMonthlySaving);
   console.log("optionRePeriodPlan", optionRePeriodPlan);
-  //   console.log(
-  //     "rePeriodPlan",
-  //     totalBalance,
-  //     retirementFund,
-  //     retirementMonthlySaving
-  //   );
-  //   console.log(
-  //     "optionRePeriodPlan: ",
-  //     optionRePeriodPlan,
-  //     optionState.totalBalance,
-  //     optionRetirementFund,
-  //     optionRetirementMonthlySaving
-  //   );
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -260,28 +213,6 @@ export function SRetirementPlanForm({
     }
     return result.toString();
   }
-
-  //   console.log("Parent State", {
-  //     dateOfBirth,
-  //     monthlyExpense,
-  //     ageToRetire,
-  //     ageToLive,
-  //     period,
-  //     monthlySaving,
-  //     totalBalance,
-  //     timeRemaining,
-  //     targetAmount,
-  //   });
-  //     console.log("Current Plan", currentState);
-  //     console.log("Option Plan", optionState);
-
-  //   console.log("rePeriodPlan", rePeriodPlan);
-  //   console.log("currentRePeriodPlan", currentRePeriodPlan);
-  //   console.log("optionRePeriodPlan", optionRePeriodPlan);
-
-  //   console.log("timeRemaining", timeRemaining);
-  //   console.log("currentState.timeRemaining", currentState.timeRemaining);
-  //   console.log("optionState.timeRemaining", optionState.timeRemaining);
   // Once user click on checkbox
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -326,7 +257,7 @@ export function SRetirementPlanForm({
         ageToRetire: currentState.ageToRetire,
         ageToLive: currentState.ageToLive,
         period: currentState.period,
-        monthlySaving: currentState.monthlySaving,
+        monthlySaving: currentState.monthlySaving*-1,
         totalBalance: currentState.totalBalance,
         timeRemaining: currentState.timeRemaining,
         targetAmount: currentState.targetAmount,
@@ -345,7 +276,7 @@ export function SRetirementPlanForm({
         ageToRetire: optionState.ageToRetire,
         ageToLive: optionState.ageToLive,
         period: optionState.period,
-        monthlySaving: optionState.monthlySaving,
+        monthlySaving: optionState.monthlySaving*-1,
         totalBalance: optionState.totalBalance,
         timeRemaining: optionState.timeRemaining,
         targetAmount: optionState.targetAmount,
@@ -371,7 +302,7 @@ export function SRetirementPlanForm({
       // Update the Parent Plan State
       updateFields({ timeRemaining: Number(rePeriodPlan) });
       updateFields({ targetAmount: Number(retirementFund) });
-      updateFields({ monthlySaving: Number(retirementMonthlySaving) });
+      updateFields({ monthlySaving: Number(retirementMonthlySaving)*-1 });
     }
   }, [
     isHidden,

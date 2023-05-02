@@ -4,8 +4,6 @@ import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
 import SavingGraph from "@/components/SavingForGoal/SavingGoalGraphComponent/savingGraph";
-import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
-import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import ModleButtonForm from "@/components/SavingForGoal/SavingGoalInvestmentPlan/sGoalInvestmentDashBoardModalForm";
 import GoalFundsDetailsTable from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalMyPortForm/goalFundsDetailsTable";
@@ -15,6 +13,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
+import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
 
 export interface SavingGoalPlan {
   Goal_ID: number | any;
@@ -89,7 +88,7 @@ const initialPortfolio: InvestmentPortfolio = {
   Retirement_ID: 0
 }
 
-const EmergencyInvestmentDashboard = () => {
+const GoalInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
   const [savingGoalPlan, setSavingGoalPlan] = useState<SavingGoalPlan>(initialSavingGoalPlan);
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
@@ -117,7 +116,7 @@ const EmergencyInvestmentDashboard = () => {
         });
         const userProfile = await profileResponse.json();
 
-        //Fetch Saving Emergency Plan
+        //Fetch Saving Goal Plan
         const savingGoalResponse = await fetch(
           `${urlServer}user/${userProfile.User_ID}/saving/goal`,
           {
@@ -127,7 +126,7 @@ const EmergencyInvestmentDashboard = () => {
         const savingGoal = await savingGoalResponse.json();
         setSavingGoalPlan(savingGoal);
 
-        //Fetch Saving Emergency Investment Portfolio
+        //Fetch Saving Goal Investment Portfolio
         const goalInvestmentReponse = await fetch(
           `${urlServer}goal/${savingGoal.Goal_ID}/investment/portfolio`,
           {
@@ -280,7 +279,7 @@ const EmergencyInvestmentDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {/* To display balance of emergency plan by decrease with investment portfolio value */}
+                          {/* To display balance of goal plan by decrease with investment portfolio value */}
                           {savingGoalPlan?.TotalBalance - investmentPortfolio.TotalValue} บาท
                         </h1>
                       </div>
@@ -330,10 +329,64 @@ const EmergencyInvestmentDashboard = () => {
                         </h1>
                       </button>
                     </div>
-                    <div className="px-5"></div>
                   </div>
+                  {/* <div className="py-3">
+                    <h1 className="flex justify-center py-4 font-bold">พอร์ตการลงทุนที่แนะนำในปัจจุบัน</h1>
+                    <div className="grid grid-cols-3 py-2">
+                      <div className="flex justify-center">
+                        <h1>ประเภทกองทุนรวม</h1>
+                      </div>
+                      <div className="flex justify-center">
+                        <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
+                      </div>
+                      <div className="flex justify-center">
+                        <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <GoalAccordion/>
+                  </div>
+                  <div className="mb-4">
+                    <GoalAccordion/>
+                  </div>
+                  <div className="mb-4">
+                    <GoalAccordion/>
+                  </div> */}
                 </div>
               </div>
+
+              <div
+                  style={{ backgroundColor: "#1D1D41" }}
+                  className="shadow-2xl bg-gray-50 mb-5"
+              >
+                <h1 className="flex justify-center py-4 font-bold rounded bg-gradient-to-r from-purple-900 to-red-500">พอร์ตการลงทุนที่แนะนำในปัจจุบัน</h1>
+                <div className="py-3">
+                    <div className="grid grid-cols-3 py-2">
+                      <div className="flex justify-center">
+                        <h1>ประเภทกองทุนรวม</h1>
+                      </div>
+                      <div className="flex justify-center">
+                        <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
+                      </div>
+                      <div className="flex justify-center">
+                        <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <div className="mb-4">
+                        <GoalAccordion/>
+                      </div>
+                      <div className="mb-4">
+                        <GoalAccordion/>
+                      </div>
+                      <div className="mb-4">
+                        <GoalAccordion/>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
               <div
                 className="py-2 rounded bg-gradient-to-r from-purple-900 to-red-500"
               >
@@ -356,9 +409,9 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-3 px-5 py-5"
                   >
-                    <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
+                    {/* <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
                       นักลงทุนมือใหม่
-                    </h1>
+                    </h1> */}
                     <div>
                       <Progress
                         title={"my bar"}
@@ -433,4 +486,4 @@ const EmergencyInvestmentDashboard = () => {
     </>
   );
 };
-export default EmergencyInvestmentDashboard;
+export default GoalInvestmentDashboard;

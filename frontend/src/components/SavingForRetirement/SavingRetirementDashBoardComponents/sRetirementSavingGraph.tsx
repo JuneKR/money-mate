@@ -76,8 +76,8 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
   }
 
   const bangkokTimezone = 'Asia/Bangkok';
-  const investmentAmortizationSchedule = numberPeriods(savingRetirement?.TotalBalance, savingRetirement?.TargetAmount, -savingRetirement?.MonthlySaving,savingInvestmentPort.ReturnRate/100);
-  const savingAmortizationSchedule = numberPeriods(savingRetirement?.TotalBalance, savingRetirement?.TargetAmount, -savingRetirement?.MonthlySaving, 0);
+  const investmentAmortizationSchedule = numberPeriods(savingRetirement.TotalBalance, savingRetirement.TargetAmount, savingRetirement.MonthlySaving,savingInvestmentPort.ReturnRate/100);
+  const savingAmortizationSchedule = numberPeriods(savingRetirement.TotalBalance, savingRetirement.TargetAmount, savingRetirement.MonthlySaving, 0);
   console.log("investmentAmortizationSchedule", investmentAmortizationSchedule)
   console.log("savingAmortizationSchedule", savingAmortizationSchedule)
   const fvData = investmentAmortizationSchedule.map((period, index) => {

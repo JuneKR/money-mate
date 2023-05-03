@@ -4,20 +4,15 @@ import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
 import SavingGraph from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementSavingGraph";
-import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
-import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import ModleButtonForm1 from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementInvestmentDashBoardModalForm";
-import EmergencyFundsDetailsTable from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyFundsDetailsTable";
+import RetirementFundsDetailsTable from "@/components/SavingForRetirement/SavingRetirementInvestmentPlan/RetirementMyPortForm/retirementFundsDetailsTable";
 import Pie1 from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolio1";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
-
-import { initialPackage } from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
-import InvestDropdown from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/emergencyInvestmentDropdown";
 
 export interface SavingRetirementPlan {
   PlanName: string;
@@ -71,7 +66,7 @@ export interface InvestmentPortfolio {
   Retirement_ID: number;
 }
 
-const initialSavingEmergencyPlan: SavingRetirementPlan = {
+const initialSavingRetirementPlan: SavingRetirementPlan = {
     PlanName: "",
     TargetAmount: 0,
     Period: 0,
@@ -111,7 +106,7 @@ const initialPortfolio: InvestmentPortfolio = {
 const RetirementInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
   const [savingRetirementPlan, setSavingRetirementPlan] =
-    useState<SavingRetirementPlan>(initialSavingEmergencyPlan);
+    useState<SavingRetirementPlan>(initialSavingRetirementPlan);
   const [investmentPortfolio, setInvestmentPortfolio] =
     useState(initialPortfolio);
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] =
@@ -138,7 +133,7 @@ const RetirementInvestmentDashboard = () => {
         setSavingRetirementPlan(savingRetirement);
 
         //Fetch Saving Retirement Investment Portfolio
-        const emergencyInvestmentReponse = await fetch(
+        const retirementInvestmentReponse = await fetch(
           `${urlServer}retirement/${savingRetirement?.Retirement_ID}/investment/portfolio`,
           {
             credentials: "include",
@@ -148,13 +143,13 @@ const RetirementInvestmentDashboard = () => {
           "savingRetirement.Retirement_ID",
           savingRetirement?.Retirement_ID
         );
-        const emergencyInvestmentPortfolio =
-          await emergencyInvestmentReponse.json();
-        setInvestmentPortfolio(emergencyInvestmentPortfolio);
+        const retirementInvestmentPortfolio =
+          await retirementInvestmentReponse.json();
+        setInvestmentPortfolio(retirementInvestmentPortfolio);
 
         //Fetch Investment Portfolio Allocation
         const portfolioResponse = await fetch(
-          `${urlServer}investment/portfolio/${emergencyInvestmentPortfolio.Portfolio_ID}/allocation`,
+          `${urlServer}investment/portfolio/${retirementInvestmentPortfolio.Portfolio_ID}/allocation`,
           {
             credentials: "include",
           }
@@ -174,12 +169,12 @@ const RetirementInvestmentDashboard = () => {
 
   const router = useRouter();
 
-  const handleEmergencyInvestmentPortfolio = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfolio");
+  const handleRetirementInvestmentPortfolio = () => {
+    router.push("/RetirementPages/retirementInvestmentPortfolio");
   };
 
-  const handleEmergencyInvestmentTransaction = () => {
-    router.push("/EmergencyPages/emergencyInvestmentTransaction");
+  const handleRetirementInvestmentTransaction = () => {
+    router.push("/RetirementPages/retirementInvestmentTransaction");
   };
   const targetAmountDisplay = Number(savingRetirementPlan?.TargetAmount);
   const monthlySavingDisplay = Number(savingRetirementPlan?.MonthlySaving);
@@ -291,7 +286,7 @@ const RetirementInvestmentDashboard = () => {
                     />
                   </div>
                   <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
-                    <EmergencyFundsDetailsTable
+                    <RetirementFundsDetailsTable
                       title={""}
                       investmentPortfolio={investmentPortfolio}
                       investmentPortfolioAllocation={
@@ -315,7 +310,7 @@ const RetirementInvestmentDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {/* To display balance of emergency plan by decrease with investment portfolio value */}
+                          {/* To display balance of retirement plan by decrease with investment portfolio value */}
                           {savingRetirementPlan?.TotalBalance -
                             investmentPortfolio?.TotalValue}{" "}
                           บาท
@@ -338,7 +333,7 @@ const RetirementInvestmentDashboard = () => {
                     <div>
                       <div className="grid grid-cols-2 py-5 ">
                         <div className="flex grid items-center justify-center grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfolio}>
+                          <button onClick={handleRetirementInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <AddIcon />
                             </div>
@@ -349,7 +344,7 @@ const RetirementInvestmentDashboard = () => {
                           </div>
                         </div>
                         <div className="flex grid items-center justify-center grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfolio}>
+                          <button onClick={handleRetirementInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <RemoveIcon />
                             </div>
@@ -359,7 +354,7 @@ const RetirementInvestmentDashboard = () => {
                           </div>
                         </div>
                       </div>
-                      <button onClick={handleEmergencyInvestmentTransaction}>
+                      <button onClick={handleRetirementInvestmentTransaction}>
                         <h1 className="flex items-center justify-center pb-5">
                           <CachedIcon />
                           ดูประวัติการทำรายการ
@@ -393,9 +388,9 @@ const RetirementInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-3 px-5 py-5"
                   >
-                    <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
+                    {/* <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
                       นักลงทุนมือใหม่
-                    </h1>
+                    </h1> */}
                     <div>
                       <Progress
                         title={"my bar"}

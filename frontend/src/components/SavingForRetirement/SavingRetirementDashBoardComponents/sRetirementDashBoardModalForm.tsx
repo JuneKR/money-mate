@@ -174,7 +174,7 @@ const SRetirementDashBoardModalForm: React.FC<
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-2xl text-white">
-                {yearsToYearsMonthsDays((savingRetirement?.TimeRemaining).toString())}
+                {yearsToYearsMonthsDays((savingRetirement?.TimeRemaining))}
               </div>
             </div>
           </div>

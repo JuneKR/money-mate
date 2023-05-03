@@ -123,6 +123,48 @@ export const getMutualFundByFundId = async(req: Request, res: Response) => {
 
 }
 
+export const getMutualFundByFundAbbrName = async(req: Request, res: Response) => {
+
+    try {
+        const mutualFund = await MutualFund.findOne({
+            where: {
+                FundAbbrName: req.params.name
+            }
+        });
+
+        /* Check Plan */
+        if(!mutualFund) {
+            return res.status(404).json({msg: `Mutual Fund Name ${req.params.name} not found!`});
+        }
+
+        const response = await MutualFund.findOne({
+            attributes:[
+                'LastUpdate',
+                'FundName',
+                'FundAbbrName',
+                'RiskSpectrum',
+                'PolicyDesc',
+                'SpecCode',
+                'SpecDesc',
+                'NAV',
+                'MinimumInvestmentAmount',
+                'MinimumAdditionalAmount',
+                'oneYearReturns',
+                'threeYearReturns',
+                'fiveYearReturns',
+                'YTDReturns',
+            ],
+            where: {
+                FundAbbrName: req.params.name
+            }
+        });
+        res.status(200).json(response);
+    } catch (error: any) {
+        res.status(500).json({msg: error.message});
+    }
+
+}
+
 export const editMutualFundInfo = async(req: Request, res: Response) => {
 
     try {

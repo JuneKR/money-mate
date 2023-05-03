@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
-import MyPortForm from '@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalMyPortForm/goalMyPortForm';
+import MyPortForm from '@/components/SavingForRetirement/SavingRetirementInvestmentPlan/RetirementMyPortForm/retirementMyPortForm';
 import { useRouter } from 'next/router'
-import Pie from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalInvestmentPortfolioPackageComponents/sGoalInvestmentPieChartPortfolio";
 
 const GoalInvestmentPortfilio = () => {
     const router = useRouter()

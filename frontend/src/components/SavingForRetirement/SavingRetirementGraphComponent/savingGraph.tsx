@@ -14,16 +14,16 @@ import {
 } from 'chart.js';
 Chart.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, Legend, Filler);
 
-interface SRetirementSavingGraphProps {
+interface SavingGraphProps {
   title: string;
   savingRetirement: any;
   savingInvestmentPort: any;
 }
 
-const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forwardRef<HTMLCanvasElement, SRetirementSavingGraphProps>((props) => {
+const SavingGraph: React.FC<SavingGraphProps> = React.forwardRef<HTMLCanvasElement, SavingGraphProps>((props) => {
   const chartRef = useRef();
   const { savingRetirement, savingInvestmentPort } = props;
-  console.log("savingRetirementPlanaaaaaaa", savingRetirement)
+
   useEffect(() => {
     if (chartRef.current) {
       const chartInstance = (chartRef.current as any).chartInstance;
@@ -78,8 +78,7 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
   const bangkokTimezone = 'Asia/Bangkok';
   const investmentAmortizationSchedule = numberPeriods(savingRetirement.TotalBalance, savingRetirement.TargetAmount, savingRetirement.MonthlySaving,savingInvestmentPort.ReturnRate/100);
   const savingAmortizationSchedule = numberPeriods(savingRetirement.TotalBalance, savingRetirement.TargetAmount, savingRetirement.MonthlySaving, 0);
-  console.log("investmentAmortizationSchedule", investmentAmortizationSchedule)
-  console.log("savingAmortizationSchedule", savingAmortizationSchedule)
+
   const fvData = investmentAmortizationSchedule.map((period, index) => {
     const startDate = moment().tz(bangkokTimezone).add(index, 'months');
     const monthName = startDate.format('MMM');
@@ -163,7 +162,7 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
   };  
 
   return (
-    <div >
+    <div>
       <Line 
         data={data} 
         options={options} 
@@ -173,4 +172,4 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
   );
 });
 
-export default SRetirementSavingGraph;
+export default SavingGraph;

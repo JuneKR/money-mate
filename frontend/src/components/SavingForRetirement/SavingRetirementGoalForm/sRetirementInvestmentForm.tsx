@@ -90,7 +90,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           0
         ) / 12,
@@ -109,7 +109,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           2
         ) / 12,
@@ -128,7 +128,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           3
         ) / 12,
@@ -147,7 +147,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           4
         ) / 12,
@@ -166,7 +166,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           5
         ) / 12,
@@ -185,7 +185,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           6
         ) / 12,
@@ -204,7 +204,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           7
         ) / 12,
@@ -223,7 +223,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           8
         ) / 12,
@@ -242,7 +242,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           9
         ) / 12,
@@ -260,7 +260,7 @@ export function SRetirementInvestment({
     initialTableData[1].monthlySaving,
     initialTableData[1].returnRate
   );
-  console.log(numberPeriods(0, 3600000, -6700, 9) / 12);
+  // console.log(numberPeriods(0, 3600000, -6700, 9) / 12);
   const [tableData, setTableData] =
     useState<ReInvestmentData[]>(initialTableData);
 
@@ -371,7 +371,7 @@ export function SRetirementInvestment({
   };
   console.log("monthlySaving", monthlySaving);
   const targetAmount2 = Number(targetAmount);
-  const monthlySaving2 = Number(monthlySaving) * -1;
+  const monthlySaving2 = Number(monthlySaving);
   const formatTargetAmount2 = targetAmount2.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
   const timeRemaining2 = ageToRetire - age;
@@ -401,7 +401,7 @@ export function SRetirementInvestment({
             <div className="p-4">{timeRemaining2} ปี</div>
             <div className="p-4"> ระยะเวลาทั้งหมดที่ใช้ในการออมเงิน:</div>
             <div className="p-4">
-              {yearsToYearsMonthsDays((timeRemaining * -1).toString())} เดือน
+              {yearsToYearsMonthsDays((timeRemaining).toString())} เดือน
             </div>
           </div>
         </div>

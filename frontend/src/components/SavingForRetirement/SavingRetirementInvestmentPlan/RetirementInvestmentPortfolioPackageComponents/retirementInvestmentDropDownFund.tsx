@@ -2,13 +2,13 @@ import React, { useRef, useEffect } from 'react';
 import { useState } from 'react';
 
 
-interface GoalInvestmentDropDownFundProps {
+interface RetirementInvestmentDropDownFundProps {
     title: string;
     investmentPortfolioAllocation: any[];
     handleFundAbbrSelection: any;
 }
 
-const GoalInvestmentDropDownFund: React.FC<GoalInvestmentDropDownFundProps> = (props) => {
+const RetirementInvestmentDropDownFund: React.FC<RetirementInvestmentDropDownFundProps> = (props) => {
     const { title, investmentPortfolioAllocation, handleFundAbbrSelection } = props;
     const [selectedItem, setSelectedItem] = useState("");
 
@@ -47,4 +47,4 @@ const GoalInvestmentDropDownFund: React.FC<GoalInvestmentDropDownFundProps> = (p
   );
 };
 
-export default GoalInvestmentDropDownFund;
+export default RetirementInvestmentDropDownFund;

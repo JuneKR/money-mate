@@ -309,7 +309,9 @@ export const getInvestmentPortfolioAllocationByPortfolioId = async(req: Request,
                 'PolicyDesc',
                 'FundAbbrName',
                 'OneYearReturns',
-                'AllocationRatio'
+                'AllocationRatio',
+                'CurrentHoldingUnits',
+                'TotalHoldingValue'
             ],
             where: {
                 Portfolio_ID: req.params.id
@@ -362,6 +364,8 @@ export const addMutualFundToInvestmentPortfolio = async(req: Request, res: Respo
             fund_abbr_name,
             one_year_returns,
             allocation_ratio,
+            current_holding_units,
+            total_holding_value
         } = req.body;
 
         const investmentPortfolio = await InvestmentPortfolio.findByPk(portfolio_id);
@@ -380,7 +384,9 @@ export const addMutualFundToInvestmentPortfolio = async(req: Request, res: Respo
             PolicyDesc: policy_desc,
             FundAbbrName: fund_abbr_name,
             OneYearReturns: one_year_returns,
-            AllocationRatio: allocation_ratio
+            AllocationRatio: allocation_ratio,
+            CurrentHoldingUnits: current_holding_units,
+            TotalHoldingValue: total_holding_value
         });
         res.status(201).json({msg: "Successful add mutual fund and allocation to investment portfolio"});
     } catch (error: any) {
@@ -410,7 +416,9 @@ export const addMutualFundsToInvestmentPortfolio = async(req: Request, res: Resp
                 PolicyDesc: item.PolicyDesc,
                 FundAbbrName: item.FundAbbrName,
                 OneYearReturns: item.OneYearReturns,
-                AllocationRatio: item.AllocationRatio
+                AllocationRatio: item.AllocationRatio,
+                CurrentHoldingUnits: item.CurrentHoldingUnits,
+                TotalHoldingValue: item.TotalHoldingValue
             });
         }
         res.status(201).json({msg: "Successful add mutual fund and allocation to investment portfolio"});
@@ -422,7 +430,7 @@ export const addMutualFundsToInvestmentPortfolio = async(req: Request, res: Resp
 /* Investment Transaction */
 export const addEmergencyInvestmentTransaction = async(req: Request, res: Response) => {
     try {
-        const { transaction_date, policy_desc, fund_abbr_name, amount, type } = req.body;
+        const { transaction_date, policy_desc, fund_abbr_name, amount, type, current_holding_units, total_holding_value } = req.body;
 
         /* Check Investment Portfolio */
         const investmentPortfolio = await InvestmentPortfolio.findOne({
@@ -452,6 +460,18 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
             return res.status(404).json({msg: "Emergency saving plan not found"});
         }
 
+        // Find portfolio item by fund abbr name
+        const portfolioItem = await PortfolioItem.findOne({
+            where: {
+                FundAbbrName: fund_abbr_name,
+                Portfolio_ID: investmentPortfolio.Portfolio_ID
+            }
+        })
+
+        if(!portfolioItem) {
+            return res.status(404).json({msg: `Portfolio item with fund abbr name ${fund_abbr_name} not found`});
+        }
+
         if (type === 'buy') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingEmergencyPlan.TotalBalance + parseFloat(amount);
@@ -476,6 +496,19 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+            // Update current holding units and total holding value of portfolio item
+            const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits + parseFloat(current_holding_units);
+            const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue + parseFloat(total_holding_value);
+            await portfolioItem.update({
+                CurrentHoldingUnits: newCurrentHoldingUnits,
+                TotalHoldingValue: newTotalHoldingValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            })
         }
         else if (type === 'sell') {
             // Update total balance and progression of saving plan
@@ -494,14 +527,26 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
             // Update total value of portfolio
             const newTotalValue: number = investmentPortfolio.TotalValue - parseFloat(amount);
             await InvestmentPortfolio.update({
-                TotalValue: newTotalValue
-                
+                TotalValue: newTotalValue 
             },
             {
                 where: {
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+             // Update current holding units and total holding value of portfolio item
+             const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits - parseFloat(current_holding_units);
+             const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue - parseFloat(total_holding_value);
+             await portfolioItem.update({
+                 CurrentHoldingUnits: newCurrentHoldingUnits,
+                 TotalHoldingValue: newTotalHoldingValue
+             },
+             {
+                 where: {
+                     Portfolio_ID: investmentPortfolio.Portfolio_ID
+                 }
+             })
         }
 
         await InvestmentTransaction.create({
@@ -521,7 +566,7 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
 
 export const addGoalInvestmentTransaction = async(req: Request, res: Response) => {
     try {
-        const { transaction_date, policy_desc, fund_abbr_name, amount, type } = req.body;
+        const { transaction_date, policy_desc, fund_abbr_name, amount, type, current_holding_units, total_holding_value } = req.body;
 
         /* Check Investment Portfolio */
         const investmentPortfolio = await InvestmentPortfolio.findOne({
@@ -551,6 +596,18 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
             return res.status(404).json({msg: "Goal saving plan not found"});
         }
 
+        // Find portfolio item by fund abbr name
+        const portfolioItem = await PortfolioItem.findOne({
+            where: {
+                FundAbbrName: fund_abbr_name,
+                Portfolio_ID: investmentPortfolio.Portfolio_ID
+            }
+        })
+
+        if(!portfolioItem) {
+            return res.status(404).json({msg: `Portfolio item with fund abbr name ${fund_abbr_name} not found`});
+        }
+
         if (type === 'buy') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingGoalPlan.TotalBalance + parseFloat(amount);
@@ -575,6 +632,19 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+            // Update current holding units and total holding value of portfolio item
+            const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits + parseFloat(current_holding_units);
+            const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue + parseFloat(total_holding_value);
+            await portfolioItem.update({
+                CurrentHoldingUnits: newCurrentHoldingUnits,
+                TotalHoldingValue: newTotalHoldingValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            })
         }
         else if (type === 'sell') {
             // Update total balance and progression of saving plan
@@ -601,6 +671,19 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+            // Update current holding units and total holding value of portfolio item
+            const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits - parseFloat(current_holding_units);
+            const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue - parseFloat(total_holding_value);
+            await portfolioItem.update({
+                CurrentHoldingUnits: newCurrentHoldingUnits,
+                TotalHoldingValue: newTotalHoldingValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            })
         }
 
         await InvestmentTransaction.create({
@@ -620,7 +703,7 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
 
 export const addRetirementInvestmentTransaction = async(req: Request, res: Response) => {
     try {
-        const { transaction_date, policy_desc, fund_abbr_name, amount, type } = req.body;
+        const { transaction_date, policy_desc, fund_abbr_name, amount, type, current_holding_units, total_holding_value } = req.body;
 
         /* Check Investment Portfolio */
         const investmentPortfolio = await InvestmentPortfolio.findOne({
@@ -634,7 +717,7 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
         }
 
         // Check the saving plan id from portfolio
-        const savingRetirementId = investmentPortfolio.Goal_ID;
+        const savingRetirementId = investmentPortfolio.Retirement_ID;
 
         if(!savingRetirementId) {
             return res.status(404).json({msg: "Saving retirement id not found"});
@@ -648,6 +731,18 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
 
         if(!savingRetirementPlan) {
             return res.status(404).json({msg: "Saving retirement plan not found"});
+        }
+
+        // Find portfolio item by fund abbr name
+        const portfolioItem = await PortfolioItem.findOne({
+            where: {
+                FundAbbrName: fund_abbr_name,
+                Portfolio_ID: investmentPortfolio.Portfolio_ID
+            }
+        })
+
+        if(!portfolioItem) {
+            return res.status(404).json({msg: `Portfolio item with fund abbr name ${fund_abbr_name} not found`});
         }
 
         if (type === 'buy') {
@@ -674,6 +769,19 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+            // Update current holding units and total holding value of portfolio item
+            const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits + parseFloat(current_holding_units);
+            const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue + parseFloat(total_holding_value);
+            await portfolioItem.update({
+                CurrentHoldingUnits: newCurrentHoldingUnits,
+                TotalHoldingValue: newTotalHoldingValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            })
         }
         else if (type === 'sell') {
             // Update total balance and progression of saving plan
@@ -700,6 +808,19 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
                     Portfolio_ID: investmentPortfolio.Portfolio_ID
                 }
             });
+
+            // Update current holding units and total holding value of portfolio item
+            const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits - parseFloat(current_holding_units);
+            const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue - parseFloat(total_holding_value);
+            await portfolioItem.update({
+                CurrentHoldingUnits: newCurrentHoldingUnits,
+                TotalHoldingValue: newTotalHoldingValue
+            },
+            {
+                where: {
+                    Portfolio_ID: investmentPortfolio.Portfolio_ID
+                }
+            })
         }
 
         await InvestmentTransaction.create({

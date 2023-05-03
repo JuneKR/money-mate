@@ -298,7 +298,9 @@ const emergencyCreateForm = () => {
             policy_desc: PolicyDesc,
             fund_abbr_name: FundAbbrName,
             one_year_returns: OneYearReturns,
-            allocation_ratio: AllocationRatio
+            allocation_ratio: AllocationRatio,
+            current_holding_units: 0,
+            total_holding_value: 0
           })
         });
   

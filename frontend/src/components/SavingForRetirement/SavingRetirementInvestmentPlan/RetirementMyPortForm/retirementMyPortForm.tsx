@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DropDownPolicy from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownPolicy";
-import DropDownFund from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownFund";
+import DropDownFund from "../RetirementInvestmentPortfolioPackageComponents/retirementInvestmentDropDownFund";
 import { IMutualFund, IPortfolioItem, initialMutualFund, initialPortfolioItem } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
 
 interface FormValues {
@@ -15,11 +14,11 @@ const initialFormValues: FormValues = {
   message: "",
 };
 
-const GoalMyPortForm = () => {
+const RetirementMyPortForm = () => {
   const urlServer = "http://localhost:8080/"
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [userProfile, setUserProfile] = useState();
-  const [savingGoalPlan, setSavingGoalPlan] = useState();
+  const [savingRetirementPlan, setSavingRetirementPlan] = useState();
   const [investmentPortfolio, setInvestmentPortfolio] = useState();
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
   const [investmentAmount, setInvestmentAmount] = useState(0);
@@ -42,28 +41,28 @@ const GoalMyPortForm = () => {
         const userProfileResponse = await profileResponse.json();
         setUserProfile(userProfile);
 
-        //Fetch Saving Goal Plan
-        const savingGoalResponse = await fetch(
-          `${urlServer}user/${userProfileResponse.User_ID}/saving/goal`,
+        //Fetch Saving Retirement Plan
+        const savingRetirementResponse = await fetch(
+          `${urlServer}user/${userProfileResponse.User_ID}/saving/retirement`,
           {
             credentials: "include",
           }
         );
-        const savingGoal = await savingGoalResponse.json();
-        setSavingGoalPlan(savingGoal);
+        const savingRetirement = await savingRetirementResponse.json();
+        setSavingRetirementPlan(savingRetirement);
 
-        //Fetch Saving Goal Investment Portfolio
-        const goalInvestmentReponse = await fetch(
-          `${urlServer}goal/${savingGoal.Goal_ID}/investment/portfolio`,
+        //Fetch Saving Retirement Investment Portfolio
+        const retirementInvestmentReponse = await fetch(
+          `${urlServer}retirement/${savingRetirement.Retirement_ID}/investment/portfolio`,
           {
             credentials: "include",
           }
         );
-        const goalInvestmentPortfolio = await goalInvestmentReponse.json();
-        setInvestmentPortfolio(goalInvestmentPortfolio);
+        const retirementInvestmentPortfolio = await retirementInvestmentReponse.json();
+        setInvestmentPortfolio(retirementInvestmentPortfolio);
 
         //Fetch Investment Portfolio Allocation
-        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${goalInvestmentPortfolio.Portfolio_ID}/allocation`, {
+        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${retirementInvestmentPortfolio.Portfolio_ID}/allocation`, {
           credentials: "include",
         });
         const investmentPortfolioAllocation = await portfolioResponse.json();
@@ -144,7 +143,7 @@ const GoalMyPortForm = () => {
           type: transactionType || "buy"
         }
         alert('ซื้อกองทุนสำเร็จแล้ว!');
-        createGoalTransaction(
+        createRetirementTransaction(
           urlServer, 
           investmentPortfolio, 
           transactionData,
@@ -160,7 +159,7 @@ const GoalMyPortForm = () => {
           type: transactionType || "sell"
         }
         alert('ขายกองทุนสำเร็จแล้ว!');
-        createGoalTransaction(
+        createRetirementTransaction(
           urlServer, 
           investmentPortfolio, 
           transactionData,
@@ -174,7 +173,7 @@ const GoalMyPortForm = () => {
     }
   };
 
-  const createGoalTransaction = async (
+  const createRetirementTransaction = async (
     urlServer: string, 
     investmentPortfolio: any, 
     transactionData: any,
@@ -185,7 +184,7 @@ const GoalMyPortForm = () => {
     const now = moment().tz('Asia/Bangkok');
     const currentDatetime = now.format('YYYY-MM-DD HH:mm:ss');
     
-    const goalTransactionData = {
+    const retirementTransactionData = {
       transaction_date: currentDatetime,
       policy_desc: transactionData.policyDesc,
       fund_abbr_name: transactionData.fundAbbrName,
@@ -196,10 +195,10 @@ const GoalMyPortForm = () => {
     };
 
     try {
-      const response = await fetch(`${urlServer}goal/investment/portfolio/${investmentPortfolio.Portfolio_ID}/transaction`, {
+      const response = await fetch(`${urlServer}retirement/investment/portfolio/${investmentPortfolio.Portfolio_ID}/transaction`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(goalTransactionData),
+        body: JSON.stringify(retirementTransactionData),
         credentials: "include",
       });
 
@@ -339,4 +338,4 @@ const GoalMyPortForm = () => {
   );
 };
 
-export default GoalMyPortForm;
+export default RetirementMyPortForm;

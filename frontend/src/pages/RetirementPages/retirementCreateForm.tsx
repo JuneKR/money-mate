@@ -113,7 +113,7 @@ const retirementCreateForm = () => {
         alert("สร้างแผนการออมเงินสำเร็จแล้ว!");
         const userProfile = await getUserProfile(urlServer);
         await createRetirementPlan(urlServer, userProfile);
-        // router.push("/RetirementPages/retirementDashboard");
+        router.push("/RetirementPages/retirementDashboard");
       }
     } else if (isLastStep) {
       if (isSelectedPackage) {
@@ -396,6 +396,8 @@ const retirementCreateForm = () => {
             fund_abbr_name: FundAbbrName,
             one_year_returns: OneYearReturns,
             allocation_ratio: AllocationRatio,
+            current_holding_units: 0,
+            total_holding_value: 0
           }),
         });
 

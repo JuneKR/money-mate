@@ -4,7 +4,8 @@ import { FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MutualFundsTable from "@/components/AdminPageComponents/adminMutualFundsTable";
-
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 interface AdminFundsAddingFormProps {
   title: string;
 }
@@ -45,6 +46,48 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
   const [threeYearReturns, setThreeYearReturns] = useState("");
   const [fiveYearReturns, setFiveYearReturns] = useState("");
   const [ytdReturns, setYtdReturns] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [showCongratulatoryMessage, setShowCongratulatoryMessage] =
+    useState(false);
+  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%",
+    bgcolor: "#27264E",
+    border: "2px solid #000",
+    borderRadius: "25px",
+    boxShadow: 24,
+    p: 4,
+  };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+  useEffect(() => {
+    if (shouldRefreshPage) {
+      window.location.reload();
+    }
+  }, [shouldRefreshPage]);
+
+  useEffect(() => {
+    if (showCongratulatoryMessage) {
+      const timer = setTimeout(() => {
+        setShowCongratulatoryMessage(false);
+        setShouldRefreshPage(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCongratulatoryMessage]);
 
   const urlServer = "http://localhost:8080/";
   const createMutualFund = async () => {
@@ -79,7 +122,7 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
         const data = await response.json();
         console.log("done........................");
         console.log(data);
-        // setShowCongratulatoryMessage(true);
+        setShowCongratulatoryMessage(true);
       } else {
         const errorData = await response.json();
         console.log(errorData);
@@ -141,123 +184,307 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
         className="flex justify-center item-center"
       >
         <FormControl>
-          <div>
-            <TextField
-              required
-              id="outlined-required"
-              label="อัปเดตล่าสุดของกองทุน"
-              value={lastUpdate}
-              onChange={(e) => setLastupdate(e.target.value)}
-            />
+          <div className="pb-5">
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  อัปเดตล่าสุดของกองทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="ปปปป-ดด-วว"
+                value={lastUpdate}
+                onChange={(e) => setLastupdate(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <TextField
-              required
-              id="outlined-required"
-              label="ประเภทกองทุน"
-              value={specDesc}
-              onChange={(e) => setSpecDesc(e.target.value)}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="ชื่อกองทุน"
-              value={fundName}
-              onChange={(e) => setFundName(e.target.value)}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="ระดับความเสี่ยง"
-              value={riskSpectrum}
-              onChange={(e) => setRiskSpectrum(e.target.value)}
-            />
+          <div className="grid grid-cols-3 gap-4 pb-5">
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ประเภทกองทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="ประเภทกองทุน"
+                value={specDesc}
+                onChange={(e) => setSpecDesc(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ชื่อกองทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="ชื่อกองทุน"
+                value={fundName}
+                onChange={(e) => setFundName(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ระดับความเสี่ยง
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 - 8"
+                value={riskSpectrum}
+                onChange={(e) => setRiskSpectrum(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <TextField
-              required
-              id="outlined-required"
-              label="ชื่อย่อกองทุน"
-              value={fundAbbrName}
-              onChange={(e) => setFundAbbrName(e.target.value)}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="รหัสกองทุน"
-              value={specCode}
-              onChange={(e) => setSpecCode(e.target.value)}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="นโยบายการลงทุน"
-              value={policyDesc}
-              onChange={(e) => setPolicyDesc(e.target.value)}
-            />
+          <div className="grid grid-cols-3 gap-4 pb-5">
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ชื่อย่อกองทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="ชื่อย่อกองทุน"
+                value={fundAbbrName}
+                onChange={(e) => setFundAbbrName(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
+
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  รหัสกองทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="รหัสกองทุน"
+                value={specCode}
+                onChange={(e) => setSpecCode(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
+
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  นโยบายการลงทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="นโยบายการลงทุน"
+                value={policyDesc}
+                onChange={(e) => setPolicyDesc(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <TextField
-              required
-              id="outlined-required"
-              label="ผลตอบแทนย้อนหลัง 1 ปี"
-              value={oneYearReturns}
-              onChange={(e) => setOneYearReturns(e.target.value)}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="ผลตอบแทนย้อนหลัง 3 ปี"
-              value={threeYearReturns}
-              onChange={(e) => setThreeYearReturns(e.target.value)}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="ผลตอบแทนย้อนหลัง 5 ปี"
-              value={fiveYearReturns}
-              onChange={(e) => setFiveYearReturns(e.target.value)}
-            />
+          <div className="grid grid-cols-3 gap-4 pb-5">
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ผลตอบแทนย้อนหลัง 1 ปี
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 %"
+                value={oneYearReturns}
+                onChange={(e) => setOneYearReturns(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ผลตอบแทนย้อนหลัง 3 ปี
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 %"
+                value={threeYearReturns}
+                onChange={(e) => setThreeYearReturns(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ผลตอบแทนย้อนหลัง 5 ปี
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 %"
+                value={fiveYearReturns}
+                onChange={(e) => setFiveYearReturns(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
           </div>
-          <div>
-            <TextField
-              required
-              id="outlined-required"
-              label="ผลตอบแทนย้อนหลังตั้งแต่จัดตั้งกองทุน"
-              value={ytdReturns}
-              onChange={(e) => setYtdReturns(e.target.value)}
-            />
+          <div className="pb-5">
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  ผลตอบแทนย้อนหลังตั้งแต่จัดตั้งกองทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 %"
+                value={ytdReturns}
+                onChange={(e) => setYtdReturns(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
           </div>
-          <div>
-            <TextField
-              required
-              id="outlined-required"
-              label="มูลค่าหน่วยลงทุน"
-              value={nav1}
-              onChange={(e) => setNav1(e.target.value)}
-            />
+          <div className="pb-5">
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  มูลค่าหน่วยลงทุน
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 บาท"
+                value={nav1}
+                onChange={(e) => setNav1(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
           </div>
-          <div className="grid grid-cols-3">
-            <TextField
-              required
-              id="outlined-required"
-              label="เงินลงทุนขั้นต่ำครั้งแรก"
-              value={minimumInvestmentAmount}
-              onChange={(e) => setMinimumInvestmentAmount(e.target.value)}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="เงินลงทุนขั้นต่ำครั้งถัดไป"
-              value={minimumAdditionalAmount}
-              onChange={(e) => setMinimumAdditionalAmount(e.target.value)}
-            />
+          <div className="grid grid-cols-3 gap-4 pb-5">
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  เงินลงทุนขั้นต่ำครั้งแรก
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 บาท"
+                value={minimumInvestmentAmount}
+                onChange={(e) => setMinimumInvestmentAmount(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
+            <label htmlFor="currentBalance" className="block text-sm">
+              <div>
+                <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
+                  เงินลงทุนขั้นต่ำครั้งถัดไป
+                </span>
+              </div>
+              <input
+                type="text"
+                id="cBalance"
+                placeholder="0 บาท"
+                value={minimumAdditionalAmount}
+                onChange={(e) => setMinimumAdditionalAmount(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "#27264E",
+                }}
+                className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+              />
+            </label>
           </div>
           <div className="py-5">
             <div className="flex justify-center">
               <button
                 style={{ width: "209px" }}
-                className="px-4 py-2 font-bold text-black delay-150 bg-blue-300 rounded hover:bg-blue-500"
+                className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out delay-150 transform bg-indigo-500 rounded shadow hover:scale-105 hover:bg-blue-500 focus:shadow-outline focus:outline-none"
               >
                 ยืนยัน
               </button>
@@ -269,35 +496,37 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
         <button
           onClick={clearForm}
           style={{ width: "209px" }}
-          className="px-4 py-2 font-bold text-black delay-150 bg-gray-300 rounded hover:bg-blue-700"
+          className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out delay-150 transform bg-gray-500 rounded shadow hover:scale-105 hover:bg-blue-500 focus:shadow-outline focus:outline-none"
         >
           ล้างข้อมูล
         </button>
       </div>
-      <div className="py-10 shadow-2xl bg-gray-50">
+      <div className="py-10 shadow-2xl">
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#B2E8FF",
+            backgroundColor: "#6259E8",
           }}
-          className="py-2 rounded "
+          className="py-2 rounded shadow-2xl"
         >
-          <div
+          <p
             style={{ padding: "0 1rem" }}
-            className="font-bold text-black dark:text-gray-500 "
+            className="text-2xl font-bold text-white "
           >
             กองทุนรวมทั้งหมด
-          </div>
+          </p>
         </div>
         <div>
           <div
             style={{ maxHeight: "600px", overflow: "auto" }}
-            className="block w-full px-3 py-2 text-sm placeholder-gray-500 border border-gray-300 rounded-md shadow-sm"
+            className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-sm"
           >
             {!mutualFunds.length ? (
-              <div>
-                <h1 className="text-center text-black">คุณยังไม่มีประวัติ</h1>
+              <div className="p-20">
+                <p className="flex justify-center text-2xl font-bold text-white item-center">
+                  ยังไม่มีกองทุน
+                </p>
               </div>
             ) : (
               <div className="px-5 pb-5">
@@ -315,6 +544,27 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
           </div>
         </div>
       </div>
+      <Modal
+        open={showCongratulatoryMessage}
+        onClose={() => setShowCongratulatoryMessage(false)}
+        aria-labelledby="modal-congratulations-title"
+        aria-describedby="modal-congratulations-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-congratulations-title"
+            variant="h6"
+            component={"span"}
+          >
+            <div className="text-2xl font-bold text-white">
+              ยินดีด้วย! คุณเพิ่มข้อมูลกองทุนสำเร็จแล้ว
+            </div>
+            <div className="py-5 font-bold text-white text-md">
+              กรุณารอสักครู่....
+            </div>
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 };

@@ -16,23 +16,26 @@ const AdminFundsAddingPage = () => {
         <div className="w-full xl:w-8/12">
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <Sidebar title="My Sidebar" />
-            <div className="shadow-2xl bg-gray-50">
+            <div className="shadow-2xl">
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#B2E8FF",
+                  backgroundColor: "#6259E8",
                 }}
-                className="py-4 rounded bg-gray-50 dark:bg-gray-800"
+                className="py-2 rounded shadow-2xl"
               >
                 <p
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-black dark:text-gray-500 "
+                  className="text-2xl font-bold text-white "
                 >
                   เพิ่มข้อมูลกองทุน
                 </p>
               </div>
-              <div className="flex justify-center p-5 item-center">
+              <div
+                style={{ backgroundColor: "#1D1D41" }}
+                className="flex justify-center p-5 item-center"
+              >
                 <AddingForm title={""} />
               </div>
             </div>

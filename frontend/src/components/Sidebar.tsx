@@ -249,6 +249,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
   const handleProfile = () => {
     router.push("/ProfileManagement/userProfile");
   };
+  const handleAdmin = () => {
+    router.push("/AdminPages/adminFundsAddingPage");
+  };
   return (
     <div>
       <Box sx={{ display: "flex" }}>
@@ -299,6 +302,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
               }}
             >
               <MenuItem onClick={handleMenuClose1}>Profile</MenuItem>
+              <MenuItem onClick={handleAdmin}>Admin(debugmode)</MenuItem>
               <MenuItem
                 onClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>) =>
                   handleLogout(e)

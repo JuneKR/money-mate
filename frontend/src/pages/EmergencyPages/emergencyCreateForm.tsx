@@ -65,9 +65,7 @@ const emergencyCreateForm = () => {
       <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
       <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
     ]);
-    // console.log('Steps', steps);
-    // console.log('Current Step', currentStepIndex);  
-    // console.log('Show Package Step', showPackageStep);
+ 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

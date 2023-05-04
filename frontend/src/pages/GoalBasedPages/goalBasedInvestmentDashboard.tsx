@@ -93,6 +93,8 @@ const GoalInvestmentDashboard = () => {
   const [savingGoalPlan, setSavingGoalPlan] = useState<SavingGoalPlan>(initialSavingGoalPlan);
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [portfolioPackage, setPortfolioPackage] = useState();
+  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -105,6 +107,9 @@ const GoalInvestmentDashboard = () => {
     }
     return result.toString();
   }  
+
+  console.log('saving goal', savingGoalPlan);
+  console.log('investment portfolio allocation', investmentPortfolioAllocation);
 
   // Fetch APIs
   useEffect(() => {
@@ -143,6 +148,25 @@ const GoalInvestmentDashboard = () => {
         const investmentPortfolioAllocation = await portfolioResponse.json();
         setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
 
+        //Fetch Portfolio Package by Package Id
+        const packageResponse = await fetch(
+          `${urlServer}portfolio/package/${goalInvestmentPortfolio.Package_ID}`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackage = await packageResponse.json();
+        setPortfolioPackage(portfolioPackage)
+        
+        //Fetch Portfolio Package Allocation by Package Id
+        const packageAllocationResponse = await fetch(
+          `${urlServer}portfolio/package/${goalInvestmentPortfolio.Package_ID}/allocations`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackageAllocation = await packageAllocationResponse.json();
+        setPortfolioPackageAllocation(portfolioPackageAllocation);
 
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
@@ -330,29 +354,6 @@ const GoalInvestmentDashboard = () => {
                       </button>
                     </div>
                   </div>
-                  {/* <div className="py-3">
-                    <h1 className="flex justify-center py-4 font-bold">พอร์ตการลงทุนที่แนะนำในปัจจุบัน</h1>
-                    <div className="grid grid-cols-3 py-2">
-                      <div className="flex justify-center">
-                        <h1>ประเภทกองทุนรวม</h1>
-                      </div>
-                      <div className="flex justify-center">
-                        <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
-                      </div>
-                      <div className="flex justify-center">
-                        <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <GoalAccordion/>
-                  </div>
-                  <div className="mb-4">
-                    <GoalAccordion/>
-                  </div>
-                  <div className="mb-4">
-                    <GoalAccordion/>
-                  </div> */}
                 </div>
               </div>
 
@@ -374,15 +375,20 @@ const GoalInvestmentDashboard = () => {
                       </div>
                     </div>
                     <div className="p-5">
-                      <div className="mb-4">
-                        <GoalAccordion/>
-                      </div>
-                      <div className="mb-4">
-                        <GoalAccordion/>
-                      </div>
-                      <div className="mb-4">
-                        <GoalAccordion/>
-                      </div>
+                    {investmentPortfolioAllocation.map((item) => {
+                      const packageItem = portfolioPackageAllocation.find((packageItem) => item.FundAbbrName === packageItem.FundAbbrName);
+                      return (
+                        <div className="mb-4" key={item}>
+                          <GoalAccordion
+                            savingPlan={savingGoalPlan}
+                            investmentPortfolio={investmentPortfolio}
+                            portfolioItem={item}
+                            portfolioPackage={portfolioPackage}
+                            portfolioPackageAllocation={packageItem}
+                          />
+                        </div> 
+                      )
+                    })}
                     </div>
                   </div>
               </div>

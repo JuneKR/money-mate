@@ -13,6 +13,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
+import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
 
 export interface SavingRetirementPlan {
   PlanName: string;
@@ -105,12 +106,11 @@ const initialPortfolio: InvestmentPortfolio = {
 
 const RetirementInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
-  const [savingRetirementPlan, setSavingRetirementPlan] =
-    useState<SavingRetirementPlan>(initialSavingRetirementPlan);
-  const [investmentPortfolio, setInvestmentPortfolio] =
-    useState(initialPortfolio);
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] =
-    useState([]);
+  const [savingRetirementPlan, setSavingRetirementPlan] = useState<SavingRetirementPlan>(initialSavingRetirementPlan);
+  const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [portfolioPackage, setPortfolioPackage] = useState();
+  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
 
   // Fetch APIs
   useEffect(() => {
@@ -156,6 +156,27 @@ const RetirementInvestmentDashboard = () => {
         );
         const investmentPortfolioAllocation = await portfolioResponse.json();
         setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
+
+        //Fetch Portfolio Package by Package Id
+        const packageResponse = await fetch(
+          `${urlServer}portfolio/package/${retirementInvestmentPortfolio.Package_ID}`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackage = await packageResponse.json();
+        setPortfolioPackage(portfolioPackage)
+        
+        //Fetch Portfolio Package Allocation by Package Id
+        const packageAllocationResponse = await fetch(
+          `${urlServer}portfolio/package/${retirementInvestmentPortfolio.Package_ID}/allocations`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackageAllocation = await packageAllocationResponse.json();
+        setPortfolioPackageAllocation(portfolioPackageAllocation);
+
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -365,6 +386,43 @@ const RetirementInvestmentDashboard = () => {
                   </div>
                 </div>
               </div>
+
+              <div
+                  style={{ backgroundColor: "#1D1D41" }}
+                  className="shadow-2xl bg-gray-50 mb-5"
+              >
+                <h1 className="flex justify-center py-4 font-bold rounded bg-gradient-to-r from-purple-900 to-red-500">พอร์ตการลงทุนที่แนะนำในปัจจุบัน</h1>
+                <div className="py-3">
+                    <div className="grid grid-cols-3 py-2">
+                      <div className="flex justify-center">
+                        <h1>ประเภทกองทุนรวม</h1>
+                      </div>
+                      <div className="flex justify-center">
+                        <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
+                      </div>
+                      <div className="flex justify-center">
+                        <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                    {investmentPortfolioAllocation.map((item) => {
+                      const packageItem = portfolioPackageAllocation.find((packageItem) => item.FundAbbrName === packageItem.FundAbbrName);
+                      return (
+                        <div className="mb-4" key={item}>
+                          <GoalAccordion
+                            savingPlan={savingRetirementPlan}
+                            investmentPortfolio={investmentPortfolio}
+                            portfolioItem={item}
+                            portfolioPackage={portfolioPackage}
+                            portfolioPackageAllocation={packageItem}
+                          />
+                        </div> 
+                      )
+                    })}
+                    </div>
+                  </div>
+              </div>
+
               <div
                 // style={{ backgroundColor: "#6259E8" }}
                 className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"

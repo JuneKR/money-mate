@@ -49,7 +49,7 @@ export function GoalForm({
   const handleTotalBalanceChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = event.target.value;
     if (/^\d*$/.test(value)) {
-      updateFields({ monthlySaving: Number(value) })
+      updateFields({ totalBalance: Number(value) })
       settotalBalanceError("");
     } else {
       settotalBalanceError("กรุณากรอกข้อมูลเฉพาะตัวเลข เช่น 2000 บาท");
@@ -60,10 +60,10 @@ export function GoalForm({
   return (
     //   <div className="py-20">
     <div className="grid grid-cols-2">
-      <div style={{ padding: "0 4rem" }} className="rounded py-5 px-4 lg:px-10">
-        <label htmlFor="monthlyExpense" className="block text-sm w-full h-auto">
+      <div style={{ padding: "0 4rem" }} className="px-4 py-5 rounded lg:px-10">
+        <label htmlFor="monthlyExpense" className="block w-full h-auto text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               ค่าใช้จ่ายรายเดือนของคุณ
             </span>
           </div>
@@ -78,25 +78,25 @@ export function GoalForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: ค่าใช้จ่ายทั้งเดือนโดยรวมทั้งหมดของคุณ
             อาธิเช่นค่านำ้ค่าไฟค่าอาหาร เป็นต้น
           </FormHelperText>
           {/* Display error when user input invalid */}
           {monthlyExpenseError && (
-            <p className="text-red-500 text-xs italic">{monthlyExpenseError}</p>
+            <p className="text-xs italic text-red-500">{monthlyExpenseError}</p>
           )}
         </label>
 
         <label htmlFor="monthlyDeposit" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               จำนวนเงินที่จะออมต่อเดือน
             </span>
           </div>
@@ -111,23 +111,23 @@ export function GoalForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: คุณอยากออมเงินเดือนละเท่าไหร่
           </FormHelperText>
           {/* Display error when user input invalid */}
           {monthlySavingError && (
-            <p className="text-red-500 text-xs italic">{monthlySavingError}</p>
+            <p className="text-xs italic text-red-500">{monthlySavingError}</p>
           )}
         </label>
 
         <label htmlFor="months" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               จำนวนเดือน
             </span>
           </div>
@@ -140,7 +140,7 @@ export function GoalForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="cursor-pointer transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-sm shadow-2xl cursor-pointer hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           >
             {[...Array(12)].map((_, index) => (
               <option key={index + 1} value={index + 1}>
@@ -151,7 +151,7 @@ export function GoalForm({
 
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: จำนวนเดือนของเงินฉุกเฉินที่ต้องการมี
             ซึ่งตลาดหลักทรัพย์แนะนำให้ 6 - 12 เดือน
@@ -163,7 +163,7 @@ export function GoalForm({
 
         <label htmlFor="currentBalance" className="block text-sm">
           <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
+            <span className="inline-block pb-2 m-1 text-xl font-bold text-white">
               เงินออมทั้งหมดในปัจจุบัน (ถ้ามี)
             </span>
           </div>
@@ -178,39 +178,39 @@ export function GoalForm({
               height: "50px",
               backgroundColor: "#27264E",
             }}
-            className="transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+            className="block w-full px-3 py-2 text-sm text-white placeholder-gray-500 transition duration-300 ease-in-out transform shadow-2xl hover:scale-105 rounded-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
           />
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
+            className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
           >
             หมายถึง: เงินทั้งหมดในตอนนี้ที่คุณตั้งใจจะออม
             หรืออาจจะมีอยู่ก่อนแล้ว
           </FormHelperText>
           {/* Display error when user input invalid */}
           {totalBalanceError && (
-            <p className="text-red-500 text-xs italic">{totalBalanceError}</p>
+            <p className="text-xs italic text-red-500">{totalBalanceError}</p>
           )}
         </label>
       </div>
-      <div className="py-5 px-4 lg:px-10">
+      <div className="px-4 py-5 lg:px-10">
         <div
           style={{ backgroundColor: "#27264E" }}
-          className="rounded-lg shadow-2xl p-5 hover:shadow-pink-500/50"
+          className="p-5 rounded-lg shadow-2xl hover:shadow-pink-500/50"
         >
           <Image
             src={Tips1}
             alt="Your Image"
             onClick={() => setShowModal(true)}
-            className="w-full h-auto cursor-pointer transform hover:scale-105 transition duration-300 ease-in-out "
+            className="w-full h-auto transition duration-300 ease-in-out transform cursor-pointer hover:scale-105 "
           />
         </div>
         {showModal && (
           <div
-            className="fixed z-50 inset-0 flex items-center justify-center w-screen h-screen bg-black bg-opacity-75"
+            className="fixed inset-0 z-50 flex items-center justify-center w-screen h-screen bg-black bg-opacity-75"
             onClick={() => setShowModal(false)}
           >
-            <div className="w-11/12 max-w-3xl max-h-3/4 overflow-hidden bg-white rounded-lg">
+            <div className="w-11/12 max-w-3xl overflow-hidden bg-white rounded-lg max-h-3/4">
               <Image
                 src={Tips1}
                 alt="Your Image"

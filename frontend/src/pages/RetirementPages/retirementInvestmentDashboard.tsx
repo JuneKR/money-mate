@@ -185,9 +185,6 @@ const RetirementInvestmentDashboard = () => {
     fetchData();
   }, []);
 
-  console.log("Portfolio", investmentPortfolio);
-  console.log("Allocation", investmentPortfolioAllocation);
-
   const router = useRouter();
 
   const handleRetirementInvestmentPortfolio = () => {
@@ -202,18 +199,6 @@ const RetirementInvestmentDashboard = () => {
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
-  function yearsToYearsMonthsDays(value: string) {
-    // const values = Number(value) / 12;
-    const totalDays = Number(value) * 365;
-    const years = Math.floor(totalDays / 365);
-    const months = Math.floor((totalDays - years * 365) / 30);
-    const days = Math.floor(totalDays - years * 365 - months * 30);
-    const result = years + " ปี " + months + " เดือน " + days + " วัน";
-    if (isNaN(years) || isNaN(months) || isNaN(days)) {
-      return "0 ปี 0 เดือน 0 วัน";
-    }
-    return result.toString();
-  }
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -229,7 +214,6 @@ const RetirementInvestmentDashboard = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    // backgroundColor: "#6259E8",
                   }}
                   className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"
                 >
@@ -255,7 +239,6 @@ const RetirementInvestmentDashboard = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    // backgroundColor: "#6259E8",
                   }}
                   className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"
                 >

@@ -172,4 +172,6 @@ const SavingGraph: React.FC<SavingGraphProps> = React.forwardRef<HTMLCanvasEleme
   );
 });
 
+SavingGraph.displayName = "SavingGraph";
+
 export default SavingGraph;

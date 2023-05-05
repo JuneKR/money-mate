@@ -173,4 +173,6 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
   );
 });
 
+SRetirementSavingGraph.displayName = "SRetirementSavingGraph";
+
 export default SRetirementSavingGraph;

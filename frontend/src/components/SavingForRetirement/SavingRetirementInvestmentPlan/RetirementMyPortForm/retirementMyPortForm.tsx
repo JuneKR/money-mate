@@ -73,7 +73,7 @@ const RetirementMyPortForm = () => {
     }
 
     fetchData();
-  }, []);
+  }, [userProfile]);
 
   useEffect(() => {
     async function fetchMutualFundData() {

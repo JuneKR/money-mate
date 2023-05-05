@@ -74,7 +74,7 @@ const GoalMyPortForm = () => {
     }
 
     fetchData();
-  }, []);
+  }, [userProfile]);
 
   useEffect(() => {
     async function fetchMutualFundData() {

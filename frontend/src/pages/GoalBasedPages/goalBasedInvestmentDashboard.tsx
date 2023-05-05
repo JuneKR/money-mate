@@ -176,9 +176,6 @@ const GoalInvestmentDashboard = () => {
     fetchData();
   }, []);
 
-  console.log('Portfolio', investmentPortfolio);
-  console.log('Allocation',investmentPortfolioAllocation);
-
   const router = useRouter();
 
   const handleGoalInvestmentPortfolio = () => {

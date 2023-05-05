@@ -1,10 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
-import { useRouter } from 'next/router'
-// import { ReactSVG } from "react-svg";
-import NotFoundSVG from "./assets/not-found.svg";
 
 type PackageData = {
   expense: number;
@@ -91,7 +87,7 @@ export function PortfolioPackage ({
         }
 
         fetchPortfolioPackageData()
-    }, []);
+    }, [riskLevel]);
 
     return (
         <>

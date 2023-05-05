@@ -103,14 +103,6 @@ const EmergencyDashboard = () => {
     Number(savingEmergencyPlan?.TargetAmount) -
     Number(savingEmergencyPlan?.TotalBalance);
 
-  // savingEmergencyTransactions.sort((a, b) => {
-  //   const dateA = new Date(a.TransactionDate);
-  //   const dateB = new Date(b.TransactionDate);
-  //   return dateB.getTime() - dateA.getTime();
-  // });
-
-  // console.log(savingEmergencyTransactions);
-
   return (
     <>
       <Sidebar title="My Sidebar" />

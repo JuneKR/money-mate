@@ -17,12 +17,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
   return (
     <div>
         <div style={{backgroundColor: "#1D1D41"}} className="p-4 rounded-b-2xl w-full h-full pb-10 shadow-2xl">
-          <div className="text-left text-white font-bold text-sm py-1">
-            <h1 className="px-2">
-              เป้าหมายการออมเงิน
-            </h1>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5 justify-items-center items-center">
             <div>
               <div className="text-white font-bold text-md flex items-center justify-center font-bold">
                 จำนวนเงิน
@@ -48,15 +43,15 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
-                เงินลงทุน/ต่อเดือน
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold text-center">
+                เงินลงทุนต่อเดือน
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
                 {formattedMonthlySaving} บาท
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold text-center">
                 ความเสี่ยงที่รับได้
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">
@@ -64,7 +59,7 @@ const EmergencyInvestmentDashBoardModalForm1: React.FC<EmergencyInvestmentDashBo
               </div>
             </div>
             <div>
-              <div className="text-white font-bold text-md flex items-center justify-center font-bold">
+              <div className="text-white font-bold text-md flex items-center justify-center font-bold text-center">
                 ผลตอบแทนที่คาดหวัง
               </div>
               <div className="flex items-center justify-center text-white font-bold text-lg">

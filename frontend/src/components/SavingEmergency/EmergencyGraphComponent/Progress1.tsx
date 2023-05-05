@@ -20,7 +20,7 @@ const Progress1: React.FC<Progress1Props> = ({ progress, title }) => {
             alignItems: "center",
           }}
         >
-          <h1 className="ml-10">{progress}</h1>
+          <h1 className="ml-10 text-white">{progress}</h1>
         </div>
       </div>
     </div>

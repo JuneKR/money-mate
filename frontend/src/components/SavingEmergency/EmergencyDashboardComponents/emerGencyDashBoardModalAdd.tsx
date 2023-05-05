@@ -64,13 +64,10 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
     const addtransaction = {
       amount: deposit,
       type: tType,
-      // type: "withdrawal",
-      // TransactionDate: date.toISOString(),
       transaction_date: tTime,
     };
 
     try {
-      console.log("Called");
       const response = await fetch(
         `${urlServer}saving/emergency/${savingEmergency}/transaction`,
         {

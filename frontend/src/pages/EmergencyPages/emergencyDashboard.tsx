@@ -157,9 +157,6 @@ const EmergencyDashboard = () => {
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
                   <div className="w-full h-full col-span-3 px-5 py-5">
-                    <h1 className="flex justify-center text-lg font-bold item-center pb-7">
-                      นักออมฉุกเฉินมือใหม่
-                    </h1>
                     <Progress1
                       title={"my bar"}
                       progress={`${savingEmergencyPlan?.Progression}%`}
@@ -238,26 +235,7 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="pb-5 ">
-              <div className="grid grid-cols-2 transition duration-300 delay-150 shadow-2xl  rounded-3xl bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800">
-                <div className="flex grid justify-center grid-rows-2 py-20 item-center">
-                  <div>
-                    <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
-                  </div>
-                  <div>
-                    <div>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</div>
-                  </div>
-                </div>
-                <div className="flex justify-center py-20 item-center">
-                  <button
-                    // onClick={handleEmergencyInvestmentPortfolioPackage}
-                    className="px-4 py-2 font-bold text-black transition duration-300 ease-in-out delay-150 bg-yellow-200 rounded hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500"
-                  >
-                    เพิ่มแผนการลงทุน
-                  </button>
-                </div>
-              </div>
-            </div> */}
+
             <div className="pt-5 shadow-2xl">
               <div
                 style={{
@@ -303,7 +281,6 @@ const EmergencyDashboard = () => {
                       )}
                     </div>
                   )}
-                  <div></div>
                 </div>
               </div>
             </div>

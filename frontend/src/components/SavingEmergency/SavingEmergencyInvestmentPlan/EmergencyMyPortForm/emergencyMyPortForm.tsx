@@ -135,7 +135,7 @@ const EmergencyMyPortForm = () => {
     }
 
     fetchData();
-  }, []);
+  }, [userProfile]);
 
   useEffect(() => {
     async function fetchMutualFundData() {

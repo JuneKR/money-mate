@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
 import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { FormDataprops } from "../EmergencyMultiStepProgressbar/emergencyMultiStepProgressbar";
 import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
+import Link from 'next/link';
 
 interface SEmergencyPlanFormProps {
   title: string;
@@ -171,11 +172,13 @@ const SEmergencyPlanForm: React.FC<FormDataprops> = ({
                       <h1 className="font-bold text-center md:text-left">
                         ความเสี่ยงที่คุณสามารถรับได้
                       </h1>
-                      <a href="/" className="block text-center md:text-left">
-                        <p className="text-blue-800 hover:text-blue-500">
-                          หมายเหตุ: คลิกที่นี่เพื่อประเมินความเสี่ยงของคุณ
-                        </p>
-                      </a>
+                      <Link href="/">
+                        <a className="block text-center md:text-left">
+                          <p className="text-blue-800 hover:text-blue-500">
+                            หมายเหตุ: คลิกที่นี่เพื่อประเมินความเสี่ยงของคุณ
+                          </p>
+                        </a>
+                      </Link>
                     </div>
                     <label htmlFor="monthlyExpense" className="block">
                       <input

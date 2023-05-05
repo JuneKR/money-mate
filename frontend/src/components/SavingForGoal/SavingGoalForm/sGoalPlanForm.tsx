@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Slider1 from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1";
-import Slider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption";
 
 type sGoalPlanData = {
   planName: string;
@@ -244,7 +242,19 @@ export function PlanForm({
     optionYears,
     optionTargetMonthlySaving,
     optionState.monthlySaving,
-    selectedOption,
+    currentState.period, 
+    currentState.planName, 
+    currentState.targetAmount, 
+    currentState.timeRemaining, 
+    currentState.totalBalance, 
+    optionState.period, 
+    optionState.planName, 
+    optionState.targetAmount, 
+    optionState.timeRemaining, 
+    optionState.totalBalance, 
+    targetMonthlySaving, 
+    updateFields,
+    years
   ]);
 
   const sGoalFund2 = Number(targetAmount);

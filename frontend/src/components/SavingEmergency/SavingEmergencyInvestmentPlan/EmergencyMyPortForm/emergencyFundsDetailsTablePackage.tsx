@@ -34,12 +34,12 @@ const EmergencyFundsDetailsTable: React.FC<EmergencyFundsDetailsTableProps> = (p
                         </thead>
                         <tbody>
                             {Array.from(portfolioPackageAllocation)?.map((packageItem: PackageItem) => (
-                                <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">{packageItem.PolicyDesc}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{packageItem.FundAbbrName}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{packageItem.OneYearReturns}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{packageItem.AllocationRatio}</td>
-                            </tr>
+                                <tr key={packageItem.Fund_ID} className="border-b dark:border-neutral-500">
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium">{packageItem.PolicyDesc}</td>
+                                    <td className="whitespace-nowrap px-6 py-4">{packageItem.FundAbbrName}</td>
+                                    <td className="whitespace-nowrap px-6 py-4">{packageItem.OneYearReturns}</td>
+                                    <td className="whitespace-nowrap px-6 py-4">{packageItem.AllocationRatio}</td>
+                                </tr>
                             ))}
                         </tbody>
                         </table>

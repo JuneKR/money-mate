@@ -1,8 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import styles from '@/styles/Home.module.css'
+import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
-import { useRouter } from 'next/router'
 
 type PackageData = {
   period: number;
@@ -86,7 +84,7 @@ export function PortfolioPackage ({
         }
 
         fetchPortfolioPackageData()
-    }, []);
+    }, [riskLevel]);
 
     return (
         <>

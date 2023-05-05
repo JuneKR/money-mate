@@ -117,7 +117,6 @@ const GoalBasedDashboard = () => {
 
   return (
     <>
-    TotalBalance
       <Sidebar title="My Sidebar" />
       <main className={styles.main} style={{ overflowX: "auto" }}>
         <div className="w-full xl:w-8/12">
@@ -134,7 +133,7 @@ const GoalBasedDashboard = () => {
                   style={{ padding: "0 1rem" }}
                   className="text-2xl font-bold text-white"
                 >
-                  การออมเงินเพื่อ {savingSGoalPlan?.PlanName}
+                  การออมเงินเพื่อ{savingSGoalPlan?.PlanName}
                 </div>
               </div>
               <div>
@@ -151,7 +150,6 @@ const GoalBasedDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  // backgroundColor: "#6259E8",
                 }}
                 className="py-2 rounded-lg  bg-gradient-to-r from-purple-900 to-red-500"
               >
@@ -171,9 +169,6 @@ const GoalBasedDashboard = () => {
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
                   <div className="w-full h-full col-span-3 px-5 py-5">
-                    <h1 className="flex justify-center text-lg font-bold item-center pb-7">
-                      นักออมฉุกเฉินมือใหม่
-                    </h1>
                     <Progress1
                       title={"my bar"}
                       progress={`${savingSGoalPlan?.Progression}%`}
@@ -202,7 +197,6 @@ const GoalBasedDashboard = () => {
                         <h1>ระยะเวลาในการออม</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        {/* <h1>{monthsToYearsMonthsDays(savingSGoalPlan?.TimePeriod)} เดือน</h1> */}
                         <h1>{savingSGoalPlan?.TimePeriod} เดือน</h1>
                       </div>
                     </div>

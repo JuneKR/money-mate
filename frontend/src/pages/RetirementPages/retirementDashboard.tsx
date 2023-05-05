@@ -13,25 +13,6 @@ import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
 
 export interface SavingRetirementPlan {
-  // planName: string;
-  // targetAmount: number;
-  // period: number;
-  // monthlySaving: number;
-  // initial_saving: number;
-  // startDate: string;
-  // lastUpdate: string;
-  // totalBalance: number;
-  // timeRemaining: number;
-  // dateOfBirth: string;
-  // interestRate: number;
-  // monthlyExpense: number;
-  // ageToRetire: number;
-  // ageToLive: number;
-  // inflationRate: number;
-  // additionalInvestment: number;
-  // progression: string;
-  // riskLevel: number;
-  // User_ID: number | any;
   PlanName: string;
   TargetAmount: number;
   Period: number;
@@ -59,7 +40,6 @@ export interface SavingRetirementTransaction {
   Type: string;
 }
 function yearsToYearsMonthsDays(value: string) {
-  // const values = Number(value) / 12;
   const totalDays = Number(value) * 365;
   const years = Math.floor(totalDays / 365);
   const months = Math.floor((totalDays - years * 365) / 30);
@@ -144,14 +124,6 @@ const RetirementDashboard = () => {
     Number(savingRetirePlan?.TargetAmount) -
     Number(savingRetirePlan?.TotalBalance);
 
-  // savingEmergencyTransactions.sort((a, b) => {
-  //   const dateA = new Date(a.TransactionDate);
-  //   const dateB = new Date(b.TransactionDate);
-  //   return dateB.getTime() - dateA.getTime();
-  // });
-
-  console.log(savingRetirementTransactions);
-
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -187,7 +159,6 @@ const RetirementDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  // backgroundColor: "#6259E8",
                 }}
                 className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-green-500"
               >
@@ -207,9 +178,6 @@ const RetirementDashboard = () => {
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
                   <div className="w-full h-full col-span-3 px-5 py-5">
-                    <h1 className="flex justify-center text-lg font-bold item-center pb-7">
-                      นักออมฉุกเฉินมือใหม่
-                    </h1>
                     <Progress1
                       title={"my bar"}
                       progress={`${savingRetirePlan?.Progression}%`}

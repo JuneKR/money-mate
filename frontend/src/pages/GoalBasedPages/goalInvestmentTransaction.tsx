@@ -151,7 +151,7 @@ const GoalInvestmentPortfolioPackage = () => {
                     {investmentTransactions
                     .map(
                       (investmentTransaction) => (
-                        <div>
+                        <div key={investmentTransaction.TransactionDate}>
                           <TransactionTable
                             title={"my table1"}
                             transaction={investmentTransaction}

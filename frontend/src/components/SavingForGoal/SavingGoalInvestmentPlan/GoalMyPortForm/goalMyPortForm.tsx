@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DropDownPolicy from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownPolicy";
 import DropDownFund from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownFund";
-import { IMutualFund, IPortfolioItem, initialMutualFund, initialPortfolioItem } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import { IMutualFund, IPortfolioItem, IPortfolioAllocation, initialMutualFund, initialPortfolioItem, initialInvestmentPortfolioAllocation } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
 
 interface FormValues {
   name: string;
@@ -21,7 +21,7 @@ const GoalMyPortForm = () => {
   const [userProfile, setUserProfile] = useState();
   const [savingGoalPlan, setSavingGoalPlan] = useState();
   const [investmentPortfolio, setInvestmentPortfolio] = useState();
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentAmountError, setInvestmentAmountError] = useState("");
   const [transactionType, setTransactionType] = useState("");

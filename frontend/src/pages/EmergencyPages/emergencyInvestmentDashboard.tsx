@@ -14,6 +14,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
 import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
+import { IPortfolioItem, initialInvestmentPortfolioAllocation } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
@@ -60,6 +61,15 @@ export interface InvestmentPortfolio {
   Retirement_ID: number;
 }
 
+export interface IPackageAllocation {
+  Package_ID: number,
+  Fund_ID: number,
+  PolicyDesc: string,
+  FundAbbrName: string,
+  OneYearReturns: number,
+  AllocationRatio: number
+}
+
 const initialSavingEmergencyPlan: SavingEmergencyPlan = {
   Emergency_ID: 1,
   LastUpdate: "",
@@ -90,13 +100,15 @@ const initialPortfolio: InvestmentPortfolio = {
   Retirement_ID: 0
 }
 
+export const initialPortfolioPackageAllocation: IPackageAllocation[] = [];
+
 const EmergencyInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
   const [portfolioPackage, setPortfolioPackage] = useState();
-  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
+  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<IPackageAllocation[]>([]);
 
   // Fetch APIs
   useEffect(() => {
@@ -361,7 +373,7 @@ const EmergencyInvestmentDashboard = () => {
                     {investmentPortfolioAllocation.map((item) => {
                       const packageItem = portfolioPackageAllocation.find((packageItem) => item.FundAbbrName === packageItem.FundAbbrName);
                       return (
-                        <div className="mb-4" key={item}>
+                        <div className="mb-4" key={item.PortfolioItem_ID}>
                           <GoalAccordion
                             savingPlan={savingEmergencyPlan}
                             investmentPortfolio={investmentPortfolio}

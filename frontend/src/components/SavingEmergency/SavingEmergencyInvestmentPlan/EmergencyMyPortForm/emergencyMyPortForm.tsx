@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import DropDownPolicy from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownPolicy";
 import DropDownFund from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownFund";
 
 interface FormValues {
@@ -43,6 +42,17 @@ export interface IPortfolioItem {
   TotalHoldingValue: number;
 }
 
+export interface IPortfolioAllocation {
+  Portfolio_ID: number,
+  Fund_ID: number,
+  PolicyDesc: string,
+  FundAbbrName: string,
+  OneYearReturns: number,
+  AllocationRatio: number,
+  CurrentHoldingUnits: number,
+  TotalHoldingValue: number
+}
+
 export const initialMutualFund: IMutualFund = {
   LastUpdate: '',
   FundName: '',
@@ -72,13 +82,15 @@ export const initialPortfolioItem: IPortfolioItem = {
   TotalHoldingValue: 0,
 };
 
+export const initialInvestmentPortfolioAllocation: IPortfolioAllocation[] = [];
+
 const EmergencyMyPortForm = () => {
   const urlServer = "http://localhost:8080/";
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [userProfile, setUserProfile] = useState();
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState();
   const [investmentPortfolio, setInvestmentPortfolio] = useState();
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentAmountError, setInvestmentAmountError] = useState("");
   const [transactionType, setTransactionType] = useState("");

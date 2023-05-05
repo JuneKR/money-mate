@@ -131,7 +131,7 @@ const SavingGraph: React.FC<SavingGraphProps> = React.forwardRef<HTMLCanvasEleme
     ]
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"line"> = {
     plugins: {
       legend: {
         labels: {

@@ -251,21 +251,34 @@ export function PlanForm({
       updateFields({ targetAmount: Number(emergencyFund) });
     }
   }, [
-    isHidden,
+    currentState.expense,
+    currentState.monthlySaving,
+    currentState.period,
+    currentState.targetAmount,
+    currentState.timeRemaining,
+    currentState.totalBalance,
+    emergencyFund,
+    optionState.expense,
+    optionState.monthlySaving,
+    optionState.period,
+    optionState.targetAmount,
+    optionState.timeRemaining,
+    optionState.totalBalance,
     selectedOption,
-    currentYears,
+    updateFields,
+    years,
     currentEmergencyFund,
-    optionYears,
+    currentYears,
+    isHidden,
     optionEmergencyFund,
-    selectedOption,
+    optionYears
   ]);
 
   const emergencyFund2 = Number(emergencyFund);
   const monthlySaving2 = Number(monthlySaving);
   const formattedEmergencyFund = emergencyFund2.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
-  // console.log(formattedEmergencyFund)
-  // console.log(formattedMonthlySaving)
+
   return (
     <>
       <div style={{ padding: "0 4rem" }}>

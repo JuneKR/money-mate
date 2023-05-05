@@ -165,9 +165,6 @@ const EmergencyInvestmentDashboard = () => {
     fetchData();
   }, []);
 
-  console.log('Portfolio', investmentPortfolio);
-  console.log('Allocation',investmentPortfolioAllocation);
-
   const router = useRouter();
 
   const handleEmergencyInvestmentPortfolio = () => {
@@ -405,9 +402,6 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-3 px-5 py-5"
                   >
-                    {/* <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
-                      นักลงทุนมือใหม่
-                    </h1> */}
                     <div>
                       <Progress
                         title={"my bar"}

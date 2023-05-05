@@ -10,7 +10,7 @@ const SRetirementInvestmentDashBoardModalForm: React.FC<SRetirementInvestmentDas
 ({ title, savingRetirement, savingInvestmentPort }) => {
 
   const targetAmountDisplay = Number(savingRetirement?.TargetAmount);
-  const monthlySavingDisplay = Number(savingRetirement?.MonthlySaving);
+  const monthlySavingDisplay = Math.round(Number(savingRetirement?.MonthlySaving));
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 

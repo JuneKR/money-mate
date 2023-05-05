@@ -4,8 +4,6 @@ import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
 import SavingGraph from "@/components/SavingEmergency/EmergencyGraphComponent/savingGraph";
-import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
-import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import ModleButtonForm1 from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/emergencyInvestmentDashBoardModalForm1";
 import EmergencyFundsDetailsTable from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyFundsDetailsTable";
@@ -176,8 +174,6 @@ const EmergencyInvestmentDashboard = () => {
   };
   const targetAmountDisplay = Number(savingEmergencyPlan.TargetAmount);
   const monthlySavingDisplay = Number(savingEmergencyPlan.MonthlySaving);
-  const formattedํargetAmount = targetAmountDisplay.toLocaleString();
-  const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
   return (
     <>

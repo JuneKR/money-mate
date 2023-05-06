@@ -1,22 +1,13 @@
-import React, { useState } from "react";
-
-interface PortfolioItem {
-    Portfolio_ID: number;
-    Fund_ID: number;
-    PolicyDesc: string;
-    FundAbbrName: string;
-    OneYearReturns: number;
-    AllocationRatio: number;
-}
+import React from "react";
+import { IPortfolioPackage, IPackageAllocation } from "@/pages/EmergencyPages/emergencyInvestmentDashboard";
 
 interface GoalFundsDetailsTableProps {
     title: string;
-    investmentPortfolio: any;
-    investmentPortfolioAllocation: PortfolioItem[];
+    portfolioPackage: IPortfolioPackage;
+    portfolioPackageAllocation: IPackageAllocation[];
 }
 const GoalFundsDetailsTable: React.FC<GoalFundsDetailsTableProps> = (props) => {
-    const { investmentPortfolio, investmentPortfolioAllocation } = props;
-    console.log('Allocation', investmentPortfolioAllocation)
+  const { portfolioPackage, portfolioPackageAllocation } = props;
 
   return (
     <div className="flex flex-col ">
@@ -33,17 +24,17 @@ const GoalFundsDetailsTable: React.FC<GoalFundsDetailsTableProps> = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.from(investmentPortfolioAllocation)?.map((portfolioItem: PortfolioItem) => (
-                                <tr key={portfolioItem.Fund_ID} className="border-b dark:border-neutral-500">
-                                    <td className="whitespace-nowrap px-6 py-4 font-medium">{portfolioItem.PolicyDesc}</td>
-                                    <td className="whitespace-nowrap px-6 py-4">{portfolioItem.FundAbbrName}</td>
-                                    <td className="whitespace-nowrap px-6 py-4">{portfolioItem.OneYearReturns}</td>
-                                    <td className="whitespace-nowrap px-6 py-4">{portfolioItem.AllocationRatio}</td>
+                            {Array.from(portfolioPackageAllocation)?.map((packageItem: IPackageAllocation) => (
+                                <tr key={packageItem.Fund_ID} className="border-b dark:border-neutral-500">
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium">{packageItem.PolicyDesc}</td>
+                                    <td className="whitespace-nowrap px-6 py-4">{packageItem.FundAbbrName}</td>
+                                    <td className="whitespace-nowrap px-6 py-4">{packageItem.OneYearReturns}</td>
+                                    <td className="whitespace-nowrap px-6 py-4">{packageItem.AllocationRatio}</td>
                                 </tr>
                             ))}
                         </tbody>
                         </table>
-                        <p>ผลตอบแทนที่คาดหวัง {investmentPortfolio.ReturnRate}%</p>
+                        <p>ผลตอบแทนที่คาดหวัง {portfolioPackage.ReturnRate}%</p>
                     </div>
                 </div>
             </div>

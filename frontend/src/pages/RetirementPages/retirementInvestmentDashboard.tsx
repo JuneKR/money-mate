@@ -15,7 +15,7 @@ import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
 import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
 import { IPortfolioItem, initialInvestmentPortfolioAllocation } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
-import { IPackageAllocation, initialPortfolioPackageAllocation } from "../EmergencyPages/emergencyInvestmentDashboard";
+import { IPortfolioPackage, IPackageAllocation, initialPackage, initialPortfolioPackageAllocation } from "../EmergencyPages/emergencyInvestmentDashboard";
 
 export interface SavingRetirementPlan {
   PlanName: string;
@@ -111,7 +111,7 @@ const RetirementInvestmentDashboard = () => {
   const [savingRetirementPlan, setSavingRetirementPlan] = useState<SavingRetirementPlan>(initialSavingRetirementPlan);
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
-  const [portfolioPackage, setPortfolioPackage] = useState();
+  const [portfolioPackage, setPortfolioPackage] = useState<IPortfolioPackage>(initialPackage);
   const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<IPackageAllocation[]>([]);
 
   // Fetch APIs
@@ -286,18 +286,14 @@ const RetirementInvestmentDashboard = () => {
                   >
                     <Pie1
                       title={investmentPortfolio?.PortfolioName}
-                      investmentPortfolioAllocation={
-                        investmentPortfolioAllocation
-                      }
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                   <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
                     <RetirementFundsDetailsTable
                       title={""}
-                      investmentPortfolio={investmentPortfolio}
-                      investmentPortfolioAllocation={
-                        investmentPortfolioAllocation
-                      }
+                      portfolioPackage={portfolioPackage}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                 </div>

@@ -640,9 +640,11 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
             // Update current holding units and total holding value of portfolio item
             const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits + parseFloat(current_holding_units);
             const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue + parseFloat(total_holding_value);
+            const newAllocationRatio: number = Math.round(portfolioItem.AllocationRatio + ((parseFloat(amount)/savingGoalPlan.TargetAmount)*100));
             await portfolioItem.update({
                 CurrentHoldingUnits: newCurrentHoldingUnits,
-                TotalHoldingValue: newTotalHoldingValue
+                TotalHoldingValue: newTotalHoldingValue,
+                AllocationRatio: newAllocationRatio
             },
             {
                 where: {
@@ -679,9 +681,11 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
             // Update current holding units and total holding value of portfolio item
             const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits - parseFloat(current_holding_units);
             const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue - parseFloat(total_holding_value);
+            const newAllocationRatio: number = Math.round(portfolioItem.AllocationRatio - ((parseFloat(amount)/savingGoalPlan.TargetAmount)*100));
             await portfolioItem.update({
                 CurrentHoldingUnits: newCurrentHoldingUnits,
-                TotalHoldingValue: newTotalHoldingValue
+                TotalHoldingValue: newTotalHoldingValue,
+                AllocationRatio: newAllocationRatio
             },
             {
                 where: {
@@ -777,9 +781,11 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
             // Update current holding units and total holding value of portfolio item
             const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits + parseFloat(current_holding_units);
             const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue + parseFloat(total_holding_value);
+            const newAllocationRatio: number = Math.round(portfolioItem.AllocationRatio + ((parseFloat(amount)/savingRetirementPlan.TargetAmount)*100));
             await portfolioItem.update({
                 CurrentHoldingUnits: newCurrentHoldingUnits,
-                TotalHoldingValue: newTotalHoldingValue
+                TotalHoldingValue: newTotalHoldingValue,
+                AllocationRatio: newAllocationRatio
             },
             {
                 where: {
@@ -816,9 +822,11 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
             // Update current holding units and total holding value of portfolio item
             const newCurrentHoldingUnits: number = portfolioItem.CurrentHoldingUnits - parseFloat(current_holding_units);
             const newTotalHoldingValue: number = portfolioItem.TotalHoldingValue - parseFloat(total_holding_value);
+            const newAllocationRatio: number = Math.round(portfolioItem.AllocationRatio - ((parseFloat(amount)/savingRetirementPlan.TargetAmount)*100));
             await portfolioItem.update({
                 CurrentHoldingUnits: newCurrentHoldingUnits,
-                TotalHoldingValue: newTotalHoldingValue
+                TotalHoldingValue: newTotalHoldingValue,
+                AllocationRatio: newAllocationRatio
             },
             {
                 where: {

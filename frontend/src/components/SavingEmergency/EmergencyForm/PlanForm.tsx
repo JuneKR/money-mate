@@ -169,7 +169,7 @@ export function PlanForm({
     }
     return result.toString();
   }
-
+ console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", yearsToYearsMonthsDays("60.73"), years);
   // Set time to achieve
   const timeToAchive = yearsToYearsMonthsDays(years);
   const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);

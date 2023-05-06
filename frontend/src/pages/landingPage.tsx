@@ -203,7 +203,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               ) : (
                 <div className="px-5 pb-5">
                   {savingPlans.map((savingPlan) => (
-                    <LandingSavingPlanCard saving={savingPlan} />
+                    <LandingSavingPlanCard key={savingPlan.PlanName} saving={savingPlan} />
                   ))}
                 </div>
               )}
@@ -233,7 +233,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               ) : (
                 <div className="px-5 pb-5">
                   {investmentPlans.map((investmentPlan) => (
-                    <LandingInvestmentPlanCard investmentPlanData={investmentPlan} />
+                    <LandingInvestmentPlanCard key={investmentPlan.Portfolio_ID} investmentPlanData={investmentPlan} />
                   ))}
                 </div>
               )}

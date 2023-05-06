@@ -301,7 +301,7 @@ export function InvestmentForm({
     }
 
     fetchUserProfile();
-  }, [selectedOption]);
+  }, [selectedOption, defaultOption, selectedTable, updateFields]);
 
   const handleClick = () => {
     setIsHidden(!isHidden);

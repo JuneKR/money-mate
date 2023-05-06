@@ -54,7 +54,7 @@ const initialData: FormData = {
   returnRate: 0,
 };
 
-const retirementCreateForm = () => {
+const RetirementCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
@@ -88,15 +88,17 @@ const retirementCreateForm = () => {
     next,
     goTo,
   } = useMultistepForm([
-    <RetirementForm {...data} updateFields={updateFields} />,
-    <SRetirementPlanForm {...data} updateFields={updateFields} />,
+    <RetirementForm key="goal-form" {...data} updateFields={updateFields} />,
+    <SRetirementPlanForm key="plan-form" {...data} updateFields={updateFields} />,
     <SRetirementInvestment
+      key="investment-form"
       selected={false}
       {...data}
       updateFields={updateFields}
       handleInvestmentSelection={handleInvestmentSelection}
     />,
     <SRetirementPortfolioPackage
+      key="portfolio-package"
       {...data}
       updateFields={updateFields}
       handlePackageSelection={handlePackageSelection}
@@ -529,4 +531,4 @@ const retirementCreateForm = () => {
   );
 };
 
-export default retirementCreateForm;
+export default RetirementCreateForm;

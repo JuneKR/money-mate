@@ -8,8 +8,6 @@ import { GoalForm } from "@/components/SavingEmergency/EmergencyForm/GoalForm";
 import { PlanForm } from "@/components/SavingEmergency/EmergencyForm/PlanForm";
 import InvestmentForm from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
 import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
-import { create } from "domain";
-import { start } from "repl";
 
 type FormData = {
   expense: number;
@@ -33,7 +31,7 @@ const initialData: FormData = {
   returnRate: 0,
 };
 
-const emergencyCreateForm = () => {
+const EmergencyCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
@@ -60,10 +58,10 @@ const emergencyCreateForm = () => {
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next, goTo } =
     useMultistepForm([
-      <GoalForm {...data} updateFields={updateFields} />,
-      <PlanForm {...data} updateFields={updateFields} />,
-      <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
-      <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
+      <GoalForm key="goal-form"  {...data} updateFields={updateFields} />,
+      <PlanForm key="plan-form" {...data} updateFields={updateFields} />,
+      <InvestmentForm key="investment-form" selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
+      <PortfolioPackage key="portfolio-package" {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
     ]);
  
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -430,4 +428,4 @@ const emergencyCreateForm = () => {
   );
 };
 
-export default emergencyCreateForm;
+export default EmergencyCreateForm;

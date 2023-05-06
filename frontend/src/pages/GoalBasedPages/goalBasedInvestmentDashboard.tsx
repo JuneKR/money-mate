@@ -14,6 +14,8 @@ import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
 import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
+import { IPortfolioItem, initialInvestmentPortfolioAllocation } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import { IPortfolioPackage, IPackageAllocation, initialPackage, initialPortfolioPackageAllocation } from "../EmergencyPages/emergencyInvestmentDashboard";
 
 export interface SavingGoalPlan {
   Goal_ID: number | any;
@@ -92,9 +94,9 @@ const GoalInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
   const [savingGoalPlan, setSavingGoalPlan] = useState<SavingGoalPlan>(initialSavingGoalPlan);
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
-  const [portfolioPackage, setPortfolioPackage] = useState();
-  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
+  const [portfolioPackage, setPortfolioPackage] = useState<IPortfolioPackage>(initialPackage);
+  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<IPackageAllocation[]>([]);
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -107,9 +109,6 @@ const GoalInvestmentDashboard = () => {
     }
     return result.toString();
   }  
-
-  console.log('saving goal', savingGoalPlan);
-  console.log('investment portfolio allocation', investmentPortfolioAllocation);
 
   // Fetch APIs
   useEffect(() => {
@@ -274,14 +273,14 @@ const GoalInvestmentDashboard = () => {
                   >
                     <Pie
                       title={investmentPortfolio.PortfolioName} 
-                      investmentPortfolioAllocation={investmentPortfolioAllocation}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                   <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
                     <GoalFundsDetailsTable
                       title={""}
-                      investmentPortfolio={investmentPortfolio}
-                      investmentPortfolioAllocation={investmentPortfolioAllocation}
+                      portfolioPackage={portfolioPackage}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                 </div>
@@ -375,7 +374,7 @@ const GoalInvestmentDashboard = () => {
                     {investmentPortfolioAllocation.map((item) => {
                       const packageItem = portfolioPackageAllocation.find((packageItem) => item.FundAbbrName === packageItem.FundAbbrName);
                       return (
-                        <div className="mb-4" key={item}>
+                        <div className="mb-4" key={item.PortfolioItem_ID}>
                           <GoalAccordion
                             savingPlan={savingGoalPlan}
                             investmentPortfolio={investmentPortfolio}

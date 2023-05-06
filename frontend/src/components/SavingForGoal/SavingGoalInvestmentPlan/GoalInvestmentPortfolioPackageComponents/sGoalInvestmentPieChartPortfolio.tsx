@@ -3,6 +3,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip } from 'chart.js';
 import tinycolor from 'tinycolor2';
 Chart.register(ArcElement, Tooltip);
+import { IPackageAllocation } from '@/pages/EmergencyPages/emergencyInvestmentDashboard';
 
 interface PortfolioItem {
   Portfolio_ID: number;
@@ -15,11 +16,11 @@ interface PortfolioItem {
 
 interface GoalInvestmentPieChartPortfolioProps {
   title: string;
-  investmentPortfolioAllocation: PortfolioItem[];
+  portfolioPackageAllocation: IPackageAllocation[];
 }
 
 const GoalInvestmentPieChartPortfolio: React.FC<GoalInvestmentPieChartPortfolioProps> = (props) => {
-  const { title, investmentPortfolioAllocation } = props;
+  const { title, portfolioPackageAllocation } = props;
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -39,12 +40,12 @@ const GoalInvestmentPieChartPortfolio: React.FC<GoalInvestmentPieChartPortfolioP
   };
   
   const data = {
-    labels: Array.from(investmentPortfolioAllocation)?.map((item) => item.FundAbbrName),
+    labels: Array.from(portfolioPackageAllocation)?.map((item) => item.FundAbbrName),
     datasets: [
       {
-        data: Array.from(investmentPortfolioAllocation)?.map((item) => item.AllocationRatio),
-        backgroundColor: Array.from(investmentPortfolioAllocation)?.map(() => getRandomColor("#6259E8")),
-        hoverBackgroundColor: Array.from(investmentPortfolioAllocation)?.map(() => getRandomColor("#1D1D41")),
+        data: Array.from(portfolioPackageAllocation)?.map((item) => item.AllocationRatio),
+        backgroundColor: Array.from(portfolioPackageAllocation)?.map(() => getRandomColor("#6259E8")),
+        hoverBackgroundColor: Array.from(portfolioPackageAllocation)?.map(() => getRandomColor("#1D1D41")),
       },
     ],
   };

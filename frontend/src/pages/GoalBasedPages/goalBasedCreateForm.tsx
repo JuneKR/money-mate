@@ -38,7 +38,7 @@ const initialData: FormData = {
     returnRate: 0,
 };
 
-const goalBasedCreateForm = () => {
+const GoalBasedCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
@@ -73,15 +73,16 @@ const goalBasedCreateForm = () => {
     next,
     goTo,
   } = useMultistepForm([
-    <SGoalForm {...data} updateFields={updateFields} />,
-    <PlanForm {...data} updateFields={updateFields} />,
+    <SGoalForm key="goal-form" {...data} updateFields={updateFields} />,
+    <PlanForm key="plan-form" {...data} updateFields={updateFields} />,
     <SGInvestmentForm
+      key="investment-form"
       selected={false}
       {...data}
       updateFields={updateFields}
       handleInvestmentSelection={handleInvestmentSelection}
     />,
-    <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
+    <PortfolioPackage key="portfolio-package" {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
   ]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -438,4 +439,4 @@ const goalBasedCreateForm = () => {
   );
 };
 
-export default goalBasedCreateForm;
+export default GoalBasedCreateForm;

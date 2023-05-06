@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DropDownFund from "../RetirementInvestmentPortfolioPackageComponents/retirementInvestmentDropDownFund";
-import { IMutualFund, IPortfolioItem, initialMutualFund, initialPortfolioItem } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import { IMutualFund, IPortfolioItem, IPortfolioAllocation, initialMutualFund, initialInvestmentPortfolioAllocation, initialPortfolioItem } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
 
 interface FormValues {
   name: string;
@@ -20,7 +20,7 @@ const RetirementMyPortForm = () => {
   const [userProfile, setUserProfile] = useState();
   const [savingRetirementPlan, setSavingRetirementPlan] = useState();
   const [investmentPortfolio, setInvestmentPortfolio] = useState();
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentAmountError, setInvestmentAmountError] = useState("");
   const [transactionType, setTransactionType] = useState("");
@@ -73,7 +73,7 @@ const RetirementMyPortForm = () => {
     }
 
     fetchData();
-  }, []);
+  }, [userProfile]);
 
   useEffect(() => {
     async function fetchMutualFundData() {

@@ -104,7 +104,7 @@ export function SRetirementPortfolioPackage({
     }
 
     fetchPortfolioPackageData();
-  }, []);
+  }, [riskLevel]);
 
   return (
     <>

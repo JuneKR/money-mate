@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider";
-import { time } from "console";
 
 type ReInvestmentData = {
   dateOfBirth: string;
@@ -344,7 +343,12 @@ export function SRetirementInvestment({
     }
 
     fetchUserProfile();
-  }, [selectedOption]);
+  }, [
+    selectedOption,
+    defaultOption, 
+    selectedTable, 
+    updateFields
+  ]);
 
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -369,7 +373,7 @@ export function SRetirementInvestment({
     });
     setTableData(newData);
   };
-  console.log("monthlySaving", monthlySaving);
+  
   const targetAmount2 = Number(targetAmount);
   const monthlySaving2 = Number(monthlySaving);
   const formatTargetAmount2 = targetAmount2.toLocaleString();

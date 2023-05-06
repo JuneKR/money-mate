@@ -309,9 +309,12 @@ export function SGoalInvestmentForm({
     }
 
     fetchUserProfile();
-    // getPortfolioPackage();
-    // getPortfolioPackageAllocation();
-  }, [selectedOption]);
+  }, [
+    selectedOption, 
+    defaultOption, 
+    selectedTable,
+    updateFields
+  ]);
 
   const handleClick = () => {
     setIsHidden(!isHidden);

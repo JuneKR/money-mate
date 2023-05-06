@@ -132,7 +132,7 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
     ]
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"line"> = {
     plugins: {
       legend: {
         labels: {
@@ -172,5 +172,7 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
     </div>
   );
 });
+
+SRetirementSavingGraph.displayName = "SRetirementSavingGraph";
 
 export default SRetirementSavingGraph;

@@ -51,6 +51,9 @@ const GoalAccordion: React.FC<GoalAccordionProps> = (props) => {
               <p>{portfolioItem.AllocationRatio}%/{portfolioPackageAllocation.AllocationRatio}%</p>
               <p>{portfolioItem.TotalHoldingValue}/{(savingPlan.TargetAmount*portfolioPackageAllocation.AllocationRatio)/100} บาท</p>
             </div>
+            {portfolioItem.AllocationRatio >= portfolioPackageAllocation.AllocationRatio &&
+                <p className="text-white text-center p-2">🎉 สัดส่วนการลงทุนของคุณถึงสัดส่วนของโมเดลพอร์ตที่แนะนำแล้ว 🎉</p>
+              }
           </div>
         )}
       </div>

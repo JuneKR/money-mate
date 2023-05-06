@@ -61,6 +61,14 @@ export interface InvestmentPortfolio {
   Retirement_ID: number;
 }
 
+export interface IPortfolioPackage {
+  PackageName: string,
+  LastUpdate: string,
+  RiskSpectrum: number,
+  InvestmentType: string,
+  ReturnRate: number
+}
+
 export interface IPackageAllocation {
   Package_ID: number,
   Fund_ID: number,
@@ -100,6 +108,14 @@ const initialPortfolio: InvestmentPortfolio = {
   Retirement_ID: 0
 }
 
+const initialPackage: IPortfolioPackage = {
+  PackageName: "",
+  LastUpdate: "",
+  RiskSpectrum: 0,
+  InvestmentType: "",
+  ReturnRate: 0
+}
+
 export const initialPortfolioPackageAllocation: IPackageAllocation[] = [];
 
 const EmergencyInvestmentDashboard = () => {
@@ -107,7 +123,7 @@ const EmergencyInvestmentDashboard = () => {
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
   const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
-  const [portfolioPackage, setPortfolioPackage] = useState();
+  const [portfolioPackage, setPortfolioPackage] = useState<IPortfolioPackage>(initialPackage);
   const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<IPackageAllocation[]>([]);
 
   // Fetch APIs
@@ -271,14 +287,14 @@ const EmergencyInvestmentDashboard = () => {
                   >
                     <Pie1 
                       title={investmentPortfolio.PortfolioName} 
-                      investmentPortfolioAllocation={investmentPortfolioAllocation}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                   <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
                     <EmergencyFundsDetailsTable
                       title={""}
-                      investmentPortfolio={investmentPortfolio}
-                      investmentPortfolioAllocation={investmentPortfolioAllocation}
+                      portfolioPackage={portfolioPackage}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                 </div>

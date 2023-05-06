@@ -108,7 +108,7 @@ const initialPortfolio: InvestmentPortfolio = {
   Retirement_ID: 0
 }
 
-const initialPackage: IPortfolioPackage = {
+export const initialPackage: IPortfolioPackage = {
   PackageName: "",
   LastUpdate: "",
   RiskSpectrum: 0,

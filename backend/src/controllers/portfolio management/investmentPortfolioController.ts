@@ -475,7 +475,7 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
         if (type === 'buy') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingEmergencyPlan.TotalBalance + parseFloat(amount);
-            const newProgression: number = Math.round((newTotalBalance / savingEmergencyPlan.TargetAmount) * 100);
+            const newProgression: number = (newTotalBalance / savingEmergencyPlan.TargetAmount) * 100;
             await SavingEmergencyPlan.update({
                 TotalBalance: newTotalBalance,
                 Progression: newProgression
@@ -515,7 +515,7 @@ export const addEmergencyInvestmentTransaction = async(req: Request, res: Respon
         else if (type === 'sell') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingEmergencyPlan.TotalBalance - parseFloat(amount);
-            const newProgression: number = Math.round((newTotalBalance / savingEmergencyPlan.TargetAmount) * 100);
+            const newProgression: number = (newTotalBalance / savingEmergencyPlan.TargetAmount) * 100;
             await SavingEmergencyPlan.update({
                 TotalBalance: newTotalBalance,
                 Progression: newProgression
@@ -615,7 +615,7 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
         if (type === 'buy') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingGoalPlan.TotalBalance + parseFloat(amount);
-            const newProgression: number = Math.round((newTotalBalance / savingGoalPlan.TargetAmount) * 100);
+            const newProgression: number = (newTotalBalance / savingGoalPlan.TargetAmount) * 100;
             await GoalBasedSavingPlan.update({
                 TotalBalance: newTotalBalance,
                 Progression: newProgression
@@ -655,7 +655,7 @@ export const addGoalInvestmentTransaction = async(req: Request, res: Response) =
         else if (type === 'sell') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingGoalPlan.TotalBalance - parseFloat(amount);
-            const newProgression: number = Math.round((newTotalBalance / savingGoalPlan.TargetAmount) * 100);
+            const newProgression: number = (newTotalBalance / savingGoalPlan.TargetAmount) * 100;
             await GoalBasedSavingPlan.update({
                 TotalBalance: newTotalBalance,
                 Progression: newProgression
@@ -756,7 +756,9 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
         if (type === 'buy') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingRetirementPlan.TotalBalance + parseFloat(amount);
-            const newProgression: number = Math.round((newTotalBalance / savingRetirementPlan.TargetAmount) * 100);
+            const newProgression: number = (newTotalBalance / savingRetirementPlan.TargetAmount) * 100;
+            console.log('new total b', newTotalBalance);
+            console.log('new pro', newProgression);
             await SavingRetirementPlan.update({
                 TotalBalance: newTotalBalance,
                 Progression: newProgression
@@ -796,7 +798,7 @@ export const addRetirementInvestmentTransaction = async(req: Request, res: Respo
         else if (type === 'sell') {
             // Update total balance and progression of saving plan
             const newTotalBalance: number = savingRetirementPlan.TotalBalance - parseFloat(amount);
-            const newProgression: number = Math.round((newTotalBalance / savingRetirementPlan.TargetAmount) * 100);
+            const newProgression: number = (newTotalBalance / savingRetirementPlan.TargetAmount) * 100;
             await SavingRetirementPlan.update({
                 TotalBalance: newTotalBalance,
                 Progression: newProgression

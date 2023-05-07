@@ -271,7 +271,6 @@ const RetirementInvestmentDashboard = () => {
                     savingRetirement={savingRetirementPlan}
                     savingInvestmentPort={investmentPortfolio}
                   />
-                  <p>หมายเหตุ....</p>
                 </div>
               </div>
 

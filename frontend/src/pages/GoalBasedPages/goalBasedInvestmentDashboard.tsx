@@ -263,7 +263,6 @@ const GoalInvestmentDashboard = () => {
                     savingGoal={savingGoalPlan}
                     savingInvestmentPort={investmentPortfolio}
                   />
-                  <p>หมายเหตุ....</p>
                 </div>
               </div>
 

@@ -122,38 +122,6 @@ export function SGoalForm({
           )}
         </label>
 
-        {/* <label htmlFor="monthlyDeposit" className="block text-sm">
-          <div>
-            <span className="inline-block m-1 text-white font-bold text-xl pb-2">
-              จำนวนเงินที่จะออมต่อเดือน
-            </span>
-          </div>
-          <input
-            type="text"
-            id="mDeposit"
-            placeholder="1,000"
-            value={monthlySaving}
-            onChange={(e) =>
-              updateFields({ monthlySaving: Number(e.target.value) })
-            }
-            style={{
-              width: "100%",
-              height: "50px",
-              backgroundColor: "#27264E",
-            }}
-            className=" transform hover:scale-105 transition duration-300 ease-in-out text-white block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-2xl shadow-2xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
-          />
-          <FormHelperText
-            id="my-helper-text"
-            className="text-gray-500 hover:text-gray-50 ml-5 text-xs pt-2"
-          >
-            หมายถึง: คุณอยากออมเงินเดือนละเท่าไหร่
-          </FormHelperText>
-          <p className="invisible m-1 text-xs text-pink-700 peer-invalid:visible">
-            ข้อมูลไม่ถูกต้อง
-          </p>
-        </label> */}
-
         <label htmlFor="months" className="block text-sm">
           <div>
             <span className="inline-block m-1 text-white font-bold text-xl pb-2">

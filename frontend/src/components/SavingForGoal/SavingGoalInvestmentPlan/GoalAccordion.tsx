@@ -48,8 +48,8 @@ const GoalAccordion: React.FC<GoalAccordionProps> = (props) => {
           >
             <div className="grid grid-cols-3 p-3 text-white">
               <p>{portfolioItem.FundAbbrName} <br/>(NAV {portfolioItem.CurrentHoldingUnits} หน่วย)</p>
-              <p>{portfolioItem.AllocationRatio}%/{portfolioPackageAllocation.AllocationRatio}%</p>
-              <p>{portfolioItem.TotalHoldingValue}/{(savingPlan.TargetAmount*portfolioPackageAllocation.AllocationRatio)/100} บาท</p>
+              <p>{portfolioItem.AllocationRatio.toFixed(2)}%/{portfolioPackageAllocation.AllocationRatio.toFixed(2)}%</p>
+              <p>{portfolioItem.TotalHoldingValue.toLocaleString()}/{((savingPlan.TargetAmount*portfolioPackageAllocation.AllocationRatio)/100).toLocaleString()} บาท</p>
             </div>
             {portfolioItem.AllocationRatio >= portfolioPackageAllocation.AllocationRatio &&
                 <p className="text-white text-center p-2">🎉 สัดส่วนการลงทุนของคุณถึงสัดส่วนของโมเดลพอร์ตที่แนะนำแล้ว 🎉</p>

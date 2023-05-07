@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider";
-import { time } from "console";
 
 type InvestmentData = {
   planName: string;
@@ -259,12 +258,7 @@ export function SGoalInvestmentForm({
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
   const urlServer = "http://localhost:8080/";
-  const packageId = 1;
-  const [uID, setuID] = useState([]);
-  const [emergencyPlan, setEmergencyPlan] = useState(initialPlanData);
-  const [portfolioPackage, setPortfolioPackage] = useState(initialPackage);
-  const [packageAllocation, setPackageAllocation] = useState([]);
-  const [selectedRisk, setSelectedRisk] = useState(0);
+  console.log('Risk Level', riskLevel);
   const [defaultOption, setDefaultOption] = useState({
     // planName: planName | "none",
     period: period | 0,
@@ -283,8 +277,6 @@ export function SGoalInvestmentForm({
   });
   const [selectedOption, setSelectedOption] = useState(0);
 
-  // Fix State on Table Component?
-
   useEffect(() => {
     async function fetchUserProfile() {
       try {
@@ -293,9 +285,6 @@ export function SGoalInvestmentForm({
           credentials: "include",
         });
         const userProfile = await profileResponse.json();
-        // console.log(userProfile);
-        const uID = userProfile.User_ID;
-        setuID(uID);
       } catch (error) {
         console.log("fetch User Profile Error: ", error);
       }
@@ -323,16 +312,13 @@ export function SGoalInvestmentForm({
 
   const handleCheckboxChange = () => {
     setIsHidden(!isHidden);
-    // handleInvestmentSelection(isHidden);
   };
 
   const handleRadioChange = (index: number) => {
     const newData = tableData.map((data, i) => {
       if (i === index) {
-        console.log("New Data:", data);
         setSelectedTable(data);
         setSelectedOption(index + 1);
-        // updateFields(data)
         // Using UpdateFields to update state of parent component (multistep form)
         return { ...data, selected: true };
       } else {
@@ -341,7 +327,6 @@ export function SGoalInvestmentForm({
       }
     });
     // Set New Selected State
-    //
     setTableData(newData);
   };
 

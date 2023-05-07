@@ -14,8 +14,16 @@ import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
 import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
-import { IPortfolioItem, initialInvestmentPortfolioAllocation } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
-import { IPortfolioPackage, IPackageAllocation, initialPackage, initialPortfolioPackageAllocation } from "../EmergencyPages/emergencyInvestmentDashboard";
+import {
+  IPortfolioItem,
+  initialInvestmentPortfolioAllocation,
+} from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import {
+  IPortfolioPackage,
+  IPackageAllocation,
+  initialPackage,
+  initialPortfolioPackageAllocation,
+} from "../EmergencyPages/emergencyInvestmentDashboard";
 
 export interface SavingRetirementPlan {
   PlanName: string;
@@ -70,25 +78,25 @@ export interface InvestmentPortfolio {
 }
 
 const initialSavingRetirementPlan: SavingRetirementPlan = {
-    PlanName: "",
-    TargetAmount: 0,
-    Period: 0,
-    MonthlySaving: 0,
-    Initial_saving: 0,
-    StartDate: "",
-    LastUpdate: "",
-    TotalBalance: 0,
-    TimeRemaining: 0,
-    DateOfBirth: "",
-    InterestRate: 0,
-    MonthlyExpense: 0,
-    AgeToRetire: 0,
-    AgeToLive: 0,
-    InflationRate: 0,
-    AdditionalInvestment: 0,
-    Progression: "",
-    RiskLevel: 0,
-    ReturnRate: 0,
+  PlanName: "",
+  TargetAmount: 0,
+  Period: 0,
+  MonthlySaving: 0,
+  Initial_saving: 0,
+  StartDate: "",
+  LastUpdate: "",
+  TotalBalance: 0,
+  TimeRemaining: 0,
+  DateOfBirth: "",
+  InterestRate: 0,
+  MonthlyExpense: 0,
+  AgeToRetire: 0,
+  AgeToLive: 0,
+  InflationRate: 0,
+  AdditionalInvestment: 0,
+  Progression: "",
+  RiskLevel: 0,
+  ReturnRate: 0,
 };
 
 const initialPortfolio: InvestmentPortfolio = {
@@ -108,11 +116,17 @@ const initialPortfolio: InvestmentPortfolio = {
 
 const RetirementInvestmentDashboard = () => {
   const urlServer = "http://localhost:8080/";
-  const [savingRetirementPlan, setSavingRetirementPlan] = useState<SavingRetirementPlan>(initialSavingRetirementPlan);
-  const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState<IPortfolioItem[]>([]);
-  const [portfolioPackage, setPortfolioPackage] = useState<IPortfolioPackage>(initialPackage);
-  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<IPackageAllocation[]>([]);
+  const [savingRetirementPlan, setSavingRetirementPlan] =
+    useState<SavingRetirementPlan>(initialSavingRetirementPlan);
+  const [investmentPortfolio, setInvestmentPortfolio] =
+    useState(initialPortfolio);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] =
+    useState<IPortfolioItem[]>([]);
+  const [portfolioPackage, setPortfolioPackage] =
+    useState<IPortfolioPackage>(initialPackage);
+  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<
+    IPackageAllocation[]
+  >([]);
 
   // Fetch APIs
   useEffect(() => {
@@ -167,8 +181,8 @@ const RetirementInvestmentDashboard = () => {
           }
         );
         const portfolioPackage = await packageResponse.json();
-        setPortfolioPackage(portfolioPackage)
-        
+        setPortfolioPackage(portfolioPackage);
+
         //Fetch Portfolio Package Allocation by Package Id
         const packageAllocationResponse = await fetch(
           `${urlServer}portfolio/package/${retirementInvestmentPortfolio.Package_ID}/allocations`,
@@ -176,9 +190,9 @@ const RetirementInvestmentDashboard = () => {
             credentials: "include",
           }
         );
-        const portfolioPackageAllocation = await packageAllocationResponse.json();
+        const portfolioPackageAllocation =
+          await packageAllocationResponse.json();
         setPortfolioPackageAllocation(portfolioPackageAllocation);
-
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -263,7 +277,7 @@ const RetirementInvestmentDashboard = () => {
 
               <div className="py-5 py-10 shadow-2xl">
                 <div
-                //   style={{ backgroundColor: "#6259E8" }}
+                  //   style={{ backgroundColor: "#6259E8" }}
                   className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"
                 >
                   <div>
@@ -369,39 +383,45 @@ const RetirementInvestmentDashboard = () => {
               </div>
 
               <div
-                  style={{ backgroundColor: "#1D1D41" }}
-                  className="shadow-2xl bg-gray-50 mb-5"
+                style={{ backgroundColor: "#1D1D41" }}
+                className="mb-5 shadow-2xl bg-gray-50"
               >
-                <h1 className="flex justify-center py-4 font-bold rounded bg-gradient-to-r from-purple-900 to-red-500">พอร์ตการลงทุนที่แนะนำในปัจจุบัน</h1>
+                <h1 className="flex justify-center py-4 font-bold rounded bg-gradient-to-r from-purple-900 to-red-500">
+                  พอร์ตการลงทุนที่แนะนำในปัจจุบัน
+                </h1>
                 <div className="py-3">
-                    <div className="grid grid-cols-3 py-2">
-                      <div className="flex justify-center">
-                        <h1>ประเภทกองทุนรวม</h1>
-                      </div>
-                      <div className="flex justify-center">
-                        <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
-                      </div>
-                      <div className="flex justify-center">
-                        <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
-                      </div>
+                  <div className="grid grid-cols-3 py-2">
+                    <div className="flex justify-center">
+                      <h1>ประเภทกองทุนรวม</h1>
                     </div>
-                    <div className="p-5">
-                    {investmentPortfolioAllocation.map((item) => {
-                      const packageItem = portfolioPackageAllocation.find((packageItem) => item.FundAbbrName === packageItem.FundAbbrName);
-                      return (
-                        <div className="mb-4" key={item.PortfolioItem_ID}>
-                          <GoalAccordion
-                            savingPlan={savingRetirementPlan}
-                            investmentPortfolio={investmentPortfolio}
-                            portfolioItem={item}
-                            portfolioPackage={portfolioPackage}
-                            portfolioPackageAllocation={packageItem}
-                          />
-                        </div> 
-                      )
-                    })}
+                    <div className="flex justify-center">
+                      <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
+                    </div>
+                    <div className="flex justify-center">
+                      <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
                     </div>
                   </div>
+                  <div className="p-5">
+                    {Array.isArray(investmentPortfolioAllocation) &&
+                      investmentPortfolioAllocation.map((item) => {
+                        const packageItem = portfolioPackageAllocation.find(
+                          (packageItem) =>
+                            item.FundAbbrName === packageItem.FundAbbrName
+                        );
+                        return (
+                          <div className="mb-4" key={item.PortfolioItem_ID}>
+                            <GoalAccordion
+                              savingPlan={savingRetirementPlan}
+                              investmentPortfolio={investmentPortfolio}
+                              portfolioItem={item}
+                              portfolioPackage={portfolioPackage}
+                              portfolioPackageAllocation={packageItem}
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
               </div>
 
               <div
@@ -478,8 +498,10 @@ const RetirementInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {(savingRetirementPlan?.TargetAmount -
-                          savingRetirementPlan?.TotalBalance).toLocaleString()}{" "}
+                        {(
+                          savingRetirementPlan?.TargetAmount -
+                          savingRetirementPlan?.TotalBalance
+                        ).toLocaleString()}{" "}
                         บาท
                       </h1>
                     </div>

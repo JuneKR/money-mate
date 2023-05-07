@@ -20,13 +20,13 @@ function yearsToYearsMonthsDays(value: string) {
 const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps> = ({ title, savingRetirement }) => {
 
   const targetAmountDisplay = Number(savingRetirement?.TargetAmount);
-  const monthlySavingDisplay = Math.round(Number(savingRetirement?.MonthlySaving));
+  const monthlySavingDisplay = Math.round(Number(savingRetirement?.MonthlySaving)* -1);
   const formattedํargetAmount = targetAmountDisplay?.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay?.toLocaleString();
 
   return (
     <div>
-        <div style={{ backgroundColor: "#1D1D41" }} className="p-4 w-full h-full pb-10 shadow-2xl rounded-b-2xl">
+        <div style={{ backgroundColor: "#1D1D41" }} className="w-full h-full p-4 pb-10 shadow-2xl rounded-b-2xl">
           <div className="font-bold text-left text-white">
             <h1 className="px-2 pb-5 text-xl">เป้าหมายการออมเงิน</h1>
           </div>

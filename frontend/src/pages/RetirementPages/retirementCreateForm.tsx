@@ -8,7 +8,7 @@ import { RetirementForm } from "@/components/SavingForRetirement/SavingRetiremen
 import { SRetirementPlanForm } from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementPlanForm";
 import SRetirementInvestment from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementInvestmentForm";
 import SRetirementPortfolioPackage from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementPortfolioPackage";
-import { create } from "domain";
+import { urlServer } from "@/API";
 
 type FormData = {
   planName: string;
@@ -54,14 +54,13 @@ const initialData: FormData = {
   returnRate: 0,
 };
 
-const retirementCreateForm = () => {
+const RetirementCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
   const [uID, setuID] = useState(1);
-  const urlServer = "http://localhost:8080/";
   const [isSelectedPackage, setIsSelectedPackage] = useState(false);
 
   function updateFields(fields: Partial<FormData>) {
@@ -88,15 +87,17 @@ const retirementCreateForm = () => {
     next,
     goTo,
   } = useMultistepForm([
-    <RetirementForm {...data} updateFields={updateFields} />,
-    <SRetirementPlanForm {...data} updateFields={updateFields} />,
+    <RetirementForm key="goal-form" {...data} updateFields={updateFields} />,
+    <SRetirementPlanForm key="plan-form" {...data} updateFields={updateFields} />,
     <SRetirementInvestment
+      key="investment-form"
       selected={false}
       {...data}
       updateFields={updateFields}
       handleInvestmentSelection={handleInvestmentSelection}
     />,
     <SRetirementPortfolioPackage
+      key="portfolio-package"
       {...data}
       updateFields={updateFields}
       handlePackageSelection={handlePackageSelection}
@@ -113,7 +114,7 @@ const retirementCreateForm = () => {
         alert("สร้างแผนการออมเงินสำเร็จแล้ว!");
         const userProfile = await getUserProfile(urlServer);
         await createRetirementPlan(urlServer, userProfile);
-        // router.push("/RetirementPages/retirementDashboard");
+        router.push("/RetirementPages/retirementDashboard");
       }
     } else if (isLastStep) {
       if (isSelectedPackage) {
@@ -149,10 +150,15 @@ const retirementCreateForm = () => {
         );
         router.push("/RetirementPages/retirementInvestmentDashboard");
       }
+      else {
+        alert('โปรดกดเลือกพอร์ตก่อน');
+      }
     } else {
       return next();
     }
   };
+
+  console.log('Current Data', data);
 
   useEffect(() => {
     if (currentStepIndex === 2 && showPackageStep) {
@@ -395,7 +401,9 @@ const retirementCreateForm = () => {
             policy_desc: PolicyDesc,
             fund_abbr_name: FundAbbrName,
             one_year_returns: OneYearReturns,
-            allocation_ratio: AllocationRatio,
+            allocation_ratio: 0,
+            current_holding_units: 0,
+            total_holding_value: 0
           }),
         });
 
@@ -527,4 +535,4 @@ const retirementCreateForm = () => {
   );
 };
 
-export default retirementCreateForm;
+export default RetirementCreateForm;

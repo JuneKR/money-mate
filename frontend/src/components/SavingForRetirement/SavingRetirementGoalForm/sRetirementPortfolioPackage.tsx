@@ -1,10 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
-import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import InvestmentCheckBox from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox";
-import { useRouter } from "next/router";
-// import { ReactSVG } from "react-svg";
-import NotFoundSVG from "./assets/not-found.svg";
+import { urlServer } from "@/API";
 
 type ReInvestmentData = {
   dateOfBirth: string;
@@ -47,7 +44,7 @@ export function SRetirementPortfolioPackage({
   updateFields,
   handlePackageSelection,
 }: PackageProps) {
-  const urlServer = "http://localhost:8080/";
+
   const [portfolioPackage, setPortfolioPackage] = useState(
     initialPortfolioPackage
   );
@@ -104,7 +101,7 @@ export function SRetirementPortfolioPackage({
     }
 
     fetchPortfolioPackageData();
-  }, []);
+  }, [riskLevel]);
 
   return (
     <>

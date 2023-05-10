@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import icon1 from "@/images/Profile/img_pf_jm2.jpg";
+import icon1 from "@/images/Profile/img_pf_yk1.jpg";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -47,7 +47,7 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
     onSave(updatedUser);
   };
   return (
-    <div className="w-full xl:w-8/12 p-10">
+    <div className="w-full p-10 xl:w-8/12">
       <div
         className="mb-4 text-center sm:text-left"
         style={{ borderRadius: "50%" }}
@@ -70,7 +70,7 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
           noValidate
           autoComplete="off"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="pb-5">
               <p className="pb-2 text-gray-400">ชื่อจริง</p>
               <TextField
@@ -120,11 +120,11 @@ const Setting: React.FC<SettingProps> = ({ user, onSave }) => {
           </div>
         </Box>
         <div className="py-3">
-          <div className="flex justify-end grid grid-cols-2 gap-3">
-            <button className="bg-blue-300 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded delay-150">
+          <div className="flex grid justify-end grid-cols-2 gap-3">
+            <button className="px-4 py-2 font-bold text-black delay-150 bg-blue-300 rounded hover:bg-blue-500">
               ยืนยัน
             </button>
-            <button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded delay-150">
+            <button className="px-4 py-2 font-bold text-black delay-150 bg-gray-300 rounded hover:bg-gray-500">
               ยกเลิก
             </button>
           </div>

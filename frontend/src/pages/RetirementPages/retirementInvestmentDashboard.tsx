@@ -4,20 +4,27 @@ import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
 import SavingGraph from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementSavingGraph";
-import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
-import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import ModleButtonForm1 from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementInvestmentDashBoardModalForm";
-import EmergencyFundsDetailsTable from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyFundsDetailsTable";
+import RetirementFundsDetailsTable from "@/components/SavingForRetirement/SavingRetirementInvestmentPlan/RetirementMyPortForm/retirementFundsDetailsTable";
 import Pie1 from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentPieChartPortfolio1";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
-
-import { initialPackage } from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
-import InvestDropdown from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/emergencyInvestmentDropdown";
+import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
+import {
+  IPortfolioItem,
+  initialInvestmentPortfolioAllocation,
+} from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import {
+  IPortfolioPackage,
+  IPackageAllocation,
+  initialPackage,
+  initialPortfolioPackageAllocation,
+} from "../EmergencyPages/emergencyInvestmentDashboard";
+import { urlServer } from "@/API";
 
 export interface SavingRetirementPlan {
   PlanName: string;
@@ -71,26 +78,26 @@ export interface InvestmentPortfolio {
   Retirement_ID: number;
 }
 
-const initialSavingEmergencyPlan: SavingRetirementPlan = {
-    PlanName: "",
-    TargetAmount: 0,
-    Period: 0,
-    MonthlySaving: 0,
-    Initial_saving: 0,
-    StartDate: "",
-    LastUpdate: "",
-    TotalBalance: 0,
-    TimeRemaining: 0,
-    DateOfBirth: "",
-    InterestRate: 0,
-    MonthlyExpense: 0,
-    AgeToRetire: 0,
-    AgeToLive: 0,
-    InflationRate: 0,
-    AdditionalInvestment: 0,
-    Progression: "",
-    RiskLevel: 0,
-    ReturnRate: 0,
+const initialSavingRetirementPlan: SavingRetirementPlan = {
+  PlanName: "",
+  TargetAmount: 0,
+  Period: 0,
+  MonthlySaving: 0,
+  Initial_saving: 0,
+  StartDate: "",
+  LastUpdate: "",
+  TotalBalance: 0,
+  TimeRemaining: 0,
+  DateOfBirth: "",
+  InterestRate: 0,
+  MonthlyExpense: 0,
+  AgeToRetire: 0,
+  AgeToLive: 0,
+  InflationRate: 0,
+  AdditionalInvestment: 0,
+  Progression: "",
+  RiskLevel: 0,
+  ReturnRate: 0,
 };
 
 const initialPortfolio: InvestmentPortfolio = {
@@ -109,13 +116,17 @@ const initialPortfolio: InvestmentPortfolio = {
 };
 
 const RetirementInvestmentDashboard = () => {
-  const urlServer = "http://localhost:8080/";
   const [savingRetirementPlan, setSavingRetirementPlan] =
-    useState<SavingRetirementPlan>(initialSavingEmergencyPlan);
+    useState<SavingRetirementPlan>(initialSavingRetirementPlan);
   const [investmentPortfolio, setInvestmentPortfolio] =
     useState(initialPortfolio);
   const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] =
-    useState([]);
+    useState<IPortfolioItem[]>([]);
+  const [portfolioPackage, setPortfolioPackage] =
+    useState<IPortfolioPackage>(initialPackage);
+  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<
+    IPackageAllocation[]
+  >([]);
 
   // Fetch APIs
   useEffect(() => {
@@ -138,7 +149,7 @@ const RetirementInvestmentDashboard = () => {
         setSavingRetirementPlan(savingRetirement);
 
         //Fetch Saving Retirement Investment Portfolio
-        const emergencyInvestmentReponse = await fetch(
+        const retirementInvestmentReponse = await fetch(
           `${urlServer}retirement/${savingRetirement?.Retirement_ID}/investment/portfolio`,
           {
             credentials: "include",
@@ -148,19 +159,40 @@ const RetirementInvestmentDashboard = () => {
           "savingRetirement.Retirement_ID",
           savingRetirement?.Retirement_ID
         );
-        const emergencyInvestmentPortfolio =
-          await emergencyInvestmentReponse.json();
-        setInvestmentPortfolio(emergencyInvestmentPortfolio);
+        const retirementInvestmentPortfolio =
+          await retirementInvestmentReponse.json();
+        setInvestmentPortfolio(retirementInvestmentPortfolio);
 
         //Fetch Investment Portfolio Allocation
         const portfolioResponse = await fetch(
-          `${urlServer}investment/portfolio/${emergencyInvestmentPortfolio.Portfolio_ID}/allocation`,
+          `${urlServer}investment/portfolio/${retirementInvestmentPortfolio.Portfolio_ID}/allocation`,
           {
             credentials: "include",
           }
         );
         const investmentPortfolioAllocation = await portfolioResponse.json();
         setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
+
+        //Fetch Portfolio Package by Package Id
+        const packageResponse = await fetch(
+          `${urlServer}portfolio/package/${retirementInvestmentPortfolio.Package_ID}`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackage = await packageResponse.json();
+        setPortfolioPackage(portfolioPackage);
+
+        //Fetch Portfolio Package Allocation by Package Id
+        const packageAllocationResponse = await fetch(
+          `${urlServer}portfolio/package/${retirementInvestmentPortfolio.Package_ID}/allocations`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackageAllocation =
+          await packageAllocationResponse.json();
+        setPortfolioPackageAllocation(portfolioPackageAllocation);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -169,17 +201,14 @@ const RetirementInvestmentDashboard = () => {
     fetchData();
   }, []);
 
-  console.log("Portfolio", investmentPortfolio);
-  console.log("Allocation", investmentPortfolioAllocation);
-
   const router = useRouter();
 
-  const handleEmergencyInvestmentPortfolio = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfolio");
+  const handleRetirementInvestmentPortfolio = () => {
+    router.push("/RetirementPages/retirementInvestmentPortfolio");
   };
 
-  const handleEmergencyInvestmentTransaction = () => {
-    router.push("/EmergencyPages/emergencyInvestmentTransaction");
+  const handleRetirementInvestmentTransaction = () => {
+    router.push("/RetirementPages/retirementInvestmentTransaction");
   };
   const targetAmountDisplay = Number(savingRetirementPlan?.TargetAmount);
   const monthlySavingDisplay = Number(savingRetirementPlan?.MonthlySaving);
@@ -201,7 +230,6 @@ const RetirementInvestmentDashboard = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    // backgroundColor: "#6259E8",
                   }}
                   className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"
                 >
@@ -227,7 +255,6 @@ const RetirementInvestmentDashboard = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    // backgroundColor: "#6259E8",
                   }}
                   className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"
                 >
@@ -244,13 +271,12 @@ const RetirementInvestmentDashboard = () => {
                     savingRetirement={savingRetirementPlan}
                     savingInvestmentPort={investmentPortfolio}
                   />
-                  <p>หมายเหตุ....</p>
                 </div>
               </div>
 
               <div className="py-5 py-10 shadow-2xl">
                 <div
-                //   style={{ backgroundColor: "#6259E8" }}
+                  //   style={{ backgroundColor: "#6259E8" }}
                   className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"
                 >
                   <div>
@@ -273,18 +299,14 @@ const RetirementInvestmentDashboard = () => {
                   >
                     <Pie1
                       title={investmentPortfolio?.PortfolioName}
-                      investmentPortfolioAllocation={
-                        investmentPortfolioAllocation
-                      }
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                   <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
-                    <EmergencyFundsDetailsTable
+                    <RetirementFundsDetailsTable
                       title={""}
-                      investmentPortfolio={investmentPortfolio}
-                      investmentPortfolioAllocation={
-                        investmentPortfolioAllocation
-                      }
+                      portfolioPackage={portfolioPackage}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                 </div>
@@ -303,7 +325,7 @@ const RetirementInvestmentDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {/* To display balance of emergency plan by decrease with investment portfolio value */}
+                          {/* To display balance of retirement plan by decrease with investment portfolio value */}
                           {savingRetirementPlan?.TotalBalance -
                             investmentPortfolio?.TotalValue}{" "}
                           บาท
@@ -326,7 +348,7 @@ const RetirementInvestmentDashboard = () => {
                     <div>
                       <div className="grid grid-cols-2 py-5 ">
                         <div className="flex grid items-center justify-center grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfolio}>
+                          <button onClick={handleRetirementInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <AddIcon />
                             </div>
@@ -337,7 +359,7 @@ const RetirementInvestmentDashboard = () => {
                           </div>
                         </div>
                         <div className="flex grid items-center justify-center grid-rows-2">
-                          <button onClick={handleEmergencyInvestmentPortfolio}>
+                          <button onClick={handleRetirementInvestmentPortfolio}>
                             <div className="flex items-center justify-center">
                               <RemoveIcon />
                             </div>
@@ -347,7 +369,7 @@ const RetirementInvestmentDashboard = () => {
                           </div>
                         </div>
                       </div>
-                      <button onClick={handleEmergencyInvestmentTransaction}>
+                      <button onClick={handleRetirementInvestmentTransaction}>
                         <h1 className="flex items-center justify-center pb-5">
                           <CachedIcon />
                           ดูประวัติการทำรายการ
@@ -358,6 +380,49 @@ const RetirementInvestmentDashboard = () => {
                   </div>
                 </div>
               </div>
+
+              <div
+                style={{ backgroundColor: "#1D1D41" }}
+                className="mb-5 shadow-2xl bg-gray-50"
+              >
+                <h1 className="flex justify-center py-4 font-bold rounded bg-gradient-to-r from-purple-900 to-red-500">
+                  พอร์ตการลงทุนที่แนะนำในปัจจุบัน
+                </h1>
+                <div className="py-3">
+                  <div className="grid grid-cols-3 py-2">
+                    <div className="flex justify-center">
+                      <h1>ประเภทกองทุนรวม</h1>
+                    </div>
+                    <div className="flex justify-center">
+                      <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
+                    </div>
+                    <div className="flex justify-center">
+                      <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    {Array.isArray(investmentPortfolioAllocation) &&
+                      investmentPortfolioAllocation.map((item) => {
+                        const packageItem = portfolioPackageAllocation.find(
+                          (packageItem) =>
+                            item.FundAbbrName === packageItem.FundAbbrName
+                        );
+                        return (
+                          <div className="mb-4" key={item.PortfolioItem_ID}>
+                            <GoalAccordion
+                              savingPlan={savingRetirementPlan}
+                              investmentPortfolio={investmentPortfolio}
+                              portfolioItem={item}
+                              portfolioPackage={portfolioPackage}
+                              portfolioPackageAllocation={packageItem}
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+
               <div
                 // style={{ backgroundColor: "#6259E8" }}
                 className="py-2 rounded bg-gradient-to-r from-purple-900 to-green-500"
@@ -381,9 +446,9 @@ const RetirementInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-3 px-5 py-5"
                   >
-                    <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
+                    {/* <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
                       นักลงทุนมือใหม่
-                    </h1>
+                    </h1> */}
                     <div>
                       <Progress
                         title={"my bar"}
@@ -402,7 +467,7 @@ const RetirementInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {savingRetirementPlan?.TargetAmount}
+                        {formattedํargetAmount} บาท
                       </h1>
                     </div>
                   </div>
@@ -412,7 +477,7 @@ const RetirementInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {/* {savingRetirementPlan?.TimePeriod} เดือน */}
+                        {savingRetirementPlan?.TimeRemaining} เดือน
                       </h1>
                     </div>
                   </div>
@@ -432,8 +497,10 @@ const RetirementInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {savingRetirementPlan?.TargetAmount -
-                          savingRetirementPlan?.TotalBalance}{" "}
+                        {(
+                          savingRetirementPlan?.TargetAmount -
+                          savingRetirementPlan?.TotalBalance
+                        ).toLocaleString()}{" "}
                         บาท
                       </h1>
                     </div>

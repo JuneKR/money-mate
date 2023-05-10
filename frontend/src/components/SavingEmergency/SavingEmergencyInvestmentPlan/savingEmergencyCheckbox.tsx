@@ -58,7 +58,7 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
             >   
                 {/* backgroundColor: "#27264E" */}
                 {/* backgroundColor: "#1D1D41" */}
-                <div style={{ width: "100%", height: "100%", backgroundColor: "#1D1D41"}} className="text-black relative px-4 py-4 rounded bg-gray-50 dark:bg-gray-800 border border-gray-500">
+                <div style={{ width: "100%", height: "100%", backgroundColor: "#1D1D41"}} className="relative px-4 py-4 text-black border border-gray-500 rounded bg-gray-50 dark:bg-gray-800">
                     <div className="flex justify-end">
                         <input
                             type="radio"
@@ -66,20 +66,20 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
                             value="option1"
                             checked={selectedOption === 'option1'}
                             onChange={handleOptionChange}
-                            className="form-radio h-6 w-10 text-indigo-600 transition duration-150 ease-in-out"
+                            className="w-10 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio"
                         />
                     </div>
-                    <h1 className='font-bold text-white text-center text-2xl p-5'>
+                    <h1 className='p-5 text-2xl font-bold text-center text-white'>
                         {/* เลือกพอร์ตการลงทุนของคุณ */}
                         {portfolioPackage?.PackageName}
                     </h1>
                     <div 
                         style={{backgroundColor: "#27264E"}} 
-                        // className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5"
+                        // className="grid grid-cols-1 py-5 sm:grid-cols-1 lg:grid-cols-3"
                     >   
                         <div 
                             style={{ alignItems: "center" }}
-                            className="col-span-1 flex justify-center item-center p-4"
+                            className="flex justify-center col-span-1 p-4 item-center"
                         >
                             {portfolioPackage && portfolioPackageAllocation ? (
                                 <PiePackage 
@@ -91,7 +91,7 @@ const SavingEmergencyCheckbox: React.FC<SavingEmergencyCheckboxProps> = ({
                             )}
                         </div>
                         <div 
-                            className="text-white flex justify-center item-center boder border-blue-500 col-span-2 "
+                            className="flex justify-center col-span-2 text-white border-blue-500 item-center boder "
                         >
                             <div>
                             {portfolioPackage && portfolioPackageAllocation ? (

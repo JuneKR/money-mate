@@ -50,13 +50,8 @@ const EmergencyInvestmentDropDownPolicy: React.FC<
         >
           <option value="default">เลือกประเภทกองทุนรวม</option>
           {filteredPolicyDescs.map((item) => (
-            <option value={item.PolicyDesc}>{item.PolicyDesc}</option>
+            <option key={item.PolicyDesc} value={item.PolicyDesc}>{item.PolicyDesc}</option>
           ))}
-          {/* {investmentPortfolioAllocation.map((item) => (
-            <option value={item.PolicyDesc}>
-              {item.PolicyDesc}
-            </option>
-          ))} */}
         </select>
         <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
           <svg

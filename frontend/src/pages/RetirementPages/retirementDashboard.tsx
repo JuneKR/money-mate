@@ -5,33 +5,14 @@ import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Prog
 import ModleButtonAdd from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalForm";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
+import { urlServer } from "@/API";
 
 export interface SavingRetirementPlan {
-  // planName: string;
-  // targetAmount: number;
-  // period: number;
-  // monthlySaving: number;
-  // initial_saving: number;
-  // startDate: string;
-  // lastUpdate: string;
-  // totalBalance: number;
-  // timeRemaining: number;
-  // dateOfBirth: string;
-  // interestRate: number;
-  // monthlyExpense: number;
-  // ageToRetire: number;
-  // ageToLive: number;
-  // inflationRate: number;
-  // additionalInvestment: number;
-  // progression: string;
-  // riskLevel: number;
-  // User_ID: number | any;
   PlanName: string;
   TargetAmount: number;
   Period: number;
@@ -59,7 +40,6 @@ export interface SavingRetirementTransaction {
   Type: string;
 }
 function yearsToYearsMonthsDays(value: string) {
-  // const values = Number(value) / 12;
   const totalDays = Number(value) * 365;
   const years = Math.floor(totalDays / 365);
   const months = Math.floor((totalDays - years * 365) / 30);
@@ -76,7 +56,6 @@ const RetirementDashboard = () => {
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
-  const urlServer = "http://localhost:8080/";
 
   const [savingRetirePlan, setSavingRetirePlan] =
     useState<SavingRetirementPlan>();
@@ -144,14 +123,6 @@ const RetirementDashboard = () => {
     Number(savingRetirePlan?.TargetAmount) -
     Number(savingRetirePlan?.TotalBalance);
 
-  // savingEmergencyTransactions.sort((a, b) => {
-  //   const dateA = new Date(a.TransactionDate);
-  //   const dateB = new Date(b.TransactionDate);
-  //   return dateB.getTime() - dateA.getTime();
-  // });
-
-  console.log(savingRetirementTransactions);
-
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -168,7 +139,7 @@ const RetirementDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   การออมเงินเพื่อเพื่อเกษียณอายุ
                 </div>
@@ -187,43 +158,39 @@ const RetirementDashboard = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  // backgroundColor: "#6259E8",
                 }}
-                className=" py-2 rounded-lg bg-gradient-to-r from-purple-900 to-green-500"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-green-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   หยอดกระปุก
                 </div>
               </div>
               <div
                 style={{ backgroundColor: "#1D1D41" }}
-                className="rounded-b-2xl pb-5 shadow-2xl "
+                className="pb-5 shadow-2xl rounded-b-2xl "
               >
-                <div className="pt-5 grid grid-cols-4">
+                <div className="grid grid-cols-4 pt-5">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
-                  <div className="px-5 w-full h-full col-span-3 py-5">
-                    <h1 className="flex justify-center item-center text-lg font-bold pb-7">
-                      นักออมฉุกเฉินมือใหม่
-                    </h1>
+                  <div className="w-full h-full col-span-3 px-5 py-5">
                     <Progress1
                       title={"my bar"}
                       progress={`${savingRetirePlan?.Progression}%`}
                     />
                   </div>
                 </div>
-                <div className=" px-5 text-black">
-                  <div className="text-2xl text-white text-black pb-3 ">
+                <div className="px-5 text-black ">
+                  <div className="pb-3 text-2xl text-black text-white ">
                     {" "}
                     แผนการออมเงินของคุณ
                   </div>
                   <div
                     style={{ backgroundColor: "#27264E" }}
-                    className="py-5 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 shadow-2xl rounded-lg text-white text-lg font-bold"
+                    className="grid grid-cols-2 py-5 text-lg font-bold text-white rounded-lg shadow-2xl md:grid-cols-2 lg:grid-cols-4"
                   >
                     <div>
                       <div className="flex items-center justify-center py-3">
@@ -265,7 +232,7 @@ const RetirementDashboard = () => {
                         <h1>
                           {yearsToYearsMonthsDays(
                             (
-                              Number(savingRetirePlan?.TimeRemaining) * -1
+                              Number(savingRetirePlan?.TimeRemaining)
                             ).toString()
                           )}{" "}
                           เดือน
@@ -288,9 +255,9 @@ const RetirementDashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="pb-5 ">
-              <div className=" grid grid-cols-2 rounded-3xl transition duration-300 delay-150 bg-gradient-to-r from-blue-900 via-green-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-green-800 shadow-2xl">
-                <div className="flex justify-center item-center py-20 grid grid-rows-2">
+            {/* <div className="pb-5 ">
+              <div className="grid grid-cols-2 transition duration-300 delay-150 shadow-2xl rounded-3xl bg-gradient-to-r from-blue-900 via-green-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-green-800">
+                <div className="flex grid justify-center grid-rows-2 py-20 item-center">
                   <div>
                     <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
                   </div>
@@ -298,16 +265,16 @@ const RetirementDashboard = () => {
                     <div>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</div>
                   </div>
                 </div>
-                <div className="flex justify-center item-center py-20">
+                <div className="flex justify-center py-20 item-center">
                   <button
                     // onClick={handleEmergencyInvestmentPortfolioPackage}
-                    className="animate-bounce transition delay-150 bg-green-700 shadow-lg shadow-green-500/50 duration-300 text-white font-bold py-2 px-4 rounded"
+                    className="px-4 py-2 font-bold text-white transition duration-300 delay-150 bg-green-700 rounded shadow-lg animate-bounce shadow-green-500/50"
                   >
                     เพิ่มแผนการลงทุน
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="pt-5 shadow-2xl">
               <div
                 style={{
@@ -319,7 +286,7 @@ const RetirementDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl "
+                  className="text-2xl font-bold text-white "
                 >
                   ประวัติรายการออมและถอนเงิน
                 </div>
@@ -335,12 +302,12 @@ const RetirementDashboard = () => {
                 >
                   {!savingRetirementTransactions.length ? (
                     <div className="p-20">
-                      <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                      <p className="flex justify-center text-2xl font-bold text-gray-200 item-center">
                         คุณยังไม่มีประวัติการออมเงินและถอนเงิน
                       </p>
                     </div>
                   ) : (
-                    <div className="pb-5 px-5">
+                    <div className="px-5 pb-5">
                       {savingRetirementTransactions.map(
                         (savingEmergencyTransaction, index) => (
                           <div key={index}>

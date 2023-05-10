@@ -3,6 +3,7 @@ import {
     createMutualFund,
     getAllMutualFunds,
     getMutualFundByFundId,
+    getMutualFundByFundAbbrName,
     editMutualFundInfo,
     getAllMutualFundByPackageId
 } from '../../controllers/portfolio management/mutualFundController';
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.post('/mutual/fund', createMutualFund);
 router.get('/mutual/fund/:id', getMutualFundByFundId);
+router.get('/mutual/fund/abbr/:name', getMutualFundByFundAbbrName);
 router.get('/mutual/funds', getAllMutualFunds);
 router.patch('/mutual/fund/:id', editMutualFundInfo);
 

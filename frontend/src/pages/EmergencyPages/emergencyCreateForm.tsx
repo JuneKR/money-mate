@@ -1,15 +1,14 @@
 import Sidebar from "@/components/Sidebar";
 import styles from "@/styles/Home.module.css";
 import { useRouter } from "next/router";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stepper, StepLabel, Step, Box } from "@mui/material";
 import { useMultistepForm } from "@/components/SavingEmergency/EmergencyForm/useMultistepForm";
 import { GoalForm } from "@/components/SavingEmergency/EmergencyForm/GoalForm";
 import { PlanForm } from "@/components/SavingEmergency/EmergencyForm/PlanForm";
 import InvestmentForm from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
 import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
-import { create } from "domain";
-import { start } from "repl";
+import { urlServer } from "@/API";
 
 type FormData = {
   expense: number;
@@ -33,13 +32,12 @@ const initialData: FormData = {
   returnRate: 0,
 };
 
-const emergencyCreateForm = () => {
+const EmergencyCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
-  const urlServer = "http://localhost:8080/";
   const [isSelectedPackage, setIsSelectedPackage] = useState(false);
 
   function updateFields(fields: Partial<FormData>) {
@@ -49,25 +47,21 @@ const emergencyCreateForm = () => {
   }
 
   const handleInvestmentSelection = (selected: boolean) => {
-    console.log("Selected Package", selected);
     setShowPackageStep(selected);
   };
 
   const handlePackageSelection = (selected: boolean) => {
-    console.log('Selected Package', selected) 
     setIsSelectedPackage(selected);
   };
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next, goTo } =
     useMultistepForm([
-      <GoalForm {...data} updateFields={updateFields} />,
-      <PlanForm {...data} updateFields={updateFields} />,
-      <InvestmentForm selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
-      <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
+      <GoalForm key="goal-form"  {...data} updateFields={updateFields} />,
+      <PlanForm key="plan-form" {...data} updateFields={updateFields} />,
+      <InvestmentForm key="investment-form" selected={false} {...data} updateFields={updateFields} handleInvestmentSelection={handleInvestmentSelection}/>,
+      <PortfolioPackage key="portfolio-package" {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
     ]);
-    // console.log('Steps', steps);
-    // console.log('Current Step', currentStepIndex);  
-    // console.log('Show Package Step', showPackageStep);
+ 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -298,7 +292,9 @@ const emergencyCreateForm = () => {
             policy_desc: PolicyDesc,
             fund_abbr_name: FundAbbrName,
             one_year_returns: OneYearReturns,
-            allocation_ratio: AllocationRatio
+            allocation_ratio: 0,
+            current_holding_units: 0,
+            total_holding_value: 0
           })
         });
   
@@ -430,4 +426,4 @@ const emergencyCreateForm = () => {
   );
 };
 
-export default emergencyCreateForm;
+export default EmergencyCreateForm;

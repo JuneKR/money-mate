@@ -9,6 +9,8 @@ interface PortfolioItemAttributes {
     FundAbbrName: string;
     OneYearReturns: number;   
     AllocationRatio: number;
+    CurrentHoldingUnits: number;
+    TotalHoldingValue: number;
 }
 
 interface PortfolioItemCreationAttributes
@@ -57,6 +59,14 @@ const PortfolioItem = db.define<PortfolioItemInstance>('PortfolioItem', {
         allowNull: false,
     },
     AllocationRatio: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    CurrentHoldingUnits: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    TotalHoldingValue: {
         type: DataTypes.FLOAT,
         allowNull: false,
     },

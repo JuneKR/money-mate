@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import 'moment/locale/th';
 import { Line } from 'react-chartjs-2';
 import { 
   Chart, 
@@ -76,15 +77,18 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
   }
 
   const bangkokTimezone = 'Asia/Bangkok';
-  const investmentAmortizationSchedule = numberPeriods(savingRetirement?.TotalBalance, savingRetirement?.TargetAmount, -savingRetirement?.MonthlySaving,savingInvestmentPort.ReturnRate/100);
-  const savingAmortizationSchedule = numberPeriods(savingRetirement?.TotalBalance, savingRetirement?.TargetAmount, -savingRetirement?.MonthlySaving, 0);
+  const investmentAmortizationSchedule = numberPeriods(0, savingRetirement.TargetAmount, savingRetirement.MonthlySaving,savingInvestmentPort.ReturnRate/100);
+  const savingAmortizationSchedule = numberPeriods(0, savingRetirement.TargetAmount, savingRetirement.MonthlySaving, 0);
+  
   console.log("investmentAmortizationSchedule", investmentAmortizationSchedule)
   console.log("savingAmortizationSchedule", savingAmortizationSchedule)
+  
   const fvData = investmentAmortizationSchedule.map((period, index) => {
     const startDate = moment().tz(bangkokTimezone).add(index, 'months');
-    const monthName = startDate.format('MMM');
+    const monthName = startDate.locale('th').format('MMM');
     const year = startDate.format('YYYY');
-    const monthYear = `${monthName} ${year}`;
+    const thaiYear = parseInt(startDate.format('YYYY'), 10) + 543;
+    const monthYear = `${monthName} ${thaiYear}`;
     return {
       x: monthName,
       y: Number(period.fv).toFixed(2),
@@ -94,9 +98,10 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
 
   const fvSavingData = savingAmortizationSchedule.map((period, index) => {
     const startDate = moment().tz(bangkokTimezone).add(index, 'months');
-    const monthName = startDate.format('MMM');
+    const monthName = startDate.locale('th').format('MMM');
     const year = startDate.format('YYYY');
-    const monthYear = `${monthName} ${year}`;
+    const thaiYear = parseInt(startDate.format('YYYY'), 10) + 543;
+    const monthYear = `${monthName} ${thaiYear}`;
     return {
       x: monthName,
       y: Number(period.fv).toFixed(2),
@@ -132,7 +137,7 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
     ]
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"line"> = {
     plugins: {
       legend: {
         labels: {
@@ -172,5 +177,7 @@ const SRetirementSavingGraph: React.FC<SRetirementSavingGraphProps> = React.forw
     </div>
   );
 });
+
+SRetirementSavingGraph.displayName = "SRetirementSavingGraph";
 
 export default SRetirementSavingGraph;

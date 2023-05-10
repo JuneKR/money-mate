@@ -199,7 +199,7 @@ const AdminPortManagementPageTable: React.FC<AdminPortManagementPageTableProps> 
         // pageSize={15}
         // rowsPerPageOptions={[5]}
         // checkboxSelection
-        className="flex item-center justify-center "
+        className="flex justify-center item-center "
       />
     </div>
   );

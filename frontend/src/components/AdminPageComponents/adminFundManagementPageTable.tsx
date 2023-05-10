@@ -1,15 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { DataGrid, GridColDef, GridCellParams } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { urlServer } from "@/API";
 
 interface AdminFundManagementPageTableProps {
   title: string;
 }
 
-const AdminFundManagementPageTable: React.FC<AdminFundManagementPageTableProps> = ({ title }) => {
+export interface MutualFundsData {
+  FundName: any;
+  FundAbbrName: any;
+  RiskSpectrum: any;
+  LastUpdate: string | any;
+  PolicyDesc: string | any;
+  SpecCode: string | any;
+  SpecDesc: string | any;
+  NAV: string | any;
+  MinimumInvestmentAmount: string | any;
+  MinimumAdditionalAmount: string | any;
+  oneYearReturns: string | any;
+  threeYearReturns: string | any;
+  fiveYearReturns: string | any;
+  YTDReturns: string | any;
+}
+
+const AdminFundManagementPageTable: React.FC<
+  AdminFundManagementPageTableProps
+> = ({ title }) => {
+  const [mutualFunds, setMutualFunds] = useState<MutualFundsData[]>([]);
+
+  const [lastUpdate, setLastupdate] = useState("");
+  const [fundName, setFundName] = useState("");
+  const [fundAbbrName, setFundAbbrName] = useState("");
+  const [riskSpectrum, setRiskSpectrum] = useState("");
+  const [policyDesc, setPolicyDesc] = useState("");
+  const [specCode, setSpecCode] = useState("");
+  const [specDesc, setSpecDesc] = useState("");
+  const [nav1, setNav1] = useState("");
+  const [minimumInvestmentAmount, setMinimumInvestmentAmount] = useState("");
+  const [minimumAdditionalAmount, setMinimumAdditionalAmount] = useState("");
+  const [oneYearReturns, setOneYearReturns] = useState("");
+  const [threeYearReturns, setThreeYearReturns] = useState("");
+  const [fiveYearReturns, setFiveYearReturns] = useState("");
+  const [ytdReturns, setYtdReturns] = useState("");
+  
   const handleEdit = (id: number) => {
     // Logic to edit the record with the specified ID
   };
@@ -18,6 +55,25 @@ const AdminFundManagementPageTable: React.FC<AdminFundManagementPageTableProps> 
     // Logic to delete the record with the specified ID
   };
 
+  console.log(mutualFunds)
+
+  // Fetch APIs
+  useEffect(() => {
+    async function fetchMutualFunds() {
+      try {
+        //Fetch Saving Emergency Transaction
+        const mutualFundsResponse = await fetch(`${urlServer}mutual/funds`, {
+          credentials: "include",
+        });
+        const mutualFunds2 = await mutualFundsResponse.json();
+        setMutualFunds(mutualFunds2);
+      } catch (error) {
+        console.log("Fetching Saving Plan Error: ", error);
+      }
+    }
+    fetchMutualFunds();
+  }, []);
+  
   const router = useRouter();
   const handleEmergencyHomepage = () => {
     router.push("/EmergencyPages/emergencyHomepage");
@@ -91,89 +147,20 @@ const AdminFundManagementPageTable: React.FC<AdminFundManagementPageTableProps> 
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      mutualFundType: "Snow",
-      mutualFundNickName: "Jon",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 2,
-      mutualFundType: "Lannister",
-      mutualFundNickName: "Cersei",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 3,
-      mutualFundType: "Lannister",
-      mutualFundNickName: "Jaime",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 4,
-      mutualFundType: "Stark",
-      mutualFundNickName: "Arya",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 5,
-      mutualFundType: "Targaryen",
-      mutualFundNickName: "Daenerys",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 6,
-      mutualFundType: "Melisandre",
-      mutualFundNickName: "Melisandre",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 7,
-      mutualFundType: "Clifford",
-      mutualFundNickName: "Ferrara",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 8,
-      mutualFundType: "Frances",
-      mutualFundNickName: "Rossini",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-    {
-      id: 9,
-      mutualFundType: "Roxie",
-      mutualFundNickName: "Harvey",
-      mutualFundRisk: 1,
-      mutualFundReturn1: 35,
-      mutualFundReturn3: 42,
-      mutualFundReturn5: 16,
-    },
-  ];
+  // 
+  
+  const rows = mutualFunds.map((mutualFund, index) => {
+    return {
+      id: index + 1,
+      mutualFundType: mutualFund.FundName,
+      mutualFundNickName: mutualFund.FundAbbrName,
+      mutualFundRisk: mutualFund.RiskSpectrum,
+      mutualFundReturn1: mutualFund.oneYearReturns + "%",
+      mutualFundReturn3: mutualFund.threeYearReturns + "%",
+      mutualFundReturn5: mutualFund.fiveYearReturns + "%",
+    };
+  });
+  
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
@@ -182,7 +169,7 @@ const AdminFundManagementPageTable: React.FC<AdminFundManagementPageTableProps> 
         // pageSize={15}
         // rowsPerPageOptions={[5]}
         checkboxSelection
-        className="flex item-center justify-center "
+        className="flex justify-center item-center "
       />
     </div>
   );

@@ -68,7 +68,7 @@ const EmergencyInvestmentSlider: React.FC<EmergencyInvestmentSliderProps> = ({ t
       <div style={{ width: "100%"}} className='text-black'>
           <Box sx={{ width: "100%" }}>
             <Slider
-              // key={sliderValue}
+              key={sliderValue}  
               sx={{
                 "& .MuiSlider-markLabel": {
                   color: "white",

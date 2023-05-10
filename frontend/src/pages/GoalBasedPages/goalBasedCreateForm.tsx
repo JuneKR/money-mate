@@ -9,6 +9,7 @@ import { PlanForm } from "@/components/SavingForGoal/SavingGoalForm/sGoalPlanFor
 import SGInvestmentForm from "@/components/SavingForGoal/SavingGoalForm/sGoalInvestmentForm";
 import PortfolioPackage from "@/components/SavingForGoal/SavingGoalForm/sGoalPortfolioPackage";
 import { create } from "domain";
+import { urlServer } from "@/API";
 
 type FormData = {
   planName: string;
@@ -38,14 +39,13 @@ const initialData: FormData = {
     returnRate: 0,
 };
 
-const goalBasedCreateForm = () => {
+const GoalBasedCreateForm = () => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
   const [isSelectedPackage, setIsSelectedPackage] = useState(false);
-  const urlServer = "http://localhost:8080/";
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {
@@ -73,15 +73,16 @@ const goalBasedCreateForm = () => {
     next,
     goTo,
   } = useMultistepForm([
-    <SGoalForm {...data} updateFields={updateFields} />,
-    <PlanForm {...data} updateFields={updateFields} />,
+    <SGoalForm key="goal-form" {...data} updateFields={updateFields} />,
+    <PlanForm key="plan-form" {...data} updateFields={updateFields} />,
     <SGInvestmentForm
+      key="investment-form"
       selected={false}
       {...data}
       updateFields={updateFields}
       handleInvestmentSelection={handleInvestmentSelection}
     />,
-    <PortfolioPackage {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
+    <PortfolioPackage key="portfolio-package" {...data} updateFields={updateFields} handlePackageSelection={handlePackageSelection} />,
   ]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -117,6 +118,8 @@ const goalBasedCreateForm = () => {
       return next();
     }
   };
+
+  console.log('Current Data', data);
 
   useEffect(() => {
     if (currentStepIndex === 2 && showPackageStep) {
@@ -308,7 +311,9 @@ const goalBasedCreateForm = () => {
             policy_desc: PolicyDesc,
             fund_abbr_name: FundAbbrName,
             one_year_returns: OneYearReturns,
-            allocation_ratio: AllocationRatio
+            allocation_ratio: 0,
+            current_holding_units: 0,
+            total_holding_value: 0
           })
         });
   
@@ -436,4 +441,4 @@ const goalBasedCreateForm = () => {
   );
 };
 
-export default goalBasedCreateForm;
+export default GoalBasedCreateForm;

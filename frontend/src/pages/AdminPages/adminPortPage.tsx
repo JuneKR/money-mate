@@ -33,20 +33,20 @@ const AdminPortPage = () => {
                   พอร์ตการลงทุนของคุณ
                 </p>
               </div>
-              <div className="shadow-2xl grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 py-5 bg-gray-50 ">
+              <div className="grid grid-cols-1 py-5 shadow-2xl sm:grid-cols-1 lg:grid-cols-3 bg-gray-50 ">
                 <div
                   style={{ alignItems: "center" }}
-                  className="col-span-1 flex justify-center item-center"
+                  className="flex justify-center col-span-1 item-center"
                 >
                   <Pie1 title={"my pie1"} />
                 </div>
-                <div className="text-black flex justify-center item-center boder border-blue-500 col-span-2 ">
+                <div className="flex justify-center col-span-2 text-black border-blue-500 item-center boder ">
                   <AdminPortsDetailTable title={""} />
                 </div>
               </div>
             </div>
             <div className="pt-5">
-              <div className="flex justify-center item-center p-5 bg-gray-50 shadow-2xl">
+              <div className="flex justify-center p-5 shadow-2xl item-center bg-gray-50">
                 <Table1 title={""} />
               </div>
             </div>

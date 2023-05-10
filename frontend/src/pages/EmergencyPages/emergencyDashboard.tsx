@@ -5,12 +5,12 @@ import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Prog
 import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingEmergency/EmergencyDashboardComponents/emergencyDashBoardModalForm1";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
+import { urlServer } from "@/API";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number;
@@ -49,8 +49,6 @@ function yearsToYearsMonthsDays(value: string) {
 const EmergencyDashboard = () => {
   const router = useRouter();
 
-  const urlServer = "http://localhost:8080/";
-
   const [savingEmergencyPlan, setSavingEmergencyPlan] =
     useState<SavingEmergencyPlan>();
 
@@ -85,8 +83,7 @@ const EmergencyDashboard = () => {
           }
         );
 
-        const savingEmergencyTransaction =
-          await savingEmergencyTransactionResponse.json();
+        const savingEmergencyTransaction = await savingEmergencyTransactionResponse.json();
         setSavingEmergencyTransactions(savingEmergencyTransaction);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
@@ -102,14 +99,6 @@ const EmergencyDashboard = () => {
   const amountRemaining =
     Number(savingEmergencyPlan?.TargetAmount) -
     Number(savingEmergencyPlan?.TotalBalance);
-
-  // savingEmergencyTransactions.sort((a, b) => {
-  //   const dateA = new Date(a.TransactionDate);
-  //   const dateB = new Date(b.TransactionDate);
-  //   return dateB.getTime() - dateA.getTime();
-  // });
-
-  // console.log(savingEmergencyTransactions);
 
   return (
     <>
@@ -127,7 +116,7 @@ const EmergencyDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   การออมเงินเผื่อฉุกเฉิน
                 </div>
@@ -147,41 +136,38 @@ const EmergencyDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className=" py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
+                className="py-2 rounded-lg  bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl"
+                  className="text-2xl font-bold text-white"
                 >
                   หยอดกระปุก
                 </div>
               </div>
               <div
                 style={{ backgroundColor: "#1D1D41" }}
-                className="rounded-b-2xl pb-5 shadow-2xl "
+                className="pb-5 shadow-2xl rounded-b-2xl "
               >
-                <div className="pt-5 grid grid-cols-4">
+                <div className="grid grid-cols-4 pt-5">
                   <div className="col-span-1 ">
                     <Image src={icon1} alt="Your Image" className="pb-3" />
                   </div>
-                  <div className="px-5 w-full h-full col-span-3 py-5">
-                    <h1 className="flex justify-center item-center text-lg font-bold pb-7">
-                      นักออมฉุกเฉินมือใหม่
-                    </h1>
+                  <div className="w-full h-full col-span-3 px-5 py-5">
                     <Progress1
                       title={"my bar"}
                       progress={`${savingEmergencyPlan?.Progression}%`}
                     />
                   </div>
                 </div>
-                <div className=" px-5">
-                  <div className="text-2xl text-white pb-3 ">
+                <div className="px-5 ">
+                  <div className="pb-3 text-2xl text-white ">
                     {" "}
                     แผนการออมเงินของคุณ
                   </div>
                   <div
                     style={{ backgroundColor: "#27264E" }}
-                    className="py-5 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-5 shadow-2xl rounded-lg text-white text-lg font-bold"
+                    className="grid grid-cols-1 py-5 text-lg font-bold text-white rounded-lg shadow-2xl md:grid-cols-1 lg:grid-cols-5"
                   >
                     <div>
                       <div className="flex items-center justify-center py-3">
@@ -246,26 +232,7 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="pb-5 ">
-              <div className=" grid grid-cols-2 rounded-3xl transition duration-300 delay-150 bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800 shadow-2xl">
-                <div className="flex justify-center item-center py-20 grid grid-rows-2">
-                  <div>
-                    <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
-                  </div>
-                  <div>
-                    <div>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</div>
-                  </div>
-                </div>
-                <div className="flex justify-center item-center py-20">
-                  <button
-                    // onClick={handleEmergencyInvestmentPortfolioPackage}
-                    className="transition ease-in-out delay-150 bg-yellow-200 hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500 duration-300 text-black font-bold py-2 px-4 rounded"
-                  >
-                    เพิ่มแผนการลงทุน
-                  </button>
-                </div>
-              </div>
-            </div>
+
             <div className="pt-5 shadow-2xl">
               <div
                 style={{
@@ -276,7 +243,7 @@ const EmergencyDashboard = () => {
               >
                 <div
                   style={{ padding: "0 1rem" }}
-                  className="font-bold text-white text-2xl "
+                  className="text-2xl font-bold text-white "
                 >
                   ประวัติรายการออมและถอนเงิน
                 </div>
@@ -292,12 +259,12 @@ const EmergencyDashboard = () => {
                 >
                   {!savingEmergencyTransactions.length ? (
                     <div className="p-20">
-                      <p className="text-gray-200 flex justify-center item-center text-2xl font-bold">
+                      <p className="flex justify-center text-2xl font-bold text-gray-200 item-center">
                         คุณยังไม่มีประวัติการออมเงินและถอนเงิน
                       </p>
                     </div>
                   ) : (
-                    <div className="pb-5 px-5">
+                    <div className="px-5 pb-5">
                       {savingEmergencyTransactions.map(
                         (savingEmergencyTransaction, index) => (
                           <div key={index}>
@@ -311,7 +278,6 @@ const EmergencyDashboard = () => {
                       )}
                     </div>
                   )}
-                  <div></div>
                 </div>
               </div>
             </div>

@@ -4,8 +4,6 @@ import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Progress from "@/components/SavingEmergency/EmergencyGraphComponent/Progress1";
 import SavingGraph from "@/components/SavingForGoal/SavingGoalGraphComponent/savingGraph";
-import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
-import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
 import ModleButtonForm from "@/components/SavingForGoal/SavingGoalInvestmentPlan/sGoalInvestmentDashBoardModalForm";
 import GoalFundsDetailsTable from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalMyPortForm/goalFundsDetailsTable";
@@ -15,6 +13,18 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import CachedIcon from "@mui/icons-material/Cached";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import Image from "next/image";
+import GoalAccordion from "@/components/SavingForGoal/SavingGoalInvestmentPlan/GoalAccordion";
+import {
+  IPortfolioItem,
+  initialInvestmentPortfolioAllocation,
+} from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import {
+  IPortfolioPackage,
+  IPackageAllocation,
+  initialPackage,
+  initialPortfolioPackageAllocation,
+} from "../EmergencyPages/emergencyInvestmentDashboard";
+import { urlServer } from "@/API";
 
 export interface SavingGoalPlan {
   Goal_ID: number | any;
@@ -86,14 +96,22 @@ const initialPortfolio: InvestmentPortfolio = {
   Package_ID: 1,
   Emergency_ID: 0,
   Goal_ID: 0,
-  Retirement_ID: 0
-}
+  Retirement_ID: 0,
+};
 
-const EmergencyInvestmentDashboard = () => {
-  const urlServer = "http://localhost:8080/";
-  const [savingGoalPlan, setSavingGoalPlan] = useState<SavingGoalPlan>(initialSavingGoalPlan);
-  const [investmentPortfolio, setInvestmentPortfolio] = useState(initialPortfolio);
-  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] = useState([]);
+const GoalInvestmentDashboard = () => {
+  const [savingGoalPlan, setSavingGoalPlan] = useState<SavingGoalPlan>(
+    initialSavingGoalPlan
+  );
+  const [investmentPortfolio, setInvestmentPortfolio] =
+    useState(initialPortfolio);
+  const [investmentPortfolioAllocation, setInvestmentPortfolioAllocation] =
+    useState<IPortfolioItem[]>([]);
+  const [portfolioPackage, setPortfolioPackage] =
+    useState<IPortfolioPackage>(initialPackage);
+  const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState<
+    IPackageAllocation[]
+  >([]);
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -105,7 +123,7 @@ const EmergencyInvestmentDashboard = () => {
       return "0 ปี 0 เดือน 0 วัน";
     }
     return result.toString();
-  }  
+  }
 
   // Fetch APIs
   useEffect(() => {
@@ -117,7 +135,7 @@ const EmergencyInvestmentDashboard = () => {
         });
         const userProfile = await profileResponse.json();
 
-        //Fetch Saving Emergency Plan
+        //Fetch Saving Goal Plan
         const savingGoalResponse = await fetch(
           `${urlServer}user/${userProfile.User_ID}/saving/goal`,
           {
@@ -127,7 +145,7 @@ const EmergencyInvestmentDashboard = () => {
         const savingGoal = await savingGoalResponse.json();
         setSavingGoalPlan(savingGoal);
 
-        //Fetch Saving Emergency Investment Portfolio
+        //Fetch Saving Goal Investment Portfolio
         const goalInvestmentReponse = await fetch(
           `${urlServer}goal/${savingGoal.Goal_ID}/investment/portfolio`,
           {
@@ -138,13 +156,35 @@ const EmergencyInvestmentDashboard = () => {
         setInvestmentPortfolio(goalInvestmentPortfolio);
 
         //Fetch Investment Portfolio Allocation
-        const portfolioResponse = await fetch(`${urlServer}investment/portfolio/${goalInvestmentPortfolio.Portfolio_ID}/allocation`, {
-          credentials: "include",
-        });
+        const portfolioResponse = await fetch(
+          `${urlServer}investment/portfolio/${goalInvestmentPortfolio.Portfolio_ID}/allocation`,
+          {
+            credentials: "include",
+          }
+        );
         const investmentPortfolioAllocation = await portfolioResponse.json();
         setInvestmentPortfolioAllocation(investmentPortfolioAllocation);
 
+        //Fetch Portfolio Package by Package Id
+        const packageResponse = await fetch(
+          `${urlServer}portfolio/package/${goalInvestmentPortfolio.Package_ID}`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackage = await packageResponse.json();
+        setPortfolioPackage(portfolioPackage);
 
+        //Fetch Portfolio Package Allocation by Package Id
+        const packageAllocationResponse = await fetch(
+          `${urlServer}portfolio/package/${goalInvestmentPortfolio.Package_ID}/allocations`,
+          {
+            credentials: "include",
+          }
+        );
+        const portfolioPackageAllocation =
+          await packageAllocationResponse.json();
+        setPortfolioPackageAllocation(portfolioPackageAllocation);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -152,9 +192,6 @@ const EmergencyInvestmentDashboard = () => {
 
     fetchData();
   }, []);
-
-  console.log('Portfolio', investmentPortfolio);
-  console.log('Allocation',investmentPortfolioAllocation);
 
   const router = useRouter();
 
@@ -221,19 +258,16 @@ const EmergencyInvestmentDashboard = () => {
                   </p>
                 </div>
                 <div style={{ backgroundColor: "#1D1D41" }} className="p-10">
-                  <SavingGraph 
+                  <SavingGraph
                     title={"saving chart"}
                     savingGoal={savingGoalPlan}
                     savingInvestmentPort={investmentPortfolio}
                   />
-                  <p>หมายเหตุ....</p>
                 </div>
               </div>
 
               <div className="py-5 py-10 shadow-2xl">
-                <div
-                  className="py-2 rounded bg-gradient-to-r from-purple-900 to-red-500"
-                >
+                <div className="py-2 rounded bg-gradient-to-r from-purple-900 to-red-500">
                   <div>
                     <p
                       style={{ padding: "0 1rem" }}
@@ -253,15 +287,15 @@ const EmergencyInvestmentDashboard = () => {
                     className="flex justify-center col-span-1 item-center"
                   >
                     <Pie
-                      title={investmentPortfolio.PortfolioName} 
-                      investmentPortfolioAllocation={investmentPortfolioAllocation}
+                      title={investmentPortfolio.PortfolioName}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                   <div className="flex justify-center col-span-3 border-blue-500 item-center boder ">
                     <GoalFundsDetailsTable
                       title={""}
-                      investmentPortfolio={investmentPortfolio}
-                      investmentPortfolioAllocation={investmentPortfolioAllocation}
+                      portfolioPackage={portfolioPackage}
+                      portfolioPackageAllocation={portfolioPackageAllocation}
                     />
                   </div>
                 </div>
@@ -280,8 +314,10 @@ const EmergencyInvestmentDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {/* To display balance of emergency plan by decrease with investment portfolio value */}
-                          {savingGoalPlan?.TotalBalance - investmentPortfolio.TotalValue} บาท
+                          {/* To display balance of goal plan by decrease with investment portfolio value */}
+                          {savingGoalPlan?.TotalBalance -
+                            investmentPortfolio.TotalValue}{" "}
+                          บาท
                         </h1>
                       </div>
                     </div>
@@ -291,8 +327,7 @@ const EmergencyInvestmentDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center">
                         <h1 className="font-bold">
-                          {investmentPortfolio?.TotalValue ===
-                          undefined
+                          {investmentPortfolio?.TotalValue === undefined
                             ? "0"
                             : investmentPortfolio?.TotalValue}{" "}
                           บาท
@@ -330,13 +365,53 @@ const EmergencyInvestmentDashboard = () => {
                         </h1>
                       </button>
                     </div>
-                    <div className="px-5"></div>
                   </div>
                 </div>
               </div>
+
               <div
-                className="py-2 rounded bg-gradient-to-r from-purple-900 to-red-500"
+                style={{ backgroundColor: "#1D1D41" }}
+                className="mb-5 shadow-2xl bg-gray-50"
               >
+                <h1 className="flex justify-center py-4 font-bold rounded bg-gradient-to-r from-purple-900 to-red-500">
+                  พอร์ตการลงทุนที่แนะนำในปัจจุบัน
+                </h1>
+                <div className="py-3">
+                  <div className="grid grid-cols-3 py-2">
+                    <div className="flex justify-center">
+                      <h1>ประเภทกองทุนรวม</h1>
+                    </div>
+                    <div className="flex justify-center">
+                      <h1>สัดส่วนเทียบกับพอร์ต (%)</h1>
+                    </div>
+                    <div className="flex justify-center">
+                      <h1>เงินลงทุนเทียบกับพอร์ต (บาท)</h1>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    {Array.isArray(investmentPortfolioAllocation) &&
+                      investmentPortfolioAllocation.map((item) => {
+                        const packageItem = portfolioPackageAllocation.find(
+                          (packageItem) =>
+                            item.FundAbbrName === packageItem.FundAbbrName
+                        );
+                        return (
+                          <div className="mb-4" key={item.PortfolioItem_ID}>
+                            <GoalAccordion
+                              savingPlan={savingGoalPlan}
+                              investmentPortfolio={investmentPortfolio}
+                              portfolioItem={item}
+                              portfolioPackage={portfolioPackage}
+                              portfolioPackageAllocation={packageItem}
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+
+              <div className="py-2 rounded bg-gradient-to-r from-purple-900 to-red-500">
                 <p
                   style={{ padding: "0 1rem" }}
                   className="text-2xl font-bold text-white"
@@ -356,9 +431,9 @@ const EmergencyInvestmentDashboard = () => {
                     style={{ alignItems: "center" }}
                     className="col-span-3 px-5 py-5"
                   >
-                    <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
+                    {/* <h1 className="flex justify-center pb-3 text-2xl font-bold text-white item-center">
                       นักลงทุนมือใหม่
-                    </h1>
+                    </h1> */}
                     <div>
                       <Progress
                         title={"my bar"}
@@ -420,7 +495,10 @@ const EmergencyInvestmentDashboard = () => {
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
                         {/* {yearsToYearsMonthsDays(savingGoalPlan?.TimeRemaining)} เดือน */}
-                        {yearsToYearsMonthsDays((savingGoalPlan?.TimePeriod/12).toString())} เดือน
+                        {yearsToYearsMonthsDays(
+                          (savingGoalPlan?.TimePeriod / 12).toString()
+                        )}{" "}
+                        เดือน
                       </h1>
                     </div>
                   </div>
@@ -433,4 +511,4 @@ const EmergencyInvestmentDashboard = () => {
     </>
   );
 };
-export default EmergencyInvestmentDashboard;
+export default GoalInvestmentDashboard;

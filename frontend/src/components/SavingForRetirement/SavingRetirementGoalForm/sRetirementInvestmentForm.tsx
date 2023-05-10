@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider";
-import { time } from "console";
+import { urlServer } from "@/API";
 
 type ReInvestmentData = {
   dateOfBirth: string;
@@ -90,7 +90,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           0
         ) / 12,
@@ -109,7 +109,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           2
         ) / 12,
@@ -128,7 +128,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           3
         ) / 12,
@@ -147,7 +147,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           4
         ) / 12,
@@ -166,7 +166,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           5
         ) / 12,
@@ -185,7 +185,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           6
         ) / 12,
@@ -204,7 +204,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           7
         ) / 12,
@@ -223,7 +223,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           8
         ) / 12,
@@ -242,7 +242,7 @@ export function SRetirementInvestment({
       timeRemaining:
         numberPeriods(
           Number(totalBalance),
-          Number(targetAmount) * -1,
+          Number(targetAmount),
           Number(monthlySaving),
           9
         ) / 12,
@@ -260,7 +260,7 @@ export function SRetirementInvestment({
     initialTableData[1].monthlySaving,
     initialTableData[1].returnRate
   );
-  console.log(numberPeriods(0, 3600000, -6700, 9) / 12);
+  // console.log(numberPeriods(0, 3600000, -6700, 9) / 12);
   const [tableData, setTableData] =
     useState<ReInvestmentData[]>(initialTableData);
 
@@ -301,7 +301,6 @@ export function SRetirementInvestment({
 
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
-  const urlServer = "http://localhost:8080/";
   const [defaultOption, setDefaultOption] = useState({
     // expense: expense | 0,
     period: period | 0,
@@ -321,30 +320,15 @@ export function SRetirementInvestment({
   const [selectedOption, setSelectedOption] = useState(0);
 
   useEffect(() => {
-    async function fetchUserProfile() {
-      try {
-        // Fetch User Profile
-        const profileResponse = await fetch(urlServer + "user/profile", {
-          credentials: "include",
-        });
-        const userProfile = await profileResponse.json();
-        // console.log(userProfile);
-        const uID = userProfile.User_ID;
-        // setuID(uID);
-      } catch (error) {
-        console.log("fetch User Profile Error: ", error);
-      }
-    }
-
     // Update Parent Component State
     if (selectedOption === 0) {
       updateFields(defaultOption);
     } else {
       updateFields(selectedTable);
     }
-
-    fetchUserProfile();
-  }, [selectedOption]);
+  }, [
+    selectedOption,
+  ]);
 
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -369,9 +353,9 @@ export function SRetirementInvestment({
     });
     setTableData(newData);
   };
-  console.log("monthlySaving", monthlySaving);
+  
   const targetAmount2 = Number(targetAmount);
-  const monthlySaving2 = Number(monthlySaving) * -1;
+  const monthlySaving2 = Number(monthlySaving);
   const formatTargetAmount2 = targetAmount2.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
   const timeRemaining2 = ageToRetire - age;
@@ -401,7 +385,7 @@ export function SRetirementInvestment({
             <div className="p-4">{timeRemaining2} ปี</div>
             <div className="p-4"> ระยะเวลาทั้งหมดที่ใช้ในการออมเงิน:</div>
             <div className="p-4">
-              {yearsToYearsMonthsDays((timeRemaining * -1).toString())} เดือน
+              {yearsToYearsMonthsDays((timeRemaining).toString())} เดือน
             </div>
           </div>
         </div>

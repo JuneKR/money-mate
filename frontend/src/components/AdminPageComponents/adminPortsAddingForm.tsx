@@ -66,11 +66,11 @@ const AdminPortsAddingForm: React.FC<AdminPortsAddingFormProps> = ({
           </div>
 
           <div className="py-5">
-            <div className="flex justify-end grid grid-cols-2 gap-3">
+            <div className="flex grid justify-end grid-cols-2 gap-3">
               <div></div>
               <button
                 onClick={handleNext}
-                className="bg-blue-300 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded delay-150"
+                className="px-4 py-2 font-bold text-black delay-150 bg-blue-300 rounded hover:bg-blue-500"
               >
                 ถัดไป
               </button>

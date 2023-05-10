@@ -83,8 +83,7 @@ const EmergencyDashboard = () => {
           }
         );
 
-        const savingEmergencyTransaction =
-          await savingEmergencyTransactionResponse.json();
+        const savingEmergencyTransaction = await savingEmergencyTransactionResponse.json();
         setSavingEmergencyTransactions(savingEmergencyTransaction);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);

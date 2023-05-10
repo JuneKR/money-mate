@@ -234,8 +234,7 @@ export function InvestmentForm({
     },
   ];
 
-  const [tableData, setTableData] =
-    useState<InvestmentData[]>(initialTableData);
+  const [tableData, setTableData] = useState<InvestmentData[]>(initialTableData);
   const [selectedTable, setSelectedTable] = useState({
     expense: 0,
     period: 0,
@@ -280,27 +279,13 @@ export function InvestmentForm({
   const [selectedOption, setSelectedOption] = useState(0);
 
   useEffect(() => {
-    async function fetchUserProfile() {
-      try {
-        // Fetch User Profile
-        const profileResponse = await fetch(urlServer + "user/profile", {
-          credentials: "include",
-        });
-        const userProfile = await profileResponse.json();
-      } catch (error) {
-        console.log("fetch User Profile Error: ", error);
-      }
-    }
-
     // Update Parent Component State
     if (selectedOption === 0) {
       updateFields(defaultOption);
     } else {
       updateFields(selectedTable);
     }
-
-    fetchUserProfile();
-  }, [selectedOption, defaultOption, selectedTable, updateFields]);
+  }, [selectedOption]);
 
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -309,7 +294,6 @@ export function InvestmentForm({
 
   const handleCheckboxChange = () => {
     setIsHidden(!isHidden);
-    // handleInvestmentSelection(isHidden);
   };
 
   const handleRadioChange = (index: number) => {
@@ -317,10 +301,6 @@ export function InvestmentForm({
       if (i === index) {
         setSelectedTable(data);
         setSelectedOption(index + 1);
-        console.log("Selected Data:", data);
-        console.log("Selected Option:", index + 1);
-        // Set Selected Risk Spectrum Option
-        // Update Parent Field
         updateFields(data);
         return { ...data, selected: true };
       } else {
@@ -431,7 +411,6 @@ export function InvestmentForm({
                         หากไม่ทราบระดับความเสี่ยงของตนเองโปรดทำแบบประเมินความเสี่ยง
                       </h1>
                       <a
-                        // href=""
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block text-center md:text-left"

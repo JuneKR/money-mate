@@ -471,7 +471,7 @@ const RetirementInvestmentDashboard = () => {
                       </h1>
                     </div>
                   </div>
-                  {/* <div className="border-r-2 border-gray-300 ">
+                  <div className="border-r-2 border-gray-300 ">
                     <div className="flex items-center justify-center py-3 text-white">
                       <h1>ระยะเวลาในการออม</h1>
                     </div>
@@ -480,7 +480,7 @@ const RetirementInvestmentDashboard = () => {
                         {savingRetirementPlan?.TimeRemaining} เดือน
                       </h1>
                     </div>
-                  </div> */}
+                  </div>
                   <div>
                     <div className="flex items-center justify-center py-3 text-white">
                       จำนวนเงินทั้งหมด

@@ -47,12 +47,10 @@ const EmergencyCreateForm = () => {
   }
 
   const handleInvestmentSelection = (selected: boolean) => {
-    console.log("Selected Package", selected);
     setShowPackageStep(selected);
   };
 
   const handlePackageSelection = (selected: boolean) => {
-    console.log('Selected Package', selected) 
     setIsSelectedPackage(selected);
   };
 

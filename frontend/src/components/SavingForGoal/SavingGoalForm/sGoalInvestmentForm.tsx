@@ -277,31 +277,13 @@ export function SGoalInvestmentForm({
   const [selectedOption, setSelectedOption] = useState(0);
 
   useEffect(() => {
-    async function fetchUserProfile() {
-      try {
-        // Fetch User Profile
-        const profileResponse = await fetch(urlServer + "user/profile", {
-          credentials: "include",
-        });
-        const userProfile = await profileResponse.json();
-      } catch (error) {
-        console.log("fetch User Profile Error: ", error);
-      }
-    }
-
-    // Update Parent Component State
     if (selectedOption === 0) {
       updateFields(defaultOption);
     } else {
       updateFields(selectedTable);
     }
-
-    fetchUserProfile();
   }, [
-    selectedOption, 
-    defaultOption, 
-    selectedTable,
-    updateFields
+    selectedOption,
   ]);
 
   const handleClick = () => {

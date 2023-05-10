@@ -20,7 +20,7 @@ function yearsToYearsMonthsDays(value: string) {
 const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps> = ({ title, savingRetirement }) => {
 
   const targetAmountDisplay = Number(savingRetirement?.TargetAmount);
-  const monthlySavingDisplay = Math.round(Number(savingRetirement?.MonthlySaving)* -1);
+  const monthlySavingDisplay = Math.round(Number(savingRetirement?.MonthlySaving));
   const formattedํargetAmount = targetAmountDisplay?.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay?.toLocaleString();
 

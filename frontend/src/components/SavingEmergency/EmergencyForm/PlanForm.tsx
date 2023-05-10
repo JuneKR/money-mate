@@ -175,10 +175,6 @@ export function PlanForm({
   const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);
   const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
 
-  //   console.log("Parent State", { timeRemaining, targetAmount });
-  //   console.log("Current Plan", currentState);
-  //   console.log("Option Plan", optionState);
-
   // Once user click on checkbox
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -251,28 +247,10 @@ export function PlanForm({
       updateFields({ targetAmount: Number(emergencyFund) });
     }
   }, [
-    currentState.expense,
-    currentState.monthlySaving,
-    currentState.period,
-    currentState.targetAmount,
-    currentState.timeRemaining,
-    currentState.totalBalance,
-    emergencyFund,
-    optionState.expense,
-    optionState.monthlySaving,
-    optionState.period,
-    optionState.targetAmount,
-    optionState.timeRemaining,
-    optionState.totalBalance,
     selectedOption,
-    updateFields,
-    years,
-    currentEmergencyFund,
-    currentYears,
     isHidden,
-    optionEmergencyFund,
-    optionYears
   ]);
+  
 
   const emergencyFund2 = Number(emergencyFund);
   const monthlySaving2 = Number(monthlySaving);

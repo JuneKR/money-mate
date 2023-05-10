@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Slider1 from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption1";
-import Slider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyPlanSliderOption";
 
 type sGoalPlanData = {
   dateOfBirth: string;
@@ -154,8 +152,6 @@ export function SRetirementPlanForm({
     0
   );
 
-  console.log('Retirement Monthly Saving', retirementMonthlySaving);
-
   // Current Plan State
   const currentExactExpense = currentState.monthlyExpense * 2.0; //รายจ่าย * เงินเฟ้อ 2%
   const currentRetirementFund =
@@ -196,11 +192,6 @@ export function SRetirementPlanForm({
     optionRetirementMonthlySaving,
     0
   );
-  console.log("optionExactExpense", optionExactExpense);
-  console.log("optionRetirementFund", optionRetirementFund);
-  console.log("optionRePeriod", optionRePeriod);
-  console.log("optionRetirementMonthlySaving", optionRetirementMonthlySaving);
-  console.log("optionRePeriodPlan", optionRePeriodPlan);
 
   function yearsToYearsMonthsDays(value: string) {
     const totalDays = Number(value) * 365;
@@ -249,7 +240,6 @@ export function SRetirementPlanForm({
       updateOptionFields({
         monthlySaving: Number(currentRetirementMonthlySaving),
       });
-      //   updateCurrentFields({ period: Number(currentRePeriodPlan) });
 
       updateFields({
         dateOfBirth: currentState.dateOfBirth,
@@ -307,36 +297,6 @@ export function SRetirementPlanForm({
   }, [
     isHidden,
     selectedOption,
-    currentRetirementFund,
-    currentRePeriod,
-    optionRetirementFund,
-    optionRePeriod,
-    optionRetirementMonthlySaving,
-    currentRetirementMonthlySaving,
-    rePeriodPlan,
-    retirementFund,
-    retirementMonthlySaving,
-    currentRePeriodPlan, 
-    currentState.ageToLive, 
-    currentState.ageToRetire,
-    currentState.dateOfBirth, 
-    currentState.monthlyExpense, 
-    currentState.monthlySaving, 
-    currentState.period, 
-    currentState.targetAmount, 
-    currentState.timeRemaining, 
-    currentState.totalBalance, 
-    optionRePeriodPlan, 
-    optionState.ageToLive, 
-    optionState.ageToRetire, 
-    optionState.dateOfBirth, 
-    optionState.monthlyExpense, 
-    optionState.monthlySaving, 
-    optionState.period, 
-    optionState.targetAmount, 
-    optionState.timeRemaining, 
-    optionState.totalBalance, 
-    updateFields
   ]);
 
   const reFund = Number(targetAmount);

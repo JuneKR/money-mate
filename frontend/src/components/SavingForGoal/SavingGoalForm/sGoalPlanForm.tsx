@@ -158,7 +158,6 @@ export function PlanForm({
   const timeToAchive = yearsToYearsMonthsDays(years);
   const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);
   const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
-  // console.log('Option Time 2 Achieve', optionTimeToAchive);
 
   // Once user click on checkbox
   const handleClick = () => {
@@ -188,12 +187,9 @@ export function PlanForm({
   };
 
   useEffect(() => {
-    // Check the selected option to fetch the apis and update the parent state
     if (selectedOption === "option1") {
-      // Update the Current Plan State
       updateCurrentFields({ timeRemaining: Number(currentYears) });
       updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
-      // updateCurrentFields({ targetAmount: Number(currentState.targetAmount) });
 
       updateFields({
         planName: currentState.planName,
@@ -204,10 +200,8 @@ export function PlanForm({
         timeRemaining: currentState.timeRemaining,
       });
     } else if (selectedOption === "option2") {
-      // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionYears) });
       updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
-      // updateOptionFields({ targetAmount: Number(optionState.targetAmount) });
 
       updateFields({
         planName: optionState.planName,
@@ -218,11 +212,9 @@ export function PlanForm({
         timeRemaining: optionState.timeRemaining,
       });
     } else {
-      // Update the Option Plan State
       updateOptionFields({ timeRemaining: Number(optionYears) });
       updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
 
-      // Update the Current Plan State
       updateCurrentFields({ timeRemaining: Number(currentYears) });
       updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
     }
@@ -236,25 +228,7 @@ export function PlanForm({
   }, [
     isHidden,
     selectedOption,
-    currentYears,
-    currentTargetMonthlySaving,
-    currentState.monthlySaving,
-    optionYears,
-    optionTargetMonthlySaving,
-    optionState.monthlySaving,
-    currentState.period, 
-    currentState.planName, 
-    currentState.targetAmount, 
-    currentState.timeRemaining, 
-    currentState.totalBalance, 
-    optionState.period, 
-    optionState.planName, 
-    optionState.targetAmount, 
-    optionState.timeRemaining, 
-    optionState.totalBalance, 
-    targetMonthlySaving, 
-    updateFields,
-    years
+    optionTargetMonthlySaving
   ]);
 
   const sGoalFund2 = Number(targetAmount);
@@ -274,14 +248,10 @@ export function PlanForm({
             <div className="p-4 text-lg">ออมเงินเพื่อ{planName}</div>
             <div className="p-4">จำนวนเงินเป้าหมาย: </div>
             <div className="p-4">{formattedSGoalFund} บาท</div>
-            {/* <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div> */}
             <div className="p-4">จำนวนเงินที่ต้องออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
-            {/* <div className="p-4"> ใส่จำนวนเดือนที่ต้องการ</div> */}
             <div className="p-4">ระยะเวลาในการออม</div>
             <div className="p-4">{period} เดือน (~{timeToAchive})</div>
-            {/* <div className="p-4">ระยะเวลาคงเหลือ</div>
-            <div className="p-4">{timeToAchive}</div> */}
             <div className="p-4">จำนวนเงินในปัจจุบัน</div>
             <div className="p-4">{totalBalance}</div>
           </div>

@@ -150,10 +150,15 @@ const RetirementCreateForm = () => {
         );
         router.push("/RetirementPages/retirementInvestmentDashboard");
       }
+      else {
+        alert('โปรดกดเลือกพอร์ตก่อน');
+      }
     } else {
       return next();
     }
   };
+
+  console.log('Current Data', data);
 
   useEffect(() => {
     if (currentStepIndex === 2 && showPackageStep) {

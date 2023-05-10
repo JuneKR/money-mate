@@ -320,34 +320,14 @@ export function SRetirementInvestment({
   const [selectedOption, setSelectedOption] = useState(0);
 
   useEffect(() => {
-    async function fetchUserProfile() {
-      try {
-        // Fetch User Profile
-        const profileResponse = await fetch(urlServer + "user/profile", {
-          credentials: "include",
-        });
-        const userProfile = await profileResponse.json();
-        // console.log(userProfile);
-        const uID = userProfile.User_ID;
-        // setuID(uID);
-      } catch (error) {
-        console.log("fetch User Profile Error: ", error);
-      }
-    }
-
     // Update Parent Component State
     if (selectedOption === 0) {
       updateFields(defaultOption);
     } else {
       updateFields(selectedTable);
     }
-
-    fetchUserProfile();
   }, [
     selectedOption,
-    defaultOption, 
-    selectedTable, 
-    updateFields
   ]);
 
   const handleClick = () => {

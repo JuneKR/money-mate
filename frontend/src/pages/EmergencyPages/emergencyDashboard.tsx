@@ -11,6 +11,11 @@ import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+
+import Complete from "@/components/completeModal";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number;
@@ -28,7 +33,18 @@ export interface SavingEmergencyPlan {
   TotalBalance: number;
   User_ID: number;
 }
-
+// const style = {
+//   position: "absolute" as "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   width: "50%",
+//   bgcolor: "#27264E",
+//   border: "2px solid #000",
+//   borderRadius: "25px",
+//   boxShadow: 24,
+//   p: 4,
+// };
 export interface SavingEmergencyTransaction {
   TransactionDate: string;
   Amount: number;
@@ -95,6 +111,7 @@ const EmergencyDashboard = () => {
     fetchSavingPlan();
   }, []);
 
+  const [showModal, setShowModal] = useState<boolean>(false);
   const targetAmount2 = Number(savingEmergencyPlan?.TargetAmount);
   const formatTargetAmount2 = targetAmount2?.toLocaleString();
   const totalBalance2 = Number(savingEmergencyPlan?.TotalBalance);
@@ -103,6 +120,23 @@ const EmergencyDashboard = () => {
     Number(savingEmergencyPlan?.TargetAmount) -
     Number(savingEmergencyPlan?.TotalBalance);
 
+  // function checkProgress(savingEmergencyPlan: SavingEmergencyPlan | undefined) {
+  //   if (savingEmergencyPlan?.Progression >= 100) {
+  //     setShowModal(true);
+  //   }
+  // }
+  // useEffect(() => {
+  //   checkProgress(savingEmergencyPlan);
+  // }, [savingEmergencyPlan]);
+
+  // function setSavingEmergencyPlanData(data: SavingEmergencyPlan): void {
+  //   setSavingEmergencyPlan(data);
+  //   checkProgress(data);
+  // }
+
+  const handleCloseModal = (): void => {
+    setShowModal(false);
+  };
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -125,7 +159,7 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
               <div>
-                <div>
+                <div className="pt-10">
                   <ModleButtonForm1
                     title={""}
                     savingEmergency={savingEmergencyPlan}
@@ -139,7 +173,7 @@ const EmergencyDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="py-2 rounded-lg  bg-gradient-to-r from-purple-900 to-pink-500"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -201,7 +235,7 @@ const EmergencyDashboard = () => {
                         <h1>จำนวนเงินคงเหลือ</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{amountRemaining.toString()} บาท</h1>
+                        <h1>{amountRemaining <= 0 ? `0` : amountRemaining}บาท</h1>
                       </div>
                     </div>
                     <div>
@@ -211,8 +245,8 @@ const EmergencyDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            (
-                              Number(savingEmergencyPlan?.TimeRemaining)
+                            Number(
+                              savingEmergencyPlan?.TimeRemaining
                             ).toString()
                           )}{" "}
                           เดือน
@@ -285,6 +319,7 @@ const EmergencyDashboard = () => {
               </div>
             </div>
           </Box>
+          <Complete progress={savingEmergencyPlan?.Progression} />
         </div>
       </main>
     </>

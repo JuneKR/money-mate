@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import CircularProgress from "@mui/material/CircularProgress";
 interface EmerGencyDashBoardModalProps {
   title: string;
   savingEmergency: any;
@@ -15,7 +16,6 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "50%",
   bgcolor: "#27264E",
-  border: "2px solid #000",
   borderRadius: "25px",
   boxShadow: 24,
   p: 4,
@@ -103,11 +103,12 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
           marginRight: "10px",
           backgroundColor: "#6259E8",
         }}
-        className="px-4 py-2 shadow-xl font-bold text-lg text-white rounded-lg "
+        className="px-4 py-2 text-lg font-bold text-white rounded-lg shadow-xl "
         onClick={handleOpen}
       >
         ออมเงิน
       </Button>
+
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
@@ -116,7 +117,7 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
         <form action="" onSubmit={handleSubmit}>
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component={"span"}>
-              <div className="text-white text-2xl font-bold">เพิ่มเงินออม</div>
+              <div className="text-2xl font-bold text-white">เพิ่มเงินออม</div>
               <div className="py-5">
                 <input
                   type="number"
@@ -125,7 +126,7 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
                   onChange={(e) => setdeposit(e.target.value)}
                   placeholder="0"
                   style={{ width: "100%", height: "50px" }}
-                  className="text-black block text-sm placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
+                  className="block text-sm text-black placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                 />
               </div>
             </Typography>
@@ -135,18 +136,18 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
               component={"span"}
             >
               <div className="text-black">
-                <div className="flex justify-end grid grid-rows-2">
+                <div className="flex grid justify-end grid-rows-2">
                   <div>
                     <button
                       style={{ width: "209px", backgroundColor: "#6259E8" }}
-                      className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
+                      className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400"
                       type="submit"
                     >
                       ยืนยัน
                     </button>
                     <button
                       style={{ width: "209px", backgroundColor: "#27264E" }}
-                      className="text-lg px-4 py-2 font-bold text-white bg-gray-300 rounded shadow hover:bg-gray-400 shadow-2xl"
+                      className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400"
                       type="button"
                       onClick={handleClose}
                     >
@@ -161,7 +162,7 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
       </Modal>
       <Modal
         open={showCongratulatoryMessage}
-        onClose={() => setShowCongratulatoryMessage(false)}
+        // onClose={() => setShowCongratulatoryMessage(false)}
         aria-labelledby="modal-congratulations-title"
         aria-describedby="modal-congratulations-description"
       >
@@ -171,10 +172,13 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
             variant="h6"
             component={"span"}
           >
-            <div className="text-white font-bold text-2xl">
+            <div className="text-2xl font-bold text-white">
               ยินดีด้วย! คุณมีเงินออมเพิ่มขึ้นแล้ว
             </div>
-            <div className="py-5 text-white font-bold text-md">ฝากเงินสำเร็จ!</div>
+            <div className="py-5 font-bold text-white text-md">
+              ฝากเงินสำเร็จ! กรุณารอสักครู่... <CircularProgress />
+            </div>
+            
           </Typography>
         </Box>
       </Modal>

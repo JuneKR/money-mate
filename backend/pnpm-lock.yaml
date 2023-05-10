@@ -14,6 +14,7 @@ specifiers:
   dotenv: ^16.0.3
   express: ^4.18.2
   express-session: ^1.17.3
+  helmet: ^7.0.0
   mysql2: ^3.1.2
   nodemon: ^2.0.20
   sequelize: ^6.29.0
@@ -23,6 +24,7 @@ specifiers:
 
 dependencies:
   express: 4.18.2
+  helmet: 7.0.0
 
 devDependencies:
   '@types/cors': 2.8.13
@@ -980,6 +982,11 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+
+  /helmet/7.0.0:
+    resolution: {integrity: sha512-MsIgYmdBh460ZZ8cJC81q4XJknjG567wzEmv46WOBblDb6TUd3z8/GhgmsM9pn8g2B80tAJ4m5/d3Bi1KrSUBQ==}
+    engines: {node: '>=16.0.0'}
+    dev: false
 
   /http-errors/2.0.0:
     resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}

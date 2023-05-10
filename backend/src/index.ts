@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
-import cors from 'cors';
 import session from "express-session";
 import SequelizeStore from 'connect-session-sequelize';
 import db from './config/database';
@@ -18,6 +17,8 @@ import investmentPortfolioRoute from "./routes/portfolio management/investmentPo
 import { setupAssociations } from './associations';
 
 config();
+
+const helmet = require('helmet');
 
 const app: Application = express();
 
@@ -50,17 +51,13 @@ app.use(session({
     }
 }))
 
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-}))
-
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('Hello, World!')
 })
 
 /* Destructure property of req.body */
 app.use(express.json());
+app.use(helmet());
 
 /* Use Route */
 app.use(userRoute);

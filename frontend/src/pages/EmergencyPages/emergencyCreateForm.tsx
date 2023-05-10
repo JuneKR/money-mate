@@ -1,13 +1,14 @@
 import Sidebar from "@/components/Sidebar";
 import styles from "@/styles/Home.module.css";
 import { useRouter } from "next/router";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stepper, StepLabel, Step, Box } from "@mui/material";
 import { useMultistepForm } from "@/components/SavingEmergency/EmergencyForm/useMultistepForm";
 import { GoalForm } from "@/components/SavingEmergency/EmergencyForm/GoalForm";
 import { PlanForm } from "@/components/SavingEmergency/EmergencyForm/PlanForm";
 import InvestmentForm from "@/components/SavingEmergency/EmergencyForm/InvestmentForm";
 import PortfolioPackage from "@/components/SavingEmergency/EmergencyForm/PortfolioPackage";
+import { urlServer } from "@/API";
 
 type FormData = {
   expense: number;
@@ -37,7 +38,6 @@ const EmergencyCreateForm = () => {
   const [showPackageStep, setShowPackageStep] = useState(false);
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
-  const urlServer = "http://localhost:8080/";
   const [isSelectedPackage, setIsSelectedPackage] = useState(false);
 
   function updateFields(fields: Partial<FormData>) {

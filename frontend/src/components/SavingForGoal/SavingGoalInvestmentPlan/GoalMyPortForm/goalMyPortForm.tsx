@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import DropDownPolicy from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownPolicy";
 import DropDownFund from "../GoalInvestmentPortfolioPackageComponents/goalInvestmentDropDownFund";
 import { IMutualFund, IPortfolioItem, IPortfolioAllocation, initialMutualFund, initialPortfolioItem, initialInvestmentPortfolioAllocation } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import { urlServer } from "@/API";
 
 interface FormValues {
   name: string;
@@ -16,7 +16,6 @@ const initialFormValues: FormValues = {
 };
 
 const GoalMyPortForm = () => {
-  const urlServer = "http://localhost:8080/"
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [userProfile, setUserProfile] = useState();
   const [savingGoalPlan, setSavingGoalPlan] = useState();

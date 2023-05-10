@@ -3,6 +3,7 @@ import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/investTransactionTable";
+import { urlServer } from "@/API";
 
 export interface SavingRetirementPlan {
   Retirement_ID: number | any;
@@ -58,7 +59,6 @@ const RetirementInvestmentPortfolioPackage = () => {
     router.push("/RetirementPages/RetirementHomepage");
   };
   
-  const urlServer = "http://localhost:8080/";
   const [isOpen, setIsOpen] = useState(false);
   const [savingRetirementPlan, setSavingRetirementPlan] = useState<SavingRetirementPlan>();
   const [savingRetirementInvestmentPort, setSavingRetirementInvestmentPort] = useState<SavingRetirementInvestmentPortData>();

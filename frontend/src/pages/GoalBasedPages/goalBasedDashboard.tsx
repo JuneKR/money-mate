@@ -5,12 +5,12 @@ import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Prog
 import ModleButtonAdd from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalForm";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
+import { urlServer } from "@/API";
 
 export interface SavingGoalPlan {
   Goal_ID: number | any;
@@ -63,8 +63,6 @@ const GoalBasedDashboard = () => {
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
-
-  const urlServer = "http://localhost:8080/";
 
   const [savingSGoalPlan, setSavingSGoalPlan] = useState<SavingGoalPlan>();
 

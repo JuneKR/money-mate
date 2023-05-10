@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider";
+import { urlServer } from "@/API";
 
 type InvestmentData = {
   planName: string;
@@ -257,8 +258,6 @@ export function SGoalInvestmentForm({
 
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
-  const urlServer = "http://localhost:8080/";
-  console.log('Risk Level', riskLevel);
   const [defaultOption, setDefaultOption] = useState({
     // planName: planName | "none",
     period: period | 0,

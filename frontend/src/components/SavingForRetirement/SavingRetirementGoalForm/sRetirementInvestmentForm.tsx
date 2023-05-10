@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider";
+import { urlServer } from "@/API";
 
 type ReInvestmentData = {
   dateOfBirth: string;
@@ -300,7 +301,6 @@ export function SRetirementInvestment({
 
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
-  const urlServer = "http://localhost:8080/";
   const [defaultOption, setDefaultOption] = useState({
     // expense: expense | 0,
     period: period | 0,

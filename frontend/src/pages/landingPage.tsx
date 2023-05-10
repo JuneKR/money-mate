@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/router";
-import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import LandingSavingPlanCard from "@/components/LandingPageComponents/landingSavingPlanCard";
 import LandingInvestmentPlanCard from "@/components/LandingPageComponents/landingInvestmentPlanCard";
+import { urlServer } from "@/API";
 
 interface LandingPageProps {
   index: number;
@@ -49,7 +49,6 @@ interface RowData {
   };
 }
 const LandingPage: React.FC<LandingPageProps> = ({}) => {
-  const urlServer = "http://localhost:8080/";
   const [displayData, setdisplayData] = useState<RowData[]>([]);
   const [savingPlans, setSavingPlans] = useState<SavingPlan[]>([]);
   const [investmentPlans, setInvestmentPlans] = useState<InvestmentPlan[]>([]);

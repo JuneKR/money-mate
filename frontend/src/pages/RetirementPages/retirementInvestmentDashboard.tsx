@@ -24,6 +24,7 @@ import {
   initialPackage,
   initialPortfolioPackageAllocation,
 } from "../EmergencyPages/emergencyInvestmentDashboard";
+import { urlServer } from "@/API";
 
 export interface SavingRetirementPlan {
   PlanName: string;
@@ -115,7 +116,6 @@ const initialPortfolio: InvestmentPortfolio = {
 };
 
 const RetirementInvestmentDashboard = () => {
-  const urlServer = "http://localhost:8080/";
   const [savingRetirementPlan, setSavingRetirementPlan] =
     useState<SavingRetirementPlan>(initialSavingRetirementPlan);
   const [investmentPortfolio, setInvestmentPortfolio] =

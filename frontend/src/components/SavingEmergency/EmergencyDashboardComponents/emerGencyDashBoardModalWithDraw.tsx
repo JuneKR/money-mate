@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
+import { urlServer } from "@/API";
 
 interface EmerGencyDashBoardModalWithDrawProps {
   title: string;
@@ -38,7 +38,6 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
     useState(false);
   const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
 
-  const urlServer = "http://localhost:8080/";
   const tType = "withdrawal";
   const tTime = date.toISOString();
 

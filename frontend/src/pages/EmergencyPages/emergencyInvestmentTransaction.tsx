@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
-import InvestmentCheckBox from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/investTransactionTable";
+import { urlServer } from "@/API";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
@@ -60,7 +60,6 @@ const EmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyHomepage");
   };
   
-  const urlServer = "http://localhost:8080/";
   const [isOpen, setIsOpen] = useState(false);
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState<SavingEmergencyPlan>();
   const [savingEmergencyInvestmentPort, setSavingEmergencyInvestmentPort] = useState<SavingEmergencyInvestmentPortData>();

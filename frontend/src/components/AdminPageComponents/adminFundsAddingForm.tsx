@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import MutualFundsTable from "@/components/AdminPageComponents/adminMutualFundsTable";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { urlServer } from "@/API";
+
 interface AdminFundsAddingFormProps {
   title: string;
 }
@@ -89,7 +89,7 @@ const AdminFundsAddingForm: React.FC<AdminFundsAddingFormProps> = ({
     }
   }, [showCongratulatoryMessage]);
 
-  const urlServer = "http://localhost:8080/";
+  
   const createMutualFund = async () => {
     const createMutualFundData = {
       last_update: lastUpdate,

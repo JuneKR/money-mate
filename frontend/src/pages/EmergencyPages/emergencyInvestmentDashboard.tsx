@@ -18,6 +18,7 @@ import {
   IPortfolioItem,
   initialInvestmentPortfolioAllocation,
 } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import { urlServer } from "@/API";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number | any;
@@ -122,7 +123,6 @@ export const initialPackage: IPortfolioPackage = {
 export const initialPortfolioPackageAllocation: IPackageAllocation[] = [];
 
 const EmergencyInvestmentDashboard = () => {
-  const urlServer = "http://localhost:8080/";
   const [savingEmergencyPlan, setSavingEmergencyPlan] =
     useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
   const [investmentPortfolio, setInvestmentPortfolio] =

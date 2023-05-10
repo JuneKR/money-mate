@@ -8,7 +8,7 @@ import { RetirementForm } from "@/components/SavingForRetirement/SavingRetiremen
 import { SRetirementPlanForm } from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementPlanForm";
 import SRetirementInvestment from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementInvestmentForm";
 import SRetirementPortfolioPackage from "@/components/SavingForRetirement/SavingRetirementGoalForm/sRetirementPortfolioPackage";
-import { create } from "domain";
+import { urlServer } from "@/API";
 
 type FormData = {
   planName: string;
@@ -61,7 +61,6 @@ const RetirementCreateForm = () => {
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
   const [uID, setuID] = useState(1);
-  const urlServer = "http://localhost:8080/";
   const [isSelectedPackage, setIsSelectedPackage] = useState(false);
 
   function updateFields(fields: Partial<FormData>) {

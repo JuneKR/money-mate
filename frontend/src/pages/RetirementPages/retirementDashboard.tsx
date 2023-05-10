@@ -5,12 +5,12 @@ import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Prog
 import ModleButtonAdd from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingForRetirement/SavingRetirementDashBoardComponents/sRetirementDashBoardModalForm";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
+import { urlServer } from "@/API";
 
 export interface SavingRetirementPlan {
   PlanName: string;
@@ -56,7 +56,6 @@ const RetirementDashboard = () => {
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
-  const urlServer = "http://localhost:8080/";
 
   const [savingRetirePlan, setSavingRetirePlan] =
     useState<SavingRetirementPlan>();

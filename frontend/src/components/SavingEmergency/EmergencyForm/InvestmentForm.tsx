@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InvestmentSlider from "@/components/SavingEmergency/EmergencyPlanSlider/emergencyInvestmentSlider";
-import { time } from "console";
+import { urlServer } from "@/API";
 
 type InvestmentData = {
   expense: number;
@@ -261,7 +261,6 @@ export function InvestmentForm({
 
   const timeToAchive = yearsToYearsMonthsDays(timeRemaining.toString());
 
-  const urlServer = "http://localhost:8080/";
   const [defaultOption, setDefaultOption] = useState({
     expense: expense | 0,
     period: period | 0,

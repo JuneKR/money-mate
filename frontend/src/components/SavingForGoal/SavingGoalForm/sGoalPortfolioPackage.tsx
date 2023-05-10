@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar'
 import InvestmentCheckBox from '@/components/SavingEmergency/SavingEmergencyInvestmentPlan/savingEmergencyCheckbox';
+import { urlServer } from "@/API";
 
 type PackageData = {
   period: number;
@@ -38,7 +39,6 @@ export function PortfolioPackage ({
   handlePackageSelection
 }: PackageProps) {
 
-    const urlServer = "http://localhost:8080/";
     const [portfolioPackage, setPortfolioPackage] = useState(initialPortfolioPackage);
     const [portfolioPackageAllocation, setPortfolioPackageAllocation] = useState([]);
     const [isSelected, setIsSelected] = useState(false);

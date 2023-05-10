@@ -9,6 +9,7 @@ import { PlanForm } from "@/components/SavingForGoal/SavingGoalForm/sGoalPlanFor
 import SGInvestmentForm from "@/components/SavingForGoal/SavingGoalForm/sGoalInvestmentForm";
 import PortfolioPackage from "@/components/SavingForGoal/SavingGoalForm/sGoalPortfolioPackage";
 import { create } from "domain";
+import { urlServer } from "@/API";
 
 type FormData = {
   planName: string;
@@ -45,7 +46,6 @@ const GoalBasedCreateForm = () => {
   const [portfolioData, setPortfolioData] = useState(initialData);
   const [stepDesc, setStepDesc] = useState("ถัดไป");
   const [isSelectedPackage, setIsSelectedPackage] = useState(false);
-  const urlServer = "http://localhost:8080/";
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => {

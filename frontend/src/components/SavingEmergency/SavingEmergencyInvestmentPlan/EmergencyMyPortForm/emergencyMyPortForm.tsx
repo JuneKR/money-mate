@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DropDownFund from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyInvestmentPortfolioPackageComponents/emergencyInvestmentDropDownFund";
+import { urlServer } from "@/API";
 
 interface FormValues {
   name: string;
@@ -85,7 +86,6 @@ export const initialPortfolioItem: IPortfolioItem = {
 export const initialInvestmentPortfolioAllocation: IPortfolioAllocation[] = [];
 
 const EmergencyMyPortForm = () => {
-  const urlServer = "http://localhost:8080/";
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [userProfile, setUserProfile] = useState();
   const [savingEmergencyPlan, setSavingEmergencyPlan] = useState();

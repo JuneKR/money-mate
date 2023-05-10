@@ -24,6 +24,7 @@ import {
   initialPackage,
   initialPortfolioPackageAllocation,
 } from "../EmergencyPages/emergencyInvestmentDashboard";
+import { urlServer } from "@/API";
 
 export interface SavingGoalPlan {
   Goal_ID: number | any;
@@ -99,7 +100,6 @@ const initialPortfolio: InvestmentPortfolio = {
 };
 
 const GoalInvestmentDashboard = () => {
-  const urlServer = "http://localhost:8080/";
   const [savingGoalPlan, setSavingGoalPlan] = useState<SavingGoalPlan>(
     initialSavingGoalPlan
   );

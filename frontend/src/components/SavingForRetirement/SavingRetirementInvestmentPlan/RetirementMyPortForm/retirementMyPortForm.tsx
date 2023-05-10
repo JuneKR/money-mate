@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DropDownFund from "../RetirementInvestmentPortfolioPackageComponents/retirementInvestmentDropDownFund";
 import { IMutualFund, IPortfolioItem, IPortfolioAllocation, initialMutualFund, initialInvestmentPortfolioAllocation, initialPortfolioItem } from "@/components/SavingEmergency/SavingEmergencyInvestmentPlan/EmergencyMyPortForm/emergencyMyPortForm";
+import { urlServer } from "@/API";
 
 interface FormValues {
   name: string;
@@ -15,7 +16,6 @@ const initialFormValues: FormValues = {
 };
 
 const RetirementMyPortForm = () => {
-  const urlServer = "http://localhost:8080/"
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
   const [userProfile, setUserProfile] = useState();
   const [savingRetirementPlan, setSavingRetirementPlan] = useState();

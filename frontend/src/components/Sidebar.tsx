@@ -33,6 +33,8 @@ import { useRouter } from "next/router";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import { urlServer, urlClient } from "@/API";
+
 
 const drawerWidth = 240;
 
@@ -157,9 +159,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
     setAnchorEl(null);
     router.push("/ProfileManagement/userProfile");
   };
-
-  const urlClient = "http://localhost:3000/";
-  const urlServer = "http://localhost:8080/";
 
   const [profile, setProfile] = useState({
     User_ID: 0,

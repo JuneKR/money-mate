@@ -5,12 +5,12 @@ import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Prog
 import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingEmergency/EmergencyDashboardComponents/emergencyDashBoardModalForm1";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
+import { urlServer } from "@/API";
 
 export interface SavingEmergencyPlan {
   Emergency_ID: number;
@@ -48,8 +48,6 @@ function yearsToYearsMonthsDays(value: string) {
 
 const EmergencyDashboard = () => {
   const router = useRouter();
-
-  const urlServer = "http://localhost:8080/";
 
   const [savingEmergencyPlan, setSavingEmergencyPlan] =
     useState<SavingEmergencyPlan>();

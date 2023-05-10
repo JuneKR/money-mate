@@ -4,6 +4,7 @@ import { DataGrid, GridColDef, GridCellParams } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { urlServer } from "@/API";
 
 interface AdminFundManagementPageTableProps {
   title: string;
@@ -46,7 +47,6 @@ const AdminFundManagementPageTable: React.FC<
   const [fiveYearReturns, setFiveYearReturns] = useState("");
   const [ytdReturns, setYtdReturns] = useState("");
   
-  const urlServer = "http://localhost:8080/";
   const handleEdit = (id: number) => {
     // Logic to edit the record with the specified ID
   };

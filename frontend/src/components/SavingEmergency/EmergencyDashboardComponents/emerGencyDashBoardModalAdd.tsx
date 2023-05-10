@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { urlServer } from "@/API";
+
 interface EmerGencyDashBoardModalProps {
   title: string;
   savingEmergency: any;
@@ -33,7 +35,6 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
     useState(false);
   const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
 
-  const urlServer = "http://localhost:8080/";
   const tType = "deposit";
   const tTime = date.toISOString();
 

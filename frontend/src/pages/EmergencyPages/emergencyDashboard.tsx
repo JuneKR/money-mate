@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
 import { urlServer } from "@/API";
 
+import Complete from "@/components/completeModal";
+
 export interface SavingEmergencyPlan {
   Emergency_ID: number;
   InitialSaving: number;
@@ -92,6 +94,7 @@ const EmergencyDashboard = () => {
     fetchSavingPlan();
   }, []);
 
+  const [showModal, setShowModal] = useState<boolean>(false);
   const targetAmount2 = Number(savingEmergencyPlan?.TargetAmount);
   const formatTargetAmount2 = targetAmount2?.toLocaleString();
   const totalBalance2 = Number(savingEmergencyPlan?.TotalBalance);
@@ -100,6 +103,9 @@ const EmergencyDashboard = () => {
     Number(savingEmergencyPlan?.TargetAmount) -
     Number(savingEmergencyPlan?.TotalBalance);
 
+  const handleCloseModal = (): void => {
+    setShowModal(false);
+  };
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -122,7 +128,7 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
               <div>
-                <div>
+                <div className="pt-10">
                   <ModleButtonForm1
                     title={""}
                     savingEmergency={savingEmergencyPlan}
@@ -136,7 +142,7 @@ const EmergencyDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="py-2 rounded-lg  bg-gradient-to-r from-purple-900 to-pink-500"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -198,7 +204,7 @@ const EmergencyDashboard = () => {
                         <h1>จำนวนเงินคงเหลือ</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{amountRemaining.toString()} บาท</h1>
+                        <h1>{amountRemaining <= 0 ? `0` : amountRemaining}บาท</h1>
                       </div>
                     </div>
                     <div>
@@ -208,8 +214,8 @@ const EmergencyDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            (
-                              Number(savingEmergencyPlan?.TimeRemaining)
+                            Number(
+                              savingEmergencyPlan?.TimeRemaining
                             ).toString()
                           )}{" "}
                           เดือน
@@ -222,11 +228,11 @@ const EmergencyDashboard = () => {
                   <div className="flex justify-end">
                     <ModleButtonAdd
                       title={"my modle1"}
-                      savingEmergency={savingEmergencyPlan?.Emergency_ID}
+                      savingEmergency={savingEmergencyPlan}
                     />
                     <ModleButtonWithDraw
                       title={"my modle2"}
-                      savingEmergency={savingEmergencyPlan?.Emergency_ID}
+                      savingEmergency={savingEmergencyPlan}
                     />
                   </div>
                 </div>
@@ -282,6 +288,7 @@ const EmergencyDashboard = () => {
               </div>
             </div>
           </Box>
+          <Complete progress={savingEmergencyPlan?.Progression} />
         </div>
       </main>
     </>

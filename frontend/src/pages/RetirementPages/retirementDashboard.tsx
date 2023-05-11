@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
 import { urlServer } from "@/API";
 
+import Complete from "@/components/completeModal";
 export interface SavingRetirementPlan {
   PlanName: string;
   TargetAmount: number;
@@ -56,6 +57,7 @@ const RetirementDashboard = () => {
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
+  const urlServer = "http://localhost:8080/";
 
   const [savingRetirePlan, setSavingRetirePlan] =
     useState<SavingRetirementPlan>();
@@ -145,7 +147,7 @@ const RetirementDashboard = () => {
                 </div>
               </div>
               <div>
-                <div>
+                <div className="pt-10">
                   <ModleButtonForm1
                     title={""}
                     savingRetirement={savingRetirePlan}
@@ -200,14 +202,6 @@ const RetirementDashboard = () => {
                         <h1>{formatTargetAmount2} บาท</h1>
                       </div>
                     </div>
-                    {/* <div>
-                      <div className="flex items-center justify-center py-3">
-                        <h1>ระยะเวลาในการออม</h1>
-                      </div>
-                      <div className="flex items-center justify-center py-3">
-                        <h1>{savingRetirePlan.TimePeriod} เดือน</h1>
-                      </div>
-                    </div> */}
                     <div>
                       <div className="flex items-center justify-center py-3">
                         จำนวนเงินทั้งหมด
@@ -221,7 +215,9 @@ const RetirementDashboard = () => {
                         <h1>ต้องออมเงินอีก</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{amountRemaining.toLocaleString()} บาท</h1>
+                        <h1>
+                          {amountRemaining <= 0 ? `0` : amountRemaining}บาท
+                        </h1>
                       </div>
                     </div>
                     <div>
@@ -231,9 +227,7 @@ const RetirementDashboard = () => {
                       <div className="flex items-center justify-center py-3">
                         <h1>
                           {yearsToYearsMonthsDays(
-                            (
-                              Number(savingRetirePlan?.TimeRemaining)
-                            ).toString()
+                            Number(savingRetirePlan?.TimeRemaining).toString()
                           )}{" "}
                           เดือน
                         </h1>
@@ -255,26 +249,6 @@ const RetirementDashboard = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="pb-5 ">
-              <div className="grid grid-cols-2 transition duration-300 delay-150 shadow-2xl rounded-3xl bg-gradient-to-r from-blue-900 via-green-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-green-800">
-                <div className="flex grid justify-center grid-rows-2 py-20 item-center">
-                  <div>
-                    <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
-                  </div>
-                  <div>
-                    <div>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</div>
-                  </div>
-                </div>
-                <div className="flex justify-center py-20 item-center">
-                  <button
-                    // onClick={handleEmergencyInvestmentPortfolioPackage}
-                    className="px-4 py-2 font-bold text-white transition duration-300 delay-150 bg-green-700 rounded shadow-lg animate-bounce shadow-green-500/50"
-                  >
-                    เพิ่มแผนการลงทุน
-                  </button>
-                </div>
-              </div>
-            </div> */}
             <div className="pt-5 shadow-2xl">
               <div
                 style={{
@@ -309,11 +283,11 @@ const RetirementDashboard = () => {
                   ) : (
                     <div className="px-5 pb-5">
                       {savingRetirementTransactions.map(
-                        (savingEmergencyTransaction, index) => (
+                        (savingRetirementTransaction, index) => (
                           <div key={index}>
                             <TransactionTable
                               title={"my table1"}
-                              transaction={savingEmergencyTransaction}
+                              transaction={savingRetirementTransaction}
                               savingData={savingRetirePlan}
                             />
                           </div>
@@ -326,6 +300,7 @@ const RetirementDashboard = () => {
               </div>
             </div>
           </Box>
+          <Complete progress={savingRetirePlan?.Progression} />
         </div>
       </main>
     </>

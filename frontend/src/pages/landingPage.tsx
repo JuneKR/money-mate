@@ -53,7 +53,18 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   const [displayData, setdisplayData] = useState<RowData[]>([]);
   const [savingPlans, setSavingPlans] = useState<SavingPlan[]>([]);
   const [investmentPlans, setInvestmentPlans] = useState<InvestmentPlan[]>([]);
+  const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
 
+  useEffect(() => {
+    if (shouldRefreshPage) {
+      window.location.reload();
+    }
+  }, [shouldRefreshPage]);
+  
+  useEffect(() => {
+    setShouldRefreshPage(true);
+    setShouldRefreshPage(false);
+  }, []);
   // Fetch APIs
   useEffect(() => {
     async function fetchSavingPlan() {
@@ -82,7 +93,6 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         );
         const savingGoal = await savingGoalResponse.json();
 
-        
         const savingRetirementResponse = await fetch(
           `${urlServer}user/${userProfile.User_ID}/saving/retirement`,
           {
@@ -100,7 +110,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
         );
         const investmentPlan = await investmentPlanResponse.json();
         setInvestmentPlans(investmentPlan);
-        
+
         const allSavingPlans: SavingPlan[] = [];
         if (savingEmergency.PlanName) {
           allSavingPlans.push(savingEmergency);
@@ -203,7 +213,10 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               ) : (
                 <div className="px-5 pb-5">
                   {savingPlans.map((savingPlan) => (
-                    <LandingSavingPlanCard key={savingPlan.PlanName} saving={savingPlan} />
+                    <LandingSavingPlanCard
+                      key={savingPlan.PlanName}
+                      saving={savingPlan}
+                    />
                   ))}
                 </div>
               )}
@@ -227,13 +240,17 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
               {!investmentPlans.length ? (
                 <div className="p-20">
                   <p className="flex justify-center text-2xl font-bold text-gray-200 item-center">
-                    คุณยังไม่มีแผนการลงทุน ได้โปรดสร้างแผนการออมถึงจะสามารถสร้างแผนการลงทุนได้
+                    คุณยังไม่มีแผนการลงทุน
+                    ได้โปรดสร้างแผนการออมถึงจะสามารถสร้างแผนการลงทุนได้
                   </p>
                 </div>
               ) : (
                 <div className="px-5 pb-5">
                   {investmentPlans.map((investmentPlan) => (
-                    <LandingInvestmentPlanCard key={investmentPlan.Portfolio_ID} investmentPlanData={investmentPlan} />
+                    <LandingInvestmentPlanCard
+                      key={investmentPlan.Portfolio_ID}
+                      investmentPlanData={investmentPlan}
+                    />
                   ))}
                 </div>
               )}

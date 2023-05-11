@@ -5,15 +5,11 @@ import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Prog
 import ModleButtonAdd from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingEmergency/EmergencyDashboardComponents/emerGencyDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingEmergency/EmergencyDashboardComponents/emergencyDashBoardModalForm1";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 
 import Complete from "@/components/completeModal";
 
@@ -234,11 +230,11 @@ const EmergencyDashboard = () => {
                   <div className="flex justify-end">
                     <ModleButtonAdd
                       title={"my modle1"}
-                      savingEmergency={savingEmergencyPlan?.Emergency_ID}
+                      savingEmergency={savingEmergencyPlan}
                     />
                     <ModleButtonWithDraw
                       title={"my modle2"}
-                      savingEmergency={savingEmergencyPlan?.Emergency_ID}
+                      savingEmergency={savingEmergencyPlan}
                     />
                   </div>
                 </div>

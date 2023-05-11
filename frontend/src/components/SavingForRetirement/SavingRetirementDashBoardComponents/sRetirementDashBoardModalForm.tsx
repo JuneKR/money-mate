@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 interface SRetirementDashBoardModalFormProps {
   title: string;
@@ -17,16 +17,39 @@ function yearsToYearsMonthsDays(value: string) {
   return result.toString();
 }
 
-const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps> = ({ title, savingRetirement }) => {
-
+const SRetirementDashBoardModalForm: React.FC<
+  SRetirementDashBoardModalFormProps
+> = ({ title, savingRetirement }) => {
   const targetAmountDisplay = Number(savingRetirement?.TargetAmount);
-  const monthlySavingDisplay = Math.round(Number(savingRetirement?.MonthlySaving)* -1);
+  const monthlySavingDisplay = Math.round(
+    Number(savingRetirement?.MonthlySaving) * -1
+  );
   const formattedํargetAmount = targetAmountDisplay?.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay?.toLocaleString();
+  const [showComplete, setShowComplete] = useState<boolean>(false);
+
+  function checkProgress(savingEmergency: any) {
+    if (savingEmergency?.Progression >= 100) {
+      setShowComplete(true);
+    }
+  }
+  useEffect(() => {
+    checkProgress(savingRetirement);
+  }, [savingRetirement]);
 
   return (
     <div>
-        <div style={{ backgroundColor: "#1D1D41" }} className="w-full h-full p-4 pb-10 shadow-2xl rounded-b-2xl">
+      {showComplete ? (
+        <div className="p-20 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600">
+          <p className="flex justify-center text-3xl font-bold text-gray-200 animate-bounce item-center">
+            การออมเงินสำเร็จแล้ว!
+          </p>
+        </div>
+      ) : (
+        <div
+          style={{ backgroundColor: "#1D1D41" }}
+          className="w-full h-full p-4 pb-10 shadow-2xl rounded-b-2xl"
+        >
           <div className="font-bold text-left text-white">
             <h1 className="px-2 pb-5 text-xl">เป้าหมายการออมเงิน</h1>
           </div>
@@ -72,11 +95,12 @@ const SRetirementDashBoardModalForm: React.FC<SRetirementDashBoardModalFormProps
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-2xl text-white">
-                {yearsToYearsMonthsDays((savingRetirement?.TimeRemaining))}
+                {yearsToYearsMonthsDays(savingRetirement?.TimeRemaining)}
               </div>
             </div>
           </div>
         </div>
+      )}
     </div>
   );
 };

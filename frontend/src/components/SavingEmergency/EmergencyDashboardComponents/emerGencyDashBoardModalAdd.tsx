@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
+import { FormHelperText } from "@mui/material";
 interface EmerGencyDashBoardModalProps {
   title: string;
   savingEmergency: any;
@@ -69,7 +70,7 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
 
     try {
       const response = await fetch(
-        `${urlServer}saving/emergency/${savingEmergency}/transaction`,
+        `${urlServer}saving/emergency/${savingEmergency?.Emergency_ID}/transaction`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -128,6 +129,12 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
                   style={{ width: "100%", height: "50px" }}
                   className="block text-sm text-black placeholder-gray-500 bg-white border border-gray-500 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                 />
+                <FormHelperText
+                  id="my-helper-text"
+                  className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
+                >
+                  ใส่จำนวนเงินที่ต้องการเพิ่มเข้าสู่แผนการออมของคุณ
+                </FormHelperText>
               </div>
             </Typography>
             <Typography

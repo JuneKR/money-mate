@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { FormHelperText } from "@mui/material";
 interface EmerGencyDashBoardModalWithDrawProps {
   title: string;
   savingEmergency: any;
@@ -74,7 +74,7 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
     try {
       console.log("Called");
       const response = await fetch(
-        `${urlServer}saving/emergency/${savingEmergency}/transaction`,
+        `${urlServer}saving/emergency/${savingEmergency?.Emergency_ID}/transaction`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -100,7 +100,8 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
     e.preventDefault();
     await withdrawForm();
   };
-
+  const isDisabled = withdrawal > savingEmergency?.TotalBalance;
+  // console.log("savingEmergency?.TotalBalance", savingEmergency)
   return (
     <div>
       <Button
@@ -134,6 +135,18 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
                   style={{ width: "100%", height: "50px" }}
                   className="block text-sm text-black placeholder-gray-500 bg-white border border-gray-500 shadow-sm rounded-xl placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 invalid:text-pink-700 invalid:focus:ring-pink-700 invalid:focus:border-pink-700 peer"
                 />
+                {isDisabled && (
+                  <p className="pt-2 ml-5 text-xs italic text-red-500">
+                    คุณไม่สามารถถอนเงินเกินกว่าเงินปัจจุบันของคุณได้
+                  </p>
+                )}
+                <FormHelperText
+                  id="my-helper-text"
+                  className="pt-2 ml-5 text-xs text-gray-500 hover:text-gray-50"
+                >
+                  ใส่จำนวนเงินที่ต้องการถอนออกจากแผนการออมของคุณ
+                </FormHelperText>
+                {/* Display error when user input invalid */}
               </div>
             </Typography>
             <Typography
@@ -146,8 +159,9 @@ const EmerGencyDashBoardModalWithDraw: React.FC<
                   <div>
                     <button
                       style={{ width: "209px", backgroundColor: "#6259E8" }}
-                      className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400"
+                      className={`px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400 ${isDisabled ? "cursor-not-allowed" : ""}`}
                       type="submit"
+                      disabled={isDisabled}
                     >
                       ยืนยัน
                     </button>

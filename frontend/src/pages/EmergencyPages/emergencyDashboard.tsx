@@ -33,18 +33,7 @@ export interface SavingEmergencyPlan {
   TotalBalance: number;
   User_ID: number;
 }
-// const style = {
-//   position: "absolute" as "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: "50%",
-//   bgcolor: "#27264E",
-//   border: "2px solid #000",
-//   borderRadius: "25px",
-//   boxShadow: 24,
-//   p: 4,
-// };
+
 export interface SavingEmergencyTransaction {
   TransactionDate: string;
   Amount: number;
@@ -119,20 +108,6 @@ const EmergencyDashboard = () => {
   const amountRemaining =
     Number(savingEmergencyPlan?.TargetAmount) -
     Number(savingEmergencyPlan?.TotalBalance);
-
-  // function checkProgress(savingEmergencyPlan: SavingEmergencyPlan | undefined) {
-  //   if (savingEmergencyPlan?.Progression >= 100) {
-  //     setShowModal(true);
-  //   }
-  // }
-  // useEffect(() => {
-  //   checkProgress(savingEmergencyPlan);
-  // }, [savingEmergencyPlan]);
-
-  // function setSavingEmergencyPlanData(data: SavingEmergencyPlan): void {
-  //   setSavingEmergencyPlan(data);
-  //   checkProgress(data);
-  // }
 
   const handleCloseModal = (): void => {
     setShowModal(false);

@@ -5,13 +5,13 @@ import Progress1 from "@/components/SavingEmergency/EmergencyGraphComponent/Prog
 import ModleButtonAdd from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalAdd";
 import ModleButtonWithDraw from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalWithDraw";
 import Box from "@mui/material/Box";
-import EmergencyPlanDataTable from "@/components/SavingEmergency/EmergencyPlanGridTable/emargencyPlanGridTable";
 import ModleButtonForm1 from "@/components/SavingForGoal/SavingGoalDashBoardComponents/sGoalDashBoardModalForm";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
 import { useRouter } from "next/router";
 import TransactionTable from "@/components/TransactionComponents/transactionTable";
 
+import Complete from "@/components/completeModal";
 export interface SavingGoalPlan {
   Goal_ID: number | any;
   LastUpdate: string | any;
@@ -60,16 +60,13 @@ function yearsToYearsMonthsDays(value: string) {
 const GoalBasedDashboard = () => {
   const router = useRouter();
 
-  const handleEmergencyInvestmentPortfolioPackage = () => {
-    router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
-  };
-
   const urlServer = "http://localhost:8080/";
 
   const [savingSGoalPlan, setSavingSGoalPlan] = useState<SavingGoalPlan>();
 
-  const [savingEmergencyTransactions, setSavingEmergencyTransactions] =
-    useState<SavingGoalTransaction[]>([]);
+  const [savingSGoalTransactions, setSavingSGoalTransactions] = useState<
+    SavingGoalTransaction[]
+  >([]);
 
   // Fetch APIs
   useEffect(() => {
@@ -80,7 +77,7 @@ const GoalBasedDashboard = () => {
           credentials: "include",
         });
         const userProfile = await profileResponse.json();
-        console.log(userProfile)
+        console.log(userProfile);
 
         //Fetch Saving Goal Plan
         const savingGoalBasedResponse = await fetch(
@@ -92,15 +89,16 @@ const GoalBasedDashboard = () => {
         const savingGoal = await savingGoalBasedResponse.json();
         setSavingSGoalPlan(savingGoal);
 
-        //Fetch Saving Emergency Transaction
-        const savingEmergencyTransactionResponse = await fetch(
+        //Fetch Saving Goal Transaction
+        const savingGoalTransactionResponse = await fetch(
           `${urlServer}saving/goal/${savingGoal.Goal_ID}/transactions`,
           {
             credentials: "include",
           }
         );
-        const savingEmergencyTransaction = await savingEmergencyTransactionResponse.json();
-        setSavingEmergencyTransactions(savingEmergencyTransaction);
+        const savingGoalTransaction =
+          await savingGoalTransactionResponse.json();
+        setSavingSGoalTransactions(savingGoalTransaction);
       } catch (error) {
         console.log("Fetching Saving Plan Error: ", error);
       }
@@ -112,8 +110,9 @@ const GoalBasedDashboard = () => {
   const formatTargetAmount2 = targetAmount2.toLocaleString();
   const totalBalance2 = Number(savingSGoalPlan?.TotalBalance);
   const formatTotalBalance2 = totalBalance2.toLocaleString();
-  
-  console.log(savingEmergencyTransactions);
+  const amountRemaining =
+    Number(savingSGoalPlan?.TargetAmount) -
+    Number(savingSGoalPlan?.TotalBalance);
 
   return (
     <>
@@ -137,11 +136,8 @@ const GoalBasedDashboard = () => {
                 </div>
               </div>
               <div>
-                <div>
-                  <ModleButtonForm1
-                    title={""}
-                    savingGoal={savingSGoalPlan}
-                  />
+                <div className="pt-10">
+                  <ModleButtonForm1 title={""} savingGoal={savingSGoalPlan} />
                 </div>
               </div>
             </div>
@@ -151,7 +147,7 @@ const GoalBasedDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="py-2 rounded-lg  bg-gradient-to-r from-purple-900 to-red-500"
+                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-red-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -214,9 +210,7 @@ const GoalBasedDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
-                          {(savingSGoalPlan?.TargetAmount -
-                            savingSGoalPlan?.TotalBalance).toLocaleString()}{" "}
-                          บาท
+                          {amountRemaining <= 0 ? `0` : amountRemaining}บาท
                         </h1>
                       </div>
                     </div>
@@ -249,26 +243,6 @@ const GoalBasedDashboard = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="pb-5 ">
-              <div className="grid grid-cols-2 transition duration-300 delay-150 shadow-2xl  rounded-3xl bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800">
-                <div className="flex grid justify-center grid-rows-2 py-20 item-center">
-                  <div>
-                    <div className="font-bold">เราจะแนะนำการลงทุนให้คุณ</div>
-                  </div>
-                  <div>
-                    <div>หากคุณต้องการให้เป้าหมายสำเร็จเร็วขึ้น!</div>
-                  </div>
-                </div>
-                <div className="flex justify-center py-20 item-center">
-                  <button
-                    // onClick={handleEmergencyInvestmentPortfolioPackage}
-                    className="px-4 py-2 font-bold text-black transition duration-300 ease-in-out delay-150 bg-yellow-200 rounded hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500"
-                  >
-                    เพิ่มแผนการลงทุน
-                  </button>
-                </div>
-              </div>
-            </div> */}
             <div className="pt-5 shadow-2xl">
               <div
                 style={{
@@ -294,7 +268,7 @@ const GoalBasedDashboard = () => {
                   }}
                   className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-2xl"
                 >
-                  {!savingEmergencyTransactions.length ? (
+                  {!savingSGoalTransactions.length ? (
                     <div className="p-20">
                       <p className="flex justify-center text-2xl font-bold text-gray-200 item-center">
                         คุณยังไม่มีประวัติการออมเงินและถอนเงิน
@@ -302,13 +276,12 @@ const GoalBasedDashboard = () => {
                     </div>
                   ) : (
                     <div className="px-5 pb-5">
-                      
-                      {savingEmergencyTransactions.map(
-                        (savingEmergencyTransaction, index) => (
+                      {savingSGoalTransactions.map(
+                        (savingGoalTransaction, index) => (
                           <div key={index}>
                             <TransactionTable
                               title={"my table1"}
-                              transaction={savingEmergencyTransaction}
+                              transaction={savingGoalTransaction}
                               savingData={savingSGoalPlan}
                             />
                           </div>
@@ -321,6 +294,7 @@ const GoalBasedDashboard = () => {
               </div>
             </div>
           </Box>
+          <Complete progress={savingSGoalPlan?.Progression} />
         </div>
       </main>
     </>

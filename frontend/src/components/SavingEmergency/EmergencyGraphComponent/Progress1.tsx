@@ -22,7 +22,9 @@ const Progress1: React.FC<Progress1Props> = ({ progress, title }) => {
             alignItems: "center",
           }}
         >
-          <h1 className="ml-10 text-white">{Number(p) <= 100 ? `${p}%` : "100%"}</h1>
+          <h1 className="ml-10 text-white">
+            {Number(p) <= 100 ? `${p}%` : "100%"}
+          </h1>
         </div>
       </div>
     </div>

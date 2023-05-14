@@ -113,7 +113,8 @@ const GoalBasedDashboard = () => {
   const amountRemaining =
     Number(savingSGoalPlan?.TargetAmount) -
     Number(savingSGoalPlan?.TotalBalance);
-
+  const dynamicTimePeriod =
+    amountRemaining / Number(savingSGoalPlan?.MonthlySaving);
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -137,7 +138,11 @@ const GoalBasedDashboard = () => {
               </div>
               <div>
                 <div className="pt-10">
-                  <ModleButtonForm1 title={""} savingGoal={savingSGoalPlan} />
+                  <ModleButtonForm1
+                    title={""}
+                    savingGoal={savingSGoalPlan}
+                    dynamicTimePeriod={dynamicTimePeriod}
+                  />
                 </div>
               </div>
             </div>
@@ -198,7 +203,7 @@ const GoalBasedDashboard = () => {
                     </div>
                     <div>
                       <div className="flex items-center justify-center py-3">
-                        เงินออมทั้งหมดในปัจจุบัน
+                        ออมไปแล้ว
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>{formatTotalBalance2} บาท</h1>
@@ -206,7 +211,7 @@ const GoalBasedDashboard = () => {
                     </div>
                     <div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>จำนวนเงินคงเหลือ</h1>
+                        <h1>ต้องออมเงินอีก</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
@@ -220,10 +225,11 @@ const GoalBasedDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
-                          {yearsToYearsMonthsDays(
-                            savingSGoalPlan?.TimeRemaining
-                          )}{" "}
-                          เดือน
+                          {dynamicTimePeriod <= 0
+                            ? 'ออมเงินสำเร็จ!'
+                            : yearsToYearsMonthsDays(
+                                Number(dynamicTimePeriod / 12).toString()
+                              )}{" "}
                         </h1>
                       </div>
                     </div>

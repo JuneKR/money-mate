@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 interface SGoalDashBoardModalFormProps {
   title: string;
   savingGoal: any;
+  dynamicTimePeriod: number;
 }
 
 function yearsToYearsMonthsDays(value: string) {
@@ -20,6 +21,7 @@ function yearsToYearsMonthsDays(value: string) {
 const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
   title,
   savingGoal,
+  dynamicTimePeriod,
 }) => {
   const targetAmountDisplay = Number(savingGoal?.TargetAmount);
   const monthlySavingDisplay = Number(savingGoal?.MonthlySaving);
@@ -72,7 +74,9 @@ const SGoalDashBoardModalForm: React.FC<SGoalDashBoardModalFormProps> = ({
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-2xl text-white">
-                {yearsToYearsMonthsDays(savingGoal?.TimeRemaining)}
+                {yearsToYearsMonthsDays(
+                  Number(dynamicTimePeriod / 12).toString()
+                )}{" "}
               </div>
             </div>
             <div

@@ -93,7 +93,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
                 {showModal ? (
                   <p className="flex justify-center text-xl font-bold item-center">
                     {/* ออมเงินเผื่อฉุกเฉิน */}
-                    Done
+                    สำเร็จแล้ว!
                   </p>
                 ) : (
                   <p className="flex justify-center text-xl font-bold item-center">
@@ -114,7 +114,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
           <div className="flex grid justify-center grid-cols-2 gap-5 py-3 font-bold item-center">
             <p>จำนวนเงินออมเป้าหมาย</p>
             {formatTargetAmount} บาท
-            <p>ยอดเงินปัจจุบัน</p>
+            <p>ออมไปแล้ว</p>
             {formatTotalBalance} บาท
           </div>
           <a

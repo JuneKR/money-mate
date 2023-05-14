@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Progress from "@/components/LandingPageComponents/landingPageProgress";
 import Image from "next/image";
 import icon1 from "@/images/Icon/กระปุก2.png";
@@ -33,6 +33,16 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
   const isEmergencyPlan = !!saving?.Emergency_ID;
   const isGoalPlan = !!saving?.Goal_ID;
   const isRetirementPlan = !!saving?.Retirement_ID;
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  function checkProgress(progress: number) {
+    if (progress >= 100) {
+      setShowModal(true);
+    }
+  }
+  useEffect(() => {
+    checkProgress(saving?.Progression);
+  }, [saving?.Progression]);
 
   let bgColorClass = "";
   let icon: string = "";
@@ -48,11 +58,11 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
 
   const handleClick = () => {
     if (isEmergencyPlan) {
-      router.push('/EmergencyPages/emergencyDashboard');
+      router.push("/EmergencyPages/emergencyDashboard");
     } else if (isGoalPlan) {
-      router.push('/GoalBasedPages/goalBasedDashboard');
+      router.push("/GoalBasedPages/goalBasedDashboard");
     } else if (isRetirementPlan) {
-      router.push('/RetirementPages/retirementDashboard');
+      router.push("/RetirementPages/retirementDashboard");
     }
   };
   return (
@@ -80,10 +90,17 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
                 style={{ backgroundColor: "#6259E8" }}
                 className="px-3 py-3 rounded-lg"
               >
-                <p className="flex justify-center text-xl font-bold item-center">
-                  {/* ออมเงินเผื่อฉุกเฉิน */}
-                  {formatTotalBalance} / {formatTargetAmount}
-                </p>
+                {showModal ? (
+                  <p className="flex justify-center text-xl font-bold item-center">
+                    {/* ออมเงินเผื่อฉุกเฉิน */}
+                    สำเร็จแล้ว!
+                  </p>
+                ) : (
+                  <p className="flex justify-center text-xl font-bold item-center">
+                    {/* ออมเงินเผื่อฉุกเฉิน */}
+                    {formatTotalBalance} / {formatTargetAmount}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -97,7 +114,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
           <div className="flex grid justify-center grid-cols-2 gap-5 py-3 font-bold item-center">
             <p>จำนวนเงินออมเป้าหมาย</p>
             {formatTargetAmount} บาท
-            <p>ยอดเงินปัจจุบัน</p>
+            <p>ออมไปแล้ว</p>
             {formatTotalBalance} บาท
           </div>
           <a

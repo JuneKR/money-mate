@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from "react";
-import ReactDOM from "react-dom";
+import React, { useState } from "react";
 import styles from "@/styles/Home.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -7,8 +6,8 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { urlServer } from "@/API";
 
 const style = {
   justifyContent: "center",
@@ -53,7 +52,7 @@ const RegisterPage: React.FC = () => {
   const href = "/UserManagement/login";
   const register = async () => {
     try {
-      const response = await fetch("http://localhost:8080/register", {
+      const response = await fetch(`${urlServer}register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registerInformation),

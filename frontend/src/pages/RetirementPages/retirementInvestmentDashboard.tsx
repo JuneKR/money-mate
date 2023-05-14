@@ -115,6 +115,18 @@ const initialPortfolio: InvestmentPortfolio = {
   Retirement_ID: 0,
 };
 
+function yearsToYearsMonthsDays(value: string) {
+  const totalDays = Number(value) * 365;
+  const years = Math.floor(totalDays / 365);
+  const months = Math.floor((totalDays - years * 365) / 30);
+  const days = Math.floor(totalDays - years * 365 - months * 30);
+  const result = years + " ปี " + months + " เดือน " + days + " วัน";
+  if (isNaN(years) || isNaN(months) || isNaN(days)) {
+    return "0 ปี 0 เดือน 0 วัน";
+  }
+  return result.toString();
+}
+
 const RetirementInvestmentDashboard = () => {
   const [savingRetirementPlan, setSavingRetirementPlan] =
     useState<SavingRetirementPlan>(initialSavingRetirementPlan);
@@ -215,6 +227,41 @@ const RetirementInvestmentDashboard = () => {
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
+  const tvmCalculator = require("tvm-calculator");
+  function numberPeriods(
+    pvInput: number,
+    fvInput: number,
+    pmInputt: number,
+    rateInput: number
+  ) {
+    const remainTimeTvmResult = tvmCalculator.calcNPer({
+      pv: -pvInput,
+      fv: fvInput,
+      pmt: -pmInputt,
+      rate: rateInput,
+    });
+    return remainTimeTvmResult;
+  }
+  const amountRemaining =
+    Number(savingRetirementPlan?.TargetAmount) -
+    Number(savingRetirementPlan?.TotalBalance);
+
+  const dynamicTimePeriod =
+    amountRemaining / Number(savingRetirementPlan?.MonthlySaving);
+
+
+  const currentTimePeriod = numberPeriods(
+    Number(savingRetirementPlan?.TotalBalance),
+    Number(savingRetirementPlan?.TargetAmount),
+    Number(savingRetirementPlan?.MonthlySaving),
+    Number(investmentPortfolio?.ReturnRate)
+  );
+  const currentTimeRemaining = yearsToYearsMonthsDays((currentTimePeriod/12).toString())
+  console.log('Current Time Period', currentTimePeriod);  
+  console.log('Final Time Remaining', currentTimeRemaining);
+  console.log('Rate', investmentPortfolio?.ReturnRate)
+  console.log('Total Value', Number(investmentPortfolio?.TotalValue))
+  console.log('Total Balance', Number(savingRetirementPlan?.TotalBalance))
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -497,11 +544,12 @@ const RetirementInvestmentDashboard = () => {
                     </div>
                     <div className="flex items-center justify-center py-3">
                       <h1 className="font-bold text-white">
-                        {(
+                        {/* {(
                           savingRetirementPlan?.TargetAmount -
                           savingRetirementPlan?.TotalBalance
                         ).toLocaleString()}{" "}
-                        บาท
+                        บาท */}
+                        {amountRemaining <= 0 ? `0` : amountRemaining}บาท
                       </h1>
                     </div>
                   </div>
@@ -510,9 +558,12 @@ const RetirementInvestmentDashboard = () => {
                       <h1>เหลือเวลาอีก</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="font-bold text-white">
-                        {savingRetirementPlan?.TimeRemaining} เดือน
-                      </h1>
+                      <h1>
+                          {currentTimePeriod <= 0
+                            ? `ออมเงินสำเร็จ!`
+                            : currentTimeRemaining
+                          }{" "}
+                        </h1>
                     </div>
                   </div>
                 </div>

@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 interface EmergencyDashBoardModalForm1Props {
   title: string;
   savingEmergency: any;
+  dynamicTimePeriod: number;
 }
 
 function yearsToYearsMonthsDays(value: string) {
-  // const values = Number(value) / 12;
   const totalDays = Number(value) * 365;
   const years = Math.floor(totalDays / 365);
   const months = Math.floor((totalDays - years * 365) / 30);
@@ -18,58 +18,96 @@ function yearsToYearsMonthsDays(value: string) {
   return result.toString();
 }
 
-const EmergencyDashBoardModalForm1: React.FC<EmergencyDashBoardModalForm1Props> = ({ title, savingEmergency }) => {
-
+const EmergencyDashBoardModalForm1: React.FC<
+  EmergencyDashBoardModalForm1Props
+> = ({ title, savingEmergency, dynamicTimePeriod }) => {
   const targetAmountDisplay = Number(savingEmergency?.TargetAmount);
   const monthlySavingDisplay = Number(savingEmergency?.MonthlySaving);
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
+  const [showComplete, setShowComplete] = useState<boolean>(false);
+
+  function checkProgress(savingEmergency: any) {
+    if (savingEmergency?.Progression >= 100) {
+      setShowComplete(true);
+    }
+  }
+  useEffect(() => {
+    checkProgress(savingEmergency);
+  }, [savingEmergency]);
+
+  // function setSavingEmergencyPlanData(data: SavingEmergencyPlan): void {
+  //   setSavingEmergencyPlan(data);
+  //   checkProgress(data);
+  // }
 
   return (
     <div>
-        <div style={{backgroundColor: "#1D1D41"}} className="p-4 rounded-b-2xl w-full h-full pb-10 shadow-2xl ">
-          <div className="flex justify-end">
+      {showComplete ? (
+        <div className="p-20 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600">
+          <p className="flex justify-center text-3xl font-bold text-gray-200 animate-bounce item-center">
+            การออมเงินสำเร็จแล้ว!
+          </p>
+        </div>
+      ) : (
+        <div
+          style={{ backgroundColor: "#1D1D41" }}
+          className="w-full h-full p-4 pb-10 shadow-2xl rounded-b-2xl "
+        >
+          <div className="flex justify-end"></div>
+          <div className="font-bold text-left text-white">
+            <h1 className="px-2 pb-5 text-xl">เป้าหมายการออมเงิน</h1>
           </div>
-          <div className="text-left text-white font-bold">
-            <h1  className="px-2 text-xl pb-5">
-              เป้าหมายการออมเงิน
-            </h1>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 p-5">
-            <div style={{backgroundColor: "#27264E"}} className="shadow-2xl rounded-lg p-5">
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+          <div className="grid grid-cols-1 gap-20 p-5 md:grid-cols-2 lg:grid-cols-4">
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl"
+            >
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 จำนวนเงิน
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
+              <div className="flex items-center justify-center text-2xl text-white">
                 {formattedํargetAmount}
               </div>
             </div>
-            <div style={{backgroundColor: "#27264E"}}className="shadow-2xl rounded-lg p-5">
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl"
+            >
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 ระยะเวลาคงเหลือ
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
-                {yearsToYearsMonthsDays(savingEmergency?.TimeRemaining)} 
+              <div className="flex items-center justify-center text-2xl text-white">
+                {yearsToYearsMonthsDays(
+                  Number(dynamicTimePeriod / 12).toString()
+                )}{" "}
               </div>
             </div>
-            <div style={{backgroundColor: "#27264E"}} className="shadow-2xl rounded-lg p-5">
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl"
+            >
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 จำนวนเดือน
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
+              <div className="flex items-center justify-center text-2xl text-white">
                 {savingEmergency?.TimePeriod} เดือน
               </div>
             </div>
-            <div style={{backgroundColor: "#27264E"}}className="shadow-2xl rounded-lg p-5">
-              <div className="flex items-center justify-center text-white font-bold text-sm pb-2">
+            <div
+              style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl"
+            >
+              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
                 เงินออม/ต่อเดือน
               </div>
-              <div className="flex items-center justify-center text-white text-2xl">
+              <div className="flex items-center justify-center text-2xl text-white">
                 {formattedMonthlySaving} บาท
               </div>
             </div>
           </div>
         </div>
+      )}
     </div>
   );
 };

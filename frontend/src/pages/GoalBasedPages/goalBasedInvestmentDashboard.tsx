@@ -207,6 +207,12 @@ const GoalInvestmentDashboard = () => {
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
   const formattedMonthlySaving = monthlySavingDisplay.toLocaleString();
 
+  const amountRemaining =
+    Number(savingGoalPlan?.TargetAmount) -
+    Number(savingGoalPlan?.TotalBalance);
+  const dynamicTimePeriod =
+    amountRemaining / Number(savingGoalPlan?.MonthlySaving);
+
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -493,13 +499,13 @@ const GoalInvestmentDashboard = () => {
                       <h1>เหลือเวลาอีก</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="font-bold text-white">
-                        {/* {yearsToYearsMonthsDays(savingGoalPlan?.TimeRemaining)} เดือน */}
-                        {yearsToYearsMonthsDays(
-                          (savingGoalPlan?.TimePeriod / 12).toString()
-                        )}{" "}
-                        เดือน
-                      </h1>
+                        <h1>
+                          {dynamicTimePeriod <= 0
+                            ? 'ออมเงินสำเร็จ!'
+                            : yearsToYearsMonthsDays(
+                                Number(dynamicTimePeriod / 12).toString()
+                              )}{" "}
+                        </h1>
                     </div>
                   </div>
                 </div>

@@ -301,7 +301,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
               }}
             >
               <MenuItem onClick={handleMenuClose1}>Profile</MenuItem>
-              <MenuItem onClick={handleAdmin}>Admin(debugmode)</MenuItem>
+              {/* <MenuItem onClick={handleAdmin}>Admin(debugmode)</MenuItem> */}
               <MenuItem
                 onClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>) =>
                   handleLogout(e)

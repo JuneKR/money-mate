@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import express, { Application, NextFunction, Request, Response } from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import session from "express-session";
 import SequelizeStore from 'connect-session-sequelize';
 import db from './config/database';
@@ -50,10 +50,10 @@ app.use(session({
     }
 }))
 
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-}))
+// app.use(cors({
+//     credentials: true,
+//     origin: 'http://localhost:3000'
+// }))
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('Hello, World!')

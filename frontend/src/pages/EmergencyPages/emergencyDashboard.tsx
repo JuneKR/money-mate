@@ -102,7 +102,8 @@ const EmergencyDashboard = () => {
   const amountRemaining =
     Number(savingEmergencyPlan?.TargetAmount) -
     Number(savingEmergencyPlan?.TotalBalance);
-
+  const dynamicTimePeriod =
+    amountRemaining / Number(savingEmergencyPlan?.MonthlySaving);
   const handleCloseModal = (): void => {
     setShowModal(false);
   };
@@ -132,6 +133,7 @@ const EmergencyDashboard = () => {
                   <ModleButtonForm1
                     title={""}
                     savingEmergency={savingEmergencyPlan}
+                    dynamicTimePeriod={dynamicTimePeriod}
                   />
                 </div>
               </div>
@@ -193,7 +195,7 @@ const EmergencyDashboard = () => {
                     </div>
                     <div>
                       <div className="flex items-center justify-center py-3">
-                        จำนวนเงินทั้งหมด
+                        ออมไปแล้ว
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>{formatTotalBalance2} บาท</h1>
@@ -201,10 +203,12 @@ const EmergencyDashboard = () => {
                     </div>
                     <div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>จำนวนเงินคงเหลือ</h1>
+                        <h1>ต้องออมเงินอีก</h1>
                       </div>
                       <div className="flex items-center justify-center py-3">
-                        <h1>{amountRemaining <= 0 ? `0` : amountRemaining}บาท</h1>
+                        <h1>
+                          {amountRemaining <= 0 ? `0` : amountRemaining}บาท
+                        </h1>
                       </div>
                     </div>
                     <div>
@@ -213,12 +217,9 @@ const EmergencyDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
-                          {yearsToYearsMonthsDays(
-                            Number(
-                              savingEmergencyPlan?.TimeRemaining
-                            ).toString()
+                          {dynamicTimePeriod <= 0 ? `ออมเงินสำเร็จ` : yearsToYearsMonthsDays(
+                            Number(dynamicTimePeriod / 12).toString()
                           )}{" "}
-                          เดือน
                         </h1>
                       </div>
                     </div>

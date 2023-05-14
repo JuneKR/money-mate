@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 interface EmergencyDashBoardModalForm1Props {
   title: string;
   savingEmergency: any;
+  dynamicTimePeriod: number;
 }
 
 function yearsToYearsMonthsDays(value: string) {
@@ -19,7 +20,7 @@ function yearsToYearsMonthsDays(value: string) {
 
 const EmergencyDashBoardModalForm1: React.FC<
   EmergencyDashBoardModalForm1Props
-> = ({ title, savingEmergency }) => {
+> = ({ title, savingEmergency, dynamicTimePeriod }) => {
   const targetAmountDisplay = Number(savingEmergency?.TargetAmount);
   const monthlySavingDisplay = Number(savingEmergency?.MonthlySaving);
   const formattedํargetAmount = targetAmountDisplay.toLocaleString();
@@ -77,7 +78,9 @@ const EmergencyDashBoardModalForm1: React.FC<
                 ระยะเวลาคงเหลือ
               </div>
               <div className="flex items-center justify-center text-2xl text-white">
-                {yearsToYearsMonthsDays(savingEmergency?.TimeRemaining)}
+                {yearsToYearsMonthsDays(
+                  Number(dynamicTimePeriod / 12).toString()
+                )}{" "}
               </div>
             </div>
             <div

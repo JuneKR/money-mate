@@ -125,6 +125,8 @@ const RetirementDashboard = () => {
     Number(savingRetirePlan?.TargetAmount) -
     Number(savingRetirePlan?.TotalBalance);
 
+  const dynamicTimePeriod =
+    amountRemaining / Number(savingRetirePlan?.MonthlySaving) * -1;
   return (
     <>
       <Sidebar title="My Sidebar" />
@@ -151,6 +153,7 @@ const RetirementDashboard = () => {
                   <ModleButtonForm1
                     title={""}
                     savingRetirement={savingRetirePlan}
+                    dynamicTimePeriod={dynamicTimePeriod}
                   />
                 </div>
               </div>
@@ -226,10 +229,11 @@ const RetirementDashboard = () => {
                       </div>
                       <div className="flex items-center justify-center py-3">
                         <h1>
-                          {yearsToYearsMonthsDays(
-                            Number(savingRetirePlan?.TimeRemaining).toString()
-                          )}{" "}
-                          เดือน
+                          {dynamicTimePeriod <= 0
+                            ? `ออมเงินสำเร็จ!`
+                            : yearsToYearsMonthsDays(
+                                Number(dynamicTimePeriod / 12).toString()
+                              )}{" "}
                         </h1>
                       </div>
                     </div>

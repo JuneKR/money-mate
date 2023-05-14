@@ -122,6 +122,18 @@ export const initialPackage: IPortfolioPackage = {
 
 export const initialPortfolioPackageAllocation: IPackageAllocation[] = [];
 
+function yearsToYearsMonthsDays(value: string) {
+  const totalDays = Number(value) * 365;
+  const years = Math.floor(totalDays / 365);
+  const months = Math.floor((totalDays - years * 365) / 30);
+  const days = Math.floor(totalDays - years * 365 - months * 30);
+  const result = years + " ปี " + months + " เดือน " + days + " วัน";
+  if (isNaN(years) || isNaN(months) || isNaN(days)) {
+    return "0 ปี 0 เดือน 0 วัน";
+  }
+  return result.toString();
+}
+
 const EmergencyInvestmentDashboard = () => {
   const [savingEmergencyPlan, setSavingEmergencyPlan] =
     useState<SavingEmergencyPlan>(initialSavingEmergencyPlan);
@@ -219,6 +231,11 @@ const EmergencyInvestmentDashboard = () => {
   };
   const targetAmountDisplay = Number(savingEmergencyPlan.TargetAmount);
   const monthlySavingDisplay = Number(savingEmergencyPlan.MonthlySaving);
+  const amountRemaining =
+    Number(savingEmergencyPlan?.TargetAmount) -
+    Number(savingEmergencyPlan?.TotalBalance);
+  const dynamicTimePeriod =
+    amountRemaining / Number(savingEmergencyPlan?.MonthlySaving);
 
   return (
     <>
@@ -504,9 +521,11 @@ const EmergencyInvestmentDashboard = () => {
                       <h1>เหลือเวลาอีก</h1>
                     </div>
                     <div className="flex items-center justify-center py-3">
-                      <h1 className="font-bold text-white">
-                        {savingEmergencyPlan?.TimeRemaining} เดือน
-                      </h1>
+                        <h1>
+                          {dynamicTimePeriod <= 0 ? `ออมเงินสำเร็จ` : yearsToYearsMonthsDays(
+                            Number(dynamicTimePeriod / 12).toString()
+                          )}{" "}
+                        </h1>
                     </div>
                   </div>
                 </div>

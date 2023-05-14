@@ -64,7 +64,6 @@ const GoalBasedDashboard = () => {
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
-  const urlServer = "http://localhost:8080/";
 
   const [savingSGoalPlan, setSavingSGoalPlan] = useState<SavingGoalPlan>();
 

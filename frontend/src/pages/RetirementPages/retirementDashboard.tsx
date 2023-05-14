@@ -57,7 +57,6 @@ const RetirementDashboard = () => {
   const handleEmergencyInvestmentPortfolioPackage = () => {
     router.push("/EmergencyPages/emergencyInvestmentPortfolioPackage");
   };
-  const urlServer = "http://localhost:8080/";
 
   const [savingRetirePlan, setSavingRetirePlan] =
     useState<SavingRetirementPlan>();
@@ -126,7 +125,7 @@ const RetirementDashboard = () => {
     Number(savingRetirePlan?.TotalBalance);
 
   const dynamicTimePeriod =
-    amountRemaining / Number(savingRetirePlan?.MonthlySaving) * -1;
+    amountRemaining / Number(savingRetirePlan?.MonthlySaving);
   return (
     <>
       <Sidebar title="My Sidebar" />

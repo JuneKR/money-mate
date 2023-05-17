@@ -78,17 +78,92 @@ describe("yearsToYearsMonthsDays function Test 4", () => {
   });
 });
 
-// describe("yearsToYearsMonthsDays function Test 1", () => {
-//   describe("when given to string", () => {
-//     it("should return year fornat as nปี nเดือน nวัน", () => {
-//       // Arrange: prepare function arguments
-//       const [a, expected] = ["60", "60 ปี 0 เดือน 0 วัน"];
-//       // Act: use the `divide` function
-//       // to get an actual function result.
-//       const result = yearsToYearsMonthsDays(a);
-//       // Assert: compare expected result
-//       // with a function result.
-//       expect(result).toEqual(expected);
-//     });
-//   });
-// });
+describe("yearsToYearsMonthsDays function Test 5", () => {
+  describe("when given to string", () => {
+    it("should return year fornat as nปี nเดือน nวัน", () => {
+      // Arrange: prepare function arguments
+      const [a, expected] = ["10.5", "10 ปี 6 เดือน 2 วัน"];
+      // Act: use the `divide` function
+      // to get an actual function result.
+      const result = yearsToYearsMonthsDays(a);
+      // Assert: compare expected result
+      // with a function result.
+      expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe("yearsToYearsMonthsDays function Test 6", () => {
+  describe("when given to string", () => {
+    it("should return year fornat as nปี nเดือน nวัน", () => {
+      // Arrange: prepare function arguments
+      const [a, expected] = ["-5", "The Year cannot be negative number"];
+      // Act: use the `divide` function
+      // to get an actual function result.
+      const result = yearsToYearsMonthsDays(a);
+      // Assert: compare expected result
+      // with a function result.
+      expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe("yearsToYearsMonthsDays function Test 7", () => {
+  describe("when given to string", () => {
+    it("should return year fornat as nปี nเดือน nวัน", () => {
+      // Arrange: prepare function arguments
+      const [a, expected] = ["1000.1000", "1000 ปี 1 เดือน 6 วัน"];
+      // Act: use the `divide` function
+      // to get an actual function result.
+      const result = yearsToYearsMonthsDays(a);
+      // Assert: compare expected result
+      // with a function result.
+      expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe("yearsToYearsMonthsDays function Test 8", () => {
+  describe("when given to string", () => {
+    it("should return year fornat as nปี nเดือน nวัน", () => {
+      // Arrange: prepare function arguments
+      const [a, expected] = ["abc", "0 ปี 0 เดือน 0 วัน"];
+      // Act: use the `divide` function
+      // to get an actual function result.
+      const result = yearsToYearsMonthsDays(a);
+      // Assert: compare expected result
+      // with a function result.
+      expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe("yearsToYearsMonthsDays function Test 9", () => {
+  describe("when given to string", () => {
+    it("should return year fornat as nปี nเดือน nวัน", () => {
+      // Arrange: prepare function arguments
+      const [a, expected] = ["0.0123", "0 ปี 0 เดือน 4 วัน"];
+      // Act: use the `divide` function
+      // to get an actual function result.
+      const result = yearsToYearsMonthsDays(a);
+      // Assert: compare expected result
+      // with a function result.
+      expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe("yearsToYearsMonthsDays function Test 10", () => {
+  describe("when given to string", () => {
+    it("should return year fornat as nปี nเดือน nวัน", () => {
+      // Arrange: prepare function arguments
+      const [a, expected] = ["365.785", "365 ปี 9 เดือน 16 วัน"];
+      // Act: use the `divide` function
+      // to get an actual function result.
+      const result = yearsToYearsMonthsDays(a);
+      // Assert: compare expected result
+      // with a function result.
+      expect(result).toEqual(expected);
+    });
+  });
+});

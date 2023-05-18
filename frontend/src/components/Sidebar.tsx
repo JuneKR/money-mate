@@ -35,6 +35,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { urlServer, urlClient } from "@/API";
 
+import DarkModeButton from "@/components/DarkModeButton";
 
 const drawerWidth = 240;
 
@@ -257,6 +258,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar style={{ backgroundColor: "#1D1D41" }}>
+          
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -272,6 +274,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             <Typography variant="h6" noWrap component="div">
               {`สวัสดี ${profile.FirstName}`}
             </Typography>
+            <DarkModeButton />
             <IconButton
               size="large"
               edge="end"
@@ -286,6 +289,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 <Image src={icon1} alt="Profile Image" width={50} height={50} />
               </Avatar>
             </IconButton>
+            
             <Menu
               anchorEl={anchorEl}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

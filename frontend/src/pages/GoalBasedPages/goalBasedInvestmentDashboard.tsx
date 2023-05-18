@@ -286,7 +286,7 @@ const GoalInvestmentDashboard = () => {
 
                 <div
                   style={{ backgroundColor: "#1D1D41" }}
-                  className="grid grid-cols-1 p-10 md:grid-cols-1 lg:grid-cols-4"
+                  className="py-10"
                 >
                   <div
                     style={{ alignItems: "center" }}

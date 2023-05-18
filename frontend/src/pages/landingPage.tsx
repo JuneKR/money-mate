@@ -54,6 +54,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   const [investmentPlans, setInvestmentPlans] = useState<InvestmentPlan[]>([]);
   const [shouldRefreshPage, setShouldRefreshPage] = useState(false);
 
+
   useEffect(() => {
     if (shouldRefreshPage) {
       window.location.reload();
@@ -147,19 +148,19 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   const handleLandingPageDetails = () => {
     router.push("/landingPageDetails");
   };
-
+  
   return (
     <>
       <Sidebar title="My Sidebar" />
-      <main className={styles.main}>
+      <main className="flex flex-col justify-center items-center p-24 min-h-screen resize-both min-w-[800px] bg-blue-200 dark:bg-gray-900 overflow-x-auto">
         <div style={{ padding: "0 4rem" }} className="w-full xl:w-8/12">
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              backgroundColor: "#6259E8",
+              // backgroundColor: "#6259E8",
             }}
-            className="py-2 rounded shadow-2xl bg-gray-50"
+            className="py-2 text-black shadow-2xl roun8ed bg-gray-50 dark:bg-indigo-500 dark:text-white"
           >
             <p
               style={{ padding: "0 1rem" }}

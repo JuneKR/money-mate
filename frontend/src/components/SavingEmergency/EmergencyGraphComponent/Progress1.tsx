@@ -11,14 +11,14 @@ const Progress1: React.FC<Progress1Props> = ({ progress, title }) => {
   return (
     <div className="w-full h-full">
       <div
-        style={{ backgroundColor: "#3A3B5A" }}
-        className="w-full mb-4 rounded-full h-11"
+        // style={{ backgroundColor: "#3A3B5A" }}
+        className="w-full mb-4 bg-gray-300 rounded-full dark:bg-custom-darkProgressBg"
       >
         <div
-          className="flex justify-center h-10 font-bold rounded-full item-center "
+          className="flex justify-center h-10 font-bold bg-red-400 rounded-full item-center dark:bg-custom-darkProgress"
           style={{
             width: percentage <= 100 ? `${percentage}%` : "100%", // set width based on percentage up to a maximum of 100%
-            backgroundColor: "#64D0F7",
+            // backgroundColor: "#64D0F7",
             alignItems: "center",
           }}
         >

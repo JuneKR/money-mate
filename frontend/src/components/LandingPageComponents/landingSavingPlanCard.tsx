@@ -48,12 +48,12 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
   let icon: string = "";
   if (isEmergencyPlan) {
     // handle emergency plan
-    bgColorClass = "bg-gradient-to-r from-purple-900 to-pink-500";
+    bgColorClass = "bg-custom-emergencyPlanHeader dark:bg-gradient-to-r from-purple-900 to-pink-500";
   } else if (isGoalPlan) {
     // handle goal plan
-    bgColorClass = "bg-gradient-to-r from-purple-900 to-red-500";
+    bgColorClass = "bg-custom-goalBasedPlanHeader dark:bg-gradient-to-r from-purple-900 to-red-500";
   } else if (isRetirementPlan) {
-    bgColorClass = "bg-gradient-to-r from-purple-900 to-green-500";
+    bgColorClass = "bg-custom-retirementPlanHeader dark:bg-gradient-to-r from-purple-900 to-green-500";
   }
 
   const handleClick = () => {
@@ -69,8 +69,9 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
     <div className="px-5 pb-10">
       <div
         // key={index}
-        style={{ alignItems: "center", backgroundColor: "#27264E" }}
-        className="relative pb-5 text-white shadow-2xl"
+        //, backgroundColor: "#27264E"
+        style={{ alignItems: "center" }}
+        className="relative pb-5 text-black shadow-2xl bg-custom-innercard dark:bg-custom-darkInnercard dark:text-white"
       >
         <div
           style={{ alignItems: "center" }}
@@ -87,8 +88,8 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
             </div>
             <div className="mt-10">
               <div
-                style={{ backgroundColor: "#6259E8" }}
-                className="px-3 py-3 rounded-lg"
+                // style={{ backgroundColor: "#6259E8" }}
+                className="px-3 py-3 text-white rounded-lg shadow-2xl bg-custom-toppicPlain dark:bg-indigo-500"
               >
                 {showModal ? (
                   <p className="flex justify-center text-xl font-bold item-center">
@@ -111,7 +112,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
               {/* <Progress title={""} progress={"90%"} /> */}
             </div>
           </div>
-          <div className="flex grid justify-center grid-cols-2 gap-5 py-3 font-bold item-center">
+          <div className="flex grid justify-center grid-cols-2 gap-5 py-3 font-bold text-black item-center dark:text-white">
             <p>จำนวนเงินออมเป้าหมาย</p>
             {formatTargetAmount} บาท
             <p>ออมไปแล้ว</p>
@@ -119,7 +120,7 @@ const LandingSavingPlanCard: React.FC<LandingSavingPlanCardProps> = (props) => {
           </div>
           <a
             onClick={handleClick}
-            className="absolute flex justify-center text-white cursor-pointer top-3 right-3 item-center hover:text-blue-800"
+            className="absolute flex justify-center text-black cursor-pointer dark:text-white top-3 right-3 item-center hover:text-blue-800"
           >
             ดูข้อมูลเพิ่มเติม &gt;
           </a>

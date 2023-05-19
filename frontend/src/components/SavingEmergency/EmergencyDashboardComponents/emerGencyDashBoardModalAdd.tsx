@@ -103,9 +103,9 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
         style={{
           width: "209px",
           marginRight: "10px",
-          backgroundColor: "#6259E8",
+          // backgroundColor: "#6259E8",
         }}
-        className="px-4 py-2 text-lg font-bold text-white rounded-lg shadow-xl "
+        className="px-4 py-2 text-lg font-bold text-white rounded-lg shadow-xl bg-custom-card dark:bg-indigo-500"
         onClick={handleOpen}
       >
         ออมเงิน
@@ -117,9 +117,10 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
         aria-describedby="modal-modal-description"
       >
         <form action="" onSubmit={handleSubmit}>
-          <Box sx={style}>
+          <Box className="absolute w-1/2 p-4 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-lg bg-custom-body dark:bg-custom-darkInnercard top-1/2 left-1/2">
+            
             <Typography id="modal-modal-title" variant="h6" component={"span"}>
-              <div className="text-2xl font-bold text-white">เพิ่มเงินออม</div>
+              <div className="text-2xl font-bold text-black dark:text-white">เพิ่มเงินออม</div>
               <div className="py-5">
                 <input
                   type="number"
@@ -147,15 +148,15 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
                 <div className="flex grid justify-end grid-rows-2">
                   <div>
                     <button
-                      style={{ width: "209px", backgroundColor: "#6259E8" }}
-                      className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400"
+                      style={{ width: "209px"}}
+                      className="px-4 py-2 text-lg font-bold text-white rounded shadow shadow-2xl dark:bg-indigo-500 bg-custom-toppicHeadder hover:bg-green-400"
                       type="submit"
                     >
                       ยืนยัน
                     </button>
                     <button
-                      style={{ width: "209px", backgroundColor: "#27264E" }}
-                      className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl hover:bg-gray-400"
+                      style={{ width: "209px"}}
+                      className="px-4 py-2 text-lg font-bold text-white bg-gray-300 rounded shadow shadow-2xl dark:bg-custom-darkInnercard hover:bg-red-400"
                       type="button"
                       onClick={handleClose}
                     >
@@ -174,16 +175,16 @@ const EmerGencyDashBoardModal: React.FC<EmerGencyDashBoardModalProps> = ({
         aria-labelledby="modal-congratulations-title"
         aria-describedby="modal-congratulations-description"
       >
-        <Box sx={style}>
+        <Box className="absolute w-1/2 p-4 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-lg bg-custom-body dark:bg-custom-darkInnercard top-1/2 left-1/2">
           <Typography
             id="modal-congratulations-title"
             variant="h6"
             component={"span"}
           >
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-black dark:text-white">
               ยินดีด้วย! คุณมีเงินออมเพิ่มขึ้นแล้ว
             </div>
-            <div className="py-5 font-bold text-white text-md">
+            <div className="py-5 font-bold text-black dark:text-white text-md">
               ฝากเงินสำเร็จ! กรุณารอสักครู่... <CircularProgress />
             </div>
             

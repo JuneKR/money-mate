@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -27,7 +27,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ElderlyIcon from "@mui/icons-material/Elderly";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PersonIcon from "@mui/icons-material/Person";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/styles';
 import { useRouter } from "next/router";
 
 import Collapse from "@mui/material/Collapse";
@@ -36,6 +36,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { urlServer, urlClient } from "@/API";
 
 import DarkModeButton from "@/components/DarkModeButton";
+
 
 const drawerWidth = 240;
 
@@ -48,15 +49,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
   overflowX: "hidden",
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    "& .MuiPaper-root": {
-      borderRadius: "10px",
-      // boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.75);",
-      backgroundColor: "#1D1D41",
-    },
-  },
-}));
+
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create("width", {
@@ -75,7 +68,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  backgroundColor: "#1D1D41",
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -124,7 +116,7 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  backgroundColor: "#1D1D41",
+  // backgroundColor: "#1D1D41",
 
   ...(open && {
     ...openedMixin(theme),
@@ -136,8 +128,31 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+
+
+const useDarkStyles = makeStyles((theme: Theme) => ({
+  root: {
+    "& .MuiPaper-root": {
+      borderRadius: "10px",
+      backgroundColor: "#1D1D41",
+    },
+  },
+}));
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    "& .MuiPaper-root": {
+      borderRadius: "10px",
+      backgroundColor: "#F0CF85",
+    },
+  },
+}));
+
 const Sidebar: React.FC<SidebarProps> = () => {
   const classes = useStyles();
+  const darkClasses = useDarkStyles();
+  const [darkMode, setDarkMode] = useState(false);
+  
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -161,6 +176,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
     router.push("/ProfileManagement/userProfile");
   };
 
+  
+  
   const [profile, setProfile] = useState({
     User_ID: 0,
     FirstName: "",
@@ -252,13 +269,22 @@ const Sidebar: React.FC<SidebarProps> = () => {
   const handleAdmin = () => {
     router.push("/AdminPages/adminFundsAddingPage");
   };
+  
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => !prevMode);
+    if (darkMode) {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+  };
   return (
     <div>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
-          <Toolbar style={{ backgroundColor: "#1D1D41" }}>
-          
+          <Toolbar className="bg-custom-nav dark:bg-custom-darkNav">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -271,10 +297,10 @@ const Sidebar: React.FC<SidebarProps> = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h6" noWrap component="div" className="text-xl text-black dark:text-white">
               {`สวัสดี ${profile.FirstName}`}
             </Typography>
-            <DarkModeButton />
+
             <IconButton
               size="large"
               edge="end"
@@ -289,7 +315,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 <Image src={icon1} alt="Profile Image" width={50} height={50} />
               </Avatar>
             </IconButton>
-            
+
             <Menu
               anchorEl={anchorEl}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -304,6 +330,12 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 },
               }}
             >
+              <MenuItem
+                onClick={toggleDarkMode}
+                className="px-4 py-2 text-gray-800 bg-gray-200 dark:bg-indigo-950 dark:text-gray-200"
+              >
+                {darkMode ? "Light Mode" : "Dark Mode"}
+              </MenuItem>
               <MenuItem onClick={handleMenuClose1}>Profile</MenuItem>
               {/* <MenuItem onClick={handleAdmin}>Admin(debugmode)</MenuItem> */}
               <MenuItem
@@ -320,12 +352,14 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <Drawer
           variant="permanent"
           open={open}
-          style={{ color: "#FFFFFF" }}
-          className={classes.root}
+          // style={{ color: "#FFFFFF" }}
+          // className={classes.root}
+          className={darkMode ? darkClasses.root: classes.root}
+          
         >
-          <DrawerHeader>
-            <h1 className="py-2 text-3xl font-bold text-white">MoneyMate</h1>
-            <IconButton onClick={handleDrawerClose} sx={{ color: "#FFFFFF" }}>
+          <DrawerHeader className="bg-custom-nav dark:bg-custom-darkNav">
+            <h1 className="py-2 text-3xl font-bold text-black dark:text-white">MoneyMate</h1>
+            <IconButton onClick={handleDrawerClose} className="text-black dark:text-white">
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
@@ -337,15 +371,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
             sx={{
               width: "100%",
               maxWidth: 360,
-              bgcolor: "#1D1D41",
-              color: "#FFFFFF",
+              // color: "#FFFFFF",
             }}
+            className="text-black bg-custom-nav dark:bg-custom-darkNav dark:text-white"
             component="nav"
             aria-labelledby="nested-list-subheader"
           >
             <ListItemButton
               onClick={handleHomePage}
-              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-orange-500 dark:hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-yellow-500/50 dark:hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <HomeIcon sx={{ color: "#FFFFFF" }} />
@@ -354,7 +388,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleEmergencyDashboard}
-              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-orange-500 dark:hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-yellow-500/50 dark:hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <SavingsIcon sx={{ color: "#FFFFFF" }} />
@@ -363,7 +397,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleGoalBasedDashboard}
-              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-orange-500 dark:hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-yellow-500/50 dark:hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <FlagIcon sx={{ color: "#FFFFFF" }} />
@@ -372,7 +406,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleRetirementDashboard}
-              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-orange-500 dark:hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-yellow-500/50 dark:hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <ElderlyIcon sx={{ color: "#FFFFFF" }} />
@@ -381,7 +415,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </ListItemButton>
             <ListItemButton
               onClick={handleClick}
-              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-orange-500 dark:hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-yellow-500/50 dark:hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <AttachMoneyIcon sx={{ color: "#FFFFFF" }} />
@@ -425,7 +459,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </Collapse>
             <ListItemButton
               onClick={handleProfile}
-              className="transition duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-lg hover:shadow-cyan-500/50"
+              className="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-orange-500 dark:hover:bg-purple-500 hover:bg-opacity-75 hover:shadow-yellow-500/50 dark:hover:shadow-cyan-500/50"
             >
               <ListItemIcon>
                 <PersonIcon sx={{ color: "#FFFFFF" }} />
@@ -440,61 +474,5 @@ const Sidebar: React.FC<SidebarProps> = () => {
 };
 
 export default Sidebar;
-{/* <List style={{backgroundColor: '#1D1D41'}}>
-          {['Dashboard', 'เพิ่มข้อมูลกองทุน', 'สร้างพอร์ตการลงทุน', 'พอร์ตการลงทุนของคุณ', 'จัดการข้อมูลกองทุน', 'จัดการข้อมูลพอร์ตการลงทุน'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                className="transition duration-300 ease-in-out transform hover:scale-105"
-                onClick={() => {
-                  switch (index) {
-                    case 0:
-                      router.push('/');
-                      break;
-                    case 1:
-                      router.push('/AdminPages/adminFundsAddingPage');
-                      break;
-                    case 2:
-                      router.push('/AdminPages/adminPortsAddingPage');
-                      break;
-                    case 3:
-                      router.push('/AdminPages/adminPortPage');
-                      break;
-                    case 4:
-                      router.push('/AdminPages/adminFundsManagement');
-                      break;
-                    case 5:
-                      router.push('/AdminPages/adminPortsManagement');
-                      break;
-                    // Add more cases for each button
-                    default:
-                      break;
-                  }
-                }}
-                >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-        //           { index === 0 ? <HomeIcon /> : null}
-        //           { index === 1 ? <SavingsIcon /> : null}
-        //           { index === 2 ? <AccountBalanceWalletIcon/> : null}
-        //           { index === 3 ? <GridViewIcon/> : null}
-        //           { index === 4 ? <ElderlyIcon/> : null}
-        //           { index === 5 ? <AttachMoneyIcon/> : null}
-        //           { index === 6 ? <BarChartIcon/> : null}
-        //           { index === 7 ? <PersonIcon/> : null}
-        //         </ListItemIcon>
-        //         <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-        //       </ListItemButton>
-        //     </ListItem>
-        //   ))}
-        // </List> */}
+
+ 

@@ -40,28 +40,28 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   return (
     <div
       style={{ width: "100%"}}
-      className="py-5 text-white"
+      className="py-5 text-black dark:text-white"
     >
-      <h1 className="text-lg text-white font-bold">{splitArray[0]}</h1>
+      <h1 className="text-lg font-bold text-black dark:text-white">{splitArray[0]}</h1>
       <div className="grid grid-cols-4 py-5">
-        <div className="text-white h-20 flex items-center justify-center">
+        <div className="flex items-center justify-center h-20 text-white">
           <Avatar>
             <Image src={icon1} alt="Profile Image" priority={true}/>
           </Avatar>
         </div>
-        <div className="h-20 flex items-center justify-center text-lg text-white font-bold grid grid-rows-2">
+        <div className="flex grid items-center justify-center h-20 grid-rows-2 text-lg font-bold text-black dark:text-white">
           <h1>{savingData.PlanName}</h1>
           <FormHelperText
             id="my-helper-text"
-            className="text-gray-400 text-sm flex items-center justify-center"
+            className="flex items-center justify-center text-sm text-gray-600"
           >
             {status}
           </FormHelperText>
         </div>
-        <div className="h-20 flex items-center justify-center text-gray-400 ">
+        <div className="flex items-center justify-center h-20 text-gray-600 ">
           <h1>{time} น.</h1>
         </div>
-        <div className="h-20 flex items-center justify-center text-2xl text-white font-bold">
+        <div className="flex items-center justify-center h-20 text-2xl font-bold text-black dark:text-white">
           <h1>{transaction.Amount} บาท</h1>
         </div>
       </div>

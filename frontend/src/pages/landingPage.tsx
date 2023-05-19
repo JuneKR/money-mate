@@ -133,14 +133,6 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
     fetchSavingPlan();
   }, []);
 
-  // function handleNewData(data: RowData) {
-  //   setdisplayData([...displayData, data]);
-  // }
-  // function handleDeleteRow(index: LandingPageProps) {
-  //   const newRows = [...displayData];
-  //   setdisplayData(newRows);
-  // }
-
   const router = useRouter();
   const handleSavingSelectionPage = () => {
     router.push("/savingSelectionPage");
@@ -152,15 +144,14 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
   return (
     <>
       <Sidebar title="My Sidebar" />
-      <main className="flex flex-col justify-center items-center p-24 min-h-screen resize-both min-w-[800px] bg-blue-200 dark:bg-gray-900 overflow-x-auto">
+      <main className="transition duration-300 flex flex-col justify-center items-center p-24 min-h-screen resize-both min-w-[800px] bg-custom-body dark:bg-custom-darkBody overflow-x-auto">
         <div style={{ padding: "0 4rem" }} className="w-full xl:w-8/12">
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              // backgroundColor: "#6259E8",
             }}
-            className="py-2 text-black shadow-2xl roun8ed bg-gray-50 dark:bg-indigo-500 dark:text-white"
+            className="py-2 transition duration-300 rounded shadow-2xl bg-custom-toppicHeadder dark:bg-indigo-500 dark:text-white"
           >
             <p
               style={{ padding: "0 1rem" }}
@@ -170,7 +161,7 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
             </p>
           </div>
           <div className="py-5 ">
-            <div className="grid grid-cols-2 transition duration-300 delay-150 shadow-2xl rounded-3xl bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800">
+            <div className="grid grid-cols-2 text-black transition duration-300 delay-150 shadow-2xl rounded-3xl bg-custom-banner dark:text-white dark:bg-gradient-to-r from-blue-900 via-pink-800 to-purple-800 hover:delay-300 hover:from-purple-500 hover:to-pink-800">
               <div className="flex grid justify-center grid-rows-2 py-20 item-center ">
                 <div>
                   <p className="font-bold">เราแนะนำให้คุณสร้างแผนการออมเงิน</p>
@@ -191,8 +182,8 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
           </div>
           <div className="">
             <div
-              style={{ backgroundColor: "#1D1D41" }}
-              className="w-full h-24 h-full py-2 shadow-2xl rounded-xl"
+              // style={{ backgroundColor: "#1D1D41" }}
+              className="w-full h-24 h-full py-2 transition duration-300 shadow-2xl bg-custom-card rounded-xl dark:bg-custom-darkCard"
             >
               <div className="px-5 pb-5">
                 <div className="grid grid-cols-2 ">
@@ -224,8 +215,8 @@ const LandingPage: React.FC<LandingPageProps> = ({}) => {
           </div>
           <div className="pt-10">
             <div
-              style={{ backgroundColor: "#1D1D41" }}
-              className="w-full h-24 h-full py-2 shadow-2xl rounded-xl"
+              // style={{ backgroundColor: "#1D1D41" }}
+              className="w-full h-24 h-full py-2 shadow-2xl rounded-xl bg-custom-card dark:bg-custom-darkCard"
             >
               <div className="px-5 pb-5">
                 <div className="grid grid-cols-2 ">

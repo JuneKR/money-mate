@@ -44,64 +44,64 @@ const EmergencyDashBoardModalForm1: React.FC<
   return (
     <div>
       {showComplete ? (
-        <div className="p-20 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600">
+        <div className="p-20 rounded-xl dark:bg-gradient-to-r from-purple-500 to-indigo-600">
           <p className="flex justify-center text-3xl font-bold text-gray-200 animate-bounce item-center">
             การออมเงินสำเร็จแล้ว!
           </p>
         </div>
       ) : (
         <div
-          style={{ backgroundColor: "#1D1D41" }}
-          className="w-full h-full p-4 pb-10 shadow-2xl rounded-b-2xl "
+          // style={{ backgroundColor: "#1D1D41" }}
+          className="w-full h-full p-4 pb-10 shadow-2xl rounded-b-2xl bg-gray-50 dark:bg-custom-darkCard"
         >
           <div className="flex justify-end"></div>
-          <div className="font-bold text-left text-white">
+          <div className="text-left text-black dark:text-white">
             <h1 className="px-2 pb-5 text-xl">เป้าหมายการออมเงิน</h1>
           </div>
           <div className="grid grid-cols-1 gap-20 p-5 md:grid-cols-2 lg:grid-cols-4">
             <div
-              style={{ backgroundColor: "#27264E" }}
-              className="p-5 rounded-lg shadow-2xl"
+              // style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl dark:bg-custom-darkCard bg-custom-cards"
             >
-              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
+              <div className="flex items-center justify-center pb-2 text-sm text-black dark:text-white ">
                 จำนวนเงิน
               </div>
-              <div className="flex items-center justify-center text-2xl text-white">
+              <div className="flex items-center justify-center text-2xl text-black dark:text-white">
                 {formattedํargetAmount}
               </div>
             </div>
             <div
-              style={{ backgroundColor: "#27264E" }}
-              className="p-5 rounded-lg shadow-2xl"
+              // style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl dark:bg-custom-darkCard bg-custom-cards"
             >
-              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
+              <div className="flex items-center justify-center pb-2 text-sm text-black dark:text-white">
                 ระยะเวลาคงเหลือ
               </div>
-              <div className="flex items-center justify-center text-2xl text-white">
+              <div className="flex items-center justify-center text-2xl text-black dark:text-white">
                 {yearsToYearsMonthsDays(
                   Number(dynamicTimePeriod / 12).toString()
                 )}{" "}
               </div>
             </div>
             <div
-              style={{ backgroundColor: "#27264E" }}
-              className="p-5 rounded-lg shadow-2xl"
+              // style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl dark:bg-custom-darkCard bg-custom-cards"
             >
-              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
+              <div className="flex items-center justify-center pb-2 text-sm text-black dark:text-white">
                 จำนวนเดือน
               </div>
-              <div className="flex items-center justify-center text-2xl text-white">
+              <div className="flex items-center justify-center text-2xl text-black dark:text-white">
                 {savingEmergency?.TimePeriod} เดือน
               </div>
             </div>
             <div
-              style={{ backgroundColor: "#27264E" }}
-              className="p-5 rounded-lg shadow-2xl"
+              // style={{ backgroundColor: "#27264E" }}
+              className="p-5 rounded-lg shadow-2xl dark:bg-custom-darkCard bg-custom-cards"
             >
-              <div className="flex items-center justify-center pb-2 text-sm font-bold text-white">
+              <div className="flex items-center justify-center pb-2 text-sm text-black dark:text-white">
                 เงินออม/ต่อเดือน
               </div>
-              <div className="flex items-center justify-center text-2xl text-white">
+              <div className="flex items-center justify-center text-2xl text-black dark:text-white">
                 {formattedMonthlySaving} บาท
               </div>
             </div>

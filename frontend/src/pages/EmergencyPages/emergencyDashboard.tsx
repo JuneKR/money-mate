@@ -110,7 +110,7 @@ const EmergencyDashboard = () => {
   return (
     <>
       <Sidebar title="My Sidebar" />
-      <main className={styles.main} style={{ overflowX: "auto" }}>
+      <main className="transition duration-300 flex flex-col justify-center items-center p-24 min-h-screen resize-both min-w-[800px] bg-custom-body dark:bg-custom-darkBody overflow-x-auto" style={{ overflowX: "auto" }}>
         <div className="w-full xl:w-8/12">
           <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
             <div>
@@ -119,7 +119,7 @@ const EmergencyDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
+                className="py-2 rounded-lg bg-custom-emergencyPlanHeader dark:bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -129,7 +129,7 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
               <div>
-                <div className="pt-10">
+                <div>
                   <ModleButtonForm1
                     title={""}
                     savingEmergency={savingEmergencyPlan}
@@ -144,7 +144,7 @@ const EmergencyDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
+                className="py-2 rounded-lg bg-custom-emergencyPlanHeader dark:bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -154,8 +154,8 @@ const EmergencyDashboard = () => {
                 </div>
               </div>
               <div
-                style={{ backgroundColor: "#1D1D41" }}
-                className="pb-5 shadow-2xl rounded-b-2xl "
+                // style={{ backgroundColor: "#1D1D41" }}
+                className="pb-5 shadow-2xl rounded-b-2xl bg-gray-50 dark:bg-custom-darkCard"
               >
                 <div className="grid grid-cols-4 pt-5">
                   <div className="col-span-1 ">
@@ -169,13 +169,13 @@ const EmergencyDashboard = () => {
                   </div>
                 </div>
                 <div className="px-5 ">
-                  <div className="pb-3 text-2xl text-white ">
+                  <div className="pb-3 text-2xl text-black dark:text-white ">
                     {" "}
                     แผนการออมเงินของคุณ
                   </div>
                   <div
-                    style={{ backgroundColor: "#27264E" }}
-                    className="grid grid-cols-1 py-5 text-lg font-bold text-white rounded-lg shadow-2xl md:grid-cols-1 lg:grid-cols-5"
+                    // style={{ backgroundColor: "#27264E" }}
+                    className="grid grid-cols-1 py-5 text-lg font-bold text-black rounded-lg shadow-2xl dark:text-white md:grid-cols-1 lg:grid-cols-5 bg-custom-innercard dark:bg-custom-darkInnercard"
                   >
                     <div>
                       <div className="flex items-center justify-center py-3">
@@ -246,7 +246,7 @@ const EmergencyDashboard = () => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                className="py-2 rounded-lg bg-gradient-to-r from-purple-900 to-pink-500"
+                className="py-2 rounded-lg bg-custom-emergencyPlanHeader dark:bg-gradient-to-r from-purple-900 to-pink-500"
               >
                 <div
                   style={{ padding: "0 1rem" }}
@@ -260,9 +260,9 @@ const EmergencyDashboard = () => {
                   style={{
                     maxHeight: "600px",
                     overflow: "auto",
-                    backgroundColor: "#1D1D41",
+                    // backgroundColor: "#1D1D41",
                   }}
-                  className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-2xl"
+                  className="block w-full px-3 py-2 text-sm placeholder-gray-500 rounded-md shadow-2xl bg-gray-50 dark:bg-custom-darkCard"
                 >
                   {!savingEmergencyTransactions.length ? (
                     <div className="p-20">

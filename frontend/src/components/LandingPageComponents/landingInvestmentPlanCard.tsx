@@ -52,12 +52,12 @@ const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
   let bgColorClass = "";
   if (isEmergencyPlan) {
     // handle emergency plan
-    bgColorClass = "bg-gradient-to-r from-purple-900 to-pink-500";
+    bgColorClass = "bg-custom-emergencyPlanHeader dark:bg-gradient-to-r from-purple-900 to-pink-500";
   } else if (isGoalPlan) {
     // handle goal plan
-    bgColorClass = "bg-gradient-to-r from-purple-900 to-red-500";
+    bgColorClass = "bg-custom-goalBasedPlanHeader dark:bg-gradient-to-r from-purple-900 to-red-500";
   } else if (isRetirementPlan) {
-    bgColorClass = "bg-gradient-to-r from-purple-900 to-green-500";
+    bgColorClass = "bg-custom-retirementPlanHeader dark:bg-gradient-to-r from-purple-900 to-green-500";
   }
 
   const handleClick = () => {
@@ -74,8 +74,8 @@ const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
     <div className="px-5 pb-10">
       <div
         // key={index}
-        style={{ alignItems: "center", backgroundColor: "#27264E" }}
-        className="relative pb-5 text-white shadow-2xl"
+        style={{ alignItems: "center"}}
+        className="relative pb-5 text-white shadow-2xl bg-custom-innercard dark:bg-custom-darkInnercard"
       >
         <div
           style={{ alignItems: "center" }}
@@ -84,7 +84,6 @@ const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
           <div className="px-3 py-3">
             <div className="">
               <div
-                style={{ backgroundColor: "#6259E8" }}
                 className={`px-3 py-3 rounded-lg ${bgColorClass}`}>
                 <p className="flex justify-center text-xl font-bold item-center">
                   {investmentPlanData.PortfolioName}
@@ -94,7 +93,7 @@ const LandingInvestmentPlanCard: React.FC<LandingInvestmentPlanCardProps> = (
           </div>
           <a
             onClick={handleClick}
-            className="absolute flex justify-center text-white cursor-pointer top-3 right-3 item-center hover:text-blue-800"
+            className="absolute flex justify-center text-black cursor-pointer dark:text-white top-3 right-3 item-center hover:text-blue-800"
           >
             ดูข้อมูลเพิ่มเติม &gt;
           </a>

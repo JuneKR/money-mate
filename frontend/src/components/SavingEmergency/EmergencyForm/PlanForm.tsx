@@ -207,9 +207,6 @@ export function PlanForm({
   const futureTargetAmount = calculateFutureTargetAmountValue(targetEmergencyFund, Number(years));
   const currentFutureTargetAmount = calculateFutureTargetAmountValue(currentTargetEmergencyFund, Number(currentYears));
   const optionFutureTargetAmount = calculateFutureTargetAmountValue(optionTargetEmergencyFund, Number(optionYears));
-  
-  // Find Future value 
-
 
   const yearsToAchieveGoal = divided(
     futureTargetAmount.toString(),
@@ -225,24 +222,6 @@ export function PlanForm({
     optionFutureTargetAmount.toString(),
     optionState.monthlySaving.toString()
   );
-  
-
-  // Set time to achieve (New)  
-  // const timeToAchive = yearsToYearsMonthsDays(years);
-  // const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);
-  // const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
-
-  console.log('Years', years);
-  console.log('Years to Achieve Goal', yearsToAchieveGoal);
-  console.log('Future Target Amount', futureTargetAmount);
-  console.log('Current Future Target Amount', currentFutureTargetAmount);
-  console.log('Option Future Target Amount', optionFutureTargetAmount);
-
-  /*
-    todolist 
-    [/] 1. calculate future value of target amount with inflation rate
-    [] 2. recalculate time to achieve of goal
-   */
 
   // Once user click on checkbox
   const handleClick = () => {
@@ -275,8 +254,6 @@ export function PlanForm({
     // Check the selected option to fetch the apis and update the parent state
     if (selectedOption === "option1") {
       // Update the Current Plan State
-      // updateCurrentFields({ targetAmount: Number(currentEmergencyFund) });
-      // updateCurrentFields({ timeRemaining: Number(currentYears) });
       updateCurrentFields({ timeRemaining: Number(currentFutureTargetAmount) });
       updateCurrentFields({ targetAmount: currentFutureTargetAmount });
 
@@ -285,15 +262,11 @@ export function PlanForm({
         period: currentState.period,
         monthlySaving: currentState.monthlySaving,
         totalBalance: currentState.totalBalance,
-        // targetAmount: currentState.targetAmount,
         targetAmount: currentFutureTargetAmount,
-        // timeRemaining: currentState.timeRemaining,
         timeRemaining: Number(currentYearsToAchieveGoal)
       });
     } else if (selectedOption === "option2") {
       // Update the Option Plan State
-      // updateOptionFields({ targetAmount: Number(optionEmergencyFund) });
-      // updateOptionFields({ timeRemaining: Number(optionYears) });
       updateOptionFields({ timeRemaining: Number(optionYearsToAchieveGoal) });
       updateOptionFields({ targetAmount: optionFutureTargetAmount });
 
@@ -302,21 +275,15 @@ export function PlanForm({
         period: optionState.period,
         monthlySaving: optionState.monthlySaving,
         totalBalance: optionState.totalBalance,
-        // targetAmount: optionState.targetAmount,
         targetAmount: optionFutureTargetAmount,
-        // timeRemaining: optionState.timeRemaining,
         timeRemaining: Number(optionYearsToAchieveGoal)
       });
     } else {
       // Update the Option Plan State
-      // updateOptionFields({ targetAmount: Number(optionEmergencyFund) });
-      // updateOptionFields({ timeRemaining: Number(optionYears) });
       updateOptionFields({ timeRemaining: Number(optionYearsToAchieveGoal) });
       updateOptionFields({ targetAmount: optionFutureTargetAmount });
 
       // Update the Current Plan State
-      // updateCurrentFields({ timeRemaining: Number(currentYears) });
-      // updateCurrentFields({ targetAmount: Number(currentEmergencyFund) });
       updateCurrentFields({ timeRemaining: Number(currentYearsToAchieveGoal) });
       updateCurrentFields({ targetAmount: currentFutureTargetAmount });
     }
@@ -324,8 +291,6 @@ export function PlanForm({
     // Check the Checkbox is hidden or not to set parent state
     if (isHidden) {
       // Update the Parent Plan State
-      // updateFields({ timeRemaining: Number(years) });
-      // updateFields({ targetAmount: Number(emergencyFund) });
       updateFields({ timeRemaining: Number(yearsToAchieveGoal) });
       updateFields({ targetAmount: futureTargetAmount });
     }

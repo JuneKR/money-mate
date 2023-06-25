@@ -64,6 +64,7 @@ export function PlanForm({
     timeRemaining,
     monthlySaving,
     totalBalance,
+    updateTvm
   };
   const [optionState, setOptionState] = useState(initialOptionData);
   const optionForm = {

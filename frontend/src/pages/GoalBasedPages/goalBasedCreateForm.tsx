@@ -23,6 +23,7 @@ type FormData = {
   progression: string;
   riskLevel: number;
   returnRate: number;
+  updateTvm: boolean;
 };
 
 const initialData: FormData = {
@@ -37,6 +38,7 @@ const initialData: FormData = {
     progression: "",
     riskLevel: 0,
     returnRate: 0,
+    updateTvm: false
 };
 
 const GoalBasedCreateForm = () => {

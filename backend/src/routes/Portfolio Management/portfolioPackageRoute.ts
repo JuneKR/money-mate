@@ -14,17 +14,16 @@ import {
 const router = express.Router();
 
 /* Portfolio Package */
-router.post('/portfolio/package', createPortfolioPackage);
-router.get('/portfolio/packages', getAllPortfolioPackages);
-router.get('/portfolio/package/:id', getPortfolioPackageById);
-router.patch('/portfolio/package/:id', editPortfolioPackageInfo);
-router.get('/portfolio/package/:id/allocations', getAllPortfolioPackageAllocationByPackageId);
-router.patch('/portfolio/package/:id/allocations', editPortfolioPackageAllocationByPackageId);
-router.get('/portfolio/package/risk-spectrum/:risk', getPortfolioPackageByRiskSpectrum);
+router.post('/api/portfolio/package', createPortfolioPackage);
+router.get('/api/portfolio/packages', getAllPortfolioPackages);
+router.get('/api/portfolio/package/:id', getPortfolioPackageById);
+router.patch('/api/portfolio/package/:id', editPortfolioPackageInfo);
+router.get('/api/portfolio/package/:id/allocations', getAllPortfolioPackageAllocationByPackageId);
+router.patch('/api/portfolio/package/:id/allocations', editPortfolioPackageAllocationByPackageId);
+router.get('/api/portfolio/package/risk-spectrum/:risk', getPortfolioPackageByRiskSpectrum);
 
 /* Add New Mutual Fund to Package */
-router.post('/portfolio/package/fund', addMutualFundToPackage);
-router.patch('/portfolio/package/:id/calculate-returns', calculatePortfolioPackageReturns);
+router.post('/api/portfolio/package/fund', addMutualFundToPackage);
+router.patch('/api/portfolio/package/:id/calculate-returns', calculatePortfolioPackageReturns);
 
 export default router;
-// http://localhost:8080/portfolio/package/2/allocations

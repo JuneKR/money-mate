@@ -187,7 +187,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
     RiskLevel: "",
     Email: "",
   });
-  // const url = 'http://localhost:8080/'
 
   // Fetch User Profile
   useEffect(() => {

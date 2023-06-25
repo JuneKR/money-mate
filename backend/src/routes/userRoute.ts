@@ -12,12 +12,12 @@ import { verifyUser } from "../middleware/authUser";
 
 const router = express.Router();
 
-router.post('/register', register);
-router.post('/login', login);
-router.delete('/logout', logout);
+router.post('/api/register', register);
+router.post('/api/login', login);
+router.delete('/api/logout', logout);
 
-router.get('/user/profile', verifyUser, getUserProfile);
-router.patch('/user/:id', verifyUser, editUserProfile);
-router.delete('/user/:id', verifyUser, deleteUserProfile);
+router.get('/api/user/profile', verifyUser, getUserProfile);
+router.patch('/api/user/:id', verifyUser, editUserProfile);
+router.delete('/api/user/:id', verifyUser, deleteUserProfile);
 
 export default router;

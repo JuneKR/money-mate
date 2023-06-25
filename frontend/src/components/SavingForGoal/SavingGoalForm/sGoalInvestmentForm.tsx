@@ -276,9 +276,55 @@ export function SGoalInvestmentForm({
   });
   const [selectedOption, setSelectedOption] = useState(0);
 
+  function futureValue(
+    pvInput: number,
+    pmInputt: number,
+    rateInput: number,
+    nperInput: number,
+  ) {
+    // nper: Number of Periods (Default unit is Month) 
+    // change year to month by multiply 12
+    const nperMonths = nperInput * 12;
+    const futureValueResult = tvmCalculator.calcFV({
+      pv: -pvInput,
+      pmt: -pmInputt,
+      rate: rateInput,
+      nper: nperMonths,
+    });
+    return futureValueResult;
+  }
+
+  function calculateFutureTargetAmountValue(targetAmount: number, years: number) {
+    const inflationRate = 3;
+    let futureTargetAmount = targetAmount;
+
+    if (years >= 1) {
+      futureTargetAmount = futureValue(targetAmount, 0, inflationRate, years);
+    }
+    return futureTargetAmount;
+  }
+
+  function divided(x: string, y: string): string {
+    const numX = Number(x);
+    const numY = Number(y);
+    if (Number.isNaN(numX) || Number.isNaN(numY)) {
+      return "Invalid input";
+    }
+    if (numY === 0) {
+      return "Cannot divide by zero";
+    }
+    const result = numX / numY / 12;
+    return result.toString();
+  }
+
   useEffect(() => {
+    let isTargetAmountUpdated = false;
     if (selectedOption === 0) {
       updateFields(defaultOption);
+      // if (!isTargetAmountUpdated &&  monthlySaving * period <= futureTargetAmount) {
+      //   updateFields({ targetAmount: futureTargetAmount });
+      //   isTargetAmountUpdated = true;
+      // }
     } else {
       updateFields(selectedTable);
     }
@@ -314,6 +360,8 @@ export function SGoalInvestmentForm({
   const sGoalFund2 = Number(targetAmount);
   const monthlySaving2 = Number(monthlySaving);
   const formattedSGoalFund = sGoalFund2.toLocaleString();
+  const years = divided(targetAmount.toString(), monthlySaving.toString());
+  const futureTargetAmount = calculateFutureTargetAmountValue(Number(targetAmount), Number(years));
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
 
   return (
@@ -331,6 +379,7 @@ export function SGoalInvestmentForm({
             <div className="p-4 text-lg">ออมเงินเพื่อ{planName}</div>
             <div className="p-4">จำนวนเงินเป้าหมาย: </div>
             <div className="p-4">{formattedSGoalFund} บาท</div>
+            {/* <div className="p-4">{futureTargetAmount} บาท</div> */}
             <div className="p-4">จำนวนเงินที่จะออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
             <div className="p-4">ระยะเวลาในการออม</div>

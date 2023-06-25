@@ -7,6 +7,7 @@ type sGoalPlanData = {
   timeRemaining: number;
   monthlySaving: number;
   totalBalance: number;
+  updateTvm: boolean;
 };
 
 const initialCurrentData: sGoalPlanData = {
@@ -16,6 +17,7 @@ const initialCurrentData: sGoalPlanData = {
   timeRemaining: 0,
   monthlySaving: 0,
   totalBalance: 0,
+  updateTvm: false,
 };
 
 type sGoalPlanFormProps = sGoalPlanData & {
@@ -48,6 +50,7 @@ export function PlanForm({
   monthlySaving,
   totalBalance,
   updateFields,
+  updateTvm
 }: sGoalPlanFormProps) {
   const [isHidden, setIsHidden] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
@@ -71,6 +74,7 @@ export function PlanForm({
     monthlySaving,
     totalBalance,
   };
+  const tvmCalculator = require("tvm-calculator");
 
   /* handle state to display error message */
   const handleOptionTimePeriodChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -116,11 +120,46 @@ export function PlanForm({
     return result.toString();
   }
 
+  function futureValue(
+    pvInput: number,
+    pmInputt: number,
+    rateInput: number,
+    nperInput: number,
+  ) {
+    // nper: Number of Periods (Default unit is Month) 
+    // change year to month by multiply 12
+    const nperMonths = nperInput * 12;
+    const futureValueResult = tvmCalculator.calcFV({
+      pv: -pvInput,
+      pmt: -pmInputt,
+      rate: rateInput,
+      nper: nperMonths,
+    });
+    return futureValueResult;
+  }
+
+  function calculateFutureTargetAmountValue(targetAmount: number, years: number) {
+    const inflationRate = 3;
+    let futureTargetAmount = targetAmount;
+
+    if (years >= 1) {
+      futureTargetAmount = futureValue(targetAmount, 0, inflationRate, years);
+    }
+    return futureTargetAmount;
+  }
+
+
+
   //   Parent State
+  const tempTargetAmount = monthlySaving * period;
+
+  console.log('Temp Target Amount: ' + tempTargetAmount);
+
   const targetGoalFund = targetAmount - totalBalance;
   // Finding the monthly saving for user
   const targetMonthlySaving = Math.floor((targetGoalFund/period));
   const years = divided(targetGoalFund.toString(), targetMonthlySaving.toString());
+
   console.log('Monthly Saving',targetMonthlySaving);
   console.log('Target Goal Fund',targetGoalFund);
   console.log('Year',years);
@@ -159,6 +198,31 @@ export function PlanForm({
   const currentTimeToAchive = yearsToYearsMonthsDays(currentYears);
   const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
 
+  // Set future value of target goal
+  const futureTargetAmount = calculateFutureTargetAmountValue(targetGoalFund, period/12);
+  const currentFutureTargetAmount = calculateFutureTargetAmountValue(currentTargetGoalFund, Number(currentYears));
+  const optionFutureTargetAmount = calculateFutureTargetAmountValue(optionTargetGoalFund, Number(optionYears));
+  const tempFutureTargetAmount = calculateFutureTargetAmountValue(tempTargetAmount, Number(years));
+
+  const yearsToAchieveGoal = divided(
+    futureTargetAmount.toString(),
+    monthlySaving.toString()
+  );
+
+  const currentYearsToAchieveGoal = divided(
+    currentFutureTargetAmount.toString(),
+    currentState.monthlySaving.toString()
+  );
+
+  const optionYearsToAchieveGoal = divided(
+    optionFutureTargetAmount.toString(),
+    optionState.monthlySaving.toString()
+  );
+
+  console.log('Future', futureTargetAmount);
+  console.log('Current Future', currentFutureTargetAmount);
+  console.log('Option Future', optionFutureTargetAmount);
+
   // Once user click on checkbox
   const handleClick = () => {
     setIsHidden(!isHidden);
@@ -188,53 +252,67 @@ export function PlanForm({
 
   useEffect(() => {
     if (selectedOption === "option1") {
-      updateCurrentFields({ timeRemaining: Number(currentYears) });
+      updateCurrentFields({ timeRemaining: Number(currentYearsToAchieveGoal) });
       updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
+      updateCurrentFields({ targetAmount: currentFutureTargetAmount });
 
       updateFields({
         planName: currentState.planName,
         period: currentState.period,
         monthlySaving: currentState.monthlySaving,
         totalBalance: currentState.totalBalance,
-        targetAmount: currentState.targetAmount,
-        timeRemaining: currentState.timeRemaining,
+        targetAmount: currentFutureTargetAmount,
+        timeRemaining: Number(currentYearsToAchieveGoal)
       });
     } else if (selectedOption === "option2") {
-      updateOptionFields({ timeRemaining: Number(optionYears) });
+      updateOptionFields({ timeRemaining: Number(optionYearsToAchieveGoal) });
       updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
+      updateOptionFields({ targetAmount: optionFutureTargetAmount });
 
       updateFields({
         planName: optionState.planName,
         period: optionState.period,
         monthlySaving: optionState.monthlySaving,
         totalBalance: optionState.totalBalance,
-        targetAmount: optionState.targetAmount,
-        timeRemaining: optionState.timeRemaining,
+        targetAmount: optionFutureTargetAmount,
+        timeRemaining: Number(optionYearsToAchieveGoal)
       });
     } else {
-      updateOptionFields({ timeRemaining: Number(optionYears) });
+      updateOptionFields({ timeRemaining: Number(optionYearsToAchieveGoal) });
       updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
+      updateOptionFields({ targetAmount: optionFutureTargetAmount });
 
-      updateCurrentFields({ timeRemaining: Number(currentYears) });
+      updateCurrentFields({ timeRemaining: Number(currentYearsToAchieveGoal) });
       updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
+      updateCurrentFields({ targetAmount: currentFutureTargetAmount });
     }
 
     // Check the Checkbox is hidden or not to set parent state
     if (isHidden) {
       // Update the Parent Plan State
-      updateFields({ timeRemaining: Number(years) });
+      updateFields({ timeRemaining: Number(yearsToAchieveGoal) });
       updateFields({ monthlySaving: Number(targetMonthlySaving) });
+      if (!updateTvm && monthlySaving * period <= futureTargetAmount) {
+        updateFields({ targetAmount: futureTargetAmount });
+        updateFields({ updateTvm: true })
+      }
     }
   }, [
-    isHidden,
     selectedOption,
-    optionTargetMonthlySaving
+    isHidden,
+    // optionTargetMonthlySaving
   ]);
 
-  const sGoalFund2 = Number(targetAmount);
+  // const sGoalFund2 = Number(targetAmount);
+  const sGoalFund2 = targetGoalFund;
   const monthlySaving2 = Number(monthlySaving);
   const formattedSGoalFund = sGoalFund2.toLocaleString();
+  const formattedFutureGoalFund = futureTargetAmount.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
+
+  console.log("goal fund " + sGoalFund2);
+  console.log("goal fund formatted " + formattedSGoalFund);
+  console.log("future goal fund formatted " + formattedFutureGoalFund);
 
   return (
     <>
@@ -247,11 +325,20 @@ export function PlanForm({
             <div className="p-4 text-lg">เป้าหมาย</div>
             <div className="p-4 text-lg">ออมเงินเพื่อ{planName}</div>
             <div className="p-4">จำนวนเงินเป้าหมาย: </div>
-            <div className="p-4">{formattedSGoalFund} บาท</div>
+            <div className="p-4">{tempTargetAmount} บาท</div>
             <div className="p-4">จำนวนเงินที่ต้องออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
             <div className="p-4">ระยะเวลาในการออม</div>
             <div className="p-4">{period} เดือน (~{timeToAchive})</div>
+
+            {Number(years)>= 1 && (
+              <>
+                <div className="p-4">คุณต้องมีเงินออมทั้งหมดหลังปรับเงินเฟ้อ: </div>
+                <div className="p-4">{targetAmount} บาท</div>
+                <div className="p-4">ระยะเวลาทั้งหมดในการออมหลังปรับเงินเฟ้อ</div>
+                <div className="p-4">{yearsToYearsMonthsDays(timeRemaining.toString())}</div> 
+              </>
+            )}
             <div className="p-4">จำนวนเงินในปัจจุบัน</div>
             <div className="p-4">{totalBalance}</div>
           </div>

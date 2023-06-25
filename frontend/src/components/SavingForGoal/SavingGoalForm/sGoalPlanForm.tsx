@@ -7,6 +7,7 @@ type sGoalPlanData = {
   timeRemaining: number;
   monthlySaving: number;
   totalBalance: number;
+  updateTvm: boolean;
 };
 
 const initialCurrentData: sGoalPlanData = {
@@ -16,6 +17,7 @@ const initialCurrentData: sGoalPlanData = {
   timeRemaining: 0,
   monthlySaving: 0,
   totalBalance: 0,
+  updateTvm: false,
 };
 
 type sGoalPlanFormProps = sGoalPlanData & {
@@ -48,6 +50,7 @@ export function PlanForm({
   monthlySaving,
   totalBalance,
   updateFields,
+  updateTvm
 }: sGoalPlanFormProps) {
   const [isHidden, setIsHidden] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
@@ -148,10 +151,15 @@ export function PlanForm({
 
 
   //   Parent State
+  const tempTargetAmount = monthlySaving * period;
+
+  console.log('Temp Target Amount: ' + tempTargetAmount);
+
   const targetGoalFund = targetAmount - totalBalance;
   // Finding the monthly saving for user
   const targetMonthlySaving = Math.floor((targetGoalFund/period));
   const years = divided(targetGoalFund.toString(), targetMonthlySaving.toString());
+
   console.log('Monthly Saving',targetMonthlySaving);
   console.log('Target Goal Fund',targetGoalFund);
   console.log('Year',years);
@@ -191,9 +199,10 @@ export function PlanForm({
   const optionTimeToAchive = yearsToYearsMonthsDays(optionYears);
 
   // Set future value of target goal
-  const futureTargetAmount = calculateFutureTargetAmountValue(targetGoalFund, Number(years));
+  const futureTargetAmount = calculateFutureTargetAmountValue(targetGoalFund, period/12);
   const currentFutureTargetAmount = calculateFutureTargetAmountValue(currentTargetGoalFund, Number(currentYears));
   const optionFutureTargetAmount = calculateFutureTargetAmountValue(optionTargetGoalFund, Number(optionYears));
+  const tempFutureTargetAmount = calculateFutureTargetAmountValue(tempTargetAmount, Number(years));
 
   const yearsToAchieveGoal = divided(
     futureTargetAmount.toString(),
@@ -243,8 +252,9 @@ export function PlanForm({
 
   useEffect(() => {
     if (selectedOption === "option1") {
-      updateCurrentFields({ timeRemaining: Number(currentFutureTargetAmount) });
+      updateCurrentFields({ timeRemaining: Number(currentYearsToAchieveGoal) });
       updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
+      updateCurrentFields({ targetAmount: currentFutureTargetAmount });
 
       updateFields({
         planName: currentState.planName,
@@ -257,6 +267,7 @@ export function PlanForm({
     } else if (selectedOption === "option2") {
       updateOptionFields({ timeRemaining: Number(optionYearsToAchieveGoal) });
       updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
+      updateOptionFields({ targetAmount: optionFutureTargetAmount });
 
       updateFields({
         planName: optionState.planName,
@@ -269,9 +280,11 @@ export function PlanForm({
     } else {
       updateOptionFields({ timeRemaining: Number(optionYearsToAchieveGoal) });
       updateOptionFields({ monthlySaving: Number(optionTargetMonthlySaving)});
+      updateOptionFields({ targetAmount: optionFutureTargetAmount });
 
       updateCurrentFields({ timeRemaining: Number(currentYearsToAchieveGoal) });
       updateCurrentFields({ monthlySaving: Number(currentTargetMonthlySaving) });
+      updateCurrentFields({ targetAmount: currentFutureTargetAmount });
     }
 
     // Check the Checkbox is hidden or not to set parent state
@@ -279,18 +292,27 @@ export function PlanForm({
       // Update the Parent Plan State
       updateFields({ timeRemaining: Number(yearsToAchieveGoal) });
       updateFields({ monthlySaving: Number(targetMonthlySaving) });
+      if (!updateTvm && monthlySaving * period <= futureTargetAmount) {
+        updateFields({ targetAmount: futureTargetAmount });
+        updateFields({ updateTvm: true })
+      }
     }
   }, [
-    isHidden,
     selectedOption,
-    optionTargetMonthlySaving
+    isHidden,
+    // optionTargetMonthlySaving
   ]);
 
-  const sGoalFund2 = Number(targetAmount);
+  // const sGoalFund2 = Number(targetAmount);
+  const sGoalFund2 = targetGoalFund;
   const monthlySaving2 = Number(monthlySaving);
   const formattedSGoalFund = sGoalFund2.toLocaleString();
   const formattedFutureGoalFund = futureTargetAmount.toLocaleString();
   const formattedMonthlySaving = monthlySaving2.toLocaleString();
+
+  console.log("goal fund " + sGoalFund2);
+  console.log("goal fund formatted " + formattedSGoalFund);
+  console.log("future goal fund formatted " + formattedFutureGoalFund);
 
   return (
     <>
@@ -303,7 +325,7 @@ export function PlanForm({
             <div className="p-4 text-lg">เป้าหมาย</div>
             <div className="p-4 text-lg">ออมเงินเพื่อ{planName}</div>
             <div className="p-4">จำนวนเงินเป้าหมาย: </div>
-            <div className="p-4">{formattedSGoalFund} บาท</div>
+            <div className="p-4">{tempTargetAmount} บาท</div>
             <div className="p-4">จำนวนเงินที่ต้องออมต่อเดือน</div>
             <div className="p-4">{formattedMonthlySaving} บาท</div>
             <div className="p-4">ระยะเวลาในการออม</div>
@@ -312,7 +334,7 @@ export function PlanForm({
             {Number(years)>= 1 && (
               <>
                 <div className="p-4">คุณต้องมีเงินออมทั้งหมดหลังปรับเงินเฟ้อ: </div>
-                <div className="p-4">{formattedFutureGoalFund} บาท</div>
+                <div className="p-4">{targetAmount} บาท</div>
                 <div className="p-4">ระยะเวลาทั้งหมดในการออมหลังปรับเงินเฟ้อ</div>
                 <div className="p-4">{yearsToYearsMonthsDays(timeRemaining.toString())}</div> 
               </>
